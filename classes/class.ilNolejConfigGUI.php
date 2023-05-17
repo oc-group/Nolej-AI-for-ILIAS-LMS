@@ -143,7 +143,6 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		global $DIC, $tpl;
 
 		$form = $this->initConfigureForm();
-		$tpl->setContent($form->getHTML());
 
 		$toolbar = new ilToolbarGUI();
 		$toolbar->addButton(
@@ -158,8 +157,10 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
         $exp->setClickableTypes(array('mep'));
 
         if (!$exp->handleCommand()) {
-            $tpl->setContent($exp->getHTML());
-        }
+            $tpl->setContent($form->getHTML() . $exp->getHTML());
+        } else {
+			$tpl->setContent($form->getHTML());
+		}
 	}
 
 	public function tic()
