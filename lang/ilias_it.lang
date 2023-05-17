@@ -59,4 +59,4 @@ err_api_key_missing#:#API Key is missing! Save it and try again.
 err_tic_response#:#Nolej endpoint returned an invalid response.
 tac_received#:#TAC received!
 tac_received_info_short#:#TAC response has been received.
-tac_received_info_long#:#TAC with exchange ID [EXCHANGE_ID] has been received on [RECEIVED_ON].
+tac_received_info_long#:#TAC with exchange ID %s has been received on %s.
