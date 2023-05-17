@@ -96,7 +96,7 @@ class ilNolejWebhook
 		$recipient_id = $exchange["user_id"];
 		$sender_id = SYSTEM_USER_ID;
 
-		$notification = new ilNotificationConfig(ilNolejPlugin::PREFIX);
+		$notification = new ilNotificationConfig("osd_maint");
 		$notification->setTitleVar("tac_received", [], ilNolejPlugin::PREFIX);
 		$notification->setShortDescriptionVar("tac_received_info_short", [], ilNolejPlugin::PREFIX);
 		$notification->setLongDescriptionVar(
