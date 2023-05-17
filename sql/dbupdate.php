@@ -62,7 +62,7 @@ $fields = array(
 
 if(!$ilDB->tableExists("rep_robj_xnlj_tic")) {
 	$ilDB->createTable("rep_robj_xnlj_tic", $fields);
-	$ilDB->addPrimaryKey("rep_robj_xnlj_tic", array("exchangeId"));
+	$ilDB->addPrimaryKey("rep_robj_xnlj_tic", array("exchange_id"));
 }
 
 /* Object data */

@@ -76,51 +76,6 @@ class ilNolejConfig
 		return $default;
 	}
 
-	public function checkTac() : void
-	{
-		global $DIC;
-		$data = json_decode(file_get_contents("php://input"), true);
-		if (
-			!is_array($data) ||
-			!isset($data["action"], $data["exchangeId"], $data["message"], $data["s3URL"]) ||
-			$data["action"] != "tac" ||
-			!is_string($data["exchangeId"]) ||
-			!is_string($data["message"]) ||
-			!is_string($data["s3URL"])
-		) {
-			// TODO: respond wrong data
-			return;
-		}
-
-		$db = $DIC->database();
-		$sql = "SELECT * FROM " . ilNolejPlugin::TABLE_TIC . " WHERE exchange_id = %s AND response_on IS NULL;";
-		$result = $db->queryF(
-			$sql,
-			["text"],
-			$data["exchangeId"]
-		);
-
-		if ($db->fetchAssoc($result)) {
-			$now = strtotime("now");
-			$sql = "UPDATE " . ilNolejPlugin::TABLE_TIC . " SET response_on = %s AND response_url = %s WHERE exchange_id = %s;";
-			$result = $db->manipulateF(
-				$sql,
-				["integer", "text", "text"],
-				[$now, $data["s3URL"], $data["exchangeId"]]
-			);
-			if (!$result) {
-				// TODO: respond not found
-			}
-		}
-
-		// {
-		// 	"exchangeId": "78984a3c-a213-4eb9-86f9-a89169641555",
-		// 	"message": "hello",
-		// 	"s3URL": "https://nolej-data04234-dev.s3.amazonaws.com/private/h5p/78984a3c-a213-4eb9-86f9-a89169641555.pdf?signature",
-		// 	"action": "tac"
-		// }
-	}
-
 	public function getOffset($default = 0)
 	{
 		return $this->getParameterPositive("offset", $default);
