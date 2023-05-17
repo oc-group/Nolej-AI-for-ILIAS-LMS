@@ -13,7 +13,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	const PERMALINK = "xnlj_modules";
 	const CNAME = "Repository";
 	const SLOT_ID = "robj";
-	const PREFIX = "rep_robj_xnlj_";
+	const PREFIX = "rep_robj_xnlj";
 
 	const CSS = "Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/templates/default/Nolej.css";
 
