@@ -95,18 +95,18 @@ class ilNolejWebhook
 		require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
 		$recipient_id = $exchange["user_id"];
 		$sender_id = SYSTEM_USER_ID;
+		$lang = ilObjUser::_lookupLanguage($recipient_id);
+		$lng = new ilLanguage($lang);
+		$lng->loadLanguageModule(ilNolejPlugin::PLUGIN_ID);
 
 		$notification = new ilNotificationConfig("chat_invitation");
-		$notification->setTitleVar("tac_received", [], ilNolejPlugin::PREFIX);
-		$notification->setShortDescriptionVar("tac_received_info_short", [], ilNolejPlugin::PREFIX);
-		$notification->setLongDescriptionVar(
-			"tac_received_info_long",
-			[
-				"EXCHANGE_ID" => $exchangeId,
-				"RECEIVED_ON" => ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
-			],
-			ilNolejPlugin::PREFIX
-		);
+		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_tac_received"));
+		$notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "tac_received_info_short"));
+		$notification->setLongDescriptionVar(sprintf(
+			$lng->txt(ilNolejPlugin::PREFIX . "_tac_received_info_long"),
+			$exchangeId,
+			ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
+		));
 		$notification->setAutoDisable(false);
 		$notification->setValidForSeconds(0);
 		$notification->setHandlerParam('mail.sender', $sender_id);
