@@ -99,20 +99,12 @@ class ilNolejWebhook
 		// $notification->setLinks($links);
 		$notification->setIconPath('templates/default/images/icon_xnlj.svg');
 		$notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
-		// $notification->setIdentification(new NotificationIdentification(
-		//     ChatInvitationNotificationProvider::NOTIFICATION_TYPE,
-		//     self::ROOM_INVITATION . '_' . $gui->getObject()->getRefId() . '_' . $subScope,
-		// ));
-		// $notification->setHandlerParam('mail.sender', (string) $sender_id);
-
+		$notification->setIdentification(new NotificationIdentification(
+		    "xnlj",
+		    $exchangeId,
+		));
+		$notification->setHandlerParam('mail.sender', (string) "6");
 		$notification->notifyByUsers([$exchange["user_id"]]);
-
-		// {
-		// 	"exchangeId": "78984a3c-a213-4eb9-86f9-a89169641555",
-		// 	"message": "hello",
-		// 	"s3URL": "https://nolej-data04234-dev.s3.amazonaws.com/private/h5p/78984a3c-a213-4eb9-86f9-a89169641555.pdf?signature",
-		// 	"action": "tac"
-		// }
 
 		$this->die_message(200, "TAC received!.");
 	}

@@ -190,6 +190,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			["text", "integer", "integer", "text", "text"],
 			[$result->exchangeId, $DIC->user()->getId(), $now, $message, $webhookUrl]
 		);
-		
+		ilUtil::sendSuccess($this->plugin->txt("tic_sent"), true);
+		$this->configure();
 	}
 }
