@@ -174,10 +174,10 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 				"s3URL" => $mediaUrl,
 				"webhookURL" => $webhookUrl
 			],
-			false
+			true
 		);
 
-		if (!is_array($result) || !isset($result["exchangeId"]) || !is_string($result["exchangeId"])) {
+		if (!is_object($result) || !property_exists($result, "exchangeId") || !is_string($result->exchangeId)) {
 			ilUtil::sendFailure($this->plugin->txt("err_tic_response") . " " . print_r($result, true), true);
 			$this->configure();
 			return;
@@ -188,7 +188,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$DIC->database()->manipulateF(
 			$sql,
 			["text", "integer", "integer", "text", "text"],
-			[$result["exchangeId"], $DIC->user()->getId(), $now, $message, $webhookUrl]
+			[$result->exchangeId, $DIC->user()->getId(), $now, $message, $webhookUrl]
 		);
 		
 	}
