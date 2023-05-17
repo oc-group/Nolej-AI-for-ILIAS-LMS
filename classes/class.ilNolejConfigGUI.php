@@ -146,7 +146,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$tpl->setContent($form->getHTML());
 
 		$btnTic = ilLinkButton::getInstance();
-		$btnTic->setCaption($this->_plugin()->txt("cmd_tic"), false);
+		$btnTic->setCaption($this->plugin->txt("cmd_tic"), false);
 		$btnTic->setUrl($this->ctrl->getLinkTarget($this, ilNolejGUI::CMD_TIC));
 		$DIC->toolbar()->addButtonInstance($btnTic);
 	}
