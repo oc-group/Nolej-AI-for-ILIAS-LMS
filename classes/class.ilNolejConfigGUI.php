@@ -1,5 +1,6 @@
 <?php
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejConfig.php");
+include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejAPI.php");
 
 /**
  * Plugin configuration class
@@ -10,6 +11,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 {
 	const CMD_CONFIGURE = "configure";
 	const CMD_SAVE = "save";
+	const CMD_TIC = "tic";
 
 	const TAB_CONFIGURE = "configuration";
 
@@ -43,12 +45,13 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	 */
 	public function performCommand($cmd)
 	{
-		$next_class = $this->ctrl->getNextClass($this);
+		// $next_class = $this->ctrl->getNextClass($this);
 		$this->cmd = $this->ctrl->getCmd() ?? self::CMD_CONFIGURE;
 
 		switch ($cmd) {
 			case self::CMD_CONFIGURE:
 			case self::CMD_SAVE:
+			case self::CMD_TIC:
 				$this->$cmd();
 				break;
 
@@ -114,7 +117,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	/**
 	 * register: update values in DB
 	 */
-	public function save()
+	public function save() : void
 	{
 		global $tpl;
 
@@ -135,11 +138,58 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	/**
 	 * Registration screen
 	 */
-	public function configure()
+	public function configure() : void
 	{
-		global $tpl;
+		global $DIC, $tpl;
 
 		$form = $this->initConfigureForm();
 		$tpl->setContent($form->getHTML());
+
+		$btnTic = ilLinkButton::getInstance();
+		$btnTic->setCaption($this->_plugin()->txt("cmd_tic"), false);
+		$btnTic->setUrl($this->ctrl->getLinkTarget($this, ilNolejGUI::CMD_TIC));
+		$DIC->toolbar()->addButtonInstance($btnTic);
+	}
+
+	public function tic()
+	{
+		global $DIC;
+
+		$api_key = $this->plugin->getConfig("api_key", "");
+		if ($api_key == "") {
+			ilUtil::sendFailure($this->plugin->txt("err_api_key_missing"), true);
+			$this->configure();
+			return;
+		}
+
+		$api = new ilNolejAPI($api_key);
+		$message = "hello tic";
+		$mediaUrl = "http://www.africau.edu/images/default/sample.pdf";
+		$webhookUrl = ILIAS_HTTP_PATH . "/goto.php?target=xnlj_webhook";
+
+		$result = $api->post(
+			"/tic",
+			[
+				"message" => $message,
+				"s3URL" => $mediaUrl,
+				"webhookURL" => $webhookUrl
+			],
+			true
+		);
+
+		if (!is_array($result) || !isset($result["exchangeId"]) || !is_string($result["exchangeId"])) {
+			ilUtil::sendFailure($this->plugin->txt("err_tic_response"), true);
+			$this->configure();
+			return;
+		}
+
+		$now = strtotime("now");
+		$sql = "INSERT INTO " . ilNolejPlugin::TABLE_TIC . " (exchange_id, user_id, request_on, message, request_url) VALUES (%s, %s, %s, %s, %s);";
+		$DIC->database()->manipulateF(
+			$sql,
+			["text", "integer", "integer", "text", "text"],
+			[$result["exchangeId"], $DIC->user()->getId(), $now, $message, $webhookUrl]
+		);
+		
 	}
 }

@@ -30,6 +30,11 @@ $fields = array(
 		'fixed' => false,
 		'notnull' => true
 	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
 	'request_on' => array(
 		'type' => 'integer',
 		'length' => 4,

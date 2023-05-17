@@ -74,19 +74,38 @@ class ilNolejWebhook
 			["text"],
 			$exchangeId
 		);
-
-		if ($db->fetchAssoc($result)) {
-			$now = strtotime("now");
-			$sql = "UPDATE " . ilNolejPlugin::TABLE_TIC . " SET response_on = %s AND response_url = %s WHERE exchange_id = %s;";
-			$result = $db->manipulateF(
-				$sql,
-				["integer", "text", "text"],
-				[$now, $this->data["s3URL"], $exchangeId]
-			);
-			if (!$result) {
-				$this->die_message(404, "Exchange not found.");
-			}
+		if ($db->numRows($result) != 1) {
+			$this->die_message(404, "Exchange not found.");
+			return;
 		}
+
+		$exchange = $db->fetchAssoc($result);
+
+		$now = strtotime("now");
+		$sql = "UPDATE " . ilNolejPlugin::TABLE_TIC . " SET response_on = %s AND response_url = %s WHERE exchange_id = %s;";
+		$result = $db->manipulateF(
+			$sql,
+			["integer", "text", "text"],
+			[$now, $this->data["s3URL"], $exchangeId]
+		);
+		if (!$result) {
+			$this->die_message(404, "Exchange not found.");
+		}
+
+		$notification = new ilNotificationConfig("xnlj_tac");
+		$notification->setTitleVar('chat_invitation'); //, $bodyParams, 'chatroom');
+		$notification->setShortDescriptionVar('chat_invitation_short'); //, $bodyParams, 'chatroom');
+		$notification->setLongDescriptionVar('chat_invitation_long'); //, $bodyParams, 'chatroom');
+		// $notification->setLinks($links);
+		$notification->setIconPath('templates/default/images/icon_xnlj.svg');
+		$notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
+		// $notification->setIdentification(new NotificationIdentification(
+		//     ChatInvitationNotificationProvider::NOTIFICATION_TYPE,
+		//     self::ROOM_INVITATION . '_' . $gui->getObject()->getRefId() . '_' . $subScope,
+		// ));
+		// $notification->setHandlerParam('mail.sender', (string) $sender_id);
+
+		$notification->notifyByUsers([$$exchange["user_id"]]);
 
 		// {
 		// 	"exchangeId": "78984a3c-a213-4eb9-86f9-a89169641555",

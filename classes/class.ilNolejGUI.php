@@ -9,7 +9,6 @@ include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/
  */
 class ilNolejGUI
 {
-	const CMD_TIC = "tic";
 	const CMD_SHOW_MODULES = "showModules";
 	// const CMD_CART_SHOW = "showCart";
 	// const CMD_CART_ADD = "addToCart";
@@ -47,8 +46,6 @@ class ilNolejGUI
 
 		$this->plugin = ilNolejPlugin::getInstance();
 		$this->config = new ilNolejConfig($this);
-
-    	$this->tpl = $tpl;
 	}
 
 	/**
@@ -57,11 +54,12 @@ class ilNolejGUI
 	 */
 	public function executeCommand()
 	{
+		global $tpl;
 		$cmd = ($this->ctrl->getCmd()) ? $this->ctrl->getCmd() : self::CMD_SHOW_MODULES;
 
-		$this->tpl->loadStandardTemplate();
-		$this->tpl->setTitleIcon(ilNolejPlugin::PLUGIN_DIR . "/templates/images/icon_xnlj.svg");
-		$this->tpl->setTitle($this->plugin->txt("plugin_title"), false);
+		$tpl->loadStandardTemplate();
+		$tpl->setTitleIcon(ilNolejPlugin::PLUGIN_DIR . "/templates/images/icon_xnlj.svg");
+		$tpl->setTitle($this->plugin->txt("plugin_title"), false);
 
 		if (!$this->plugin->canAccessModules()) {
 			ilUtil::sendFailure($this->plugin->txt("err_modules_denied"), true);
@@ -71,7 +69,6 @@ class ilNolejGUI
 
 		switch ($cmd) {
 			// Need to have permission to access modules
-			case self::CMD_TIC:
 			case self::CMD_SHOW_MODULES:
 			// case self::CMD_PARTNERS:
 			case self::CMD_FILTER_APPLY:
@@ -100,7 +97,7 @@ class ilNolejGUI
 				$this->showModules();
 		}
 
-		$this->tpl->printToStdout();
+		$tpl->printToStdout();
 
 		return true;
 	}
@@ -306,11 +303,6 @@ class ilNolejGUI
 		// $tpl->setContent($this->renderCourseInfo($course));
 
 		return true;
-	}
-
-	public function tic()
-	{
-		
 	}
 
 	public function showModules()
