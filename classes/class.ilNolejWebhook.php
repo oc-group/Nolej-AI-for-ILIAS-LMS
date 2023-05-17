@@ -112,7 +112,7 @@ class ilNolejWebhook
 		$notification->setAutoDisable(false);
 		$notification->setValidForSeconds(0);
 		$notification->setHandlerParam('mail.sender', $sender_id);
-		$notification->notifyByUsers([]);
+		$notification->notifyByUsers([$recipient_id]);
 
 		$recipient_id = 6;
 		$sender_id = 6;
