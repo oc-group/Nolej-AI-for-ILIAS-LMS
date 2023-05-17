@@ -150,6 +150,16 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			$this->plugin->txt("cmd_tic"),
 			$this->ctrl->getLinkTarget($this, self::CMD_TIC)
 		);
+
+		$exp = new ilPoolSelectorGUI($this, "insert");
+
+        // filter
+        $exp->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs", "mep"));
+        $exp->setClickableTypes(array('mep'));
+
+        if (!$exp->handleCommand()) {
+            $tpl->setContent($exp->getHTML());
+        }
 	}
 
 	public function tic()
