@@ -105,6 +105,7 @@ class ilNolejWebhook
 		// ));
 		$notification->setHandlerParam('mail.sender', (string) "6");
 		$notification->notifyByUsers([$exchange["user_id"]]);
+		$DIC->notifications()->system()->toUsers($notification, [$exchange["user_id"]], true);
 
 		$this->die_message(200, "TAC received!.");
 	}
