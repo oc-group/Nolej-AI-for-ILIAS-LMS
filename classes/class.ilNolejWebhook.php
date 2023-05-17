@@ -72,7 +72,7 @@ class ilNolejWebhook
 		$result = $db->queryF(
 			$sql,
 			["text"],
-			$exchangeId
+			[$exchangeId]
 		);
 		if ($db->numRows($result) != 1) {
 			$this->die_message(404, "Exchange not found.");
