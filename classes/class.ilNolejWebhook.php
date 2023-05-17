@@ -113,6 +113,8 @@ class ilNolejWebhook
 		// 	"s3URL": "https://nolej-data04234-dev.s3.amazonaws.com/private/h5p/78984a3c-a213-4eb9-86f9-a89169641555.pdf?signature",
 		// 	"action": "tac"
 		// }
+
+		$this->die_message(200, "TAC received!.");
 	}
 
 	public function getOffset($default = 0)
