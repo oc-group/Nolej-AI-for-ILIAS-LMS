@@ -109,7 +109,7 @@ class ilNolejWebhook
 		$ilNewsItem = new ilNewsItem();
         $ilNewsItem->setTitle("TAC");
         $ilNewsItem->setPriority(NEWS_NOTICE);
-        $ilNewsItem->setContext($obj_id, $this->getType());
+        $ilNewsItem->setContext(0, "xnlj");
         $ilNewsItem->setUserId($exchange["user_id"]);
         $ilNewsItem->setVisibility(NEWS_USERS);
         $ilNewsItem->setContentTextIsLangVar(false);
