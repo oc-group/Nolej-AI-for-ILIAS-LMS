@@ -18,7 +18,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 
 	const TABLE_CONFIG = "rep_robj_xnlj_config";
 	const TABLE_TIC = "rep_robj_xnlj_tic";
-	const TABLE_CART = "rep_robj_xnlj_cart";
+	// const TABLE_CART = "rep_robj_xnlj_cart";
 	const TABLE_LICENSE = "rep_robj_xnlj_license";
 	const TABLE_USER = "rep_robj_xnlj_user";
 	const TABLE_ORDER = "rep_robj_xnlj_order";
@@ -171,7 +171,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	{
 		$tables = [
 			self::TABLE_CONFIG,
-			self::TABLE_CART,
+			// self::TABLE_CART,
 			self::TABLE_LICENSE,
 			self::TABLE_USER,
 			self::TABLE_ORDER,
