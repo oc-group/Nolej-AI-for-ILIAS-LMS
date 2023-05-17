@@ -102,6 +102,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$api_key->setMaxLength(100);
 		$api_key->setRequired(true);
 		$api_key->setInfo($this->plugin->txt("api_key_info"));
+		$api_key->setValue($this->plugin->getConfig("api_key", ""));
 		$form->addItem($api_key);
 
 		$form->addCommandButton(self::CMD_SAVE, $this->plugin->txt("cmd_save"));
