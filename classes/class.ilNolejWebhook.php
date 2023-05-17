@@ -100,7 +100,7 @@ class ilNolejWebhook
 		$lng->loadLanguageModule(ilNolejPlugin::PREFIX);
 
 		$notification = new ilNotificationConfig("chat_invitation");
-		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_tac_received_" . $lang));
+		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_tac_received"));
 		$notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "tac_received_info_short"));
 		$notification->setLongDescriptionVar(sprintf(
 			$lng->txt(ilNolejPlugin::PREFIX . "_tac_received_info_long"),
