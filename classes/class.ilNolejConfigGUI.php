@@ -178,7 +178,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		);
 
 		if (!is_array($result) || !isset($result["exchangeId"]) || !is_string($result["exchangeId"])) {
-			ilUtil::sendFailure($this->plugin->txt("err_tic_response"), true);
+			ilUtil::sendFailure($this->plugin->txt("err_tic_response") . " " . print_r($result, true), true);
 			$this->configure();
 			return;
 		}
