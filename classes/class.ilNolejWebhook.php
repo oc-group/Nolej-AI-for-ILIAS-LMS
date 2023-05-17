@@ -104,9 +104,22 @@ class ilNolejWebhook
 		$notification->setAutoDisable(false);
 		$notification->setValidForSeconds(0);
 		$notification->setHandlerParam('mail.sender', (string) SYSTEM_USER_ID);
-		$notification->notifyByUsers(array($exchange["user_id"]));
+		$notification->notifyByUsers([$exchange["user_id"]]);
 
-		$this->die_message(200, "TAC received!.");
+		$recipient_id = 6;
+		$sender_id = 6;
+		
+		require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
+		$notification = new ilNotificationConfig('chat_invitation');
+		$notification->setTitleVar('Example title (no language variable)');
+		$notification->setShortDescriptionVar('Example (short) description (no language variable)');
+		$notification->setLongDescriptionVar('Example (long) description (no language variable)');
+		$notification->setAutoDisable(false);
+		$notification->setValidForSeconds(0);
+		$notification->setHandlerParam('mail.sender', $sender_id);
+		$notification->notifyByUsers(array($recipient_id));
+
+		$this->die_message(200, "TAC received!");
 	}
 
 	public function getOffset($default = 0)
