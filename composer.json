@@ -1,0 +1,21 @@
+{
+    "name": "oc-group/ilias-nolej",
+    "description": "ILIAS Plugin for Nolej",
+    "type": "project",
+    "require": {
+        "guzzlehttp/guzzle": "^7.5",
+        "guzzlehttp/psr7": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "OcGroup\\IliasNolej\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "OC Group",
+            "email": "plugins@oc-group.eu"
+        }
+    ],
+    "minimum-stability": "stable"
+}
