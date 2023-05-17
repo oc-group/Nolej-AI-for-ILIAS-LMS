@@ -103,7 +103,7 @@ class ilNolejWebhook
 		));
 		$notification->setAutoDisable(false);
 		$notification->setValidForSeconds(0);
-		$notification->setHandlerParam('mail.sender', ANONYMOUS_USER_ID);
+		$notification->setHandlerParam('mail.sender', (string) SYSTEM_USER_ID);
 		$notification->notifyByUsers(array($exchange["user_id"]));
 
 		$this->die_message(200, "TAC received!.");
