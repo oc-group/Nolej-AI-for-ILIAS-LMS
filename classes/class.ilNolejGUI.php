@@ -1,6 +1,5 @@
 <?php
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejConfig.php");
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejOrderTableGUI.php");
 
 /**
  * Plugin configuration class
