@@ -92,41 +92,19 @@ class ilNolejWebhook
 			$this->die_message(404, "Exchange not found.");
 		}
 
-		// $notification = new ilNotificationConfig("xnlj_tac");
-		// $notification->setTitleVar('chat_invitation'); //, $bodyParams, 'chatroom');
-		// $notification->setShortDescriptionVar('chat_invitation_short'); //, $bodyParams, 'chatroom');
-		// $notification->setLongDescriptionVar('chat_invitation_long'); //, $bodyParams, 'chatroom');
-		// // $notification->setLinks($links);
-		// $notification->setIconPath('templates/default/images/icon_xnlj.svg');
-		// $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
-		// // $notification->setIdentification(new NotificationIdentification(
-		// //     "xnlj",
-		// //     $exchangeId,
-		// // ));
-		// $notification->setHandlerParam('mail.sender', (string) ANONYMOUS_USER_ID);
-		// $notification->notifyByUsers([$exchange["user_id"]]);
-
-		$ilNewsItem = new ilNewsItem();
-        $ilNewsItem->setTitle("TAC");
-        $ilNewsItem->setPriority(NEWS_NOTICE);
-        $ilNewsItem->setContext(0, "xnlj");
-        $ilNewsItem->setUserId($exchange["user_id"]);
-        $ilNewsItem->setVisibility(NEWS_USERS);
-        $ilNewsItem->setContentTextIsLangVar(false);
-        $ilNewsItem->create();
-
-		$recipient_id = 6;
-		$sender_id = 6;
- 
-		require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
-		$notification = new ilNotificationConfig('chat_invitation');
-		$notification->setTitleVar('Example title (no language variable)');
-		$notification->setShortDescriptionVar('Example (short) description (no language variable)');
-		$notification->setLongDescriptionVar('Example (long) description (no language variable)');
+		require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
+		$notification = new ilNotificationConfig(ilNolejPlugin::PLUGIN_ID . "_tac");
+		$notification->setTitleVar($this->plugin->txt("tac_received"));
+		$notification->setShortDescriptionVar($this->plugin->txt("tac_received_info_short"));
+		$notification->setLongDescriptionVar(sprintf(
+			$this->plugin->txt("tac_received_info_long"),
+			$exchangeId,
+			ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
+		));
 		$notification->setAutoDisable(false);
 		$notification->setValidForSeconds(0);
-		$notification->setHandlerParam('mail.sender', $sender_id);
-		$notification->notifyByUsers(array($recipient_id));
+		$notification->setHandlerParam('mail.sender', ANONYMOUS_USER_ID);
+		$notification->notifyByUsers(array($exchange["user_id"]));
 
 		$this->die_message(200, "TAC received!.");
 	}
