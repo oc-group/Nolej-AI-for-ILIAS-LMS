@@ -96,19 +96,21 @@ class ilNolejWebhook
 		$notification = new ilNotificationConfig(ilNolejPlugin::PLUGIN_ID . "_tac");
 		$notification->setTitleVar($this->plugin->txt("tac_received"));
 		$notification->setShortDescriptionVar($this->plugin->txt("tac_received_info_short"));
-		$notification->setLongDescriptionVar(sprintf(
-			$this->plugin->txt("tac_received_info_long"),
-			$exchangeId,
-			ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
-		));
+		$notification->setLongDescriptionVar(
+			// sprintf(
+				$this->plugin->txt("tac_received_info_long"),
+			// 	$exchangeId,
+			// 	ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
+			// )
+		);
 		$notification->setAutoDisable(false);
 		$notification->setValidForSeconds(0);
-		$notification->setHandlerParam('mail.sender', (string) SYSTEM_USER_ID);
+		$notification->setHandlerParam('mail.sender', SYSTEM_USER_ID);
 		$notification->notifyByUsers([$exchange["user_id"]]);
 
 		$recipient_id = 6;
 		$sender_id = 6;
-		
+
 		require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
 		$notification = new ilNotificationConfig('chat_invitation');
 		$notification->setTitleVar('Example title (no language variable)');
