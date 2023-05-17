@@ -174,7 +174,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 				"s3URL" => $mediaUrl,
 				"webhookURL" => $webhookUrl
 			],
-			true
+			false
 		);
 
 		if (!is_array($result) || !isset($result["exchangeId"]) || !is_string($result["exchangeId"])) {
