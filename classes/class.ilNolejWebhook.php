@@ -99,10 +99,10 @@ class ilNolejWebhook
 		// $notification->setLinks($links);
 		$notification->setIconPath('templates/default/images/icon_xnlj.svg');
 		$notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
-		$notification->setIdentification(new NotificationIdentification(
-		    "xnlj",
-		    $exchangeId,
-		));
+		// $notification->setIdentification(new NotificationIdentification(
+		//     "xnlj",
+		//     $exchangeId,
+		// ));
 		$notification->setHandlerParam('mail.sender', (string) "6");
 		$notification->notifyByUsers([$exchange["user_id"]]);
 
