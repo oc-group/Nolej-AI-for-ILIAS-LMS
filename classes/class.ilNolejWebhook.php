@@ -82,7 +82,7 @@ class ilNolejWebhook
 		$exchange = $db->fetchAssoc($result);
 
 		$now = strtotime("now");
-		$sql = "UPDATE " . ilNolejPlugin::TABLE_TIC . " SET response_on = %s AND response_url = %s WHERE exchange_id = %s;";
+		$sql = "UPDATE " . ilNolejPlugin::TABLE_TIC . " SET response_on = %s, response_url = %s WHERE exchange_id = %s;";
 		$result = $db->manipulateF(
 			$sql,
 			["integer", "text", "text"],
