@@ -105,7 +105,7 @@ class ilNolejWebhook
 		// ));
 		// $notification->setHandlerParam('mail.sender', (string) $sender_id);
 
-		$notification->notifyByUsers([$$exchange["user_id"]]);
+		$notification->notifyByUsers([$exchange["user_id"]]);
 
 		// {
 		// 	"exchangeId": "78984a3c-a213-4eb9-86f9-a89169641555",
