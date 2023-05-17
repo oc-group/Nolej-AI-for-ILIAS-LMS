@@ -121,7 +121,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
 		if ($form->checkInput()) {
 			$api_key = $form->getInput("api_key");
-			// TODO: save to db
+			$this->plugin->saveConfig("api_key", $api_key);
 			$this->ctrl->redirect($this, self::CMD_CONFIGURE);
 
 		} else {
