@@ -24,18 +24,18 @@ if(!$ilDB->tableExists("rep_robj_xnlj_config")) {
 
 /* TicTac */
 $fields = array(
-	'exchangeId' => array(
+	'exchange_id' => array(
 		'type' => 'text',
 		'length' => 100,
 		'fixed' => false,
 		'notnull' => true
 	),
-	'requestOn' => array(
+	'request_on' => array(
 		'type' => 'integer',
 		'length' => 4,
 		'notnull' => true
 	),
-	'responseOn' => array(
+	'response_on' => array(
 		'type' => 'integer',
 		'length' => 4,
 		'notnull' => false
@@ -46,13 +46,13 @@ $fields = array(
 		'fixed' => false,
 		'notnull' => true
 	),
-	'requestUrl' => array(
+	'request_url' => array(
 		'type' => 'text',
 		'length' => 400,
 		'fixed' => false,
 		'notnull' => true
 	),
-	'responseUrl' => array(
+	'response_url' => array(
 		'type' => 'text',
 		'length' => 400,
 		'fixed' => false,

@@ -93,7 +93,7 @@ class ilNolejConfig
 		}
 
 		$db = $DIC->database();
-		$sql = "SELECT * FROM " . ilNolejPlugin::TABLE_TIC . " WHERE exchangeId = %s AND responseOn IS NULL;";
+		$sql = "SELECT * FROM " . ilNolejPlugin::TABLE_TIC . " WHERE exchange_id = %s AND response_on IS NULL;";
 		$result = $db->queryF(
 			$sql,
 			["text"],
@@ -102,7 +102,7 @@ class ilNolejConfig
 
 		if ($db->fetchAssoc($result)) {
 			$now = strtotime("now");
-			$sql = "UPDATE " . ilNolejPlugin::TABLE_TIC . " SET responseOn = %s AND responseUrl = %s WHERE exchangeId = %s;";
+			$sql = "UPDATE " . ilNolejPlugin::TABLE_TIC . " SET response_on = %s AND response_url = %s WHERE exchange_id = %s;";
 			$result = $db->manipulateF(
 				$sql,
 				["integer", "text", "text"],
