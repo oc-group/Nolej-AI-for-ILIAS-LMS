@@ -381,7 +381,7 @@ class ilNolejMediaSelectorGUI
 		global $DIC;
 		$db = $DIC->database();
 
-		$sql = "SELECT title FROM object_data WHERE obj_id = (SELECT obj_id FROM mep_item WHERE foreign_id = %s);";
+		$sql = "SELECT title FROM object_data WHERE obj_id = (SELECT foreign_id FROM mep_item WHERE obj_id = %s);";
 		$result = $db->queryF($sql, ["integer"], [$a_mob_id]);
 		if ($row = $db->fetchAssoc($result)) {
 			return $row["title"];
