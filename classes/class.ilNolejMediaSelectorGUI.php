@@ -23,7 +23,7 @@ class ilNolejMediaSelectorGUI
 	const TAB_NEW = "new_media";
 	const TAB_INSERT_FROM_POOL = "insert_from_pool";
 
-	protected ilNolejConfigGUI|ilNolejGUI $guiObj;
+	protected $guiObj;
 	protected ilCtrl $ctrl;
 	protected string $cmd;
 	protected string $subCmd;
@@ -38,7 +38,7 @@ class ilNolejMediaSelectorGUI
 	protected ilNolejPlugin $plugin;
 
 	public function __construct(
-		ilNolejConfigGUI|ilNolejGUI $guiObj
+		$guiObj
 	)
 	{
 		global $DIC, $tpl;
