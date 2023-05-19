@@ -271,7 +271,7 @@ class ilNolejMediaSelectorGUI
 		}
 
 		$this->ctrl->setParameter($this, "subCmd", "");
-		$this->ctrl->setParameter($this, "pool_ref_id", null);
+		// $this->ctrl->setParameter($this, "pool_ref_id", null);
 
 		// view mode: pool view (folders/all media objects)
 		$f = $this->ui->factory();
