@@ -170,11 +170,12 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			$this->ctrl->getLinkTarget($mediaselectorgui, self::CMD_INSERT)
 		);
 
-		// if ($a_mob_id != null && ilObjMediaObject::_exists($a_mob_id)) {
+		if ($a_mob_id != null) { //  && ilObjMediaObject::_exists($a_mob_id)
+			$mob = new ilObjMediaObject($a_mob_id);
 			$toolbar->addText(
-				ilObject::_lookupTitle($a_mob_id)
+				$mob->getTitle()
 			);
-		// }
+		}
 
         $tpl->setContent($toolbar->getHTML() . $form->getHTML());
 	}
