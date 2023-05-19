@@ -51,7 +51,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$this->cmd = $this->ctrl->getCmd() ?? self::CMD_CONFIGURE;
 
 		switch ($next_class) {
-			case ilNolejMediaSelectorGUI::class:
+			case "ilnolejmediaselectorgui":
 				$mediaselectorgui = new ilNolejMediaSelectorGUI($this);
 				return $this->ctrl->forwardCommand($mediaselectorgui);
 		}
