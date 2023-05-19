@@ -10,17 +10,17 @@
 
 class ilNolejMediaSelectorGUI
 {
-	const CMD_INSERT = "insert";
+	// const CMD_INSERT = "insert";
 	const CMD_CH_OBJ_REF = "changeObjectReference";
 	const CMD_INSERT_FROM_POOL = "insertFromPool";
 	const CMD_POOL_SELECTION = "poolSelection";
 	const CMD_SELECT_POOL = "selectPool";
-	const CMD_INSERT_NEW = "insertNew";
+	// const CMD_INSERT_NEW = "insertNew";
 
 	const CMD_APPLY_FILTER = "applyFilter";
 	const CMD_RESET_FILTER = "resetFilter";
 
-	const TAB_NEW = "new_media";
+	// const TAB_NEW = "new_media";
 	const TAB_INSERT_FROM_POOL = "insert_from_pool";
 
 	protected $guiObj;
@@ -71,7 +71,7 @@ class ilNolejMediaSelectorGUI
 		global $tpl;
 
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd() ?? self::CMD_INSERT;
+		$cmd = $this->ctrl->getCmd() ?? self::CMD_INSERT_FROM_POOL;
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.svg"));
 
 		switch ($next_class) {
@@ -93,15 +93,16 @@ class ilNolejMediaSelectorGUI
 			default:
 				switch ($cmd) {
 					case self::CMD_CH_OBJ_REF:
-					case self::CMD_INSERT_FROM_POOL:
 					case self::CMD_POOL_SELECTION:
 					case self::CMD_SELECT_POOL:
-					case self::CMD_INSERT_NEW:
+					// case self::CMD_INSERT_NEW:
 						$this->$cmd();
 						break;
-					case self::CMD_INSERT:
+					// case self::CMD_INSERT:
+					case self::CMD_INSERT_FROM_POOL:
 					default:
-						$this->insert();
+						// $this->insert();
+						$this->insertFromPool();
 				}
 		}
 
@@ -115,11 +116,11 @@ class ilNolejMediaSelectorGUI
 	{
 		global $tpl;
 
-		$this->tabs->addTab(
-			self::TAB_NEW,
-			$this->plugin->txt("tab_" . self::TAB_NEW),
-			$this->ctrl->getLinkTarget($this, self::CMD_INSERT_NEW)
-		);
+		// $this->tabs->addTab(
+		// 	self::TAB_NEW,
+		// 	$this->plugin->txt("tab_" . self::TAB_NEW),
+		// 	$this->ctrl->getLinkTarget($this, self::CMD_INSERT_NEW)
+		// );
 
 		$this->tabs->addTab(
 			self::TAB_INSERT_FROM_POOL,
@@ -129,49 +130,50 @@ class ilNolejMediaSelectorGUI
 
 		switch ($active_tab) {
 			case self::TAB_INSERT_FROM_POOL:
-				$this->tabs->activateTab($active_tab);
-				$tpl->setTitle($this->plugin->txt("plugin_title") . ": " . $this->plugin->txt("tab_" . $active_tab), false);
+			default:
+				$this->tabs->activateTab(self::TAB_INSERT_FROM_POOL);
+				$tpl->setTitle($this->plugin->txt("plugin_title") . ": " . $this->plugin->txt("tab_" . self::TAB_INSERT_FROM_POOL), false);
 				break;
 
-			case self::TAB_NEW:
-			default:
-				$this->tabs->activateTab(self::TAB_NEW);
-				$tpl->setTitle($this->plugin->txt("plugin_title") . ": " . $this->plugin->txt("tab_" . self::TAB_NEW), false);
+			// case self::TAB_NEW:
+			// default:
+			// 	$this->tabs->activateTab(self::TAB_NEW);
+			// 	$tpl->setTitle($this->plugin->txt("plugin_title") . ": " . $this->plugin->txt("tab_" . self::TAB_NEW), false);
 		}
 
 		$tpl->setDescription($this->plugin->txt("plugin_description"));
 	}
 
-	public function insert(
-		$a_post_cmd = "edpost",
-		$a_submit_cmd = "create_mob",
-		$a_input_error = false
-	): void {
-		$subCmd = $this->subCmd;
+	// public function insert(
+	// 	$a_post_cmd = "edpost",
+	// 	$a_submit_cmd = "create_mob",
+	// 	$a_input_error = false
+	// ): void {
+	// 	$subCmd = $this->subCmd;
 
-		// if (in_array($subCmd, ["insertNew", "insertFromPool"])) {
-		// 	$this->edit_repo->setSubCmd($subCmd);
-		// }
+	// 	// if (in_array($subCmd, ["insertNew", "insertFromPool"])) {
+	// 	// 	$this->edit_repo->setSubCmd($subCmd);
+	// 	// }
 
-		// if (($subCmd == "") && $this->edit_repo->getSubCmd() != "") {
-		// 	$subCmd = $this->edit_repo->getSubCmd();
-		// }
+	// 	// if (($subCmd == "") && $this->edit_repo->getSubCmd() != "") {
+	// 	// 	$subCmd = $this->edit_repo->getSubCmd();
+	// 	// }
 
-		switch ($subCmd) {
-			case self::CMD_INSERT_FROM_POOL:
-			case self::CMD_POOL_SELECTION:
-			case self::CMD_SELECT_POOL:
-			case self::CMD_APPLY_FILTER:
-			case self::CMD_RESET_FILTER:
-				$this->$subCmd();
-				break;
+	// 	switch ($subCmd) {
+	// 		case self::CMD_INSERT_FROM_POOL:
+	// 		case self::CMD_POOL_SELECTION:
+	// 		case self::CMD_SELECT_POOL:
+	// 		case self::CMD_APPLY_FILTER:
+	// 		case self::CMD_RESET_FILTER:
+	// 			$this->$subCmd();
+	// 			break;
 
-			case self::CMD_INSERT_NEW:
-			default:
-				$this->insertNew();
-				break;
-		}
-	}
+	// 		case self::CMD_INSERT_NEW:
+	// 		default:
+	// 			$this->insertNew();
+	// 			break;
+	// 	}
+	// }
 
 	/**
 	 * Change object reference
@@ -189,46 +191,47 @@ class ilNolejMediaSelectorGUI
 		// }
 
 		switch ($subCmd) {
-			case self::CMD_INSERT_FROM_POOL:
 			case self::CMD_POOL_SELECTION:
 			case self::CMD_SELECT_POOL:
 				$this->$subCmd(true);
 				break;
 
-			case self::CMD_INSERT_NEW:
+			// case self::CMD_INSERT_NEW:
+			case self::CMD_INSERT_FROM_POOL:
 			default:
-				$this->insertNew(true);
+				// $this->insertNew(true);
+				$this->insertFromPool();
 		}
 	}
 
 	/**
 	 * Create new media object
 	 */
-	public function insertNew(
-		bool $a_change_obj_ref = false
-	) : void
-	{
-		global $tpl;
+	// public function insertNew(
+	// 	bool $a_change_obj_ref = false
+	// ) : void
+	// {
+	// 	global $tpl;
 
-		$this->initTabs(self::TAB_NEW);
+	// 	$this->initTabs(self::TAB_NEW);
 
-		$mob_gui = new ilObjMediaObjectGUI("");
-		$mob_gui->initForm("create");
-		$form = $mob_gui->getForm();
-		$form->clearCommandButtons();
+	// 	$mob_gui = new ilObjMediaObjectGUI("");
+	// 	$mob_gui->initForm("create");
+	// 	$form = $mob_gui->getForm();
+	// 	$form->clearCommandButtons();
 
-		if ($a_change_obj_ref) {
-			$this->ctrl->setParameter($this, "subCmd", self::CMD_CH_OBJ_REF);
-			$form->setFormAction($this->ctrl->getFormAction($this));
-			$form->addCommandButton("createNewObjectReference", $this->plugin->txt("save"));
-		} else {
-			$form->setFormAction($this->ctrl->getFormAction($this, "create_mob"));
-			$form->addCommandButton("create_mob", $this->plugin->txt("save"));
-		}
+	// 	if ($a_change_obj_ref) {
+	// 		$this->ctrl->setParameter($this, "subCmd", self::CMD_CH_OBJ_REF);
+	// 		$form->setFormAction($this->ctrl->getFormAction($this));
+	// 		$form->addCommandButton("createNewObjectReference", $this->plugin->txt("save"));
+	// 	} else {
+	// 		$form->setFormAction($this->ctrl->getFormAction($this, "create_mob"));
+	// 		$form->addCommandButton("create_mob", $this->plugin->txt("save"));
+	// 	}
 
-		$form->addCommandButton("cancelCreate", $this->plugin->txt("cancel"));
-		$tpl->setContent($form->getHTML());
-	}
+	// 	$form->addCommandButton("cancelCreate", $this->plugin->txt("cancel"));
+	// 	$tpl->setContent($form->getHTML());
+	// }
 
 	/**
 	 * Insert media object from pool
@@ -346,7 +349,7 @@ class ilNolejMediaSelectorGUI
 		if ($a_change_obj_ref) {
 			$this->ctrl->redirect($this, self::CMD_CH_OBJ_REF);
 		} else {
-			$this->ctrl->redirect($this, self::CMD_INSERT);
+			$this->ctrl->redirect($this, self::CMD_INSERT_FROM_POOL);
 		}
 	}
 
@@ -364,7 +367,7 @@ class ilNolejMediaSelectorGUI
 		if ($a_change_obj_ref) {
 			$exp = new ilPoolSelectorGUI($this, self::CMD_CH_OBJ_REF, $this, self::CMD_CH_OBJ_REF);
 		} else {
-			$exp = new ilPoolSelectorGUI($this, self::CMD_INSERT);
+			$exp = new ilPoolSelectorGUI($this, self::CMD_INSERT_FROM_POOL);
 		}
 
 		// filter
