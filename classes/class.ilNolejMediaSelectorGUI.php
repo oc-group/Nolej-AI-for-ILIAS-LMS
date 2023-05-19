@@ -238,7 +238,6 @@ class ilNolejMediaSelectorGUI
 	{
 		global $tpl;
 
-		$this->initTabs(self::TAB_INSERT_FROM_POOL);
 		$mediaPoolId = (int) $_GET["pool_ref_id"] ?? 0;
 
 		if (
@@ -251,6 +250,7 @@ class ilNolejMediaSelectorGUI
 			return;
 		}
 
+		$this->initTabs(self::TAB_INSERT_FROM_POOL);
 		$html = "";
 		$toolbar = new ilToolbarGUI();
 
