@@ -256,6 +256,7 @@ class ilNolejMediaSelectorGUI
 		$toolbar = new ilToolbarGUI();
 
 		// button: select pool
+		// $this->ctrl->setParameter($this, "subCmd", self::CMD_POOL_SELECTION);
 		$this->ctrl->setParameter($this, "subCmd", self::CMD_POOL_SELECTION);
 		if ($a_change_obj_ref) {
 			$toolbar->addButton(
@@ -265,7 +266,7 @@ class ilNolejMediaSelectorGUI
 		} else {
 			$toolbar->addButton(
 				$this->lng->txt("cont_switch_to_media_pool"),
-				$this->ctrl->getLinkTarget($this, self::CMD_INSERT)
+				$this->ctrl->getLinkTarget($this, self::CMD_INSERT_FROM_POOL)
 			);
 		}
 		$this->ctrl->setParameter($this, "subCmd", "");
