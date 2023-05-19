@@ -93,6 +93,10 @@ class ilNolejMediaSelectorGUI
 			default:
 				switch ($cmd) {
 					case self::CMD_CH_OBJ_REF:
+					case self::CMD_INSERT_FROM_POOL:
+					case self::CMD_POOL_SELECTION:
+					case self::CMD_SELECT_POOL:
+					case self::CMD_INSERT_NEW:
 						$this->$cmd();
 						break;
 					case self::CMD_INSERT:
