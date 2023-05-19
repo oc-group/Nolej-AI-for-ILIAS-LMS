@@ -159,6 +159,13 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$form = $this->initConfigureForm();
 
 		$toolbar = new ilToolbarGUI();
+
+		if ($a_mob_id != null) {
+			$signedUrl = ilNolejMediaSelectorGUI::getSignedUrl($a_mob_id);
+			$this->ctrl->setParameter($this, "mediaUrl", $signedUrl);
+			$toolbar->addText($signedUrl);
+		}
+
 		$toolbar->addButton(
 			$this->plugin->txt("cmd_tic"),
 			$this->ctrl->getLinkTarget($this, self::CMD_TIC)
@@ -169,12 +176,6 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			$this->plugin->txt("cmd_select"),
 			$this->ctrl->getLinkTarget($mediaselectorgui, self::CMD_INSERT)
 		);
-
-		if ($a_mob_id != null) { //  && ilObjMediaObject::_exists($a_mob_id)
-			$toolbar->addText(
-				ilNolejMediaSelectorGUI::getSignedUrl($a_mob_id)
-			);
-		}
 
         $tpl->setContent($toolbar->getHTML() . $form->getHTML());
 	}
@@ -198,7 +199,9 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
 		$api = new ilNolejAPI($api_key);
 		$message = "hello tic";
-		$mediaUrl = "http://www.africau.edu/images/default/sample.pdf";
+		$mediaUrl = isset($_GET["mediaUrl"])
+			? urldecode($_GET["mediaUrl"])
+			: "http://www.africau.edu/images/default/sample.pdf";
 		$webhookUrl = ILIAS_HTTP_PATH . "/goto.php?target=xnlj_webhook";
 
 		$result = $api->post(
