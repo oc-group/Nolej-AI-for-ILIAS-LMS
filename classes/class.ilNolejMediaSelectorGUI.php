@@ -273,7 +273,7 @@ class ilNolejMediaSelectorGUI
 		$f = $this->ui->factory();
 		$tcmd = ($a_change_obj_ref)
 			? self::CMD_CH_OBJ_REF
-			: self::CMD_INSERT;
+			: self::CMD_INSERT_FROM_POOL;
 
 		$this->lng->loadLanguageModule("mep");
 
@@ -303,7 +303,7 @@ class ilNolejMediaSelectorGUI
 		$this->ctrl->setParameter($this, "subCmd", self::CMD_INSERT_FROM_POOL);
 		$tcmd = ($a_change_obj_ref)
 			? self::CMD_CH_OBJ_REF
-			: self::CMD_INSERT;
+			: self::CMD_INSERT_FROM_POOL;
 		$tmode = ($a_change_obj_ref)
 			? ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE
 			: ilMediaPoolTableGUI::IL_MEP_SELECT;
