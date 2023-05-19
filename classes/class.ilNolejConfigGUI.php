@@ -1,6 +1,7 @@
 <?php
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejConfig.php");
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejAPI.php");
+include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejMediaSelectorGUI.php");
 
 /**
  * Plugin configuration class
