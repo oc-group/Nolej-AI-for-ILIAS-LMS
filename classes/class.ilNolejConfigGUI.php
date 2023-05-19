@@ -230,6 +230,8 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
 	public function post() : void
 	{
+		print_r($_POST);
+		die();
 		if (isset($_POST["id"])) {
 			$id = $_POST["id"];
 			if (is_array($id)) {
