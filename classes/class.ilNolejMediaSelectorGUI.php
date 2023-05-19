@@ -75,22 +75,23 @@ class ilNolejMediaSelectorGUI
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.svg"));
 
 		switch ($next_class) {
-            case "ilobjmediaobjectgui":
-                // $tpl->setTitle(
-				// 	$this->lng->txt("mob") . ": " . $this->content_obj->getMediaObject()->getTitle()
-				// );
-                $mob_gui = new ilObjMediaObjectGUI(
-					"",
-					0, //$this->content_obj->getMediaObject()->getId(),
-					false,
-					false
-				);
-                $mob_gui->setBackTitle("Back"); // $this->page_back_title);
-                $mob_gui->setEnabledMapAreas(false);
-                $this->ctrl->forwardCommand($mob_gui);
-                break;
+            // case "ilobjmediaobjectgui":
+            //     // $tpl->setTitle(
+			// 	// 	$this->lng->txt("mob") . ": " . $this->content_obj->getMediaObject()->getTitle()
+			// 	// );
+            //     $mob_gui = new ilObjMediaObjectGUI(
+			// 		"",
+			// 		0, //$this->content_obj->getMediaObject()->getId(),
+			// 		false,
+			// 		false
+			// 	);
+            //     $mob_gui->setBackTitle("Back"); // $this->page_back_title);
+            //     $mob_gui->setEnabledMapAreas(false);
+            //     $this->ctrl->forwardCommand($mob_gui);
+            //     break;
 
 			default:
+				$this->lng->loadLanguageModule("cont");
 				switch ($cmd) {
 					case self::CMD_CH_OBJ_REF:
 					case self::CMD_POOL_SELECTION:
