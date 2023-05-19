@@ -376,16 +376,16 @@ class ilNolejMediaSelectorGUI
 		}
 	}
 
-	public static function getMediaLinkTitle($a_mob_id) : string
+	public static function getObjId($a_mob_id) : int
 	{
 		global $DIC;
 		$db = $DIC->database();
 
-		$sql = "SELECT title FROM object_data WHERE obj_id = (SELECT foreign_id FROM mep_item WHERE obj_id = %s);";
+		$sql = "SELECT foreign_id FROM mep_item WHERE obj_id = %s;";
 		$result = $db->queryF($sql, ["integer"], [$a_mob_id]);
 		if ($row = $db->fetchAssoc($result)) {
-			return $row["title"];
+			return (int) $row["foreign_id"];
 		}
-		return "";
+		return 0;
 	}
 }
