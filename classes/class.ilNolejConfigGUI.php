@@ -158,17 +158,13 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			$this->ctrl->getLinkTarget($this, self::CMD_TIC)
 		);
 
-		$exp = new ilPoolSelectorGUI($this, "insert");
+		$mediaselectorgui = new ilNolejMediaSelectorGUI($this);
+		$toolbar->addButton(
+			$this->plugin->txt("cmd_select"),
+			$this->ctrl->getLinkTarget($mediaselectorgui, self::CMD_INSERT)
+		);
 
-        // filter
-        $exp->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs", "mep"));
-        $exp->setClickableTypes(array('mep'));
-
-        if (!$exp->handleCommand()) {
-            $tpl->setContent($form->getHTML() . $exp->getHTML());
-        } else {
-			$tpl->setContent($form->getHTML());
-		}
+        $tpl->setContent($toolbar->getHTML() . $form->getHTML());
 	}
 
 	public function insert(): void
