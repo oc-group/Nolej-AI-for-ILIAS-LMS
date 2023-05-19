@@ -375,4 +375,17 @@ class ilNolejMediaSelectorGUI
 			$tpl->setContent($exp->getHTML());
 		}
 	}
+
+	public static function getMediaLinkTitle($a_mob_id) : string
+	{
+		global $DIC;
+		$db = $DIC->database();
+
+		$sql = "SELECT title FROM object_data WHERE obj_id = (SELECT obj_id FROM mep_item WHERE foreign_id = %s);";
+		$result = $db->queryF($sql, ["integer"], [$a_mob_id]);
+		if ($row = $db->fetchAssoc($result)) {
+			return $row["title"];
+		}
+		return "";
+	}
 }
