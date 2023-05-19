@@ -388,4 +388,18 @@ class ilNolejMediaSelectorGUI
 		}
 		return 0;
 	}
+
+	public static function getSignedUrl($a_mob_id, int $ttl = 30) : string
+	{
+		$objId = self::getObjId($a_mob_id);
+		$path = ilObjMediaObject::_lookupItemPath($objId);
+
+		$tokenMaxLifetimeInSeconds = ilWACSignedPath::getTokenMaxLifetimeInSeconds();
+		ilWACSignedPath::setTokenMaxLifetimeInSeconds($ttl);
+
+		$url = ILIAS_HTTP_PATH . substr(ilWACSignedPath::signFile($path), 1);
+
+		ilWACSignedPath::setTokenMaxLifetimeInSeconds($tokenMaxLifetimeInSeconds);
+		return $url;
+	}
 }
