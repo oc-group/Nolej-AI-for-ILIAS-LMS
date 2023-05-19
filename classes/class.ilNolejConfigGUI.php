@@ -171,9 +171,11 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		);
 
 		if ($a_mob_id != null) { //  && ilObjMediaObject::_exists($a_mob_id)
-			$mobId = ilNolejMediaSelectorGUI::getObjId($a_mob_id);
+			// $mobId = ilNolejMediaSelectorGUI::getObjId($a_mob_id);
+			$path = ilObjMediaObject::_lookupItemPath($a_mob_id);
+			$url = ilObjMediaObject::_getURL($a_mob_id);
 			$toolbar->addText(
-				ilWACSignedPath::signFile(ilObjMediaObject::_getURL($a_mob_id))
+				ilWACSignedPath::signFile($path)
 				// ilObject::_lookupTitle($mobId)
 			);
 		}
