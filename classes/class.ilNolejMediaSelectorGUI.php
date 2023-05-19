@@ -91,7 +91,7 @@ class ilNolejMediaSelectorGUI
             //     break;
 
 			default:
-				$this->lng->loadLanguageModule("cont");
+				$this->lng->loadLanguageModule("content");
 				switch ($cmd) {
 					case self::CMD_CH_OBJ_REF:
 					case self::CMD_POOL_SELECTION:
