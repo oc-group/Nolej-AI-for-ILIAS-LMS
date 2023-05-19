@@ -14,6 +14,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	const CMD_SAVE = "save";
 	const CMD_TIC = "tic";
 	const CMD_INSERT = "insert";
+	const CMD_POST = "post";
 
 	const TAB_CONFIGURE = "configuration";
 
@@ -48,22 +49,24 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	public function performCommand($cmd)
 	{
 		$next_class = $this->ctrl->getNextClass($this);
-		$this->cmd = $this->ctrl->getCmd() ?? self::CMD_CONFIGURE;
 
-		switch ($next_class) {
-			case "ilnolejmediaselectorgui":
-				$mediaselectorgui = new ilNolejMediaSelectorGUI($this);
-				return $this->ctrl->forwardCommand($mediaselectorgui);
+		if ($cmd != self::CMD_POST) {
+			switch ($next_class) {
+				case "ilnolejmediaselectorgui":
+					$mediaselectorgui = new ilNolejMediaSelectorGUI($this);
+					return $this->ctrl->forwardCommand($mediaselectorgui);
+			}
 		}
 
 		switch ($cmd) {
-			case self::CMD_CONFIGURE:
 			case self::CMD_SAVE:
 			case self::CMD_TIC:
 			case self::CMD_INSERT:
+			case self::CMD_POST:
 				$this->$cmd();
 				break;
 
+			case self::CMD_CONFIGURE:
 			default:
 				$this->configure();
 		}
@@ -147,7 +150,9 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	/**
 	 * Registration screen
 	 */
-	public function configure() : void
+	public function configure(
+		$a_mob_id = null
+	) : void
 	{
 		global $DIC, $tpl;
 
@@ -165,6 +170,12 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			$this->ctrl->getLinkTarget($mediaselectorgui, self::CMD_INSERT)
 		);
 
+		if ($a_mob_id != null && ilObjMediaObject::_exists($a_mob_id)) {
+			$toolbar->addText(
+				ilObject::_lookupTitle($a_mob_id)
+			);
+		}
+
         $tpl->setContent($toolbar->getHTML() . $form->getHTML());
 	}
 
@@ -174,7 +185,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$this->ctrl->forwardCommand($mediaselectorgui);
 	}
 
-	public function tic()
+	public function tic() : void
 	{
 		global $DIC;
 
@@ -214,6 +225,23 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			[$result->exchangeId, $DIC->user()->getId(), $now, $message, $webhookUrl]
 		);
 		ilUtil::sendSuccess($this->plugin->txt("tic_sent"), true);
+		$this->configure();
+	}
+
+	public function post() : void
+	{
+		if (isset($_POST["id"])) {
+			$id = $_POST["id"];
+			if (is_array($id)) {
+				if (count($id) > 0) {
+					$this->configure($id[0]);
+					return;
+				}
+			} else {
+				$this->configure($id);
+				return;
+			}
+		}
 		$this->configure();
 	}
 }
