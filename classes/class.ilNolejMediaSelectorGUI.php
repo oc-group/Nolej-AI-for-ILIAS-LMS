@@ -308,47 +308,27 @@ class ilNolejMediaSelectorGUI
 		$tcmd = ($a_change_obj_ref)
 			? self::CMD_CH_OBJ_REF
 			: self::CMD_INSERT_FROM_POOL;
-		$tmode = ($a_change_obj_ref)
-			? ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE
-			: ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE; // IL_MEP_SELECT;
+
+		$mpool_table = new ilMediaPoolTableGUI(
+			$this,
+			$tcmd,
+			$pool,
+			"mep_folder",
+			ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE,
+			$this->pool_view == "all"
+		);
 
 		// handle table sub commands and get the table
 		switch ($this->subCmd) {
 			case self::CMD_APPLY_FILTER:
-				$mpool_table = new ilMediaPoolTableGUI(
-					$this,
-					$tcmd,
-					$pool,
-					"mep_folder",
-					$tmode,
-					$this->pool_view == "all"
-				);
 				$mpool_table->resetOffset();
 				$mpool_table->writeFilterToSession();
 				break;
 
 			case self::CMD_RESET_FILTER:
-				$mpool_table = new ilMediaPoolTableGUI(
-					$this,
-					$tcmd,
-					$pool,
-					"mep_folder",
-					$tmode,
-					$this->pool_view == "all"
-				);
 				$mpool_table->resetOffset();
 				$mpool_table->resetFilter();
 				break;
-
-			default:
-				$mpool_table = new ilMediaPoolTableGUI(
-					$this,
-					$tcmd,
-					$pool,
-					"mep_folder",
-					$tmode,
-					$this->pool_view == "all"
-				);
 		}
 
 		$html .= $mpool_table->getHTML();
