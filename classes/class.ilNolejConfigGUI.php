@@ -172,7 +172,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
 		// if ($a_mob_id != null && ilObjMediaObject::_exists($a_mob_id)) {
 			$toolbar->addText(
-				$a_mob_id ?? "-" // ilObject::_lookupTitle($a_mob_id)
+				ilObject::_lookupTitle($a_mob_id)
 			);
 		// }
 
