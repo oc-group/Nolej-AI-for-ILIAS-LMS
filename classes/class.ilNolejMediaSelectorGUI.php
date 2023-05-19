@@ -131,6 +131,7 @@ class ilNolejMediaSelectorGUI
 			case self::TAB_INSERT_FROM_POOL:
 				$this->tabs->activateTab($active_tab);
 				$tpl->setTitle($this->plugin->txt("plugin_title") . ": " . $this->plugin->txt("tab_" . $active_tab), false);
+				break;
 
 			case self::TAB_NEW:
 			default:
