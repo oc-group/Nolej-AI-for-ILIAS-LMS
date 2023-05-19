@@ -14,7 +14,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	const CMD_SAVE = "save";
 	const CMD_TIC = "tic";
 	const CMD_INSERT = "insert";
-	const CMD_POST = "post";
+	const CMD_POST = "selectObjectReference";
 
 	const TAB_CONFIGURE = "configuration";
 
@@ -228,7 +228,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$this->configure();
 	}
 
-	public function post() : void
+	public function selectObjectReference() : void
 	{
 		print_r($_POST);
 		die();
