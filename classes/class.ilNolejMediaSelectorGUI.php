@@ -310,7 +310,7 @@ class ilNolejMediaSelectorGUI
 			: self::CMD_INSERT_FROM_POOL;
 		$tmode = ($a_change_obj_ref)
 			? ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE
-			: ilMediaPoolTableGUI::IL_MEP_SELECT;
+			: ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE; // IL_MEP_SELECT;
 
 		// handle table sub commands and get the table
 		switch ($this->subCmd) {
