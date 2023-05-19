@@ -162,7 +162,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
 		if ($a_mob_id != null) {
 			$signedUrl = ilNolejMediaSelectorGUI::getSignedUrl($a_mob_id);
-			$this->ctrl->setParameter($this, "mediaUrl", $signedUrl);
+			$this->ctrl->setParameter($this, "mediaUrl", urlencode($signedUrl));
 			$toolbar->addText($signedUrl);
 		}
 
