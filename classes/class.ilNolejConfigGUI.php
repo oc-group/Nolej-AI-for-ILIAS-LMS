@@ -173,7 +173,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		if ($a_mob_id != null) { //  && ilObjMediaObject::_exists($a_mob_id)
 			$mobId = ilNolejMediaSelectorGUI::getObjId($a_mob_id);
 			$toolbar->addText(
-				ilObjMediaObject::_getURL($a_mob_id)
+				ilWACSignedPath::signFile(ilObjMediaObject::_getURL($a_mob_id))
 				// ilObject::_lookupTitle($mobId)
 			);
 		}
