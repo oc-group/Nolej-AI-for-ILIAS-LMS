@@ -118,7 +118,7 @@ class ilNolejMediaSelectorGUI
 		$this->tabs->addTab(
 			self::TAB_NEW,
 			$this->plugin->txt("tab_" . self::TAB_NEW),
-			$this->ctrl->getLinkTarget($this, self::TAB_NEW)
+			$this->ctrl->getLinkTarget($this, self::CMD_INSERT_NEW)
 		);
 
 		$this->tabs->addTab(
