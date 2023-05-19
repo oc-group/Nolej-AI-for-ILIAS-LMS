@@ -12,6 +12,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	const CMD_CONFIGURE = "configure";
 	const CMD_SAVE = "save";
 	const CMD_TIC = "tic";
+	const CMD_INSERT = "insert";
 
 	const TAB_CONFIGURE = "configuration";
 
@@ -45,13 +46,20 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	 */
 	public function performCommand($cmd)
 	{
-		// $next_class = $this->ctrl->getNextClass($this);
+		$next_class = $this->ctrl->getNextClass($this);
 		$this->cmd = $this->ctrl->getCmd() ?? self::CMD_CONFIGURE;
+
+		switch ($next_class) {
+			case ilNolejMediaSelectorGUI::class:
+				$mediaselectorgui = new ilNolejMediaSelectorGUI($this);
+				return $this->ctrl->forwardCommand($mediaselectorgui);
+		}
 
 		switch ($cmd) {
 			case self::CMD_CONFIGURE:
 			case self::CMD_SAVE:
 			case self::CMD_TIC:
+			case self::CMD_INSERT:
 				$this->$cmd();
 				break;
 
@@ -161,6 +169,12 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
         } else {
 			$tpl->setContent($form->getHTML());
 		}
+	}
+
+	public function insert(): void
+	{
+		$mediaselectorgui = new ilNolejMediaSelectorGUI($this);
+		$this->ctrl->forwardCommand($mediaselectorgui);
 	}
 
 	public function tic()

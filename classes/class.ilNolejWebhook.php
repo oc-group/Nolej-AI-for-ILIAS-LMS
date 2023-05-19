@@ -98,6 +98,7 @@ class ilNolejWebhook
 		$lang = ilObjUser::_lookupLanguage($recipient_id);
 		$lng = new ilLanguage($lang);
 		$lng->loadLanguageModule(ilNolejPlugin::PREFIX);
+		ilDatePresentation::setUseRelativeDates(false);
 
 		$notification = new ilNotificationConfig("chat_invitation");
 		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_tac_received"));

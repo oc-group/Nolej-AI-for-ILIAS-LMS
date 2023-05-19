@@ -35,6 +35,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 
 	static $config = [];
 	static $isAdmin = null;
+	public ilLogger $logger;
 
 	/**
 	 * Constructor
@@ -42,6 +43,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	public function __construct()
 	{
 		parent::__construct();
+		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
 	}
 
 	/**
@@ -58,12 +60,18 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 
 	protected function is6() : bool
 	{
-		return version_compare(ILIAS_VERSION_NUMERIC, "6.0") >= 0 && version_compare(ILIAS_VERSION_NUMERIC, "7.0") < 0;
+		return (
+			version_compare(ILIAS_VERSION_NUMERIC, "6.0") >= 0 &&
+			version_compare(ILIAS_VERSION_NUMERIC, "7.0") < 0
+		);
 	}
 
 	protected function is7() : bool
 	{
-		return version_compare(ILIAS_VERSION_NUMERIC, "7.0") >= 0 && version_compare(ILIAS_VERSION_NUMERIC, "8.0") < 0;
+		return (
+			version_compare(ILIAS_VERSION_NUMERIC, "7.0") >= 0 &&
+			version_compare(ILIAS_VERSION_NUMERIC, "8.0") < 0
+		);
 	}
 
 	protected function isActiveManual() : bool
