@@ -124,7 +124,7 @@ class ilNolejMediaSelectorGUI
 		$this->tabs->addTab(
 			self::TAB_INSERT_FROM_POOL,
 			$this->plugin->txt("tab_" . self::TAB_INSERT_FROM_POOL),
-			$this->ctrl->getLinkTarget($this, self::TAB_INSERT_FROM_POOL)
+			$this->ctrl->getLinkTarget($this, self::CMD_INSERT_FROM_POOL)
 		);
 
 		switch ($active_tab) {
@@ -373,7 +373,6 @@ class ilNolejMediaSelectorGUI
 		bool $a_change_obj_ref = false
 	): void {
 		global $tpl;
-		$ilTabs = $this->tabs;
 
 		$this->initTabs(self::TAB_INSERT_FROM_POOL);
 
