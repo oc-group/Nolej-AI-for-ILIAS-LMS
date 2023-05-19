@@ -173,11 +173,14 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		if ($a_mob_id != null) { //  && ilObjMediaObject::_exists($a_mob_id)
 			$mobId = ilNolejMediaSelectorGUI::getObjId($a_mob_id);
 			$path = ilObjMediaObject::_lookupItemPath($mobId);
-			$url = ilObjMediaObject::_getURL($mobId);
+			// $url = ilObjMediaObject::_getURL($mobId);
+			$tokenMaxLifetimeInSeconds = ilWACSignedPath::getTokenMaxLifetimeInSeconds();
+			ilWACSignedPath::setTokenMaxLifetimeInSeconds(30);
 			$toolbar->addText(
-				ilWACSignedPath::signFile($path)
+				ILIAS_HTTP_PATH . substr(ilWACSignedPath::signFile($path), 1)
 				// ilObject::_lookupTitle($mobId)
 			);
+			ilWACSignedPath::setTokenMaxLifetimeInSeconds($tokenMaxLifetimeInSeconds);
 		}
 
         $tpl->setContent($toolbar->getHTML() . $form->getHTML());
