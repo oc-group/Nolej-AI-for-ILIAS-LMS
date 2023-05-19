@@ -392,7 +392,7 @@ class ilNolejMediaSelectorGUI
 		return 0;
 	}
 
-	public static function getSignedUrl($a_mob_id, int $ttl = 30) : string
+	public static function getSignedUrl($a_mob_id, int $ttl = 10) : string
 	{
 		$objId = self::getObjId($a_mob_id);
 		$path = ilObjMediaObject::_lookupItemPath($objId);
