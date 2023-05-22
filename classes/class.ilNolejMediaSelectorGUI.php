@@ -41,7 +41,7 @@ class ilNolejMediaSelectorGUI
 		$guiObj
 	)
 	{
-		global $DIC, $tpl;
+		global $DIC;
 		$this->guiObj = $guiObj;
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
@@ -60,6 +60,24 @@ class ilNolejMediaSelectorGUI
 		$this->ctrl->saveParameter($this, ["pool_view"]);
 
 		$this->plugin = ilNolejPlugin::getInstance();
+	}
+
+	public function getInputHTML() : string
+	{
+		ilModalGUI::initJS();
+
+		// $modal = ilModalGUI::getInstance();
+        // $modal->setHeading($this->plugin->txt("exc_individual_deadline"));
+        // $modal->setId("ilExcIDl");
+        // $modal->setBody('<div id="ilExcIDlBody"></div>');
+
+		$link = $this->ctrl->getLinkTarget($this);
+
+		$number = new ilNumberInputGUI("mob_id");
+
+		$input = new ilCustomInputGUI($this->plugin->txt("media_select"));
+        $input->setHtml($number->getHTML() . '<span class="small">' . $link . '</span>');
+		return $input->getHTML();
 	}
 
 	/**
