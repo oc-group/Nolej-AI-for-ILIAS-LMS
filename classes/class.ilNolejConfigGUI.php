@@ -177,13 +177,10 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			$this->ctrl->getLinkTarget($mediaselectorgui, self::CMD_INSERT)
 		);
 
-		$modal = ilModalGUI::getInstance();
-        $modal->setHeading($this->plugin->txt("exc_individual_deadline"));
-        $modal->setId("ilExcIDl");
-        $modal->setBody('<div id="ilExcIDlBody"></div>');
-        // $modal = $modal->getHTML();
+		$input = $mediaselectorgui->getInput();
+		$form->addItem($input);
 
-        $tpl->setContent($toolbar->getHTML() . $form->getHTML() . $modal->getHTML());
+        $tpl->setContent($toolbar->getHTML() . $form->getHTML());
 	}
 
 	public function insert(): void

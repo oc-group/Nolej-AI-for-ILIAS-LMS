@@ -62,7 +62,7 @@ class ilNolejMediaSelectorGUI
 		$this->plugin = ilNolejPlugin::getInstance();
 	}
 
-	public function getInputHTML() : string
+	public function getInput()
 	{
 		ilModalGUI::initJS();
 
@@ -77,7 +77,7 @@ class ilNolejMediaSelectorGUI
 
 		$input = new ilCustomInputGUI($this->plugin->txt("media_select"));
         $input->setHtml($number->getHTML() . '<span class="small">' . $link . '</span>');
-		return $input->getHTML();
+		return $input;
 	}
 
 	/**
