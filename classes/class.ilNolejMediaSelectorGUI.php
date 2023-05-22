@@ -76,7 +76,7 @@ class ilNolejMediaSelectorGUI
 		$number = new ilNumberInputGUI("mob_id");
 
 		$input = new ilCustomInputGUI($this->plugin->txt("media_select"));
-        $input->setHtml($number->getHTML() . '<span class="small">' . $link . '</span>');
+        $input->setHtml($number->render() . '<span class="small">' . $link . '</span>');
 		return $input;
 	}
 
