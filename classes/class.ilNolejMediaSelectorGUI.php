@@ -412,6 +412,9 @@ class ilNolejMediaSelectorGUI
 		if (!$exp->handleCommand()) {
 			$tpl->setContent($exp->getHTML());
 		}
+
+		echo $exp->getHTML();
+		exit;
 	}
 
 	public static function getObjId($a_mob_id) : int
