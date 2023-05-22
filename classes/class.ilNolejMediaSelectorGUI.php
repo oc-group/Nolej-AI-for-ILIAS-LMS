@@ -87,7 +87,7 @@ class ilNolejMediaSelectorGUI
 		$select = $f
 			->button()
 			->shy($this->plugin->txt("delete"), '')
-			->withOnClick("$('#ilExcIDl').modal('show');");
+			->withOnClick($modal->getShowSignal());
 
 		$input = new ilCustomInputGUI($this->plugin->txt("media_select"));
         $input->setHtml($number->render() . $modal->render() . $select->render());
