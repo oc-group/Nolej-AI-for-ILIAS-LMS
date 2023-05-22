@@ -150,6 +150,7 @@ class ilNolejMediaSelectorGUI
 	 */
 	protected function initTabs($active_tab = null)
 	{
+		return;
 		global $tpl;
 
 		// $this->tabs->addTab(
@@ -371,6 +372,8 @@ class ilNolejMediaSelectorGUI
 		}
 
 		$html .= $mpool_table->getHTML();
+		echo $html;
+		exit;
 		$tpl->setContent($html);
 	}
 
@@ -411,6 +414,8 @@ class ilNolejMediaSelectorGUI
 		$exp->setClickableTypes(array("mep"));
 
 		if (!$exp->handleCommand()) {
+			echo $exp->getHTML();
+			exit;
 			$tpl->setContent($exp->getHTML());
 		}
 	}
