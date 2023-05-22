@@ -75,8 +75,22 @@ class ilNolejMediaSelectorGUI
 
 		$number = new ilNumberInputGUI("mob_id");
 
+		$f = $this->ui->factory();
+        $modal = $f
+			->modal()
+			->roundtrip(
+				'---',
+				[$f->legacy('')]
+			)
+			->withAsyncRenderUrl($link);
+
+		$select = $f
+			->button()
+			->shy($this->plugin->txt("delete"), '')
+			->withOnClick("$('#ilExcIDl').modal('show');");
+
 		$input = new ilCustomInputGUI($this->plugin->txt("media_select"));
-        $input->setHtml($number->render() . '<span class="small">' . $link . '</span>');
+        $input->setHtml($number->render() . $modal->render() . $select->render());
 		return $input;
 	}
 
