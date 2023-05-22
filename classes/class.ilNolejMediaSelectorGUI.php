@@ -80,9 +80,10 @@ class ilNolejMediaSelectorGUI
 
 		$modal = $f
 			->modal()
-			->roundtrip(
-				'---',
-				[$f->legacy('')]
+			->interruptive(
+				'',
+				'',
+				''
 			)
 			->withAsyncRenderUrl($link);
 
