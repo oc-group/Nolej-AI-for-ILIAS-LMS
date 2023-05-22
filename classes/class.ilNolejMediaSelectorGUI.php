@@ -368,6 +368,8 @@ class ilNolejMediaSelectorGUI
 		}
 
 		$html .= $mpool_table->getHTML();
+		echo $html;
+		exit;
 		$tpl->setContent($html);
 	}
 
