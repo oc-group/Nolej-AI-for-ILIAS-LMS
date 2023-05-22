@@ -146,6 +146,7 @@ class ilNolejMediaSelectorGUI
 	 */
 	protected function initTabs($active_tab = null)
 	{
+		return;
 		global $tpl;
 
 		// $this->tabs->addTab(
