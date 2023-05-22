@@ -76,7 +76,9 @@ class ilNolejMediaSelectorGUI
 		$number = new ilNumberInputGUI("mob_id");
 
 		$f = $this->ui->factory();
-        $modal = $f
+		$r = $this->ui->renderer();
+
+		$modal = $f
 			->modal()
 			->roundtrip(
 				'---',
@@ -90,7 +92,7 @@ class ilNolejMediaSelectorGUI
 			->withOnClick($modal->getShowSignal());
 
 		$input = new ilCustomInputGUI($this->plugin->txt("media_select"));
-        $input->setHtml($number->render() . $modal->render() . $select->render());
+        $input->setHtml($number->render() . $r->render($modal) . $r->render($select));
 		return $input;
 	}
 
