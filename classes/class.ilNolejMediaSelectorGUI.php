@@ -146,7 +146,6 @@ class ilNolejMediaSelectorGUI
 	 */
 	protected function initTabs($active_tab = null)
 	{
-		return;
 		global $tpl;
 
 		// $this->tabs->addTab(
@@ -368,8 +367,6 @@ class ilNolejMediaSelectorGUI
 		}
 
 		$html .= $mpool_table->getHTML();
-		echo $html;
-		exit;
 		$tpl->setContent($html);
 	}
 
@@ -412,9 +409,6 @@ class ilNolejMediaSelectorGUI
 		if (!$exp->handleCommand()) {
 			$tpl->setContent($exp->getHTML());
 		}
-
-		echo $exp->getHTML();
-		exit;
 	}
 
 	public static function getObjId($a_mob_id) : int
