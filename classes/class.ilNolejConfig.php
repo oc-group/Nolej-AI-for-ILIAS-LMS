@@ -15,7 +15,7 @@ class ilNolejConfig
 
 	private $gui_obj = null;
 
-	/** \ilNolejPlugin */
+	/** @var ilNolejPlugin */
 	protected $plugin;
 
 	public function __construct($gui_obj = null)

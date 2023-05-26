@@ -23,19 +23,36 @@ class ilNolejMediaSelectorGUI
 	// const TAB_NEW = "new_media";
 	const TAB_INSERT_FROM_POOL = "insert_from_pool";
 
+	/** @var ilNolejGUI|ilNolejConfigGUI */
 	protected $guiObj;
-	protected ilCtrl $ctrl;
+	
+	/** @var ilCtrl */
+	protected $ctrl;
+	
 	protected string $cmd;
 	protected string $subCmd;
 	protected string $pool_view = "";
-	protected ilTabsGUI $tabs;
-	protected ilDBInterface $db;
-	protected ilAccessHandler $access;
-	protected \ILIAS\DI\UIServices $ui;
-	protected ilToolbarGUI $toolbar;
-	protected ilLanguage $lng;
+	
+	/** @var ilTabsGUI */
+	protected $tabs;
+	
+	/** @var ilDBInterface */
+	protected $db;
+	
+	/** @var ilAccessHandler */
+	protected $access;
+	
+	/** @var \ILIAS\DI\UIServices */
+	protected $ui;
+	
+	/** @var ilToolbarGUI */
+	protected $toolbar;
+	
+	/** @var ilLanguage */
+	protected $lng;
 
-	protected ilNolejPlugin $plugin;
+	/** @var ilNolejPlugin */
+	protected $plugin;
 
 	public function __construct(
 		$guiObj

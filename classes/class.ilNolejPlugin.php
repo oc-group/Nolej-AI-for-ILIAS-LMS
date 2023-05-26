@@ -35,7 +35,9 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 
 	static $config = [];
 	static $isAdmin = null;
-	public ilLogger $logger;
+
+	/** @var ilLogger */
+	public $logger;
 
 	/**
 	 * Constructor

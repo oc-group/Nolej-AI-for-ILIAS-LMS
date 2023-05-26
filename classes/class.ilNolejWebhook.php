@@ -6,7 +6,7 @@
 
 class ilNolejWebhook
 {
-	/** @var \ilNolejPlugin */
+	/** @var ilNolejPlugin */
 	protected $plugin;
 
 	/** @var array */

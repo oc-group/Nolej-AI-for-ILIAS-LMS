@@ -1,16 +1,9 @@
 <?php
 
-include_once("./Services/Repository/classes/class.ilObjectPluginGUI.php");
-require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-require_once("./Services/Form/classes/class.ilTextInputGUI.php");
-require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
 require_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 require_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 require_once("./Services/Tracking/classes/status/class.ilLPStatusPlugin.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
-// require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilObjNolejLicenseTableGUI.php");
-require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-require_once("./Services/Form/classes/class.ilNonEditableValueGUI.php");
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
