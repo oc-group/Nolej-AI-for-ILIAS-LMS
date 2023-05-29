@@ -89,10 +89,10 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			case self::CMD_FILTER_RESET:
 			case self::CMD_FILTER_USER:
 				$this->checkPermission("write");
-				if ($this->object->isBound()) {
-					$this->$cmd();
-					break;
-				}
+				// if ($this->object->isBound()) {
+				// 	$this->$cmd();
+				// 	break;
+				// }
 				$this->showContent();
 				break;
 
@@ -239,7 +239,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			self::PROP_TITLE => $this->object->getTitle(),
 			self::PROP_DESCRIPTION => $this->object->getDescription(),
 			self::PROP_ONLINE => $this->object->isOnline(),
-			self::PROP_COURSE => $this->object->bound()
+			// self::PROP_COURSE => $this->object->bound()
 		));
 	}
 
@@ -265,15 +265,15 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 		$this->tabs->activateTab(self::TAB_CONTENT);
 
-		if (!$this->object->isBound()) {
-			// This module is not available yet
-			if ($this->object->hasWritePermission()) {
-				ilUtil::sendFailure($this->plugin->txt("err_not_bound"), true);
-			} else {
-				ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
-			}
-			return;
-		}
+		// if (!$this->object->isBound()) {
+		// 	// This module is not available yet
+		// 	if ($this->object->hasWritePermission()) {
+		// 		ilUtil::sendFailure($this->plugin->txt("err_not_bound"), true);
+		// 	} else {
+		// 		ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
+		// 	}
+		// 	return;
+		// }
 
 		// if (!$this->object->isLicenseAssignedToUser($ilUser->getId())) {
 		// 	ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
@@ -499,9 +499,9 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	{
 		global $tpl;
 
-		if (!$this->object->isBound()) {
-			return;
-		}
+		// if (!$this->object->isBound()) {
+		// 	return;
+		// }
 
 		$tpl->addCss(ilNolejPlugin::CSS);
 

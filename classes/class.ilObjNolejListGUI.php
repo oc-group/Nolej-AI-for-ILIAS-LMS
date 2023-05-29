@@ -71,21 +71,21 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
 		$this->plugin->includeClass("class.ilObjNolejAccess.php");
 		$object = ilObjectFactory::getInstanceByObjId($this->obj_id, false);
 
-		if ($object->isBound()) {
-			if (!ilObjNolejAccess::checkOnline($this->obj_id)) {
-				$props[] = array(
-					"alert" => true,
-					"property" => $this->txt("prop_status"),
-					"value" => $this->txt("prop_offline")
-				);
-			}
-		} else {
-			$props[] = array(
-				"alert" => true,
-				"property" => $this->txt("prop_status"),
-				"value" => $this->txt("prop_not_bound")
-			);
-		}
+		// if ($object->isBound()) {
+		// 	if (!ilObjNolejAccess::checkOnline($this->obj_id)) {
+		// 		$props[] = array(
+		// 			"alert" => true,
+		// 			"property" => $this->txt("prop_status"),
+		// 			"value" => $this->txt("prop_offline")
+		// 		);
+		// 	}
+		// } else {
+		// 	$props[] = array(
+		// 		"alert" => true,
+		// 		"property" => $this->txt("prop_status"),
+		// 		"value" => $this->txt("prop_not_bound")
+		// 	);
+		// }
 
 		return $props;
 	}

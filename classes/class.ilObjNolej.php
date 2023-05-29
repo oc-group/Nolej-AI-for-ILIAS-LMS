@@ -126,30 +126,30 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 
 	public function lookupDetails()
 	{
-		if (!$this->isBound()) {
-			return (object) [];
-		}
+		// if (!$this->isBound()) {
+		// 	return (object) [];
+		// }
 
-		if ($this->details != null) {
-			return $this->details;
-		}
+		// if ($this->details != null) {
+		// 	return $this->details;
+		// }
 
-		$result = $this->config->api(array(
-			"cmd" => "details",
-			"id_partner" => $this->id_partner,
-			"id_course" => $this->id_course
-		));
+		// $result = $this->config->api(array(
+		// 	"cmd" => "details",
+		// 	"id_partner" => $this->id_partner,
+		// 	"id_course" => $this->id_course
+		// ));
 
-		switch ($result) {
-			case "err_course_id":
-			case "err_partner_id":
-			case "err_maintenance":
-			case "err_response":
-				ilUtil::sendFailure($this->plugin->txt($result), true);
-				return $this->details = (object) [];
-		}
+		// switch ($result) {
+		// 	case "err_course_id":
+		// 	case "err_partner_id":
+		// 	case "err_maintenance":
+		// 	case "err_response":
+		// 		ilUtil::sendFailure($this->plugin->txt($result), true);
+		// 		return $this->details = (object) [];
+		// }
 
-		return $this->details = $result;
+		// return $this->details = $result;
 	}
 
 	public function getFirstPage()
@@ -329,27 +329,27 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	{
 		global $ilDB;
 
-		if (!$this->isBound()) {
-			return [];
-		}
+		// if (!$this->isBound()) {
+		// 	return [];
+		// }
 
-		$result = $ilDB->queryF(
-			"SELECT user_id"
-			. " FROM " . ilNolejPlugin::TABLE_LP
-			. " WHERE id_partner = %s"
-			. " AND id_course = %s"
-			. " GROUP BY user_id"
-			. " HAVING (0.5 * SUM(status) / COUNT(status)) = 1",
-			array("text", "integer"),
-			array($this->getIdPartner(), $this->getIdCourse())
-		);
+		// $result = $ilDB->queryF(
+		// 	"SELECT user_id"
+		// 	. " FROM " . ilNolejPlugin::TABLE_LP
+		// 	. " WHERE id_partner = %s"
+		// 	. " AND id_course = %s"
+		// 	. " GROUP BY user_id"
+		// 	. " HAVING (0.5 * SUM(status) / COUNT(status)) = 1",
+		// 	array("text", "integer"),
+		// 	array($this->getIdPartner(), $this->getIdCourse())
+		// );
 
-		if (!$result) {
-			return [];
-		}
+		// if (!$result) {
+		// 	return [];
+		// }
 
-		$lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
-		return array_column($lp, "user_id");
+		// $lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
+		// return array_column($lp, "user_id");
 	}
 
 	/**
@@ -358,29 +358,29 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	 */
 	public function getLPNotAttempted()
 	{
-		global $ilDB;
+		// global $ilDB;
 
-		if (!$this->isBound()) {
-			return [];
-		}
+		// if (!$this->isBound()) {
+		// 	return [];
+		// }
 
-		$result = $ilDB->queryF(
-			"SELECT user_id"
-			. " FROM " . ilNolejPlugin::TABLE_LP
-			. " WHERE id_partner = %s"
-			. " AND id_course = %s"
-			. " GROUP BY user_id"
-			. " HAVING (0.5 * SUM(status) / COUNT(status)) = 0",
-			array("text", "integer"),
-			array($this->getIdPartner(), $this->getIdCourse())
-		);
+		// $result = $ilDB->queryF(
+		// 	"SELECT user_id"
+		// 	. " FROM " . ilNolejPlugin::TABLE_LP
+		// 	. " WHERE id_partner = %s"
+		// 	. " AND id_course = %s"
+		// 	. " GROUP BY user_id"
+		// 	. " HAVING (0.5 * SUM(status) / COUNT(status)) = 0",
+		// 	array("text", "integer"),
+		// 	array($this->getIdPartner(), $this->getIdCourse())
+		// );
 
-		if (!$result) {
-			return [];
-		}
+		// if (!$result) {
+		// 	return [];
+		// }
 
-		$lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
-		return array_column($lp, "user_id");
+		// $lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
+		// return array_column($lp, "user_id");
 	}
 
 	/**
@@ -389,14 +389,14 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	 */
 	public function getLPFailed()
 	{
-		global $ilDB;
+		// global $ilDB;
 
-		if (!$this->isBound()) {
-			return [];
-		}
+		// if (!$this->isBound()) {
+		// 	return [];
+		// }
 
-		// Nolej modules do not have a "fail" condition (yet)
-		return [];
+		// // Nolej modules do not have a "fail" condition (yet)
+		// return [];
 	}
 
 	/**
@@ -405,30 +405,30 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	 */
 	public function getLPInProgress()
 	{
-		global $ilDB;
+		// global $ilDB;
 
-		if (!$this->isBound()) {
-			return [];
-		}
+		// if (!$this->isBound()) {
+		// 	return [];
+		// }
 
-		$result = $ilDB->queryF(
-			"SELECT user_id"
-			. " FROM " . ilNolejPlugin::TABLE_LP
-			. " WHERE id_partner = %s"
-			. " AND id_course = %s"
-			. " GROUP BY user_id"
-			. " HAVING (0.5 * SUM(status) / COUNT(status)) > 0"
-			. " AND (0.5 * SUM(status) / COUNT(status)) < 1",
-			array("text", "integer"),
-			array($this->getIdPartner(), $this->getIdCourse())
-		);
+		// $result = $ilDB->queryF(
+		// 	"SELECT user_id"
+		// 	. " FROM " . ilNolejPlugin::TABLE_LP
+		// 	. " WHERE id_partner = %s"
+		// 	. " AND id_course = %s"
+		// 	. " GROUP BY user_id"
+		// 	. " HAVING (0.5 * SUM(status) / COUNT(status)) > 0"
+		// 	. " AND (0.5 * SUM(status) / COUNT(status)) < 1",
+		// 	array("text", "integer"),
+		// 	array($this->getIdPartner(), $this->getIdCourse())
+		// );
 
-		if (!$result) {
-			return [];
-		}
+		// if (!$result) {
+		// 	return [];
+		// }
 
-		$lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
-		return array_column($lp, "user_id");
+		// $lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
+		// return array_column($lp, "user_id");
 	}
 
 	/**
@@ -438,36 +438,36 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	 */
 	public function getLPStatusForUser($a_user_id)
 	{
-		global $ilDB;
+		// global $ilDB;
 
-		if (!$this->isBound()) {
-			return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-		}
+		// if (!$this->isBound()) {
+		// 	return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+		// }
 
-		$result = $ilDB->queryF(
-			"SELECT (0.5 * SUM(status) / COUNT(status)) AS percentage"
-			. " FROM " . ilNolejPlugin::TABLE_LP
-			. " WHERE id_partner = %s"
-			. " AND id_course = %s"
-			. " AND user_id = %s"
-			. " GROUP BY user_id",
-			array("text", "integer", "integer"),
-			array($this->getIdPartner(), $this->getIdCourse(), $a_user_id)
-		);
+		// $result = $ilDB->queryF(
+		// 	"SELECT (0.5 * SUM(status) / COUNT(status)) AS percentage"
+		// 	. " FROM " . ilNolejPlugin::TABLE_LP
+		// 	. " WHERE id_partner = %s"
+		// 	. " AND id_course = %s"
+		// 	. " AND user_id = %s"
+		// 	. " GROUP BY user_id",
+		// 	array("text", "integer", "integer"),
+		// 	array($this->getIdPartner(), $this->getIdCourse(), $a_user_id)
+		// );
 
-		if (!$result || $ilDB->numRows($result) != 1) {
-			return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-		}
+		// if (!$result || $ilDB->numRows($result) != 1) {
+		// 	return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+		// }
 
-		$row = $ilDB->fetchAssoc($result);
-		switch ($row["percentage"]) {
-			case 0:
-				return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-			case 1:
-				return ilLPStatus::LP_STATUS_COMPLETED_NUM;
-			default:
-				return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
-		}
+		// $row = $ilDB->fetchAssoc($result);
+		// switch ($row["percentage"]) {
+		// 	case 0:
+		// 		return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+		// 	case 1:
+		// 		return ilLPStatus::LP_STATUS_COMPLETED_NUM;
+		// 	default:
+		// 		return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+		// }
 	}
 
 	/**
@@ -477,29 +477,29 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	 */
 	public function getPercentageForUser($a_user_id)
 	{
-		global $ilDB;
+		// global $ilDB;
 
-		if (!$this->isBound()) {
-			return 0;
-		}
+		// if (!$this->isBound()) {
+		// 	return 0;
+		// }
 
-		$result = $ilDB->queryF(
-			"SELECT (0.5 * SUM(status) / COUNT(status)) AS percentage"
-			. " FROM " . ilNolejPlugin::TABLE_LP
-			. " WHERE id_partner = %s"
-			. " AND id_course = %s"
-			. " AND user_id = %s"
-			. " GROUP BY user_id",
-			array("text", "integer", "integer"),
-			array($this->getIdPartner(), $this->getIdCourse(), $a_user_id)
-		);
+		// $result = $ilDB->queryF(
+		// 	"SELECT (0.5 * SUM(status) / COUNT(status)) AS percentage"
+		// 	. " FROM " . ilNolejPlugin::TABLE_LP
+		// 	. " WHERE id_partner = %s"
+		// 	. " AND id_course = %s"
+		// 	. " AND user_id = %s"
+		// 	. " GROUP BY user_id",
+		// 	array("text", "integer", "integer"),
+		// 	array($this->getIdPartner(), $this->getIdCourse(), $a_user_id)
+		// );
 
-		if (!$result || $ilDB->numRows($result) != 1) {
-			return 0;
-		}
+		// if (!$result || $ilDB->numRows($result) != 1) {
+		// 	return 0;
+		// }
 
-		$row = $ilDB->fetchAssoc($result);
-		return (int) $row["percentage"] * 100;
+		// $row = $ilDB->fetchAssoc($result);
+		// return (int) $row["percentage"] * 100;
 	}
 
 	public function updateStatus($idPage)
