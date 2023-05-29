@@ -23,9 +23,6 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	const CMD_PROPERTIES_EDIT = "editProperties";
 	const CMD_PROPERTIES_UPDATE = "updateProperties";
 	const CMD_PROPERTIES_SAVE = "saveProperties";
-	const CMD_LICENSE_EDIT = "editLicenses";
-	const CMD_LICENSES_ASSIGN = "assignLicenses";
-	const CMD_LICENSE_ASSIGN = "assignLicense";
 	const CMD_CONTENT_SHOW = "showContent";
 	const CMD_STATUS_COMPLETED = "setStatusToCompleted";
 	const CMD_STATUS_FAILED = "setStatusToFailed";
@@ -37,7 +34,6 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 	const TAB_PROPERTIES = "properties";
 	const TAB_CONTENT = "content";
-	const TAB_LICENSES = "licenses";
 
 	const PROP_TITLE = "title";
 	const PROP_DESCRIPTION = "description";
@@ -89,9 +85,6 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 				break;
 
 			// Need a bound course
-			case self::CMD_LICENSE_EDIT:
-			case self::CMD_LICENSES_ASSIGN:
-			case self::CMD_LICENSE_ASSIGN:
 			case self::CMD_FILTER_APPLY:
 			case self::CMD_FILTER_RESET:
 			case self::CMD_FILTER_USER:
@@ -177,9 +170,9 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		if ($this->object->hasWritePermission()) {
 			$this->tabs->addTab(self::TAB_PROPERTIES, $this->txt("tab_" . self::TAB_PROPERTIES), $ilCtrl->getLinkTarget($this, self::CMD_PROPERTIES_EDIT));
 
-			if ($this->object->isBound()) {
-				$this->tabs->addTab(self::TAB_LICENSES, $this->txt("tab_" . self::TAB_LICENSES), $ilCtrl->getLinkTarget($this, self::CMD_LICENSE_EDIT));
-			}
+			// if ($this->object->isBound()) {
+			// 	$this->tabs->addTab(self::TAB_LICENSES, $this->txt("tab_" . self::TAB_LICENSES), $ilCtrl->getLinkTarget($this, self::CMD_LICENSE_EDIT));
+			// }
 		}
 
 		// standard permission tab
@@ -282,10 +275,10 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			return;
 		}
 
-		if (!$this->object->isLicenseAssignedToUser($ilUser->getId())) {
-			ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
-			return;
-		}
+		// if (!$this->object->isLicenseAssignedToUser($ilUser->getId())) {
+		// 	ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
+		// 	return;
+		// }
 
 		$idPage = $this->object->config->getParameterPositive("id_page", $this->object->getLastVisitedPage());
 		$result = $this->object->config->anonymousApi(array(
@@ -527,69 +520,6 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		);
 	}
 
-	protected function editLicenses() : void
-	{
-		$this->tabs->activateTab(self::TAB_LICENSES);
-
-		$licenses = $this->object->getNumberOfLicenses();
-		$available = $licenses["total"] - $licenses["assigned"];
-
-		// Insert table
-		$table = new ilObjNolejLicenseTableGUI($this, self::CMD_LICENSE_EDIT, true);
-
-		if ($available == 0) {
-			$table->setTitle($this->plugin->txt("license_manage_0"));
-		} else if ($available == 1) {
-			$table->setTitle($this->plugin->txt("license_manage_1"));
-		} else {
-			$table->setTitle(sprintf($this->plugin->txt("license_manage_n"), $available));
-		}
-
-		$table->setDescription(sprintf($this->plugin->txt("license_manage_total"), $licenses["total"]));
-
-		$table->getItems();
-		$this->tpl->setContent($table->getHTML());
-	}
-
-	protected function assignLicenses() : void
-	{
-		if (!isset($_POST["chbUser"]) || !is_array($_POST["chbUser"])) {
-			$this->ctrl->redirect($this, self::CMD_LICENSE_EDIT);
-			return;
-		}
-
-		$user_ids = $_POST["chbUser"];
-		$assigned = 0;
-		for ($i = 0, $len = count($user_ids); $i < $len; $i++) {
-			$success = $this->object->assignLicense($user_ids[$i]);
-			if ($success) {
-				$assigned++;
-			}
-		}
-
-		if ($assigned == 0) {
-			ilUtil::sendFailure($this->plugin->txt("license_assigned_0"), true);
-		} else if ($assigned == 1) {
-			ilUtil::sendSuccess($this->plugin->txt("license_assigned"), true);
-		} else {
-			ilUtil::sendSuccess(sprintf($this->plugin->txt("license_assigned_n"), $assigned), true);
-		}
-
-		$this->ctrl->redirect($this, self::CMD_LICENSE_EDIT);
-	}
-
-	protected function assignLicense() : void
-	{
-		$success = $this->object->assignLicense();
-
-		if ($success) {
-			ilUtil::sendSuccess($this->plugin->txt("license_assigned"), true);
-		} else {
-			// Do nothing
-		}
-		$this->ctrl->redirect($this, self::CMD_LICENSE_EDIT);
-	}
-
 	/**
 	 * @param $object ilObjNolej
 	 * @param $form ilPropertyFormGUI
@@ -617,10 +547,10 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 */
 	public function applyFilter() : void
 	{
-		$table = new ilObjNolejLicenseTableGUI($this, self::CMD_LICENSE_EDIT);
-		$table->resetOffset();
-		$table->writeFilterToSession();
-		$this->editLicenses();
+		// $table = new ilObjNolejLicenseTableGUI($this, self::CMD_LICENSE_EDIT);
+		// $table->resetOffset();
+		// $table->writeFilterToSession();
+		// $this->editLicenses();
 	}
 
 	/**
@@ -628,10 +558,10 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 */
 	public function resetFilter() : void
 	{
-		$table = new ilObjNolejLicenseTableGUI($this, self::CMD_LICENSE_EDIT);
-		$table->resetOffset();
-		$table->resetFilter();
-		$this->editLicenses();
+		// $table = new ilObjNolejLicenseTableGUI($this, self::CMD_LICENSE_EDIT);
+		// $table->resetOffset();
+		// $table->resetFilter();
+		// $this->editLicenses();
 	}
 
 	public function addUserAutoComplete() : void
@@ -711,31 +641,21 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
 			$ilCtrl->redirectByClass(array("ilUIPluginRouterGUI", "ilNolejGUI"), ilNolejGUI::CMD_SHOW_MODULES);
 
-		} else if ($target == "cart") {
-			$ilCtrl->setTargetScript("ilias.php");
-			$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
-			$ilCtrl->redirectByClass(array("ilUIPluginRouterGUI", "ilNolejGUI"), ilNolejGUI::CMD_CART_SHOW);
+		// } else if (preg_match('/course_([a-zA-Z0-9\-]{1,100})_([1-9][0-9]*)/', $target, $matches)) {
+		// 	$ilCtrl->setTargetScript("ilias.php");
+		// 	$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
+		// 	$ilCtrl->redirectByClass(
+		// 		array("ilUIPluginRouterGUI", "ilNolejGUI"),
+		// 		ilNolejGUI::CMD_SHOW_MODULES . "&id_partner=" . $matches[1] . "&id_course=" . $matches[2]
+		// 	);
 
-		} else if ($target == "orders") {
-			$ilCtrl->setTargetScript("ilias.php");
-			$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
-			$ilCtrl->redirectByClass(array("ilUIPluginRouterGUI", "ilNolejGUI"), ilNolejGUI::CMD_PURCHASE_LIST);
-
-		} else if (preg_match('/course_([a-zA-Z0-9\-]{1,100})_([1-9][0-9]*)/', $target, $matches)) {
-			$ilCtrl->setTargetScript("ilias.php");
-			$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
-			$ilCtrl->redirectByClass(
-				array("ilUIPluginRouterGUI", "ilNolejGUI"),
-				ilNolejGUI::CMD_SHOW_MODULES . "&id_partner=" . $matches[1] . "&id_course=" . $matches[2]
-			);
-
-		} else if (preg_match('/order_([1-9][0-9]*)/', $target, $matches)) {
-			$ilCtrl->setTargetScript("ilias.php");
-			$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
-			$ilCtrl->redirectByClass(
-				array("ilUIPluginRouterGUI", "ilNolejGUI"),
-				ilNolejGUI::CMD_PURCHASE_CHECK . "&id_order=" . $matches[1]
-			);
+		// } else if (preg_match('/order_([1-9][0-9]*)/', $target, $matches)) {
+		// 	$ilCtrl->setTargetScript("ilias.php");
+		// 	$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
+		// 	$ilCtrl->redirectByClass(
+		// 		array("ilUIPluginRouterGUI", "ilNolejGUI"),
+		// 		ilNolejGUI::CMD_PURCHASE_CHECK . "&id_order=" . $matches[1]
+		// 	);
 
 		} else {
 			ilUtil::sendInfo($a_target[0], true);

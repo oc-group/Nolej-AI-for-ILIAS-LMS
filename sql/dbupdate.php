@@ -82,16 +82,28 @@ $fields = array(
 		'length' => 4,
 		'notnull' => true
 	),
-	'id_partner' => array(
+	'decremented_credit' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'doc_url' => array(
+		'type' => 'text',
+		'length' => 200,
+		'fixed' => false,
+		'notnull' => false
+	),
+	'mediaType' => array(
 		'type' => 'text',
 		'length' => 20,
 		'fixed' => false,
 		'notnull' => false
 	),
-	'id_course' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	'language' => array(
+		'type' => 'text',
+		'length' => 5,
+		'fixed' => false,
+		'notnull' => false
 	)
 );
 

@@ -59,8 +59,9 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		);
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$this->setOnline($rec["is_online"]);
-			$this->setIdPartner($rec["id_partner"]);
-			$this->setIdCourse($rec["id_course"]);
+			// TODO
+			// $this->setIdPartner($rec["id_partner"]);
+			// $this->setIdCourse($rec["id_course"]);
 		}
 	}
 
@@ -71,11 +72,12 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	{
 		global $ilDB;
 
-		$ilDB->manipulateF(
-			"UPDATE " . ilNolejPlugin::TABLE_DATA . " SET is_online = %s, id_partner = %s, id_course = %s WHERE id = %s;",
-			array("integer", "text", "integer", "integer"),
-			array($this->isOnline(), $this->id_partner, $this->id_course, $this->getId())
-		);
+		// TODO
+		// $ilDB->manipulateF(
+		// 	"UPDATE " . ilNolejPlugin::TABLE_DATA . " SET is_online = %s, id_partner = %s, id_course = %s WHERE id = %s;",
+		// 	array("integer", "text", "integer", "integer"),
+		// 	array($this->isOnline(), $this->id_partner, $this->id_course, $this->getId())
+		// );
 	}
 
 	/**
@@ -101,26 +103,6 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		$this->online = $a_val;
 	}
 
-	function setIdPartner($a_val)
-	{
-		$this->id_partner = $a_val;
-	}
-
-	function setIdCourse($a_val)
-	{
-		$this->id_course = $a_val;
-	}
-
-	function getIdPartner()
-	{
-		return $this->id_partner;
-	}
-
-	function getIdCourse()
-	{
-		return $this->id_course;
-	}
-
 	/**
 	 * Get online
 	 * @return boolean online
@@ -128,42 +110,6 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	function isOnline()
 	{
 		return $this->online;
-	}
-
-	/**
-	 * @param string id
-	 * @return boolean success
-	 */
-	public function bind($id)
-	{
-		if (!$id || $id == "") {
-			return false;
-		}
-
-		$ids = explode("#:#", $id);
-		if (count($ids) != 2) {
-			return false;
-		}
-
-		$this->id_partner = $ids[0];
-		$this->id_course = (int) $ids[1];
-		return true;
-	}
-
-	/**
-	 * @return boolean bound
-	 */
-	public function isBound()
-	{
-		return $this->id_partner != NULL && $this->id_course != -1;
-	}
-
-	public function bound()
-	{
-		if (!$this->isBound()) {
-			return "";
-		}
-		return $this->id_partner . "#:#" . $this->id_course;
 	}
 
 	public function hasWritePermission()
@@ -373,145 +319,6 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		}
 
 		return $options;
-	}
-
-	public function isLicenseAssignedToUser($user_id)
-	{
-		global $ilDB;
-
-		$result = $ilDB->queryF(
-			"SELECT since FROM " . ilNolejPlugin::TABLE_LICENSE
-			. " WHERE user_id = %s AND id_partner = %s AND id_course = %s",
-			array("integer", "text", "integer"),
-			array($user_id, $this->id_partner, $this->id_course)
-		);
-
-		if ($result && $ilDB->numRows($result) == 1) {
-			$row = $ilDB->fetchAssoc($result);
-			return $row["since"];
-		}
-
-		return false;
-	}
-
-	public function assignLicense($user_id = null)
-	{
-		global $ilDB;
-
-		$licenses = $this->getNumberOfLicenses();
-		if ($licenses && $licenses["total"] <= $licenses["assigned"]) {
-			ilUtil::sendFailure($this->plugin->txt("err_no_licenses_available"), true);
-			return false;
-		}
-
-		if (!$user_id) {
-			$user_id = $this->config->getParameterPositive("user_id");
-			if (!$user_id) {
-				return false;
-			}
-		}
-
-		if ($user_id == ANONYMOUS_USER_ID) {
-			return false;
-		}
-
-		if ($since = $this->isLicenseAssignedToUser($user_id)) {
-			ilUtil::sendFailure(sprintf(
-				$this->plugin->txt("err_license_already_assigned"),
-				ilDatePresentation::formatDate(new ilDateTime($since, IL_CAL_UNIX))
-			), true);
-			return false;
-		}
-
-		$credentials = $this->config->getAnonymousCredentialsOfUser($user_id);
-		if (!$credentials) {
-			if (!$this->config->assignAnonymousCredentials([$user_id])) {
-				return false;
-			}
-
-			$credentials = $this->config->getAnonymousCredentialsOfUser($user_id);
-			if (!$credentials) {
-				return false;
-			}
-		}
-
-		$result = $this->config->loggedApi(array(
-			"cmd" => "enroll",
-			"id_partner" => $this->id_partner,
-			"id_course" => $this->id_course,
-			"users" => array(
-				array(
-					"username" => $credentials["anonymous_login"],
-					"password" => $credentials["anonymous_pass"]
-				)
-			)
-		));
-
-		switch ($result) {
-			case "err_forbidden":
-			case "err_maintenance":
-			case "err_response":
-				ilUtil::sendFailure($this->plugin->txt($result));
-				return false;
-		}
-
-		if (!is_array($result) || count($result) != 1) {
-			return false;
-		}
-
-		$success = $ilDB->manipulateF(
-			"INSERT INTO " . ilNolejPlugin::TABLE_LICENSE
-			. " (user_id, id_partner, id_course, since) VALUES (%s, %s, %s, %s)",
-			array("integer", "text", "integer", "integer"),
-			array($user_id, $this->id_partner, $this->id_course, strtotime("now"))
-		);
-
-		if ($success) {
-			$this->resetLPOfUser($user_id);
-		}
-
-		return $success;
-	}
-
-	public function getNumberOfLicenses()
-	{
-		global $ilDB;
-
-		$result = $ilDB->queryF(
-			"SELECT SUM(quantity) AS cnt FROM " . ilNolejPlugin::TABLE_ORDER_ITEM
-			. " WHERE id_course = %s"
-			. " AND id_order IN"
-			. " (SELECT id_order FROM " . ilNolejPlugin::TABLE_ORDER
-			. " WHERE id_partner = %s AND status = 'completed')",
-			array("integer", "text"),
-			array($this->id_course, $this->id_partner)
-		);
-
-		if (!$result || $ilDB->numRows($result) != 1) {
-			return false;
-		}
-
-		$row = $ilDB->fetchAssoc($result);
-		$licenses = $row["cnt"];
-
-		$result = $ilDB->queryF(
-			"SELECT COUNT(*) AS cnt FROM " . ilNolejPlugin::TABLE_LICENSE
-			. " WHERE id_partner = %s AND id_course = %s",
-			array("text", "integer"),
-			array($this->id_partner, $this->id_course)
-		);
-
-		if (!$result || $ilDB->numRows($result) != 1) {
-			return false;
-		}
-
-		$row = $ilDB->fetchAssoc($result);
-		$assigned = $row["cnt"];
-
-		return array(
-			"total" => $licenses,
-			"assigned" => $assigned
-		);
 	}
 
 	/**
