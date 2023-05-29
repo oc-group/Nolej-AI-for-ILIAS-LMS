@@ -261,9 +261,9 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 	protected function showContent() : void
 	{
-		global $DIC, $ilCtrl, $ilUser;
+		// global $DIC, $ilCtrl, $ilUser;
 
-		$this->tabs->activateTab(self::TAB_CONTENT);
+		// $this->tabs->activateTab(self::TAB_CONTENT);
 
 		// if (!$this->object->isBound()) {
 		// 	// This module is not available yet
@@ -280,43 +280,43 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// 	return;
 		// }
 
-		$idPage = $this->object->config->getParameterPositive("id_page", $this->object->getLastVisitedPage());
-		$result = $this->object->config->anonymousApi(array(
-			"cmd" => "content",
-			"id_partner" => $this->getIdPartner(),
-			"id_course" => $this->getIdCourse(),
-			"id_page" => $idPage
-		));
+		// $idPage = $this->object->config->getParameterPositive("id_page", $this->object->getLastVisitedPage());
+		// $result = $this->object->config->anonymousApi(array(
+		// 	"cmd" => "content",
+		// 	"id_partner" => $this->getIdPartner(),
+		// 	"id_course" => $this->getIdCourse(),
+		// 	"id_page" => $idPage
+		// ));
 
-		if (!$result) {
-			ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
-			return;
-		}
+		// if (!$result) {
+		// 	ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
+		// 	return;
+		// }
 
-		switch ($result) {
-			case "err_response":
-			case "err_maintenance":
-			case "err_partner_id":
-			case "err_course_id":
-			case "err_page_id":
-			case "err_forbidden":
-				ilUtil::sendFailure($this->plugin->txt($result), true);
-				return;
-		}
+		// switch ($result) {
+		// 	case "err_response":
+		// 	case "err_maintenance":
+		// 	case "err_partner_id":
+		// 	case "err_course_id":
+		// 	case "err_page_id":
+		// 	case "err_forbidden":
+		// 		ilUtil::sendFailure($this->plugin->txt($result), true);
+		// 		return;
+		// }
 
-		if (!$result->url) {
-			ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
-		}
+		// if (!$result->url) {
+		// 	ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
+		// }
 
-		$this->object->updateStatus($idPage);
-		$this->tpl->setContent($this->renderContentAndStructure($result->url, $idPage));
+		// $this->object->updateStatus($idPage);
+		// $this->tpl->setContent($this->renderContentAndStructure($result->url, $idPage));
 
-		// Show TOC
-		$DIC->globalScreen()->tool()->context()->claim()->repository();
-		$DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
-			ilLMGSToolProvider::SHOW_TOC_TOOL,
-			true
-		);
+		// // Show TOC
+		// $DIC->globalScreen()->tool()->context()->claim()->repository();
+		// $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+		// 	ilLMGSToolProvider::SHOW_TOC_TOOL,
+		// 	true
+		// );
 	}
 
 	public function renderContentAndStructure($url, $currentIdPage)
