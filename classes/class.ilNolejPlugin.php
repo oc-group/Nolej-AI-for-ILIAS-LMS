@@ -19,11 +19,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 
 	const TABLE_CONFIG = "rep_robj_xnlj_config";
 	const TABLE_TIC = "rep_robj_xnlj_tic";
-	// const TABLE_CART = "rep_robj_xnlj_cart";
-	const TABLE_LICENSE = "rep_robj_xnlj_license";
-	const TABLE_USER = "rep_robj_xnlj_user";
-	const TABLE_ORDER = "rep_robj_xnlj_order";
-	const TABLE_ORDER_ITEM = "rep_robj_xnlj_item";
+	const TABLE_DOC = "rep_robj_xnlj_doc";
 	const TABLE_DATA = "rep_robj_xnlj_data";
 	const TABLE_LP = "rep_robj_xnlj_lp";
 
@@ -76,70 +72,70 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		);
 	}
 
-	protected function isActiveManual() : bool
-	{
-		global $DIC;
-		return $DIC["ilPluginAdmin"]->isActive(
-			IL_COMP_SERVICE,
-			self::CNAME,
-			self::SLOT_ID,
-			self::PLUGIN_NAME
-		);
-	}
+	// protected function isActiveManual() : bool
+	// {
+	// 	global $DIC;
+	// 	return $DIC["ilPluginAdmin"]->isActive(
+	// 		IL_COMP_SERVICE,
+	// 		self::CNAME,
+	// 		self::SLOT_ID,
+	// 		self::PLUGIN_NAME
+	// 	);
+	// }
 
 	/**
 	 * Must correspond to the plugin subdirectory
 	 */
 	public function getPluginName() : string
 	{
-		if (!$this->isActiveManual()) {
-			return self::PLUGIN_NAME;
-		}
+		// if (!$this->isActiveManual()) {
+		// 	return self::PLUGIN_NAME;
+		// }
 
-		$this->insertMenuOnce();
+		// $this->insertMenuOnce();
 		return self::PLUGIN_NAME;
 	}
 
-	public function insertMenuOnce() : void
-	{
-		global $tpl;
+	// public function insertMenuOnce() : void
+	// {
+	// 	global $tpl;
 
-		// Add the menu item
-		try {
-			// This is executed one time only
-			if ($tpl && !$this->menuItem && $this->lang_initialised === true) {
+	// 	// Add the menu item
+	// 	try {
+	// 		// This is executed one time only
+	// 		if ($tpl && !$this->menuItem && $this->lang_initialised === true) {
 
-				// Save that the code below has been executed once
-				$this->menuItem = true;
+	// 			// Save that the code below has been executed once
+	// 			$this->menuItem = true;
 
-				if (!$this->canAccessModules()) {
-					// Display the menu item only if the user is allowed to
-					return;
-				}
+	// 			if (!$this->canAccessModules()) {
+	// 				// Display the menu item only if the user is allowed to
+	// 				return;
+	// 			}
 
-				// Load the menu item template
-				if ($this->is6()) {
-					$menuItem = new ilTemplate("tpl.menu_item_6.js", true, true, self::PLUGIN_DIR);
-				} else if ($this->is7()) {
-					$menuItem = new ilTemplate("tpl.menu_item_7.js", true, true, self::PLUGIN_DIR);
-				} else {
-					// Version not compatible, cannot put menu item
-					$this->menuItem = false;
-					return;
-				}
+	// 			// Load the menu item template
+	// 			if ($this->is6()) {
+	// 				$menuItem = new ilTemplate("tpl.menu_item_6.js", true, true, self::PLUGIN_DIR);
+	// 			} else if ($this->is7()) {
+	// 				$menuItem = new ilTemplate("tpl.menu_item_7.js", true, true, self::PLUGIN_DIR);
+	// 			} else {
+	// 				// Version not compatible, cannot put menu item
+	// 				$this->menuItem = false;
+	// 				return;
+	// 			}
 
-				$menuItem->setVariable("nlj_LINK", ILIAS_HTTP_PATH . "/goto.php?target=" . self::PERMALINK);
-				$menuItem->setVariable("nlj_ICON", $this->_getIcon(self::PLUGIN_ID, ""));
-				$menuItem->setVariable("nlj_LABEL", $this->txt("plugin_title"));
+	// 			$menuItem->setVariable("nlj_LINK", ILIAS_HTTP_PATH . "/goto.php?target=" . self::PERMALINK);
+	// 			$menuItem->setVariable("nlj_ICON", $this->_getIcon(self::PLUGIN_ID, ""));
+	// 			$menuItem->setVariable("nlj_LABEL", $this->txt("plugin_title"));
 
-				// Print the item template in the HTML
-				$tpl->addOnLoadCode($menuItem->get());
-			}
+	// 			// Print the item template in the HTML
+	// 			$tpl->addOnLoadCode($menuItem->get());
+	// 		}
 
-		} catch (Exception $e) {
-			// Ignore
-		}
-	}
+	// 	} catch (Exception $e) {
+	// 		// Ignore
+	// 	}
+	// }
 
 	/*
 	 * Returns a list of all repository object types which can be a parent of this type.
@@ -170,7 +166,10 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 			return self::$isAdmin = true;
 		}
 
-		ilUtil::sendFailure(print_r($rbacreview->assignedRoles($ilUser->getId()), true), true);
+		ilUtil::sendFailure(
+			print_r($rbacreview->assignedRoles($ilUser->getId()), true),
+			true
+		);
 		return self::$isAdmin = false;
 	}
 
@@ -182,12 +181,9 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	{
 		$tables = [
 			self::TABLE_CONFIG,
-			// self::TABLE_CART,
-			self::TABLE_LICENSE,
-			self::TABLE_USER,
-			self::TABLE_ORDER,
-			self::TABLE_ORDER_ITEM,
+			self::TABLE_TIC,
 			self::TABLE_DATA,
+			self::TABLE_DOC,
 			self::TABLE_LP
 		];
 
@@ -252,7 +248,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 			return self::$config[$keyword];
 		}
 		$res = $this->db->queryF(
-			"SELECT value FROM " . self::TABLE_CONFIG . " WHERE keyword = %s;",
+			"SELECT `value` FROM " . self::TABLE_CONFIG . " WHERE keyword = %s;",
 			array("text"),
 			array($keyword)
 		);
@@ -275,15 +271,15 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		);
 	}
 
-	public function canAccessModules() : bool
-	{
-		return $this->isAdmin() ||
-			(!$this->isAdmin() && ilUtil::yn2tf($this->getConfig("config_menu", "n")));
-	}
+	// public function canAccessModules() : bool
+	// {
+	// 	return $this->isAdmin() ||
+	// 		(!$this->isAdmin() && ilUtil::yn2tf($this->getConfig("config_menu", "n")));
+	// }
 
-	public function canAccessCart() : bool
-	{
-		return $this->isAdmin() ||
-			(!$this->isAdmin() && ilUtil::yn2tf($this->getConfig("config_user_purchase", "n")));
-	}
+	// public function canAccessCart() : bool
+	// {
+	// 	return $this->isAdmin() ||
+	// 		(!$this->isAdmin() && ilUtil::yn2tf($this->getConfig("config_user_purchase", "n")));
+	// }
 }

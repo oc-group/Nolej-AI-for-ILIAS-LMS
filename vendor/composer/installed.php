@@ -3,7 +3,7 @@
         'name' => 'oc-group/ilias-nolej',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '1c952296ac066af430f30df654d27deeedc3f574',
+        'reference' => 'fbe68dcdda624af3bc42cdd083f325c32a03e9fe',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'oc-group/ilias-nolej' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '1c952296ac066af430f30df654d27deeedc3f574',
+            'reference' => 'fbe68dcdda624af3bc42cdd083f325c32a03e9fe',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

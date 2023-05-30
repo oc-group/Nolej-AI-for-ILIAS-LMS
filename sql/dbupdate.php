@@ -70,6 +70,66 @@ if(!$ilDB->tableExists("rep_robj_xnlj_tic")) {
 	$ilDB->addPrimaryKey("rep_robj_xnlj_tic", array("exchange_id"));
 }
 
+/* Document data */
+$fields = array(
+	'document_id' => array(
+		'type' => 'text',
+		'length' => 50,
+		'fixed' => false,
+		'notnull' => true
+	),
+	'consumed_credit' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'doc_url' => array(
+		'type' => 'text',
+		'length' => 200,
+		'fixed' => false,
+		'notnull' => true
+	),
+	'media_type' => array(
+		/**
+		 * Available: web, audio, video, document, freetext.
+		 * Deprecated: youtube.
+		 * Soon: slide.
+		 */
+		'type' => 'text',
+		'length' => 20,
+		'fixed' => false,
+		'notnull' => true
+	),
+	'automatic_mode' => array(
+		'type' => 'text',
+		'length' => 1,
+		'fixed' => false,
+		'notnull' => true
+	),
+	'language' => array(
+		'type' => 'text',
+		'length' => 5,
+		'fixed' => false,
+		'notnull' => true
+	),
+	'status' => array(
+		/**
+		 * idle,
+		 * transcription, transcription_ready,
+		 * analysis, analysis_ready
+		*/
+		'type' => 'text',
+		'length' => 25,
+		'fixed' => false,
+		'notnull' => true
+	),
+);
+
+if(!$ilDB->tableExists("rep_robj_xnlj_doc")) {
+	$ilDB->createTable("rep_robj_xnlj_doc", $fields);
+	$ilDB->addPrimaryKey("rep_robj_xnlj_doc", array("document_id"));
+}
+
 /* Object data */
 $fields = array(
 	'id' => array(
@@ -82,29 +142,12 @@ $fields = array(
 		'length' => 4,
 		'notnull' => true
 	),
-	'decremented_credit' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
-	),
-	'doc_url' => array(
+	'document_id' => array(
 		'type' => 'text',
-		'length' => 200,
+		'length' => 50,
 		'fixed' => false,
 		'notnull' => false
 	),
-	'mediaType' => array(
-		'type' => 'text',
-		'length' => 20,
-		'fixed' => false,
-		'notnull' => false
-	),
-	'language' => array(
-		'type' => 'text',
-		'length' => 5,
-		'fixed' => false,
-		'notnull' => false
-	)
 );
 
 if(!$ilDB->tableExists("rep_robj_xnlj_data")) {
@@ -114,18 +157,13 @@ if(!$ilDB->tableExists("rep_robj_xnlj_data")) {
 
 /* LP */
 $fields = array(
-	'id_partner' => array(
+	'document_id' => array(
 		'type' => 'text',
-		'length' => 20,
+		'length' => 50,
 		'fixed' => false,
 		'notnull' => true
 	),
-	'id_course' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
-	),
-	'id_page' => array(
+	'activity_id' => array(
 		'type' => 'integer',
 		'length' => 4,
 		'notnull' => true
@@ -149,7 +187,7 @@ $fields = array(
 
 if(!$ilDB->tableExists("rep_robj_xnlj_lp")) {
 	$ilDB->createTable("rep_robj_xnlj_lp", $fields);
-	$ilDB->addPrimaryKey("rep_robj_xnlj_lp", array("id_partner", "id_course", "id_page", "user_id"));
+	$ilDB->addPrimaryKey("rep_robj_xnlj_lp", array("document_id", "activity_id", "user_id"));
 }
 
 ?>
