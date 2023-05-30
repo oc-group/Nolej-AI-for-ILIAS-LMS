@@ -15,8 +15,6 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	const SLOT_ID = "robj";
 	const PREFIX = "rep_robj_xnlj";
 
-	const CSS = "Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/templates/default/Nolej.css";
-
 	const TABLE_CONFIG = "rep_robj_xnlj_config";
 	const TABLE_TIC = "rep_robj_xnlj_tic";
 	const TABLE_DOC = "rep_robj_xnlj_doc";

@@ -39,7 +39,7 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
 	{
 		// Cannot override init() method; adding here CSS to display the icon.
 		global $tpl;
-		$tpl->addCss(ilNolejPlugin::CSS);
+		// $tpl->addCss(ilNolejPlugin::CSS);
 
 		return array(
 			array(
