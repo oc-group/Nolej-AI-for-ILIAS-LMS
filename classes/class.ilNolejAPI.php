@@ -9,13 +9,24 @@ require_once "./Customizing/global/plugins/Services/Repository/RepositoryObject/
 class ilNolejAPI {
     public const API_URL = "https://api-dev.nolej.io";
 
-    private string $apikey;
+	/** @var string */
+    private $apikey;
     
-    public function __construct(string $apikey) {
+	/**
+	 * @param string $apikey
+	 */
+    public function __construct($apikey)
+	{
         $this->apikey = $apikey;
     }
 
-    public function post(string $path, array $data = array(), bool $decode = true) {
+	/**
+	 * @param string $path
+	 * @param array $data
+	 * @param bool $decode
+	 */
+    public function post($path, $data = array(), $decode = true)
+	{
         $data_json = json_encode($data);
 		$url = self::API_URL . $path;
 
