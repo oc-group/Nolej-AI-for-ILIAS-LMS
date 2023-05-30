@@ -38,7 +38,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 	const PROP_TITLE = "title";
 	const PROP_DESCRIPTION = "description";
-	const PROP_STATUS = "status";
+	const PROP_ONLINE = "online";
 
 	/** @var ilCtrl */
 	protected $ctrl;
