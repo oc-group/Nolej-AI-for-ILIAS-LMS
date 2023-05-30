@@ -272,6 +272,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		$this->tabs->activateTab(self::TAB_CONTENT);
 
 		if ($this->object->status != "completed") {
+			include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejActivityManagementGUI.php");
 			$activityManagement = new ilNolejActivityManagementGUI($this);
 			$this->ctrl->forwardCommand($activityManagement);
 			return;
