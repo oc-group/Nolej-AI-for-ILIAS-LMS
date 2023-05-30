@@ -10,6 +10,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 /**
  * @ilCtrl_isCalledBy ilObjNolejGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
  * @ilCtrl_Calls ilObjNolejGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjNolejGUI: ilNolejActivityManagementGUI
  * @ilCtrl_Calls ilObjNolejGUI: ilUIPluginRouterGUI
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
@@ -32,18 +33,11 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	const CMD_FILTER_RESET = "resetFilter";
 	const CMD_FILTER_USER = "addUserAutoComplete";
 
-	const TAB_PROPERTIES = "properties";
+	const TAB_PROJECT = "project";
 	const TAB_CONTENT = "content";
 
 	const PROP_TITLE = "title";
 	const PROP_DESCRIPTION = "description";
-	const PROP_MEDIA_TYPE = "media_type";
-	const PROP_M_WEB = "web";
-	const PROP_M_AUDIO = "audio";
-	const PROP_M_VIDEO = "video";
-	const PROP_M_DOC = "document";
-	const PROP_M_TEXT = "freetext";
-	const PROP_ONLINE = "online";
 	const PROP_STATUS = "status";
 
 	/** @var ilCtrl */
@@ -83,38 +77,48 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	{
 		global $DIC;
 
-		switch ($cmd) {
-			// Need write permission
-			case self::CMD_PROPERTIES_EDIT:
-			case self::CMD_PROPERTIES_UPDATE:
-			case self::CMD_PROPERTIES_SAVE:
+		$nextClass = $this->ctrl->getNextClass();
+		switch ($nextClass) {
+			case "ilNolejActivityManagementGUI":
 				$this->checkPermission("write");
-				$this->$cmd();
+				$activityManagement = new ilNolejActivityManagementGUI($this);
+				$this->ctrl->forwardCommand($activityManagement);
 				break;
 
-			// Need a bound course
-			case self::CMD_FILTER_APPLY:
-			case self::CMD_FILTER_RESET:
-			case self::CMD_FILTER_USER:
-				$this->checkPermission("write");
-				// if ($this->object->isBound()) {
-				// 	$this->$cmd();
-				// 	break;
-				// }
-				$this->showContent();
-				break;
-
-			// Need read permission
-			case self::CMD_CONTENT_SHOW:
-			case self::CMD_STATUS_COMPLETED:
-			case self::CMD_STATUS_FAILED:
-			case self::CMD_STATUS_IN_PROGRESS:
-			case self::CMD_STATUS_NOT_ATTEMPTED:
-				$this->checkPermission("read");
-				$this->$cmd();
-				break;
 			default:
-				$this->showContent();
+				switch ($cmd) {
+					// Need write permission
+					case self::CMD_PROPERTIES_EDIT:
+					case self::CMD_PROPERTIES_UPDATE:
+					case self::CMD_PROPERTIES_SAVE:
+						$this->checkPermission("write");
+						$this->$cmd();
+						break;
+		
+					// Need a bound course
+					case self::CMD_FILTER_APPLY:
+					case self::CMD_FILTER_RESET:
+					case self::CMD_FILTER_USER:
+						$this->checkPermission("write");
+						// if ($this->object->isBound()) {
+						// 	$this->$cmd();
+						// 	break;
+						// }
+						$this->showContent();
+						break;
+		
+					// Need read permission
+					case self::CMD_CONTENT_SHOW:
+					case self::CMD_STATUS_COMPLETED:
+					case self::CMD_STATUS_FAILED:
+					case self::CMD_STATUS_IN_PROGRESS:
+					case self::CMD_STATUS_NOT_ATTEMPTED:
+						$this->checkPermission("read");
+						$this->$cmd();
+						break;
+					default:
+						$this->showContent();
+				}
 		}
 	}
 
@@ -183,8 +187,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// "properties" and "manage licenses" tabs
 		if ($this->object->hasWritePermission()) {
 			$this->tabs->addTab(
-				self::TAB_PROPERTIES,
-				$this->txt("tab_" . self::TAB_PROPERTIES),
+				self::TAB_PROJECT,
+				$this->txt("tab_" . self::TAB_PROJECT),
 				$ilCtrl->getLinkTarget($this, self::CMD_PROPERTIES_EDIT)
 			);
 
@@ -213,63 +217,20 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 */
 	protected function initPropertiesForm() : ilPropertyFormGUI
 	{
-		$this->tabs->activateTab(self::TAB_PROPERTIES);
+		$this->tabs->activateTab(self::TAB_PROJECT);
 
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
-		// $description = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_DESCRIPTION), self::PROP_DESCRIPTION);
-		// $form->addItem($description);
+		$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
+		$title->setRequired(true);
+		$form->addItem($title);
 
-		// $online = new ilCheckboxInputGUI($this->plugin->txt("prop_" . self::PROP_ONLINE), self::PROP_ONLINE);
-		// $form->addItem($online);
+		$description = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_DESCRIPTION), self::PROP_DESCRIPTION);
+		$form->addItem($description);
 
-		$status = $this->object->getDocumentStatus();
-		switch ($status) {
-			case "idle":
-				$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
-				$title->setRequired(true);
-				$form->addItem($title);
-
-				$mediaType = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_MEDIA_TYPE), self::PROP_MEDIA_TYPE);
-				$mediaType->setRequired(true);
-				$form->addItem($mediaType);
-				// Available: web, audio, video, document, freetext.
-				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_WEB), self::PROP_M_WEB);
-				$opt->setInfo($this->plugin->txt("blog_nav_mode_month_list_info"));
-				$mediaType->addOption($opt);
-
-				// $mon_num = new ilNumberInputGUI($this->plugin->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
-				// $mon_num->setInfo($this->plugin->txt("blog_nav_mode_month_list_num_month_info"));
-				// $mon_num->setSize(3);
-				// $mon_num->setMinValue(1);
-				// $opt->addSubItem($mon_num);
-				
-				break;
-			
-			case "transcription":
-			case "transcription_ready":
-			case "analysis":
-			case "analysis_ready":
-				// TODO
-				break;
-			
-			default:
-				// TODO
-		}
-		// $course = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_STATUS), self::PROP_STATUS);
-
-		// $options = $this->object->getPurchasedCourses();
-
-		// $course->setRequired(true);
-		// $course->setOptions($options);
-
-		// $course->setInfo($this->plugin->txt("prop_" . self::PROP_STATUS . "_info"));
-		// $form->addItem($course);
-
-		// if (count($options) == 0) {
-		// 	ilUtil::sendQuestion($this->plugin->txt("err_no_purchased_courses"), true);
-		// }
+		$online = new ilCheckboxInputGUI($this->plugin->txt("prop_" . self::PROP_ONLINE), self::PROP_ONLINE);
+		$form->addItem($online);
 
 		$form->setFormAction($this->ctrl->getFormAction($this, self::CMD_PROPERTIES_SAVE));
 		$form->addCommandButton(self::CMD_PROPERTIES_SAVE, $this->plugin->txt("cmd_update"));
