@@ -11,10 +11,16 @@ require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/
  */
 class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 {
+	/** @var bool */
+	protected $online;
+
+	/** @var string */
+	protected $documentId;
+
 	/**
 	 * Constructor
 	 *
-	 * @access				public
+	 * @access public
 	 * @param int $a_ref_id
 	 */
 	function __construct($a_ref_id = 0)
@@ -39,7 +45,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		global $ilDB;
 
 		$ilDB->manipulateF(
-			"INSERT INTO " . ilNolejPlugin::TABLE_DATA . " (id, is_online, id_partner, id_course) VALUES (%s, %s, NULL, -1)",
+			"INSERT INTO " . ilNolejPlugin::TABLE_DATA . " (id, is_online, document_id) VALUES (%s, %s, NULL)",
 			array ("integer", "integer"),
 			array($this->getId(), 0)
 		);
@@ -57,11 +63,9 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 			array("integer"),
 			array($this->getId())
 		);
-		while ($rec = $ilDB->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-			// TODO
-			// $this->setIdPartner($rec["id_partner"]);
-			// $this->setIdCourse($rec["id_course"]);
+		while ($row = $ilDB->fetchAssoc($set)) {
+			$this->setOnline($row["is_online"]);
+			$this->setDocumentId($row["document_id"]);
 		}
 	}
 
@@ -72,12 +76,11 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	{
 		global $ilDB;
 
-		// TODO
-		// $ilDB->manipulateF(
-		// 	"UPDATE " . ilNolejPlugin::TABLE_DATA . " SET is_online = %s, id_partner = %s, id_course = %s WHERE id = %s;",
-		// 	array("integer", "text", "integer", "integer"),
-		// 	array($this->isOnline(), $this->id_partner, $this->id_course, $this->getId())
-		// );
+		$ilDB->manipulateF(
+			"UPDATE " . ilNolejPlugin::TABLE_DATA . " SET is_online = %s, document_id = %s WHERE id = %s;",
+			array("integer", "text", "integer"),
+			array($this->isOnline(), $this->getDocumentId(), $this->getId())
+		);
 	}
 
 	/**
@@ -104,12 +107,49 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	}
 
 	/**
+	 * Set document_id
+	 * @param string documentId
+	 */
+	function setDocumentId($a_val)
+	{
+		$this->documentId = $a_val;
+	}
+
+	/**
 	 * Get online
 	 * @return boolean online
 	 */
 	function isOnline()
 	{
 		return $this->online;
+	}
+
+	/**
+	 * Get document_id
+	 * @return string documentId
+	 */
+	function getDocumentId()
+	{
+		return $this->documentId;
+	}
+
+	/** @return string */
+	function getDocumentStatus()
+	{
+		global $ilDB;
+
+		if ($this->getDocumentId() == null) {
+			return "idle";
+		}
+
+		$result = $ilDB->queryF(
+			"SELECT `status` FROM " . ilNolejPlugin::TABLE_DOC . " WHERE document_id = %s",
+			array("text"),
+			array($this->getDocumentId())
+		);
+
+		$row = $this->db->fetchAssoc($result);
+		return $row["status"];
 	}
 
 	public function hasWritePermission()
@@ -152,82 +192,97 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		// return $this->details = $result;
 	}
 
-	public function getFirstPage()
+	/**
+	 * @return int
+	 */
+	public function getFirstActivity()
 	{
-		global $ilDB;
+		// global $ilDB;
 
-		$result = $ilDB->queryF(
-			"SELECT id_page FROM " . ilNolejPlugin::TABLE_LP . " WHERE id_partner = %s AND id_course = %s ORDER BY id_page ASC LIMIT 1;",
-			array("text", "integer"),
-			array($this->id_partner, $this->id_course)
-		);
+		// $result = $ilDB->queryF(
+		// 	"SELECT id_page FROM " . ilNolejPlugin::TABLE_LP . " WHERE id_partner = %s AND id_course = %s ORDER BY id_page ASC LIMIT 1;",
+		// 	array("text", "integer"),
+		// 	array($this->id_partner, $this->id_course)
+		// );
 
-		if (!$result || $ilDB->numRows($result) != 1) {
-			return 0;
-		}
+		// if (!$result || $ilDB->numRows($result) != 1) {
+		// 	return 0;
+		// }
 
-		$rec = $ilDB->fetchAssoc($result);
-		return $rec["id_page"];
+		// $rec = $ilDB->fetchAssoc($result);
+		// return $rec["id_page"];
+
+		// TODO
+		return 0;
 	}
 
-	public function getLastVisitedPage()
+	/**
+	 * @return int
+	 */
+	public function getLastVisitedActivity()
 	{
-		global $ilDB, $ilUser;
+		// global $ilDB, $ilUser;
 
-		$result = $ilDB->queryF(
-			"SELECT id_page FROM " . ilNolejPlugin::TABLE_LP . " WHERE id_partner = %s AND id_course = %s AND user_id = %s ORDER BY last_change DESC, id_page ASC LIMIT 1;",
-			array("text", "integer", "integer"),
-			array($this->id_partner, $this->id_course, $ilUser->getId())
-		);
+		// $result = $ilDB->queryF(
+		// 	"SELECT id_page FROM " . ilNolejPlugin::TABLE_LP . " WHERE id_partner = %s AND id_course = %s AND user_id = %s ORDER BY last_change DESC, id_page ASC LIMIT 1;",
+		// 	array("text", "integer", "integer"),
+		// 	array($this->id_partner, $this->id_course, $ilUser->getId())
+		// );
 
-		if (!$result || $ilDB->numRows($result) != 1) {
-			return 0;
-		}
+		// if (!$result || $ilDB->numRows($result) != 1) {
+		// 	return 0;
+		// }
 
-		$rec = $ilDB->fetchAssoc($result);
-		return $rec["id_page"];
+		// $rec = $ilDB->fetchAssoc($result);
+		// return $rec["id_page"];
+
+		// TODO
+		return 0;
 	}
 
-	public function lookupPagesStatus()
-	{
-		global $ilDB, $ilUser;
+	// public function lookupPagesStatus()
+	// {
+	// 	global $ilDB, $ilUser;
 
-		if ($this->pagesStatus != null) {
-			return $this->pagesStatus;
-		}
+	// 	if ($this->pagesStatus != null) {
+	// 		return $this->pagesStatus;
+	// 	}
 
-		$result = $ilDB->queryF(
-			"SELECT id_page, status FROM " . ilNolejPlugin::TABLE_LP . " WHERE id_partner = %s AND id_course = %s AND user_id = %s;",
-			array("text", "integer", "integer"),
-			array($this->id_partner, $this->id_course, $ilUser->getId())
-		);
+	// 	$result = $ilDB->queryF(
+	// 		"SELECT id_page, status FROM " . ilNolejPlugin::TABLE_LP . " WHERE id_partner = %s AND id_course = %s AND user_id = %s;",
+	// 		array("text", "integer", "integer"),
+	// 		array($this->id_partner, $this->id_course, $ilUser->getId())
+	// 	);
 
-		if (!$result) {
-			return false;
-		}
+	// 	if (!$result) {
+	// 		return false;
+	// 	}
 
-		$pagesStatus = [];
-		while ($row = $ilDB->fetchAssoc($result)) {
-			$pagesStatus[$row["id_page"]] = $row["status"];
-		}
+	// 	$pagesStatus = [];
+	// 	while ($row = $ilDB->fetchAssoc($result)) {
+	// 		$pagesStatus[$row["id_page"]] = $row["status"];
+	// 	}
 
-		return $this->pagesStatus = $pagesStatus;
-	}
+	// 	return $this->pagesStatus = $pagesStatus;
+	// }
 
-	public function getPageStatus($idPage)
-	{
-		$pagesStatus = $this->lookupPagesStatus();
-		if (!$pagesStatus) {
-			return 0;
-		}
+	// public function getPageStatus($idPage)
+	// {
+	// 	$pagesStatus = $this->lookupPagesStatus();
+	// 	if (!$pagesStatus) {
+	// 		return 0;
+	// 	}
 
-		if (!isset($pagesStatus[$idPage])) {
-			return 0;
-		}
+	// 	if (!isset($pagesStatus[$idPage])) {
+	// 		return 0;
+	// 	}
 
-		return $pagesStatus[$idPage];
-	}
+	// 	return $pagesStatus[$idPage];
+	// }
 
+	/**
+	 * @param array $user_ids
+	 */
 	public function resetLPOfUsers($user_ids)
 	{
 		for ($i = 0, $n = count($user_ids); $i < $n; $i++) {
@@ -235,90 +290,38 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		}
 	}
 
+	/**
+	 * @param int $user_id
+	 */
 	public function resetLPOfUser($user_id)
 	{
-		global $ilDB, $ilUser;
+		// TODO
 
-		$details = $this->lookupDetails();
-		if (!$details->structure) {
-			return;
-		}
+		// global $ilDB, $ilUser;
 
-		$ilDB->manipulateF(
-			"DELETE FROM " . ilNolejPlugin::TABLE_LP . " WHERE id_partner = %s AND id_course = %s AND user_id = %s;",
-			array("text", "integer", "integer"),
-			array($this->id_partner, $this->id_course, $user_id)
-		);
+		// $ilDB->manipulateF(
+		// 	"DELETE FROM " . ilNolejPlugin::TABLE_LP . " WHERE activity_id = %s AND document_id = %s AND user_id = %s;",
+		// 	array("integer", "text", "integer"),
+		// 	array($this->activity_id, $this->getDocumentId(), $user_id)
+		// );
 
-		$now = strtotime("now");
-		for ($i = 0, $n = count($details->structure); $i < $n; $i++) {
-			for ($j = 0, $m = count($details->structure[$i]->pages); $j < $m; $j++) {
-				$id_page = $details->structure[$i]->pages[$j]->id_page;
-				$ilDB->manipulateF(
-					"INSERT INTO " . ilNolejPlugin::TABLE_LP . " (id_partner, id_course, id_page, user_id, status, last_change) VALUES (%s, %s, %s, %s, 0, %s);",
-					array("text", "integer", "integer", "integer", "integer"),
-					array($this->id_partner, $this->id_course, $id_page, $user_id, $now)
-				);
-			}
-		}
+		// $now = strtotime("now");
+		// for ($i = 0, $n = count($details->structure); $i < $n; $i++) {
+		// 	for ($j = 0, $m = count($details->structure[$i]->pages); $j < $m; $j++) {
+		// 		$id_page = $details->structure[$i]->pages[$j]->id_page;
+		// 		$ilDB->manipulateF(
+		// 			"INSERT INTO " . ilNolejPlugin::TABLE_LP . " (id_partner, id_course, id_page, user_id, status, last_change) VALUES (%s, %s, %s, %s, 0, %s);",
+		// 			array("text", "integer", "integer", "integer", "integer"),
+		// 			array($this->id_partner, $this->id_course, $id_page, $user_id, $now)
+		// 		);
+		// 	}
+		// }
 	}
 
 	public function resetLP()
 	{
 		global $ilUser;
 		self::resetLPOfUser($ilUser->getId());
-	}
-
-	public function getPurchasedCourses()
-	{
-		global $ilDB;
-
-		$result = $ilDB->query(
-			"SELECT o.id_partner, e.id_course"
-			. " FROM " . ilNolejPlugin::TABLE_ORDER . " o INNER JOIN " . ilNolejPlugin::TABLE_ORDER_ITEM . " e"
-			. " ON e.id_order = o.id_order"
-			. " WHERE o.status = 'completed'"
-			. " GROUP BY o.id_partner, e.id_course"
-			. " ORDER BY o.id_partner"
-		);
-
-		if ($ilDB->numRows($result) == 0) {
-			return [];
-		}
-
-		$raw = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
-		$partners = [];
-
-		for ($i = 0, $len = count($raw); $i < $len; $i++) {
-			if (!isset($partners[$raw[$i]["id_partner"]])) {
-				$partners[$raw[$i]["id_partner"]] = [];
-			}
-			$partners[$raw[$i]["id_partner"]][] = (int) $raw[$i]["id_course"];
-		}
-
-		$result = $this->config->api(array(
-			"cmd" => "modules",
-			"subset" => $partners
-		));
-
-		switch ($result) {
-			case "err_maintenance":
-			case "err_forbidden":
-				ilUtil::sendFailure($this->txt($result), true);
-				return [];
-		}
-
-		if (!isset($result->courses)) {
-			ilUtil::sendFailure($this->txt("err_response"), true);
-			return [];
-		}
-
-		$options = [];
-		for ($i = 0, $len = count($result->courses); $i < $len; $i++) {
-			$options[$result->courses[$i]->id_partner . "#:#" . $result->courses[$i]->id_course] = $result->courses[$i]->name;
-		}
-
-		return $options;
 	}
 
 	/**
@@ -350,6 +353,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 
 		// $lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
 		// return array_column($lp, "user_id");
+		return [];
 	}
 
 	/**
@@ -381,6 +385,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 
 		// $lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
 		// return array_column($lp, "user_id");
+		return [];
 	}
 
 	/**
@@ -389,14 +394,8 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	 */
 	public function getLPFailed()
 	{
-		// global $ilDB;
-
-		// if (!$this->isBound()) {
-		// 	return [];
-		// }
-
-		// // Nolej modules do not have a "fail" condition (yet)
-		// return [];
+		// Nolej modules do not have a "fail" condition (yet)
+		return [];
 	}
 
 	/**
@@ -429,6 +428,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 
 		// $lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
 		// return array_column($lp, "user_id");
+		return [];
 	}
 
 	/**
@@ -468,6 +468,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		// 	default:
 		// 		return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 		// }
+		return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 
 	/**
@@ -500,36 +501,39 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 
 		// $row = $ilDB->fetchAssoc($result);
 		// return (int) $row["percentage"] * 100;
+		return 0;
 	}
 
 	public function updateStatus($idPage)
 	{
-		global $ilUser, $ilDB;
+		// TODO
+		
+		// global $ilUser, $ilDB;
 
-		$user_id = $ilUser->getId();
-		$old_status = $this->getLPStatusForUser($user_id);
+		// $user_id = $ilUser->getId();
+		// $old_status = $this->getLPStatusForUser($user_id);
 
-		// Set page status as completed after the first visit (2 = completed)
-		$res = $ilDB->manipulateF(
-			"REPLACE INTO " . ilNolejPlugin::TABLE_LP
-			. " (user_id, id_partner, id_course, id_page, status, last_change)"
-			. " VALUES (%s, %s, %s, %s, 2, %s);",
-			array("integer", "text", "integer", "integer", "integer"),
-			array($user_id, $this->getIdPartner(), $this->getIdCourse(), $idPage, strtotime("now"))
-		);
+		// // Set page status as completed after the first visit (2 = completed)
+		// $res = $ilDB->manipulateF(
+		// 	"REPLACE INTO " . ilNolejPlugin::TABLE_LP
+		// 	. " (user_id, id_partner, id_course, id_page, status, last_change)"
+		// 	. " VALUES (%s, %s, %s, %s, 2, %s);",
+		// 	array("integer", "text", "integer", "integer", "integer"),
+		// 	array($user_id, $this->getIdPartner(), $this->getIdCourse(), $idPage, strtotime("now"))
+		// );
 
-		ilLearningProgress::_tracProgress(
-			$user_id,
-			$this->getId(),
-			$this->getRefId(),
-			ilNolejPlugin::PLUGIN_ID
-		);
+		// ilLearningProgress::_tracProgress(
+		// 	$user_id,
+		// 	$this->getId(),
+		// 	$this->getRefId(),
+		// 	ilNolejPlugin::PLUGIN_ID
+		// );
 
-		require_once "Services/Tracking/classes/class.ilChangeEvent.php";
-		ilChangeEvent::_recordReadEvent($this->getType(), $this->getRefId(), $this->getId(), $user_id);
+		// require_once "Services/Tracking/classes/class.ilChangeEvent.php";
+		// ilChangeEvent::_recordReadEvent($this->getType(), $this->getRefId(), $this->getId(), $user_id);
 
-		$new_status = $this->getLPStatusForUser($user_id);
-		$percentage = $this->getPercentageForUser($user_id);
-		ilLPStatus::writeStatus($this->getId(), $user_id, $new_status, $percentage, $a_force_per = false, $old_status);
+		// $new_status = $this->getLPStatusForUser($user_id);
+		// $percentage = $this->getPercentageForUser($user_id);
+		// ilLPStatus::writeStatus($this->getId(), $user_id, $new_status, $percentage, $a_force_per = false, $old_status);
 	}
 }

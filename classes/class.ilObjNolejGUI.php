@@ -37,8 +37,14 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 	const PROP_TITLE = "title";
 	const PROP_DESCRIPTION = "description";
+	const PROP_MEDIA_TYPE = "media_type";
+	const PROP_M_WEB = "web";
+	const PROP_M_AUDIO = "audio";
+	const PROP_M_VIDEO = "video";
+	const PROP_M_DOC = "document";
+	const PROP_M_TEXT = "freetext";
 	const PROP_ONLINE = "online";
-	const PROP_COURSE = "course";
+	const PROP_STATUS = "status";
 
 	/** @var ilCtrl */
 	protected $ctrl;
@@ -160,7 +166,11 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 		// tab for the "show content" command
 		if ($this->object->hasReadPermission()) {
-			$this->tabs->addTab(self::TAB_CONTENT, $this->txt("tab_" . self::TAB_CONTENT), $ilCtrl->getLinkTarget($this, self::CMD_CONTENT_SHOW));
+			$this->tabs->addTab(
+				self::TAB_CONTENT,
+				$this->txt("tab_" . self::TAB_CONTENT),
+				$ilCtrl->getLinkTarget($this, self::CMD_CONTENT_SHOW)
+			);
 		}
 
 		// standard info screen tab
@@ -168,7 +178,11 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 		// "properties" and "manage licenses" tabs
 		if ($this->object->hasWritePermission()) {
-			$this->tabs->addTab(self::TAB_PROPERTIES, $this->txt("tab_" . self::TAB_PROPERTIES), $ilCtrl->getLinkTarget($this, self::CMD_PROPERTIES_EDIT));
+			$this->tabs->addTab(
+				self::TAB_PROPERTIES,
+				$this->txt("tab_" . self::TAB_PROPERTIES),
+				$ilCtrl->getLinkTarget($this, self::CMD_PROPERTIES_EDIT)
+			);
 
 			// if ($this->object->isBound()) {
 			// 	$this->tabs->addTab(self::TAB_LICENSES, $this->txt("tab_" . self::TAB_LICENSES), $ilCtrl->getLinkTarget($this, self::CMD_LICENSE_EDIT));
@@ -200,29 +214,58 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
-		$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
-		$title->setRequired(true);
-		$form->addItem($title);
+		// $description = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_DESCRIPTION), self::PROP_DESCRIPTION);
+		// $form->addItem($description);
 
-		$description = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_DESCRIPTION), self::PROP_DESCRIPTION);
-		$form->addItem($description);
+		// $online = new ilCheckboxInputGUI($this->plugin->txt("prop_" . self::PROP_ONLINE), self::PROP_ONLINE);
+		// $form->addItem($online);
 
-		$online = new ilCheckboxInputGUI($this->plugin->txt("prop_" . self::PROP_ONLINE), self::PROP_ONLINE);
-		$form->addItem($online);
+		$status = $this->object->getDocumentStatus();
+		switch ($status) {
+			case "idle":
+				$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
+				$title->setRequired(true);
+				$form->addItem($title);
 
-		$course = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_COURSE), self::PROP_COURSE);
+				$mediaType = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_MEDIA_TYPE), self::PROP_MEDIA_TYPE);
+				$mediaType->setRequired(true);
+				$form->addItem($mediaType);
+				// Available: web, audio, video, document, freetext.
+				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_WEB), self::PROP_M_WEB);
+				$opt->setInfo($this->plugin->txt("blog_nav_mode_month_list_info"));
+				$mediaType->addOption($opt);
 
-		$options = $this->object->getPurchasedCourses();
-
-		$course->setRequired(true);
-		$course->setOptions($options);
-
-		$course->setInfo($this->plugin->txt("prop_" . self::PROP_COURSE . "_info"));
-		$form->addItem($course);
-
-		if (count($options) == 0) {
-			ilUtil::sendQuestion($this->plugin->txt("err_no_purchased_courses"), true);
+				// $mon_num = new ilNumberInputGUI($this->plugin->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
+				// $mon_num->setInfo($this->plugin->txt("blog_nav_mode_month_list_num_month_info"));
+				// $mon_num->setSize(3);
+				// $mon_num->setMinValue(1);
+				// $opt->addSubItem($mon_num);
+				
+				break;
+			
+			case "transcription":
+			case "transcription_ready":
+			case "analysis":
+			case "analysis_ready":
+				// TODO
+				break;
+			
+			default:
+				// TODO
 		}
+		// $course = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_STATUS), self::PROP_STATUS);
+
+		// $options = $this->object->getPurchasedCourses();
+
+		// $course->setRequired(true);
+		// $course->setOptions($options);
+
+		// $course->setInfo($this->plugin->txt("prop_" . self::PROP_STATUS . "_info"));
+		// $form->addItem($course);
+
+		// if (count($options) == 0) {
+		// 	ilUtil::sendQuestion($this->plugin->txt("err_no_purchased_courses"), true);
+		// }
 
 		$form->setFormAction($this->ctrl->getFormAction($this, self::CMD_PROPERTIES_SAVE));
 		$form->addCommandButton(self::CMD_PROPERTIES_SAVE, $this->plugin->txt("cmd_update"));
@@ -529,7 +572,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		$object->setTitle($form->getInput(self::PROP_TITLE));
 		$object->setDescription($form->getInput(self::PROP_DESCRIPTION));
 		$object->setOnline($form->getInput(self::PROP_ONLINE));
-		$object->bind($form->getInput(self::PROP_COURSE));
+		// $object->bind($form->getInput(self::PROP_STATUS));
 	}
 
 	public function getIdPartner() : string
