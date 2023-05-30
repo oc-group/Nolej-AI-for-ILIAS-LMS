@@ -6,18 +6,18 @@
 
 class ilNolejConfig
 {
-
-	protected $lng;
-
+	/** @var string|null */
 	private $registeredApiKey = null;
 
 	private $filters = null;
 
+	/** @var ilNolejGUI|ilNolejConfigGUI */
 	private $gui_obj = null;
 
 	/** @var ilNolejPlugin */
 	protected $plugin;
 
+	/** @param ilNolejGUI|ilNolejConfigGUI $gui_obj */
 	public function __construct($gui_obj = null)
 	{
 		$this->gui_obj = $gui_obj;
@@ -45,11 +45,20 @@ class ilNolejConfig
 		return $this->registeredApiKey;
 	}
 
+	/**
+	 * @param string $str
+	 * @return bool|int
+	 */
 	public function checkInputString($str)
 	{
 		return preg_match('/^[a-zA-Z0-9\-]{1,100}$/', $str);
 	}
 
+	/**
+	 * @param string $id
+	 * @param string|null $default
+	 * @return string|null
+	 */
 	public function getParameter($id, $default = null)
 	{
 		if (isset($_GET[$id]) && $this->checkInputString($_GET[$id])) {
@@ -58,6 +67,11 @@ class ilNolejConfig
 		return $default;
 	}
 
+	/**
+	 * @param string $id
+	 * @param int|null $default
+	 * @return int|null
+	 */
 	public function getParameterInteger($id, $default = null)
 	{
 		$par = $this->getParameter($id, false);
@@ -67,6 +81,11 @@ class ilNolejConfig
 		return $default;
 	}
 
+	/**
+	 * @param string $id
+	 * @param int|null $default
+	 * @return int|null
+	 */
 	public function getParameterPositive($id, $default = null)
 	{
 		$par = $this->getParameterInteger($id, false);
@@ -74,27 +93,6 @@ class ilNolejConfig
 			return $par;
 		}
 		return $default;
-	}
-
-	public function getOffset($default = 0)
-	{
-		return $this->getParameterPositive("offset", $default);
-	}
-
-	public function getRows($default = 20)
-	{
-		return $this->getParameterPositive("rows", $default);
-	}
-
-	public function getPermalink($idPartner, $idCourse)
-	{
-		return sprintf(
-			"%s/goto.php?target=%s_course_%s_%s",
-			ILIAS_HTTP_PATH,
-			ilNolejPlugin::PLUGIN_ID,
-			$idPartner,
-			$idCourse
-		);
 	}
 
 	public function fillHeader(&$tpl, $link, $offset, $rows, $total)

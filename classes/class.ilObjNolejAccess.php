@@ -27,7 +27,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
 	 * @param int $a_user_id user id (default is current user)
 	 * @return bool true, if everything is ok
 	 */
-	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = 0) : bool
+	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = 0)
 	{
 		global $ilUser, $ilAccess;
 
@@ -53,7 +53,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
 	 * @param $a_id int
 	 * @return bool
 	 */
-	static function checkOnline($a_id) : bool
+	static function checkOnline($a_id)
 	{
 		global $ilDB;
 
@@ -68,8 +68,9 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
 
 	/**
 	 * Returns an array with valid operators for the specific object type
+	 * @return array
 	 */
-	public static function getConditionOperators() : array
+	public static function getConditionOperators()
 	{
 		include_once './Services/Conditions/classes/class.ilConditionHandler.php'; //bugfix mantis 24891
 		return array(
@@ -86,7 +87,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
 	 * @param type $a_usr_id
 	 * @return bool
 	 */
-	public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id) : bool
+	public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id)
 	{
 		$ref_id = array_shift(ilObject::_getAllReferences($a_trigger_obj_id));
 		$object = new ilObjNolej($ref_id);
@@ -103,7 +104,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
 	 * Goto redirection
 	 * @param string $a_target
 	 */
-	public static function _checkGoto($a_target) : bool
+	public static function _checkGoto($a_target)
 	{
 		include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
 		$target = substr($a_target, strlen(ilNolejPlugin::PLUGIN_ID) + 1); // Remove plugin ID

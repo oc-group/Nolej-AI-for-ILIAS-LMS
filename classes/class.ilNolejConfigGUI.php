@@ -18,14 +18,23 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
 	const TAB_CONFIGURE = "configuration";
 
+	/** @var ilCtrl */
 	protected $ctrl;
+	
+	/** @var string */
 	protected $cmd;
+	
+	/** @var ilTabsGUI */
 	protected $tabs;
+
+	/** @var ilDBInterface */
 	protected $db;
+
+	/** @var ilLanguage */
 	protected $lng;
 
+	/** @var ilNolejPlugin */
 	protected $plugin;
-	protected $config;
 
 	public function __construct()
 	{
@@ -36,7 +45,6 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$this->lng = $DIC->language();
 
 		$this->plugin = ilNolejPlugin::getInstance();
-		$this->config = new ilNolejConfig($this);
 
 		$tpl->setTitleIcon(ilNolejPlugin::PLUGIN_DIR . "/templates/images/icon_xnlj.svg");
 		$tpl->setTitle($this->plugin->txt("plugin_title"), false);
@@ -100,9 +108,9 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	/**
 	 * Init configuration form.
 	 *
-	 * @return object form object
+	 * @return ilPropertyFormGUI form object
 	 */
-	public function initConfigureForm() : ilPropertyFormGUI
+	public function initConfigureForm()
 	{
 		$this->initTabs(self::TAB_CONFIGURE);
 
@@ -127,9 +135,9 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	}
 
 	/**
-	 * register: update values in DB
+	 * Save: update values in DB
 	 */
-	public function save() : void
+	public function save()
 	{
 		global $tpl;
 
@@ -148,12 +156,11 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	}
 
 	/**
-	 * Registration screen
+	 * Configuration screen
 	 */
 	public function configure(
 		$a_mob_id = null
-	) : void
-	{
+	) {
 		global $DIC, $tpl;
 
 		$form = $this->initConfigureForm();
@@ -183,13 +190,13 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
         $tpl->setContent($toolbar->getHTML() . $form->getHTML());
 	}
 
-	public function insert(): void
+	public function insert()
 	{
 		$mediaselectorgui = new ilNolejMediaSelectorGUI($this);
 		$this->ctrl->forwardCommand($mediaselectorgui);
 	}
 
-	public function tic() : void
+	public function tic()
 	{
 		global $DIC;
 
@@ -234,7 +241,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$this->configure();
 	}
 
-	public function selectObjectReference() : void
+	public function selectObjectReference()
 	{
 		if (isset($_POST["id"])) {
 			$id = $_POST["id"];

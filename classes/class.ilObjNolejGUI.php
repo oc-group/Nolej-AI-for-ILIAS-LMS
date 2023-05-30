@@ -58,7 +58,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	/**
 	 * Initialisation
 	 */
-	protected function afterConstructor() : void
+	protected function afterConstructor()
 	{
 		global $ilCtrl, $ilTabs, $tpl;
 		$this->ctrl = $ilCtrl;
@@ -68,16 +68,18 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 	/**
 	 * Get type.
+	 * @return string
 	 */
-	final function getType() : string
+	final function getType()
 	{
 		return ilNolejPlugin::PLUGIN_ID;
 	}
 
 	/**
 	 * Handles all commmands of this class, centralizes permission checks
+	 * @param string $cmd
 	 */
-	function performCommand($cmd) : void
+	function performCommand($cmd)
 	{
 		global $DIC;
 
@@ -118,21 +120,23 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 	/**
 	 * After object has been created -> jump to this command
+	 * @return string
 	 */
-	function getAfterCreationCmd() : string
+	function getAfterCreationCmd()
 	{
 		return self::CMD_PROPERTIES_EDIT;
 	}
 
 	/**
 	 * Get standard command
+	 * @return string
 	 */
-	function getStandardCmd() : string
+	function getStandardCmd()
 	{
 		return self::CMD_CONTENT_SHOW;
 	}
 
-	public function afterSave(ilObject $a_new_object) : void
+	public function afterSave(ilObject $a_new_object)
 	{
 		$parent_data = $this->tree->getParentNodeData($a_new_object->getRefId());
 		$a_new_object->setPermissions($parent_data["ref_id"]);
@@ -142,7 +146,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	/**
 	 * @return bool
 	 */
-	protected function supportsExport() : bool
+	protected function supportsExport()
 	{
 		// Disable import / export for this type of object
 		return false;
@@ -151,7 +155,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	/**
 	 * @return bool returns true iff this plugin object supports cloning
 	 */
-	protected function supportsCloning() : bool
+	protected function supportsCloning()
 	{
 		// Disable cloning for this type of object
 		return false;
@@ -160,7 +164,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	/**
 	 * Set tabs
 	 */
-	function setTabs() : void
+	function setTabs()
 	{
 		global $ilCtrl;
 
@@ -197,7 +201,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	/**
 	 * Edit Properties. This commands uses the form class to display an input form.
 	 */
-	protected function editProperties() : void
+	protected function editProperties()
 	{
 		$form = $this->initPropertiesForm();
 		$this->addValuesToForm($form);
@@ -525,7 +529,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	/**
 	 * @return string
 	 */
-	public function buildIcon($id, $alt = "") : string
+	public function buildIcon($id, $alt = "")
 	{
 		return sprintf(
 			'<img border="0" align="middle" src="%s" alt="%s" /> ',
@@ -538,7 +542,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 * Add items to info screen
 	 * @param ilInfoScreenGUI $info
 	 */
-	public function addInfoItems($info) : void
+	public function addInfoItems($info)
 	{
 		global $tpl;
 
@@ -567,7 +571,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 * @param $object ilObjNolej
 	 * @param $form ilPropertyFormGUI
 	 */
-	private function fillObject($object, $form) : void
+	private function fillObject($object, $form)
 	{
 		$object->setTitle($form->getInput(self::PROP_TITLE));
 		$object->setDescription($form->getInput(self::PROP_DESCRIPTION));
@@ -575,20 +579,20 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// $object->bind($form->getInput(self::PROP_STATUS));
 	}
 
-	public function getIdPartner() : string
-	{
-		return $this->object->getIdPartner();
-	}
+	// public function getIdPartner()
+	// {
+	// 	return $this->object->getIdPartner();
+	// }
 
-	public function getIdCourse() : int
-	{
-		return $this->object->getIdCourse();
-	}
+	// public function getIdCourse()
+	// {
+	// 	return $this->object->getIdCourse();
+	// }
 
 	/**
 	 * Apply filter
 	 */
-	public function applyFilter() : void
+	public function applyFilter()
 	{
 		// $table = new ilObjNolejLicenseTableGUI($this, self::CMD_LICENSE_EDIT);
 		// $table->resetOffset();
@@ -599,7 +603,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	/**
 	 * Reset filter
 	 */
-	public function resetFilter() : void
+	public function resetFilter()
 	{
 		// $table = new ilObjNolejLicenseTableGUI($this, self::CMD_LICENSE_EDIT);
 		// $table->resetOffset();
@@ -607,7 +611,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// $this->editLicenses();
 	}
 
-	public function addUserAutoComplete() : void
+	public function addUserAutoComplete()
 	{
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
@@ -632,7 +636,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	/**
 	 * @param int[] $user_ids
 	 */
-	public function filterUserIdsByRbacOrPositionOfCurrentUser(array $user_ids)
+	public function filterUserIdsByRbacOrPositionOfCurrentUser($user_ids)
 	{
 		global $DIC;
 		$access = $DIC->access();
@@ -648,7 +652,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	/**
 	 * We need this method if we can't access the tabs otherwise...
 	 */
-	private function activateTab() : void
+	private function activateTab()
 	{
 		$next_class = $this->ctrl->getCmdClass();
 
@@ -665,7 +669,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 * Goto redirection
 	 * @param array $a_target
 	 */
-	public static function _goto($a_target) : void
+	public static function _goto($a_target)
 	{
 		global $DIC;
 		$ilCtrl = $DIC->ctrl();

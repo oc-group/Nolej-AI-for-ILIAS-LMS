@@ -23,13 +23,16 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	const TABLE_DATA = "rep_robj_xnlj_data";
 	const TABLE_LP = "rep_robj_xnlj_lp";
 
-	/**
-	 * @var self|null
-	 */
+	/** @var self|null */
 	protected static $instance = null;
+
+	/** @var bool */
 	protected static $menuItem = false; // Turn true when the menu item has been created
 
+	/** @var array */
 	static $config = [];
+
+	/** @var bool|null */
 	static $isAdmin = null;
 
 	/** @var ilLogger */
@@ -47,7 +50,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	/**
 	 * @return self
 	 */
-	public static function getInstance() : self
+	public static function getInstance()
 	{
 		if (self::$instance === null) {
 			self::$instance = new self();
@@ -56,7 +59,8 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		return self::$instance;
 	}
 
-	protected function is6() : bool
+	/** @return bool */
+	protected function is6()
 	{
 		return (
 			version_compare(ILIAS_VERSION_NUMERIC, "6.0") >= 0 &&
@@ -64,6 +68,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		);
 	}
 
+	/** @return bool */
 	protected function is7() : bool
 	{
 		return (
@@ -85,8 +90,9 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 
 	/**
 	 * Must correspond to the plugin subdirectory
+	 * @return string
 	 */
-	public function getPluginName() : string
+	public function getPluginName()
 	{
 		// if (!$this->isActiveManual()) {
 		// 	return self::PLUGIN_NAME;
@@ -137,16 +143,18 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	// 	}
 	// }
 
-	/*
+	/**
 	 * Returns a list of all repository object types which can be a parent of this type.
+	 * @return array
 	 */
-	public function getParentTypes() : array
+	public function getParentTypes()
 	{
 		$par_types = array("root", "cat", "crs", "grp", "fold", "lso", "prg");
 		return $par_types;
 	}
 
-	public function isAdmin() : bool
+	/** @return bool */
+	public function isAdmin()
 	{
 		global $DIC, $ilUser;
 
@@ -173,11 +181,11 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		return self::$isAdmin = false;
 	}
 
-	protected function afterActivation() : void
+	protected function afterActivation()
 	{
 	}
 
-	protected function uninstallCustom() : void
+	protected function uninstallCustom()
 	{
 		$tables = [
 			self::TABLE_CONFIG,
@@ -196,13 +204,15 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 
 	/**
 	 * @inheritdoc
+	 * @return bool
 	 */
-	public function allowCopy() : bool
+	public function allowCopy()
 	{
 		return false;
 	}
 
-	public function currentUserHasRole(): bool
+	/** @return bool */
+	public function currentUserHasRole()
 	{
 		global $ilUser;
 
@@ -219,13 +229,17 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		return false;
 	}
 
-	public function setPermanentLink($code) : void
+	/**
+	 * @param mixed $code
+	 */
+	public function setPermanentLink($code)
 	{
 		global $tpl;
 		$tpl->setPermanentLink(self::PLUGIN_ID, $code);
 	}
 
-	public function getConfigurationLink() : string
+	/** @return string */
+	public function getConfigurationLink()
 	{
 		global $DIC;
 		include_once(self::PLUGIN_DIR . "/classes/class.ilNolejConfigGUI.php");
@@ -242,7 +256,12 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		);
 	}
 
-	public function getConfig($keyword, $defaultValue = "") : string
+	/**
+	 * @param string $keyword
+	 * @param string $defaultValue
+	 * @return string
+	 */
+	public function getConfig($keyword, $defaultValue = "")
 	{
 		if (isset(self::$config[$keyword])) {
 			return self::$config[$keyword];
@@ -262,7 +281,11 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		return $record["value"];
 	}
 
-	public function saveConfig($keyword, $value) : void
+	/**
+	 * @param string $keyword
+	 * @param string $defaultValue
+	 */
+	public function saveConfig($keyword, $value)
 	{
 		$this->db->manipulateF(
 			"REPLACE INTO " . self::TABLE_CONFIG . " (keyword, value) VALUES (%s, %s);",

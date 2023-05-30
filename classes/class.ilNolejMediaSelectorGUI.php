@@ -28,36 +28,43 @@ class ilNolejMediaSelectorGUI
 	
 	/** @var ilCtrl */
 	protected $ctrl;
-	
-	protected string $cmd;
-	protected string $subCmd;
-	protected string $pool_view = "";
-	
+
+	/** @var string */
+	protected $cmd;
+
+	/** @var string */
+	protected $subCmd;
+
+	/** @var string */
+	protected $pool_view = "";
+
 	/** @var ilTabsGUI */
 	protected $tabs;
-	
+
 	/** @var ilDBInterface */
 	protected $db;
-	
+
 	/** @var ilAccessHandler */
 	protected $access;
-	
+
 	/** @var \ILIAS\DI\UIServices */
 	protected $ui;
-	
+
 	/** @var ilToolbarGUI */
 	protected $toolbar;
-	
+
 	/** @var ilLanguage */
 	protected $lng;
 
 	/** @var ilNolejPlugin */
 	protected $plugin;
 
+	/**
+	 * @param ilNolejGUI|ilNolejConfigGUI $guiObj
+	 */
 	public function __construct(
 		$guiObj
-	)
-	{
+	) {
 		global $DIC;
 		$this->guiObj = $guiObj;
 		$this->ctrl = $DIC->ctrl();

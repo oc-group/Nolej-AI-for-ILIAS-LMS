@@ -17,23 +17,25 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
 	/**
 	 * Init type
 	 */
-	function initType() : void
+	function initType()
 	{
 		$this->setType(ilNolejPlugin::PLUGIN_ID);
 	}
 
 	/**
 	 * Get name of gui class handling the commands
+	 * @return string
 	 */
-	function getGuiClass() : string
+	function getGuiClass()
 	{
 		return "ilObjNolejGUI";
 	}
 
 	/**
 	 * Get commands
+	 * @return array
 	 */
-	function initCommands() : array
+	function initCommands()
 	{
 		// Cannot override init() method; adding here CSS to display the icon.
 		global $tpl;
@@ -62,7 +64,7 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
 	 * "property" (string) => property name
 	 * "value" (string) => property value
 	 */
-	function getProperties() : array
+	function getProperties()
 	{
 		global $lng, $ilUser, $ilAccess;
 

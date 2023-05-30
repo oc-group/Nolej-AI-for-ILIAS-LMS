@@ -28,13 +28,20 @@ class ilNolejGUI
 	// const TAB_PURCHASED = "purchased";
 	// const TAB_PARTNERS = "partners";
 
+	/** @var ilCtrl */
 	protected $ctrl;
+
+	/** @var ilTabsGUI */
 	protected $tabs;
+
+	/** @var ilDBInterface */
 	protected $db;
+
+	/** @var ilLanguage */
 	protected $lng;
 
+	/** @var ilNolejPlugin */
 	protected $plugin;
-	protected $config;
 
 	public function __construct()
 	{
@@ -45,7 +52,6 @@ class ilNolejGUI
 		$this->lng = $DIC->language();
 
 		$this->plugin = ilNolejPlugin::getInstance();
-		$this->config = new ilNolejConfig($this);
 	}
 
 	/**
@@ -100,11 +106,6 @@ class ilNolejGUI
 		$tpl->printToStdout();
 
 		return true;
-	}
-
-	public function _config()
-	{
-		return $this->config;
 	}
 
 	/**
@@ -594,7 +595,7 @@ class ilNolejGUI
 	/**
 	 * @param int[] $user_ids
 	 */
-	public function filterUserIdsByRbacOrPositionOfCurrentUser(array $user_ids)
+	public function filterUserIdsByRbacOrPositionOfCurrentUser($user_ids = [])
 	{
 		// global $DIC;
 		// $access = $DIC->access();
