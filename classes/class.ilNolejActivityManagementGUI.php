@@ -229,8 +229,8 @@ class ilNolejActivityManagementGUI
 		// 	ilUtil::sendQuestion($this->plugin->txt("err_no_purchased_courses"), true);
 		// }
 
-		$form->setFormAction($this->ctrl->getFormAction($this, self::CMD_PROPERTIES_SAVE));
-		$form->addCommandButton(self::CMD_PROPERTIES_SAVE, $this->plugin->txt("cmd_update"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->addCommandButton(self::CMD_CREATE, $this->plugin->txt("cmd_create"));
 
 		return $form;
 	}
