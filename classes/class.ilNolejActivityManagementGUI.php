@@ -157,6 +157,9 @@ class ilNolejActivityManagementGUI
 		$tpl->setDescription($this->plugin->txt("plugin_description"));
 	}
 
+	/**
+	 * @return ilPropertyFormGUI
+	 */
 	public function initCreationForm()
 	{
 		$form = new ilPropertyFormGUI();
@@ -237,7 +240,8 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 		$this->initSubTabs(self::SUBTAB_CREATION);
 
-		// TODO
+		$form = $this->initCreationForm();
+		$tpl->setContent($form->getHTML());
 	}
 
 	public function create()
