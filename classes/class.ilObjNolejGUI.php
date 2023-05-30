@@ -269,9 +269,13 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 	protected function showContent() : void
 	{
-		// global $DIC, $ilCtrl, $ilUser;
+		$this->tabs->activateTab(self::TAB_CONTENT);
 
-		// $this->tabs->activateTab(self::TAB_CONTENT);
+		if ($this->object->status != "completed") {
+			$activityManagement = new ilNolejActivityManagementGUI($this);
+			$this->ctrl->forwardCommand($activityManagement);
+			return;
+		}
 
 		// if (!$this->object->isBound()) {
 		// 	// This module is not available yet
@@ -325,166 +329,6 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// 	ilLMGSToolProvider::SHOW_TOC_TOOL,
 		// 	true
 		// );
-	}
-
-	public function renderContentAndStructure($url, $currentIdPage)
-	{
-		$tpl = new ilTemplate("tpl.content.html", true, true, ilNolejPlugin::PLUGIN_DIR);
-		$this->tpl->addCss("Services/COPage/css/content.css");
-		$this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
-
-		$course = $this->object->lookupDetails();
-		if (!$course) {
-			$tpl->setVariable("URL", $url);
-			return $tpl->get();
-		}
-
-		$tpl->setVariable("REF_ID", $this->object->getRefId());
-
-		for ($i = 0, $n = count($course->structure); $i < $n; $i++) {
-			// Sections
-			$tpl->setCurrentBlock("list_section");
-			$tpl->setVariable("STRUCTURE_ID", $i);
-			$tpl->setVariable("SECTION_HREF", $this->ctrl->getLinkTargetByClass(
-				self::class,
-				self::CMD_CONTENT_SHOW
-			) . "&id_page=" . $course->structure[$i]->id_page);
-			$tpl->setVariable("SECTION_CONTENT", ($i + 1) . " " . $course->structure[$i]->title);
-
-			$completed = 0;
-			for ($j = 0, $m = count($course->structure[$i]->pages); $j < $m; $j++) {
-				// Pages
-				$idPage = $course->structure[$i]->pages[$j]->id_page;
-				$title = $course->structure[$i]->pages[$j]->title;
-				$tpl->setCurrentBlock("list_page");
-				$tpl->setVariable("STRUCTURE_PAGE_ID", $i . "_" . $j);
-				$tpl->setVariable("HREF", $this->ctrl->getLinkTargetByClass(
-					self::class,
-					self::CMD_CONTENT_SHOW
-				) . "&id_page=" . $idPage);
-
-				$status = $this->object->getPageStatus($idPage);
-
-				if ($idPage == $currentIdPage) {
-					$tpl->setVariable("ICON", $this->buildIcon("scorm/running"));
-					$tpl->touchBlock("hl");
-					$tpl->setCurrentBlock("list_page");
-
-					// Breadcrumb
-					$this->locator->addItem(
-						$title,
-						$this->ctrl->getLinkTargetByClass(
-							self::class,
-							self::CMD_CONTENT_SHOW
-						) . "&id_page=" . $idPage,
-						"",
-						$this->object->getRefId(),
-						""
-					);
-
-					if ($status == 2) {
-						$completed++;
-					}
-
-					// Page left
-					$leftPage = null;
-					if ($j > 0) {
-						$leftPage = [$i, $j - 1];
-					} else if ($i > 0) {
-						$leftPage = [$i - 1, count($course->structure[$i]->pages) - 1];
-					}
-					if ($leftPage) {
-						$leftHref = $this->ctrl->getLinkTargetByClass(
-							self::class,
-							self::CMD_CONTENT_SHOW
-						) . "&id_page=" . $course->structure[$leftPage[0]]->pages[$leftPage[1]]->id_page;
-						$leftTitle = sprintf(
-							"%d %s (%d/%d)",
-							$leftPage[0] + 1,
-							$course->structure[$leftPage[0]]->pages[$leftPage[1]]->title,
-							$leftPage[1] + 1,
-							count($course->structure[$leftPage[0]]->pages)
-						);
-
-						$tpl->setCurrentBlock("left_top_page");
-						$tpl->setVariable("LEFT_HREF", $leftHref);
-						$tpl->setVariable("LEFT_TITLE", $leftTitle);
-						$tpl->parseCurrentBlock();
-
-						$tpl->setCurrentBlock("left_bottom_page");
-						$tpl->setVariable("LEFT_HREF", $leftHref);
-						$tpl->setVariable("LEFT_TITLE", $leftTitle);
-						$tpl->parseCurrentBlock();
-					}
-
-					// Page right
-					$rightPage = null;
-					if ($j < $m - 1) {
-						$rightPage = [$i, $j + 1];
-					} else if ($i < $n - 2) {
-						$rightPage = [$i + 2, 0];
-					}
-					if ($rightPage) {
-						$rightHref = $this->ctrl->getLinkTargetByClass(
-							self::class,
-							self::CMD_CONTENT_SHOW
-						) . "&id_page=" . $course->structure[$rightPage[0]]->pages[$rightPage[1]]->id_page;
-						$rightTitle = sprintf(
-							"%d %s (%d/%d)",
-							$rightPage[0] + 1,
-							$course->structure[$rightPage[0]]->pages[$rightPage[1]]->title,
-							$rightPage[1] + 1,
-							count($course->structure[$rightPage[0]]->pages)
-						);
-
-						$tpl->setCurrentBlock("right_top_page");
-						$tpl->setVariable("RIGHT_HREF", $rightHref);
-						$tpl->setVariable("RIGHT_TITLE", $rightTitle);
-						$tpl->parseCurrentBlock();
-
-						$tpl->setCurrentBlock("right_bottom_page");
-						$tpl->setVariable("RIGHT_HREF", $rightHref);
-						$tpl->setVariable("RIGHT_TITLE", $rightTitle);
-						$tpl->parseCurrentBlock();
-					}
-
-					$tpl->setCurrentBlock("list_page");
-				} else {
-					switch ($status) {
-						case 1:
-							$tpl->setVariable("ICON", $this->buildIcon("scorm/incomplete", "incomplete"));
-							break;
-
-						case 2:
-							$tpl->setVariable("ICON", $this->buildIcon("scorm/completed", "completed"));
-							$completed++;
-							break;
-
-						case 0:
-						default:
-							$tpl->setVariable("ICON", $this->buildIcon("scorm/not_attempted", "not_attempted"));
-							break;
-					}
-				}
-
-				$tpl->setVariable("CONTENT", $title);
-
-				if ($completed == $i) {
-					$tpl->setVariable("SECTION_ICON", $this->buildIcon("scorm/completed", "completed"));
-				} else if ($completed == 0) {
-					$tpl->setVariable("SECTION_ICON", $this->buildIcon("scorm/not_attempted", "not_attempted"));
-				} else {
-					$tpl->setVariable("SECTION_ICON", $this->buildIcon("scorm/incomplete", "incomplete"));
-				}
-				$tpl->parseCurrentBlock();
-			}
-
-			$tpl->setCurrentBlock("list_section");
-			$tpl->parseCurrentBlock();
-		}
-
-		$tpl->setVariable("URL", $url);
-		return $tpl->get();
 	}
 
 	/**
