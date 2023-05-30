@@ -130,7 +130,7 @@ class ilNolejActivityManagementGUI
 			case self::SUBTAB_ANALYSIS:
 			case self::SUBTAB_REVIEW:
 			case self::SUBTAB_ACTIVITIES:
-				$this->tabs->activateTab($active_subtab);
+				$this->tabs->activateSubTab($active_subtab);
 				$tpl->setTitle(
 					sprintf(
 						"%s: %s",
@@ -143,7 +143,7 @@ class ilNolejActivityManagementGUI
 
 			case self::SUBTAB_CREATION:
 			default:
-				$this->tabs->activateTab(self::SUBTAB_CREATION);
+				$this->tabs->activateSubTab(self::SUBTAB_CREATION);
 				$tpl->setTitle(
 					sprintf(
 						"%s: %s",
