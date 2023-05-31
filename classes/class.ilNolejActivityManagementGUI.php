@@ -171,7 +171,7 @@ class ilNolejActivityManagementGUI
 	{
 		global $ilUser, $tpl;
 
-		$tpl->addJavaScript('./node_modules/tinymce/tinymce.js');
+		// $tpl->addJavaScript('./node_modules/tinymce/tinymce.js');
 
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
@@ -188,79 +188,79 @@ class ilNolejActivityManagementGUI
 				$form->addItem($mediaType);
 				// Available: web, audio, video, document, freetext.
 
-				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_WEB), self::PROP_M_WEB);
-				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_WEB . "_info"));
-				$mediaType->addOption($opt);
+				$mediaWeb = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_WEB), self::PROP_M_WEB);
+				$mediaWeb->setInfo($this->plugin->txt("prop_" . self::PROP_M_WEB . "_info"));
+				$mediaType->addOption($mediaWeb);
 
 				$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_M_URL);
 				$url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
 				$url->setRequired(true);
-				$opt->addSubItem($url);
+				$mediaWeb->addSubItem($url);
 
-				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_MOB), self::PROP_M_MOB);
-				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
-				$mediaType->addOption($opt);
+				$mediaMob = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_MOB), self::PROP_M_MOB);
+				$mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
+				$mediaType->addOption($mediaMob);
 
 				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_MOB), self::PROP_UP_MOB);
 				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_MOB . "_info"));
-				$opt->addSubItem($file);
+				$mediaMob->addSubItem($file);
 
-				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_AUDIO), self::PROP_M_AUDIO);
-				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_AUDIO . "_info"));
-				$mediaType->addOption($opt);
+				$mediaAudio = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_AUDIO), self::PROP_M_AUDIO);
+				$mediaAudio->setInfo($this->plugin->txt("prop_" . self::PROP_M_AUDIO . "_info"));
+				$mediaType->addOption($mediaAudio);
 
 				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_AUDIO), self::PROP_UP_AUDIO);
 				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_AUDIO . "_info"));
-				$opt->addSubItem($file);
+				$mediaAudio->addSubItem($file);
 
-				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_VIDEO), self::PROP_M_VIDEO);
-				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_VIDEO . "_info"));
-				$mediaType->addOption($opt);
+				$mediaVideo = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_VIDEO), self::PROP_M_VIDEO);
+				$mediaVideo->setInfo($this->plugin->txt("prop_" . self::PROP_M_VIDEO . "_info"));
+				$mediaType->addOption($mediaVideo);
 
 				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_VIDEO), self::PROP_UP_VIDEO);
 				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_VIDEO . "_info"));
-				$opt->addSubItem($file);
+				$mediaVideo->addSubItem($file);
 
-				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_DOC), self::PROP_M_DOC);
-				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_DOC . "_info"));
-				$mediaType->addOption($opt);
+				$mediaDoc = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_DOC), self::PROP_M_DOC);
+				$mediaDoc->setInfo($this->plugin->txt("prop_" . self::PROP_M_DOC . "_info"));
+				$mediaType->addOption($mediaDoc);
 
 				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_DOC), self::PROP_UP_DOC);
 				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_DOC . "_info"));
-				$opt->addSubItem($file);
+				$mediaDoc->addSubItem($file);
 
-				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
-				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
-				$mediaType->addOption($opt);
+				$mediaText = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
+				$mediaText->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
+				$mediaType->addOption($mediaText);
 
 				$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA), self::PROP_M_TEXTAREA);
 				$txt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA . "_info"));
-				if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
-					$txt->setUseRte(true);
-					$txt->setRteTagSet("mini");
-					$txt->usePurifier(true);
-					$txt->setRTERootBlockElement('');
-					$txt->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
-					$txt->disableButtons(array(
-						'charmap',
-						'undo',
-						'redo',
-						'alignleft',
-						'aligncenter',
-						'alignright',
-						'alignjustify',
-						'anchor',
-						'fullscreen',
-						'cut',
-						'copy',
-						'paste',
-						'pastetext',
-						'formatselect'
-					));
-					$txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
-				}
+				// if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+				// 	$txt->setUseRte(true);
+				// 	$txt->setRteTagSet("mini");
+				// 	$txt->usePurifier(true);
+				// 	$txt->setRTERootBlockElement('');
+				// 	$txt->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
+				// 	$txt->disableButtons(array(
+				// 		'charmap',
+				// 		'undo',
+				// 		'redo',
+				// 		'alignleft',
+				// 		'aligncenter',
+				// 		'alignright',
+				// 		'alignjustify',
+				// 		'anchor',
+				// 		'fullscreen',
+				// 		'cut',
+				// 		'copy',
+				// 		'paste',
+				// 		'pastetext',
+				// 		'formatselect'
+				// 	));
+				// 	$txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+				// }
 				$txt->setRequired(true);
-				$opt->addSubItem($txt);
+				$mediaText->addSubItem($txt);
 
 				// $mon_num = new ilNumberInputGUI($this->plugin->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
 				// $mon_num->setInfo($this->plugin->txt("blog_nav_mode_month_list_num_month_info"));
