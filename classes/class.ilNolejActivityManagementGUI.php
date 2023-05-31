@@ -108,6 +108,7 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 
 		// TODO: icons that follow the status
+		$status = $this->gui_obj->object->getDocumentStatus();
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_CREATION,
