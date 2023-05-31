@@ -30,6 +30,7 @@ class ilNolejActivityManagementGUI
 	const PROP_M_VIDEO = "video";
 	const PROP_M_DOC = "document";
 	const PROP_M_TEXT = "freetext";
+	const PROP_M_TEXTAREA = "textarea";
 	const PROP_UP_MOB = "upload_mob";
 	const PROP_UP_AUDIO = "upload_audio";
 	const PROP_UP_VIDEO = "upload_video";
@@ -221,6 +222,11 @@ class ilNolejActivityManagementGUI
 				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
 				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
 				$mediaType->addOption($opt);
+
+				$txt = new ilTextWizardInputGUI($this->lng->txt('crs_objectives'), 'objectives');
+				$txt->setValues(array(0 => ''));
+				$txt->setRequired(true);
+				$opt->addSubItem($txt);
 
 				// $mon_num = new ilNumberInputGUI($this->plugin->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
 				// $mon_num->setInfo($this->plugin->txt("blog_nav_mode_month_list_num_month_info"));
