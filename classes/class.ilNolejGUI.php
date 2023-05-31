@@ -472,15 +472,6 @@ class ilNolejGUI
 		. ' alt="' . ($alt == "" ? "" : $this->lng->txt($alt)) . '" /> ';
 	}
 
-	public function showPartners()
-	{
-		// global $tpl;
-		// $this->initTabs(self::TAB_PARTNERS);
-
-		// // TODO
-		// ilUtil::sendInfo("Work in progress", true);
-	}
-
 	public function checkPurchase()
 	{
 		// global $DIC, $tpl;
