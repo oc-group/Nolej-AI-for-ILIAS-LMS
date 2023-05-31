@@ -169,6 +169,8 @@ class ilNolejActivityManagementGUI
 	 */
 	public function initCreationForm()
 	{
+		global $ilUser;
+
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
@@ -236,7 +238,7 @@ class ilNolejActivityManagementGUI
 					$txt->setRteTagSet("mini");
 					$txt->usePurifier(true);
 					$txt->setRTERootBlockElement('');
-					$txt->setRTESupport($this->user->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
+					$txt->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
 					$txt->disableButtons(array(
 						'charmap',
 						'undo',
