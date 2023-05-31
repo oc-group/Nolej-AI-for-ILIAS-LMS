@@ -192,7 +192,7 @@ class ilNolejActivityManagementGUI
 
 				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_MOB), self::PROP_UP_MOB);
 				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_MOB . "_info"));
-				$opt->addItem($file);
+				$opt->addSubItem($file);
 
 				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_AUDIO), self::PROP_M_AUDIO);
 				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_AUDIO . "_info"));
@@ -200,7 +200,7 @@ class ilNolejActivityManagementGUI
 
 				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_AUDIO), self::PROP_UP_AUDIO);
 				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_AUDIO . "_info"));
-				$opt->addItem($file);
+				$opt->addSubItem($file);
 
 				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_VIDEO), self::PROP_M_VIDEO);
 				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_VIDEO . "_info"));
@@ -208,7 +208,7 @@ class ilNolejActivityManagementGUI
 
 				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_VIDEO), self::PROP_UP_VIDEO);
 				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_VIDEO . "_info"));
-				$opt->addItem($file);
+				$opt->addSubItem($file);
 
 				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_DOC), self::PROP_M_DOC);
 				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_DOC . "_info"));
@@ -216,7 +216,7 @@ class ilNolejActivityManagementGUI
 
 				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_DOC), self::PROP_UP_DOC);
 				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_DOC . "_info"));
-				$opt->addItem($file);
+				$opt->addSubItem($file);
 
 				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
 				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
