@@ -481,8 +481,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		$ilCtrl = $DIC->ctrl();
 		$target = $a_target[0];
 
-		include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
-		include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejWebhook.php");
+		include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejGUI.php");
+		include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejWebhook.php");
 
 		if ($target == "webhook") {
 			$webhook = new ilNolejWebhook();
@@ -511,7 +511,6 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// 	);
 
 		} else {
-			ilUtil::sendInfo($a_target[0], true);
 			parent::_goto($a_target);
 		}
 	}
