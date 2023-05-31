@@ -169,7 +169,9 @@ class ilNolejActivityManagementGUI
 	 */
 	public function initCreationForm()
 	{
-		global $ilUser;
+		global $ilUser, $tpl;
+
+		$tpl->addJavaScript('./node_modules/tinymce/tinymce.js');
 
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
