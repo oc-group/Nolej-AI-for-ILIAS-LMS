@@ -231,6 +231,7 @@ class ilNolejActivityManagementGUI
 
 				$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA), self::PROP_M_TEXTAREA);
 				$txt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA . "_info"));
+				$txt->setUseRte(true);
 				$txt->setRequired(true);
 				$opt->addSubItem($txt);
 
