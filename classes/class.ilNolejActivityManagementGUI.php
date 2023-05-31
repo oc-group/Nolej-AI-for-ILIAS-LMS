@@ -25,6 +25,7 @@ class ilNolejActivityManagementGUI
 	const PROP_TITLE = "title";
 	const PROP_MEDIA_TYPE = "media_type";
 	const PROP_M_WEB = "web";
+	const PROP_M_URL = "url";
 	const PROP_M_MOB = "mob";
 	const PROP_M_AUDIO = "audio";
 	const PROP_M_VIDEO = "video";
@@ -187,6 +188,11 @@ class ilNolejActivityManagementGUI
 				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_WEB . "_info"));
 				$mediaType->addOption($opt);
 
+				$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_M_URL);
+				$url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
+				$url->setRequired(true);
+				$opt->addSubItem($url);
+
 				$opt = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_MOB), self::PROP_M_MOB);
 				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
 				$mediaType->addOption($opt);
@@ -223,8 +229,8 @@ class ilNolejActivityManagementGUI
 				$opt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
 				$mediaType->addOption($opt);
 
-				$txt = new ilTextWizardInputGUI($this->lng->txt('crs_objectives'), 'objectives');
-				$txt->setValues(array(0 => ''));
+				$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA), self::PROP_M_TEXTAREA);
+				$txt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA . "_info"));
 				$txt->setRequired(true);
 				$opt->addSubItem($txt);
 
