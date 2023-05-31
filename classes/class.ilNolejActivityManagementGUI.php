@@ -234,6 +234,26 @@ class ilNolejActivityManagementGUI
 				if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
 					$txt->setUseRte(true);
 					$txt->setRteTagSet("mini");
+					$txt->usePurifier(true);
+					$txt->setRTERootBlockElement('');
+					$txt->setRTESupport($this->user->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
+					$txt->disableButtons(array(
+						'charmap',
+						'undo',
+						'redo',
+						'alignleft',
+						'aligncenter',
+						'alignright',
+						'alignjustify',
+						'anchor',
+						'fullscreen',
+						'cut',
+						'copy',
+						'paste',
+						'pastetext',
+						'formatselect'
+					));
+					$txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 				}
 				$txt->setRequired(true);
 				$opt->addSubItem($txt);
