@@ -334,7 +334,45 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 		$this->initSubTabs(self::SUBTAB_CREATION);
 
-		// TODO
+		$form = $this->initCreationForm();
+
+		if (!$form->checkInput()) {
+			// input not ok, then
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
+		$title = $form->getInput(self::PROP_TITLE);
+		$mediaSrc = $form->getInput(self::PROP_MEDIA_SRC);
+		$language = $form->getInput(self::PROP_LANG);
+		$automaticMode = $form->getInput(self::PROP_AUTOMATIC);
+		switch ($mediaSrc) {
+			case self::PROP_M_WEB:
+				// TODO
+				break;
+
+			case self::PROP_M_MOB:
+				// TODO
+				break;
+
+			case self::PROP_M_YT:
+				// TODO
+				break;
+
+			case self::PROP_M_FILE:
+				// TODO
+				break;
+
+			case self::PROP_M_TEXT:
+				// TODO
+				break;
+		}
+
+		// Go to creation tab and wait for Nolej to send back the transcription
+		// TODO: check automatic mode
+		ilUtil::sendInfo("Very very soon", true);
+		$this->ctrl->redirect($this, self::CMD_CREATION);
 	}
 
 	public function analysis()
