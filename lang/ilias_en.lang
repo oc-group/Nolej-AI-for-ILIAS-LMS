@@ -75,18 +75,18 @@ prop_title#:#Title
 prop_title_info#:#Leave empty if you want Nolej to set a title for you.
 prop_online#:#Online
 prop_description#:#Description
-prop_media_type#:#Media type
+prop_media_source#:#Media source
 prop_web#:#Web URL
-prop_audio#:#Audio
-prop_video#:#Video
-prop_document#:#Document
+prop_file#:#Document
 prop_freetext#:#Text
 prop_web_info#:#URL to a web resource.
-prop_audio_info#:#An audio file.
-prop_video_info#:#A video file.
-prop_document_info#:#Upload a document.
+prop_file_info#:#Upload a file (audio, video, or a document).
 prop_freetext_info#:#Write some text directly.
 prop_textarea#:#Text
 prop_textarea_info#:#Write here the text that you want to be analyzed by Nolej.
 prop_mob#:#MediaPool
 prop_mob_info#:#Choose a media from a media pool.
+prop_input_mob#:#Media object
+prop_input_mob_info#:#Choose a media from a media pool.
+prop_input_file#:#File
+prop_input_file_info#:#Upload an audio, or a video, or a document.

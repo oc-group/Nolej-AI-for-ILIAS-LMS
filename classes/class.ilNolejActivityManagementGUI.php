@@ -23,19 +23,15 @@ class ilNolejActivityManagementGUI
 	const SUBTAB_ACTIVITIES = "activities";
 
 	const PROP_TITLE = "title";
-	const PROP_MEDIA_TYPE = "media_type";
+	const PROP_MEDIA_SRC = "media_source";
 	const PROP_M_WEB = "web";
 	const PROP_M_URL = "url";
 	const PROP_M_MOB = "mob";
-	const PROP_M_AUDIO = "audio";
-	const PROP_M_VIDEO = "video";
-	const PROP_M_DOC = "document";
+	const PROP_M_FILE = "file";
 	const PROP_M_TEXT = "freetext";
 	const PROP_M_TEXTAREA = "textarea";
-	const PROP_UP_MOB = "upload_mob";
-	const PROP_UP_AUDIO = "upload_audio";
-	const PROP_UP_VIDEO = "upload_video";
-	const PROP_UP_DOC = "upload_document";
+	const PROP_INPUT_MOB = "input_mob";
+	const PROP_INPUT_FILE = "input_file";
 
 	/** @var ilCtrl */
 	protected $ctrl;
@@ -178,111 +174,91 @@ class ilNolejActivityManagementGUI
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
 		$status = $this->gui_obj->object->getDocumentStatus();
-		ilUtil::sendInfo($status, true);
+		// ilUtil::sendInfo($status, true);
 
-		switch ($status) {
-			case "idle":
-				$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
-				$title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
-				$form->addItem($title);
+		if ($status == "idle") {
+			$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
+			$title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
+			$form->addItem($title);
 
-				$mediaType = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_MEDIA_TYPE), self::PROP_MEDIA_TYPE);
-				$mediaType->setRequired(true);
-				$form->addItem($mediaType);
-				// Available: web, audio, video, document, freetext.
+			$mediaSource = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_MEDIA_SRC), self::PROP_MEDIA_SRC);
+			$mediaSource->setRequired(true);
+			$form->addItem($mediaSource);
+			// Available: web, audio, video, document, freetext.
 
-				$mediaWeb = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_WEB), self::PROP_M_WEB);
-				$mediaWeb->setInfo($this->plugin->txt("prop_" . self::PROP_M_WEB . "_info"));
-				$mediaType->addOption($mediaWeb);
+			$mediaWeb = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_WEB), self::PROP_M_WEB);
+			$mediaWeb->setInfo($this->plugin->txt("prop_" . self::PROP_M_WEB . "_info"));
+			$mediaSource->addOption($mediaWeb);
 
-				$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_M_URL);
-				$url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
-				$url->setRequired(true);
-				$mediaWeb->addSubItem($url);
+			$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_M_URL);
+			$url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
+			$url->setRequired(true);
+			$mediaWeb->addSubItem($url);
 
-				$mediaMob = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_MOB), self::PROP_M_MOB);
-				$mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
-				$mediaType->addOption($mediaMob);
+			$mediaMob = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_MOB), self::PROP_M_MOB);
+			$mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
+			$mediaSource->addOption($mediaMob);
 
-				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_MOB), self::PROP_UP_MOB);
-				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_MOB . "_info"));
-				$mediaMob->addSubItem($file);
+			$mob = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_INPUT_MOB), self::PROP_INPUT_MOB);
+			$mob->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_MOB . "_info"));
+			$mob->setRequired(true);
+			$mediaMob->addSubItem($mob);
 
-				$mediaAudio = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_AUDIO), self::PROP_M_AUDIO);
-				$mediaAudio->setInfo($this->plugin->txt("prop_" . self::PROP_M_AUDIO . "_info"));
-				$mediaType->addOption($mediaAudio);
+			$mediaFile = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_FILE), self::PROP_M_FILE);
+			$mediaFile->setInfo($this->plugin->txt("prop_" . self::PROP_M_FILE . "_info"));
+			$mediaSource->addOption($mediaFile);
 
-				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_AUDIO), self::PROP_UP_AUDIO);
-				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_AUDIO . "_info"));
-				$mediaAudio->addSubItem($file);
+			$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_INPUT_FILE), self::PROP_INPUT_FILE);
+			$file->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_FILE . "_info"));
+			$file->setRequired(true);
+			$file->setSuffixes([
+				"mp3",
+				"mp4",
+				"doc", "docx", "txt"
+			]);
+			$mediaFile->addSubItem($file);
 
-				$mediaVideo = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_VIDEO), self::PROP_M_VIDEO);
-				$mediaVideo->setInfo($this->plugin->txt("prop_" . self::PROP_M_VIDEO . "_info"));
-				$mediaType->addOption($mediaVideo);
+			$mediaText = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
+			$mediaText->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
+			$mediaSource->addOption($mediaText);
 
-				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_VIDEO), self::PROP_UP_VIDEO);
-				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_VIDEO . "_info"));
-				$mediaVideo->addSubItem($file);
+			$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA), self::PROP_M_TEXTAREA);
+			$txt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA . "_info"));
+			$txt->setRequired(true);
+			// if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+			// 	$txt->setUseRte(true);
+			// 	$txt->setRteTagSet("mini");
+			// 	$txt->usePurifier(true);
+			// 	$txt->setRTERootBlockElement('');
+			// 	$txt->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
+			// 	$txt->disableButtons(array(
+			// 		'charmap',
+			// 		'undo',
+			// 		'redo',
+			// 		'alignleft',
+			// 		'aligncenter',
+			// 		'alignright',
+			// 		'alignjustify',
+			// 		'anchor',
+			// 		'fullscreen',
+			// 		'cut',
+			// 		'copy',
+			// 		'paste',
+			// 		'pastetext',
+			// 		'formatselect'
+			// 	));
+			// 	$txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+			// }
+			$txt->setRequired(true);
+			$mediaText->addSubItem($txt);
 
-				$mediaDoc = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_DOC), self::PROP_M_DOC);
-				$mediaDoc->setInfo($this->plugin->txt("prop_" . self::PROP_M_DOC . "_info"));
-				$mediaType->addOption($mediaDoc);
-
-				$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_UP_DOC), self::PROP_UP_DOC);
-				$file->setInfo($this->plugin->txt("prop_" . self::PROP_UP_DOC . "_info"));
-				$mediaDoc->addSubItem($file);
-
-				$mediaText = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
-				$mediaText->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
-				$mediaType->addOption($mediaText);
-
-				$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA), self::PROP_M_TEXTAREA);
-				$txt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA . "_info"));
-				// if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
-				// 	$txt->setUseRte(true);
-				// 	$txt->setRteTagSet("mini");
-				// 	$txt->usePurifier(true);
-				// 	$txt->setRTERootBlockElement('');
-				// 	$txt->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
-				// 	$txt->disableButtons(array(
-				// 		'charmap',
-				// 		'undo',
-				// 		'redo',
-				// 		'alignleft',
-				// 		'aligncenter',
-				// 		'alignright',
-				// 		'alignjustify',
-				// 		'anchor',
-				// 		'fullscreen',
-				// 		'cut',
-				// 		'copy',
-				// 		'paste',
-				// 		'pastetext',
-				// 		'formatselect'
-				// 	));
-				// 	$txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
-				// }
-				$txt->setRequired(true);
-				$mediaText->addSubItem($txt);
-
-				// $mon_num = new ilNumberInputGUI($this->plugin->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
-				// $mon_num->setInfo($this->plugin->txt("blog_nav_mode_month_list_num_month_info"));
-				// $mon_num->setSize(3);
-				// $mon_num->setMinValue(1);
-				// $opt->addSubItem($mon_num);
-				
-				break;
-			
-			case "transcription":
-			case "transcription_ready":
-			case "analysis":
-			case "analysis_ready":
-				// TODO
-				break;
-			
-			default:
-				// TODO
+			// $mon_num = new ilNumberInputGUI($this->plugin->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
+			// $mon_num->setInfo($this->plugin->txt("blog_nav_mode_month_list_num_month_info"));
+			// $mon_num->setSize(3);
+			// $mon_num->setMinValue(1);
+			// $opt->addSubItem($mon_num);
 		}
+
 		// $course = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_STATUS), self::PROP_STATUS);
 
 		// $options = $this->object->getPurchasedCourses();
