@@ -94,3 +94,5 @@ prop_input_mob#:#Media object
 prop_input_mob_info#:#Choose a media from a media pool.
 prop_input_file#:#File
 prop_input_file_info#:#Upload an audio, or a video, or a document.
+prop_language#:#Language
+prop_language_info#:#The language of the media. This helps Nolej to better analyze the media.

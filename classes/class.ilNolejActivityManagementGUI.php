@@ -34,6 +34,7 @@ class ilNolejActivityManagementGUI
 	const PROP_INPUT_MOB = "input_mob";
 	const PROP_INPUT_YT = "input_youtube";
 	const PROP_INPUT_FILE = "input_file";
+	const PROP_LANG = "language";
 
 	/** @var ilCtrl */
 	protected $ctrl;
@@ -262,6 +263,15 @@ class ilNolejActivityManagementGUI
 			// }
 			$txt->setRequired(true);
 			$mediaText->addSubItem($txt);
+
+			$language = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
+			$language->setOptions([
+				"en" => "EN",
+				"fr" => "FR",
+				"it" => "IT"
+			]);
+			$language->setRequired(true);
+			$form->addItem($language);
 
 			// $mon_num = new ilNumberInputGUI($this->plugin->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
 			// $mon_num->setInfo($this->plugin->txt("blog_nav_mode_month_list_num_month_info"));
