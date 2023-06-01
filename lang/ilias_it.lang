@@ -77,6 +77,10 @@ prop_online#:#Online
 prop_description#:#Description
 prop_media_source#:#Media source
 prop_web#:#Web URL
+prop_url#:#URL
+prop_url_info#:#URL
+prop_youtube#:#YouTube
+prop_youtube_info#:#Analyze a youtube video given its URL.
 prop_file#:#Document
 prop_freetext#:#Text
 prop_web_info#:#URL to a web resource.

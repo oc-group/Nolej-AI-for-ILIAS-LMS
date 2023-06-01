@@ -26,11 +26,13 @@ class ilNolejActivityManagementGUI
 	const PROP_MEDIA_SRC = "media_source";
 	const PROP_M_WEB = "web";
 	const PROP_M_URL = "url";
+	const PROP_M_YT = "youtube";
 	const PROP_M_MOB = "mob";
 	const PROP_M_FILE = "file";
 	const PROP_M_TEXT = "freetext";
 	const PROP_M_TEXTAREA = "textarea";
 	const PROP_INPUT_MOB = "input_mob";
+	const PROP_INPUT_YT = "input_youtube";
 	const PROP_INPUT_FILE = "input_file";
 
 	/** @var ilCtrl */
@@ -203,6 +205,15 @@ class ilNolejActivityManagementGUI
 			$mob->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_MOB . "_info"));
 			$mob->setRequired(true);
 			$mediaMob->addSubItem($mob);
+
+			$mediaYT = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_YT), self::PROP_M_YT);
+			$mediaYT->setInfo($this->plugin->txt("prop_" . self::PROP_M_YT . "_info"));
+			$mediaSource->addOption($mediaYT);
+
+			$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_INPUT_YT);
+			$url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
+			$url->setRequired(true);
+			$mediaYT->addSubItem($url);
 
 			$mediaFile = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_FILE), self::PROP_M_FILE);
 			$mediaFile->setInfo($this->plugin->txt("prop_" . self::PROP_M_FILE . "_info"));
