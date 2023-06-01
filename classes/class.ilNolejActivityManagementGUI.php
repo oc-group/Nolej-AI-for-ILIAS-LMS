@@ -266,9 +266,10 @@ class ilNolejActivityManagementGUI
 
 			$language = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
 			$language->setOptions([
-				"en" => "EN",
-				"fr" => "FR",
-				"it" => "IT"
+				// TODO: add language translation
+				"en" => "English",
+				// "fr" => "French", // Soon
+				// "it" => "Italian" // Soon
 			]);
 			$language->setRequired(true);
 			$form->addItem($language);
