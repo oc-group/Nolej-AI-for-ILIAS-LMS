@@ -96,3 +96,5 @@ prop_input_file#:#File
 prop_input_file_info#:#Upload an audio, or a video, or a document.
 prop_language#:#Language
 prop_language_info#:#The language of the media. This helps Nolej to better analyze the media.
+prop_automatic#:#Automatic mode
+prop_automatic_info#:#If checked, Nolej goes directly to the final step: the generation of H5P activities. Except for audio and video, where the user is asked to review the transcription.

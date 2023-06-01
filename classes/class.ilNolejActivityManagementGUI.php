@@ -35,6 +35,7 @@ class ilNolejActivityManagementGUI
 	const PROP_INPUT_YT = "input_youtube";
 	const PROP_INPUT_FILE = "input_file";
 	const PROP_LANG = "language";
+	const PROP_AUTOMATIC = "automatic";
 
 	/** @var ilCtrl */
 	protected $ctrl;
@@ -276,6 +277,7 @@ class ilNolejActivityManagementGUI
 			$mediaText->addSubItem($txt);
 
 			$language = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
+			$language->setInfo($this->plugin->txt("prop_" . self::PROP_LANG . "_info"));
 			$language->setOptions([
 				// TODO: add language translation
 				"en" => "English",
@@ -284,6 +286,12 @@ class ilNolejActivityManagementGUI
 			]);
 			$language->setRequired(true);
 			$form->addItem($language);
+
+			$automaticMode = new ilCheckboxInputGUI($this->plugin->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
+			$automaticMode->setInfo($this->plugin->txt("prop_" . self::PROP_AUTOMATIC . "_info"));
+			$automaticMode->setChecked(false);
+			$automaticMode->setDisabled(true);
+			$form->addItem($automaticMode);
 
 			// $mon_num = new ilNumberInputGUI($this->plugin->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
 			// $mon_num->setInfo($this->plugin->txt("blog_nav_mode_month_list_num_month_info"));
