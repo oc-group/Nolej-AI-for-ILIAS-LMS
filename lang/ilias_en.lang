@@ -72,6 +72,7 @@ cmd_analyze#:#Start analysis
 cmd_review#:#Confirm review
 cmd_generate#:#Generate activities
 prop_title#:#Title
+prop_title_info#:#Leave empty if you want Nolej to set a title for you.
 prop_online#:#Online
 prop_description#:#Description
 prop_media_type#:#Media type

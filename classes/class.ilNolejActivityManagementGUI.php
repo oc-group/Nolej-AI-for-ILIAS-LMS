@@ -183,7 +183,7 @@ class ilNolejActivityManagementGUI
 		switch ($status) {
 			case "idle":
 				$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
-				$title->setRequired(true);
+				$title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
 				$form->addItem($title);
 
 				$mediaType = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_MEDIA_TYPE), self::PROP_MEDIA_TYPE);
