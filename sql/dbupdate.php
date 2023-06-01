@@ -124,13 +124,7 @@ $fields = array(
 		'length' => 5,
 		'fixed' => false,
 		'notnull' => true
-	),
-	'transcription' => array(
-		'type' => 'text',
-		'length' => 10000,
-		'fixed' => false,
-		'notnull' => false
-	),
+	)
 );
 
 if(!$ilDB->tableExists("rep_robj_xnlj_doc")) {
