@@ -352,25 +352,19 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	{
 		global $tpl;
 
-		// if (!$this->object->isBound()) {
+		// $details = $this->object->lookupDetails();
+		// if (!$details) {
 		// 	return;
 		// }
 
-		$tpl->addCss(ilNolejPlugin::CSS);
+		// $this->lng->loadLanguageModule('crs');
+		// $info->addSection($this->lng->txt("crs_general_informations"));
 
-		$details = $this->object->lookupDetails();
-		if (!$details) {
-			return;
-		}
-
-		$this->lng->loadLanguageModule('crs');
-		$info->addSection($this->lng->txt("crs_general_informations"));
-
-		$info->addProperty($this->plugin->txt("prop_teacher"), $details->teacher);
-		$info->addProperty(
-			"<img style='max-width: 90%;' src='" . $details->image . "'>",
-			nl2br($details->description)
-		);
+		// $info->addProperty($this->plugin->txt("prop_teacher"), $details->teacher);
+		// $info->addProperty(
+		// 	"<img style='max-width: 90%;' src='" . $details->image . "'>",
+		// 	nl2br($details->description)
+		// );
 	}
 
 	/**
