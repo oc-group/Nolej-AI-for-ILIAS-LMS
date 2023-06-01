@@ -95,8 +95,6 @@ class ilNolejActivityManagementGUI
 				$this->creation();
 		}
 
-		$tpl->printToStdout();
-
 		return true;
 	}
 
