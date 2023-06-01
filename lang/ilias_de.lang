@@ -78,7 +78,7 @@ prop_description#:#Description
 prop_media_source#:#Media source
 prop_web#:#Web URL
 prop_url#:#URL
-prop_url_info#:#URL
+prop_url_info#:#Paste here the media's URL.
 prop_youtube#:#YouTube
 prop_youtube_info#:#Analyze a youtube video given its URL.
 prop_file#:#File
