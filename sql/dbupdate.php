@@ -78,6 +78,20 @@ $fields = array(
 		'fixed' => false,
 		'notnull' => true
 	),
+	'status' => array(
+		/**
+		 *  0 => idle,
+		 * 10 => transcripting,
+		 * 11 => transcription ready,
+		 * 12 => transcription error,
+		 * 20 => analyzing,
+		 * 21 => analysis ready
+		 * 22 => analysis error
+		*/
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
 	'consumed_credit' => array(
 		'type' => 'integer',
 		'length' => 4,
@@ -91,8 +105,7 @@ $fields = array(
 	),
 	'media_type' => array(
 		/**
-		 * Available: web, audio, video, document, freetext.
-		 * Deprecated: youtube.
+		 * Available: web, audio, video, document, freetext, youtube.
 		 * Soon: slide.
 		 */
 		'type' => 'text',
@@ -112,16 +125,11 @@ $fields = array(
 		'fixed' => false,
 		'notnull' => true
 	),
-	'status' => array(
-		/**
-		 * idle,
-		 * transcription, transcription_ready,
-		 * analysis, analysis_ready
-		*/
+	'transcription' => array(
 		'type' => 'text',
-		'length' => 25,
+		'length' => 10000,
 		'fixed' => false,
-		'notnull' => true
+		'notnull' => false
 	),
 );
 
