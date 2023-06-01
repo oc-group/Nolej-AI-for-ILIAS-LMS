@@ -105,8 +105,10 @@ class ilNolejActivityManagementGUI
 	{
 		global $tpl;
 
+		// Do nothing link: "javascript:void(0)"
+
 		// TODO: icons that follow the status
-		$status = $this->gui_obj->object->getDocumentStatus();
+		// $status = $this->gui_obj->object->getDocumentStatus();
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_CREATION,
@@ -117,19 +119,19 @@ class ilNolejActivityManagementGUI
 		$this->tabs->addSubTab(
 			self::SUBTAB_ANALYSIS,
 			$this->plugin->txt("subtab_" . self::SUBTAB_ANALYSIS),
-			"javascript:void(0)" // $this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
+			$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
 		);
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_REVIEW,
 			$this->plugin->txt("subtab_" . self::SUBTAB_REVIEW),
-			"javascript:void(0);" // $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
+			$this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
 		);
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_ACTIVITIES,
 			$this->plugin->txt("subtab_" . self::SUBTAB_ACTIVITIES),
-			"javascript:void(0);" // $this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
+			$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
 		);
 
 		switch ($active_subtab) {
