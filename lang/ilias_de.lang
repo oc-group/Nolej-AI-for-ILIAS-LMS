@@ -46,6 +46,7 @@ set_passed#:#Set LP Status to not completed
 tab_modules#:#Modules
 tab_configuration#:#Configuration
 tab_content#:#Content
+tab_properties#:#Properties
 update_successful#:#Update Successful
 xnlj_add#:#Create
 xnlj_delete#:#Delete: User can move or delete Nolej objects
