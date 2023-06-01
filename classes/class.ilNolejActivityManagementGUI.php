@@ -233,12 +233,12 @@ class ilNolejActivityManagementGUI
 			$mediaSource->addOption($mediaFile);
 
 			$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_INPUT_FILE), self::PROP_INPUT_FILE);
-			$file->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_FILE . "_info"));
+			$file->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_FILE . "_info") . $this->plugin->txt("prop_file_limits"));
 			$file->setRequired(true);
 			$file->setSuffixes([
-				"mp3",
-				"mp4",
-				"doc", "docx", "txt"
+				"MP3", "WAS", "OPUS", "OGG", "OGA", "M4A", // Audio
+				"M4V", "MP4", "OGV", "AVI", "WebM", // Video
+				"PDF", "DOC", "DOCX", "ODT" // Documents
 			]);
 			$mediaFile->addSubItem($file);
 
