@@ -176,6 +176,8 @@ class ilNolejActivityManagementGUI
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
 		$status = $this->gui_obj->object->getDocumentStatus();
+		ilUtil::sendInfo($status, true);
+
 		switch ($status) {
 			case "idle":
 				$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
