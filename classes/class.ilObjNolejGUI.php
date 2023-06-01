@@ -33,7 +33,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	const CMD_FILTER_RESET = "resetFilter";
 	const CMD_FILTER_USER = "addUserAutoComplete";
 
-	const TAB_PROJECT = "project";
+	const TAB_PROPERTIES = "properties";
 	const TAB_CONTENT = "content";
 
 	const PROP_TITLE = "title";
@@ -187,8 +187,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// "properties" and "manage licenses" tabs
 		if ($this->object->hasWritePermission()) {
 			$this->tabs->addTab(
-				self::TAB_PROJECT,
-				$this->txt("tab_" . self::TAB_PROJECT),
+				self::TAB_PROPERTIES,
+				$this->txt("tab_" . self::TAB_PROPERTIES),
 				$ilCtrl->getLinkTarget($this, self::CMD_PROPERTIES_EDIT)
 			);
 
@@ -217,7 +217,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 */
 	protected function initPropertiesForm() : ilPropertyFormGUI
 	{
-		$this->tabs->activateTab(self::TAB_PROJECT);
+		$this->tabs->activateTab(self::TAB_PROPERTIES);
 
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
