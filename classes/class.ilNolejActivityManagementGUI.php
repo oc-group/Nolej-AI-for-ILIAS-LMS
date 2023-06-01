@@ -98,6 +98,14 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
+	 * @param string $id
+	 */
+	protected function glyphicon($id)
+	{
+		return "<span class=\"glyphicon glyphicon-$id \" aria-hidden=\"true\"></span> ";
+	}
+
+	/**
 	 * Init and activate tabs
 	 */
 	protected function initSubTabs($active_subtab = null)
@@ -108,10 +116,13 @@ class ilNolejActivityManagementGUI
 
 		// TODO: icons that follow the status
 		// $status = $this->gui_obj->object->getDocumentStatus();
+		// glyphicon glyphicon-time
+		// glyphicon glyphicon-hand-right
+		// glyphicon glyphicon-ok
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_CREATION,
-			$this->plugin->txt("subtab_" . self::SUBTAB_CREATION),
+			$this->glyphicon("hand-right") . $this->plugin->txt("subtab_" . self::SUBTAB_CREATION),
 			$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
 		);
 
