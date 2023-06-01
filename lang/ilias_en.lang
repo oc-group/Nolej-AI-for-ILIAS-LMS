@@ -83,7 +83,7 @@ prop_youtube#:#YouTube
 prop_youtube_info#:#Analyze a youtube video given its URL.
 prop_file#:#File
 prop_freetext#:#Text
-prop_web_info#:#URL to a web resource.
+prop_web_info#:#Analyze a resource from the Web.
 prop_file_info#:#Upload a file (audio, video, or a document).
 prop_freetext_info#:#Write some text directly.
 prop_textarea#:#Text
