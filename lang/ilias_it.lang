@@ -72,6 +72,8 @@ cmd_analyze#:#Start analysis
 cmd_review#:#Confirm review
 cmd_generate#:#Generate activities
 prop_title#:#Title
+prop_online#:#Online
+prop_description#:#Description
 prop_media_type#:#Media type
 prop_web#:#Web URL
 prop_audio#:#Audio
