@@ -347,6 +347,7 @@ class ilNolejActivityManagementGUI
 		$title = $form->getInput(self::PROP_TITLE);
 		if ($title != "") {
 			$this->gui_obj->object->setTitle($title);
+			$this->gui_obj->object->update();
 		}
 		$mediaSrc = $form->getInput(self::PROP_MEDIA_SRC);
 		$language = $form->getInput(self::PROP_LANG);
