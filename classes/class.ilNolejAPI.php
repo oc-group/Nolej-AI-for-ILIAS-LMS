@@ -7,30 +7,30 @@
 require_once "./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/vendor/autoload.php";
 
 class ilNolejAPI {
-    public const API_URL = "https://api-dev.nolej.io";
+	public const API_URL = "https://api-dev.nolej.io";
 
 	/** @var string */
-    private $apikey;
-    
+	private $apikey;
+
 	/**
 	 * @param string $apikey
 	 */
-    public function __construct($apikey)
+	public function __construct($apikey)
 	{
-        $this->apikey = $apikey;
-    }
+		$this->apikey = $apikey;
+	}
 
 	/**
 	 * @param string $path
 	 * @param array $data
 	 * @param bool $decode
 	 */
-    public function post($path, $data = array(), $decode = true)
+	public function post($path, $data = array(), $decode = true)
 	{
-        $data_json = json_encode($data);
+		$data_json = json_encode($data);
 		$url = self::API_URL . $path;
 
-        $client = new GuzzleHttp\Client;
+		$client = new GuzzleHttp\Client;
 		$response = $client->request("POST", $url, [
 			"headers" => [
 				"Authorization" => "X-API-KEY " . $this->apikey,
@@ -46,5 +46,5 @@ class ilNolejAPI {
 
 		$object = json_decode($response->getBody());
 		return $object !== null ? $object : $response->getBody();
-    }
+	}
 }

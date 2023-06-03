@@ -72,9 +72,9 @@ class ilNolejWebhook
 		$db = $DIC->database();
 		$exchangeId = $this->data["exchangeId"];
 
-		$sql = "SELECT * FROM " . ilNolejPlugin::TABLE_TIC . " WHERE exchange_id = %s AND response_on IS NULL;";
 		$result = $db->queryF(
-			$sql,
+			"SELECT * FROM " . ilNolejPlugin::TABLE_TIC
+			. " WHERE exchange_id = %s AND response_on IS NULL;",
 			["text"],
 			[$exchangeId]
 		);
@@ -86,15 +86,23 @@ class ilNolejWebhook
 		$exchange = $db->fetchAssoc($result);
 
 		$now = strtotime("now");
-		$sql = "UPDATE " . ilNolejPlugin::TABLE_TIC . " SET response_on = %s, response_url = %s WHERE exchange_id = %s;";
 		$result = $db->manipulateF(
-			$sql,
+			"UPDATE " . ilNolejPlugin::TABLE_TIC
+			. " SET response_on = %s, response_url = %s WHERE exchange_id = %s;",
 			["integer", "text", "text"],
 			[$now, $this->data["s3URL"], $exchangeId]
 		);
 		if (!$result) {
 			$this->die_message(404, "Exchange not found.");
 		}
+
+		// Notification
+		$ass = new ilNolejActivity($exchangeId, $exchange["user_id"], $exchange["action"]);
+		$ass->withStatus("ok")
+			->withCode(0)
+			->withErrorMessage($this->data["message"])
+			->withConsumedCredit(0);
+		$ass->store();
 
 		require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
 		$recipient_id = $exchange["user_id"];

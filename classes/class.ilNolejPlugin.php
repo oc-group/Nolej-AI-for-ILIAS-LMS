@@ -16,6 +16,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	const PREFIX = "rep_robj_xnlj";
 
 	const TABLE_CONFIG = "rep_robj_xnlj_config";
+	const TABLE_ACTIVITY = "rep_robj_xnlj_activity";
 	const TABLE_TIC = "rep_robj_xnlj_tic";
 	const TABLE_DOC = "rep_robj_xnlj_doc";
 	const TABLE_DATA = "rep_robj_xnlj_data";

@@ -22,11 +22,69 @@ if(!$ilDB->tableExists("rep_robj_xnlj_config")) {
 	$ilDB->addPrimaryKey("rep_robj_xnlj_config", array("keyword"));
 }
 
+/* Activity */
+$fields = array(
+	'document_id' => array(
+		'type' => 'text',
+		'length' => 50,
+		'fixed' => false,
+		'notnull' => true
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'action' => array(
+		'type' => 'text',
+		'length' => 20,
+		'fixed' => false,
+		'notnull' => true
+	),
+	'tstamp' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'status' => array(
+		'type' => 'text',
+		'length' => 10,
+		'fixed' => false,
+		'notnull' => false
+	),
+	'code' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'error_message' => array(
+		'type' => 'text',
+		'length' => 200,
+		'fixed' => false,
+		'notnull' => true
+	),
+	'consumed_credit' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false
+	),
+	'pos' => array(
+		'type' => 'integer',
+		'length' => 2,
+		'notnull' => false
+	)
+);
+
+if(!$ilDB->tableExists("rep_robj_xnlj_activity")) {
+	$ilDB->createTable("rep_robj_xnlj_activity", $fields);
+	$ilDB->addPrimaryKey("rep_robj_xnlj_activity", array("document_id", "user_id", "action"));
+}
+
 /* TicTac */
 $fields = array(
 	'exchange_id' => array(
 		'type' => 'text',
-		'length' => 100,
+		'length' => 50,
 		'fixed' => false,
 		'notnull' => true
 	),
@@ -80,13 +138,11 @@ $fields = array(
 	),
 	'status' => array(
 		/**
-		 *  0 => idle,
-		 * 10 => transcripting,
-		 * 11 => transcription ready,
-		 * 12 => transcription error,
-		 * 20 => analyzing,
-		 * 21 => analysis ready
-		 * 22 => analysis error
+		 * 0 => idle,
+		 * 1 => transcripting,
+		 * 2 => transcription ready,
+		 * 3 => analyzing,
+		 * 4 => analysis ready,
 		*/
 		'type' => 'integer',
 		'length' => 4,

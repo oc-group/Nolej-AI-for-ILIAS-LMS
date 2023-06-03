@@ -345,34 +345,68 @@ class ilNolejActivityManagementGUI
 		}
 
 		$title = $form->getInput(self::PROP_TITLE);
-		if ($title != "") {
+		if ($title != "" && $title != $this->gui_obj->object->getTitle()) {
+			// Title chosen by the user, update if different from current title
 			$this->gui_obj->object->setTitle($title);
 			$this->gui_obj->object->update();
 		}
+
 		$mediaSrc = $form->getInput(self::PROP_MEDIA_SRC);
 		$language = $form->getInput(self::PROP_LANG);
 		$automaticMode = $form->getInput(self::PROP_AUTOMATIC);
+
 		switch ($mediaSrc) {
 			case self::PROP_M_WEB:
 				// TODO
+				$mediaUrl = $form->getInput(self::PROP_M_URL);
+				$mediaFormat = "web";
 				break;
 
 			case self::PROP_M_MOB:
 				// TODO
+				$mediaUrl = "";
+				$mediaFormat = "";
 				break;
 
 			case self::PROP_M_YT:
 				// TODO
+				$mediaUrl = $form->getInput(self::PROP_INPUT_YT);
+				$mediaFormat = "youtube";
 				break;
 
 			case self::PROP_M_FILE:
 				// TODO
+				$mediaUrl = "";
+				$mediaFormat = "";
 				break;
 
 			case self::PROP_M_TEXT:
 				// TODO
+				$mediaUrl = "";
+				$mediaFormat = "freetext";
 				break;
 		}
+
+		if (!$mediaUrl || $mediaUrl == "") {
+			ilUtil::sendFailure($this->plugin->txt("err_media_url_empty"), true);
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
+		if (!$mediaFormat || $mediaFormat == "") {
+			ilUtil::sendFailure($this->plugin->txt("err_media_format_unknown"), true);
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
+		// TODO: send api
+
+		// TODO: insert document in db
+		$this->db->manipulateF(
+			"INSERT INTO " . ilNolejPlugin::TABLE_DOC
+		);
 
 		// Go to creation tab and wait for Nolej to send back the transcription
 		// TODO: check automatic mode

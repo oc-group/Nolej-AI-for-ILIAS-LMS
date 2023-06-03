@@ -73,14 +73,14 @@ class ilNolejMediaSelectorGUI
 		$this->db = $DIC->database();
 		$this->access = $DIC->access();
 		$this->ui = $DIC->ui();
-        $this->toolbar = $DIC->toolbar();
+		$this->toolbar = $DIC->toolbar();
 
 		$this->subCmd = $_GET["subCmd"] ?? "";
 		$this->pool_view = "folder";
-        $pv = $_GET["pool_view"] ?? "";
-        if (in_array($pv, array("folder", "all"))) {
-            $this->pool_view = $pv;
-        }
+		$pv = $_GET["pool_view"] ?? "";
+		if (in_array($pv, array("folder", "all"))) {
+			$this->pool_view = $pv;
+		}
 		$this->ctrl->saveParameter($this, ["pool_view"]);
 
 		$this->plugin = ilNolejPlugin::getInstance();
@@ -91,9 +91,9 @@ class ilNolejMediaSelectorGUI
 		ilModalGUI::initJS();
 
 		// $modal = ilModalGUI::getInstance();
-        // $modal->setHeading($this->plugin->txt("exc_individual_deadline"));
-        // $modal->setId("ilExcIDl");
-        // $modal->setBody('<div id="ilExcIDlBody"></div>');
+		// $modal->setHeading($this->plugin->txt("exc_individual_deadline"));
+		// $modal->setId("ilExcIDl");
+		// $modal->setBody('<div id="ilExcIDlBody"></div>');
 
 		$link = $this->ctrl->getLinkTarget($this);
 
@@ -113,14 +113,14 @@ class ilNolejMediaSelectorGUI
 			->withOnClick($modal->getShowSignal());
 
 		$input = new ilCustomInputGUI($this->plugin->txt("media_select"));
-        $input->setHtml($number->render() . $r->render($modal) . $r->render($select));
+		$input->setHtml($number->render() . $r->render($modal) . $r->render($select));
 		return $input;
 	}
 
 	/**
-     * @return mixed
-     * @throws ilCtrlException
-     */
+	 * @return mixed
+	 * @throws ilCtrlException
+	 */
 	public function executeCommand()
 	{
 		global $tpl;
@@ -130,20 +130,20 @@ class ilNolejMediaSelectorGUI
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.svg"));
 
 		switch ($next_class) {
-            // case "ilobjmediaobjectgui":
-            //     // $tpl->setTitle(
+			// case "ilobjmediaobjectgui":
+			//     // $tpl->setTitle(
 			// 	// 	$this->lng->txt("mob") . ": " . $this->content_obj->getMediaObject()->getTitle()
 			// 	// );
-            //     $mob_gui = new ilObjMediaObjectGUI(
+			//     $mob_gui = new ilObjMediaObjectGUI(
 			// 		"",
 			// 		0, //$this->content_obj->getMediaObject()->getId(),
 			// 		false,
 			// 		false
 			// 	);
-            //     $mob_gui->setBackTitle("Back"); // $this->page_back_title);
-            //     $mob_gui->setEnabledMapAreas(false);
-            //     $this->ctrl->forwardCommand($mob_gui);
-            //     break;
+			//     $mob_gui->setBackTitle("Back"); // $this->page_back_title);
+			//     $mob_gui->setEnabledMapAreas(false);
+			//     $this->ctrl->forwardCommand($mob_gui);
+			//     break;
 
 			default:
 				$this->lng->loadLanguageModule("content");
