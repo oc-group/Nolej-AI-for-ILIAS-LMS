@@ -32,8 +32,8 @@ class NolejNotificationProvider extends AbstractNotificationProvider implements 
 			return $this->if->identifier($id);
 		};
 
-		$new_badges = \ilBadgeAssignment::getNewCounter($user->getId());
-		if ($new_badges == 0) {
+		$new_activities = \ilNolejActivity::getNewCounter($user->getId());
+		if ($new_activities == 0) {
 			return [];
 		}
 
@@ -45,7 +45,7 @@ class NolejNotificationProvider extends AbstractNotificationProvider implements 
 		);
 		$latest = new \ilDateTime(\ilNolejActivity::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
 		$nolej_notification_item = $ui->factory()->item()->notification($badge_title, $badge_icon)
-			->withDescription(str_replace("%1", $new_badges, $lng->txt("badge_new_badges")))
+			->withDescription(str_replace("%1", $new_activities, $lng->txt("badge_new_badges")))
 			->withProperties([$lng->txt("time") => \ilDatePresentation::formatDate($latest)]);
 
 		$group = $factory->standardGroup($id('badge_bucket_group'))->withTitle($lng->txt('badge_badge'))
@@ -58,7 +58,7 @@ class NolejNotificationProvider extends AbstractNotificationProvider implements 
 						$noti_repo->updateLastCheckedTimestamp();
 					}
 				)
-				->withNewAmount($new_badges)
+				->withNewAmount($new_activities)
 			)
 			->withOpenedCallable(function () {
 				// Stuff we do, when the notification is opened

@@ -39,7 +39,7 @@ class NolejMainBarProvider extends AbstractStaticMainMenuProvider
 				->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 				->withAvailableCallable(
 					function () {
-						return (bool) (ilBadgeHandler::getInstance()->isActive());
+						return true; // (bool) (ilBadgeHandler::getInstance()->isActive());
 					}
 				),
 		];

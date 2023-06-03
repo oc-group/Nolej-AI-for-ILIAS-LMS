@@ -101,7 +101,7 @@ class ilNolejActivity
 	}
 
 	/**
-	 * Get latest badge
+	 * Get latest activity timestamp
 	 *
 	 * @param int $a_user_id
 	 * @return int
@@ -154,7 +154,7 @@ class ilNolejActivity
 
 		$set = $ilDB->query(
 			"SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
-			. " WHERE badge_id = " . $ilDB->quote($a_doc_id, "integer")
+			. " WHERE document_id = " . $ilDB->quote($a_doc_id, "integer")
 		);
 		while ($row = $ilDB->fetchAssoc($set)) {
 			$obj = new self();
@@ -312,7 +312,7 @@ class ilNolejActivity
 	protected function importDBRow(array $a_row)
 	{
 		$this->stored = true;
-		$this->setDocumentId($a_row["doc_id"]);
+		$this->setDocumentId($a_row["document_id"]);
 		$this->setUserId($a_row["user_id"]);
 		$this->setAction($a_row["action"]);
 		$this->setTimestamp($a_row["tstamp"]);
@@ -381,7 +381,7 @@ class ilNolejActivity
 		}
 
 		$keys = array(
-			"doc_id" => array("integer", $this->getDocumentId()),
+			"document_id" => array("integer", $this->getDocumentId()),
 			"user_id" => array("integer", $this->getUserId()),
 			"action" => array("string", $this->getAction())
 		);
