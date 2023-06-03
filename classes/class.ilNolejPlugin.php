@@ -188,6 +188,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	{
 		$tables = [
 			self::TABLE_CONFIG,
+			self::TABLE_ACTIVITY,
 			self::TABLE_TIC,
 			self::TABLE_DATA,
 			self::TABLE_DOC,
