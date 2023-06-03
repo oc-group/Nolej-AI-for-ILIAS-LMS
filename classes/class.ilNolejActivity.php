@@ -329,9 +329,9 @@ class ilNolejActivity
 
 		$set = $ilDB->queryF(
 			"SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
-			. " WHERE document_id = %s AND user_id = %s",
-			array("integer", "integer"),
-			array($a_doc_id, $a_user_id)
+			. " WHERE document_id = %s AND user_id = %s AND action = %s",
+			array("integer", "integer", "text"),
+			array($a_doc_id, $a_user_id, $a_action)
 		);
 		$row = $ilDB->fetchAssoc($set);
 		if ($row["user_id"]) {

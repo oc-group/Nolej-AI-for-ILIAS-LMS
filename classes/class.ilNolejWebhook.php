@@ -1,5 +1,7 @@
 <?php
 
+include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivity.php");
+
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
