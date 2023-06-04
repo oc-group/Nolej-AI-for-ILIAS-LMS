@@ -7,7 +7,7 @@ namespace ILIAS\Nolej\GlobalScreen;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 // use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractNotificationPluginProvider;
+use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
 
 /**
  * Class NolejNotificationProvider
