@@ -4,6 +4,7 @@ include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php")
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/GlobalScreen/NolejNotificationProvider.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 use ILIAS\Nolej\GlobalScreen\NolejNotificationProvider;
 // use ILIAS\Nolej\Provider\NolejMainBarProvider;
