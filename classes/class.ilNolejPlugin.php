@@ -54,7 +54,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 
 		parent::__construct();
 		// $this->provider_collection = $this->getPluginProviderCollection(); // Fix overflow
-		$this->provider_collection = new PluginProviderCollection();
+		// $this->provider_collection = new PluginProviderCollection();
 		$this->provider_collection->setNotificationProvider(new NolejNotificationProvider($DIC, $this));
 		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
 	}
