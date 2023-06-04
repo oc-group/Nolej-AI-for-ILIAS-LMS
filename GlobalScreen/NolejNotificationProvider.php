@@ -31,9 +31,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		// $lng->loadLanguageModule("badge");
 
 		$factory = $this->notification_factory;
-		$id = function (string $id) : IdentificationInterface {
-			return $this->if->identifier($id);
-		};
+		$id = $this->id;
 
 		$new_activities = \ilNolejActivity::getNewCounter($user->getId());
 		if ($new_activities == 0) {
