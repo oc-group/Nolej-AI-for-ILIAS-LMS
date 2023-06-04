@@ -52,7 +52,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 			->factory()
 			->item()
 			->notification($nolej_title, $nolej_icon)
-			->withDescription(str_replace("%1", $new_activities, "New Nolej Activity"))
+			->withDescription("New Nolej Activity")
 			->withProperties([$lng->txt("time") => \ilDatePresentation::formatDate($latest)]);
 
 		$group = $factory
