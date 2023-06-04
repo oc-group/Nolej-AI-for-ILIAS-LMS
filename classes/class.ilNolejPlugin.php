@@ -1,4 +1,5 @@
 <?php
+use ILIAS\Nolej\GlobalScreen\NolejNotificationProvider;
 include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
 
@@ -42,8 +43,15 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	 */
 	public function __construct()
 	{
+		global $DIC;
+
 		parent::__construct();
 		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
+
+		include_once(self::PLUGIN_DIR . "/GlobalScreen/NolejMainBarProvider.php");
+		$this->provider_collection->setMainBarProvider(new NolejMainBarProvider($DIC, $this));
+		include_once(self::PLUGIN_DIR . "/GlobalScreen/NolejNotificationProvider.php");
+		$this->provider_collection->setNotificationProvider(new NolejNotificationProvider($DIC, $this));
 	}
 
 	/**
