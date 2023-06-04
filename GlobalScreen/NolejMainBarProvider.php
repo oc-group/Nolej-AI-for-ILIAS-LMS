@@ -7,7 +7,7 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 /**
  * Class NolejMainBarProvider
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
 class NolejMainBarProvider extends AbstractStaticMainMenuProvider
 {
@@ -19,7 +19,6 @@ class NolejMainBarProvider extends AbstractStaticMainMenuProvider
 	{
 		return [];
 	}
-
 
 	/**
 	 * @inheritDoc
