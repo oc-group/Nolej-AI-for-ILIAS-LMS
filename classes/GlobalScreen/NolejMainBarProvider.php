@@ -3,15 +3,17 @@
 namespace ILIAS\Nolej\Provider;
 
 // use ilNolejHandler;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+// use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
  * Class NolejMainBarProvider
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
-class NolejMainBarProvider extends AbstractStaticMainMenuProvider
+class NolejMainBarProvider extends AbstractStaticPluginMainMenuProvider
 {
 
 	/**
@@ -27,8 +29,9 @@ class NolejMainBarProvider extends AbstractStaticMainMenuProvider
 	 */
 	public function getStaticSubItems() : array
 	{
-		$title = "Test Menu"; // $this->dic->language()->txt("mm_badges");
-		$icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", $title)->withIsOutlined(true);
+		global $DIC;
+		$title = "Test Menu"; // $DIC->language()->txt("mm_badges");
+		$icon = $DIC->ui()->factory()->symbol()->icon()->standard("bdga", $title)->withIsOutlined(true);
 
 		return [
 			$this->mainmenu->link($this->if->identifier('mm_pd_badges'))
@@ -37,7 +40,7 @@ class NolejMainBarProvider extends AbstractStaticMainMenuProvider
 				->withPosition(40)
 				->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
 				->withSymbol($icon)
-				->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+				->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('component_not_active')}"))
 				->withAvailableCallable(
 					function () {
 						return true; // (bool) (ilBadgeHandler::getInstance()->isActive());

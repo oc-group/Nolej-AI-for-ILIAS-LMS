@@ -24,10 +24,11 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 	 */
 	public function getNotifications() : array
 	{
-		$lng = $this->dic->language();
-		$ui = $this->dic->ui();
-		$user = $this->dic->user();
-		$ctrl = $this->dic->ctrl();
+		global $DIC;
+		$lng = $DIC->language();
+		$ui = $DIC->ui();
+		$user = $DIC->user();
+		$ctrl = $DIC->ctrl();
 
 		// $lng->loadLanguageModule("badge");
 
@@ -40,7 +41,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		}
 
 		// Creating a Nolej Notification Item
-		$nolej_icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", "NOLEJ")->withIsOutlined(true);
+		$nolej_icon = $DIC->ui()->factory()->symbol()->icon()->standard("bdga", "NOLEJ")->withIsOutlined(true);
 		$nolej_title = $ui->factory()->link()->standard(
 			"Test notification", //$lng->txt("mm_badges"),
 			$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
