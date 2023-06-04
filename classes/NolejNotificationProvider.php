@@ -10,7 +10,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
 use ILIAS\Nolej\Notification\NolejNotificationPrefRepository;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
-// use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
 /**
  * Class NolejNotificationProvider
@@ -26,17 +26,17 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 	public function getNotifications() : array
 	{
 		// global $DIC;
-		$lng = $this->dic->language();
-		$ui = $this->dic->ui();
-		$user = $this->dic->user();
-		$ctrl = $this->dic->ctrl();
+		// $lng = $this->dic->language();
+		// $ui = $this->dic->ui();
+		// $user = $this->dic->user();
+		// $ctrl = $this->dic->ctrl();
 
 		// $lng->loadLanguageModule("badge");
 
-		$factory = $this->notification_factory;
+		// $factory = $this->notification_factory;
 		// $id = $this->id;
 
-		$new_activities = \ilNolejActivity::getNewCounter($user->getId());
+		// $new_activities = \ilNolejActivity::getNewCounter($user->getId());
 		// if ($new_activities == 0) {
 			return [];
 		// }
