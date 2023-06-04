@@ -34,7 +34,8 @@ class NolejMainBarProvider extends AbstractStaticPluginMainMenuProvider
 		$icon = $DIC->ui()->factory()->symbol()->icon()->standard("bdga", $title)->withIsOutlined(true);
 
 		return [
-			$this->mainmenu->link($this->if->identifier('mm_pd_badges'))
+			$this->mainmenu
+				->link($this->if->identifier('mm_pd_badges'))
 				->withTitle($title)
 				->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToBadges")
 				->withPosition(40)
@@ -45,7 +46,7 @@ class NolejMainBarProvider extends AbstractStaticPluginMainMenuProvider
 					function () {
 						return true; // (bool) (ilBadgeHandler::getInstance()->isActive());
 					}
-				),
+				)
 		];
 	}
 }
