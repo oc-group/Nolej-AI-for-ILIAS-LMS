@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Nolej\GlobalScreen;
+namespace ILIAS\Nolej\Provider;
 
 // require_once("./src/GlobalScreen/Scope/Notification/Provider/AbstractNotificationPluginProvider.php");
 
