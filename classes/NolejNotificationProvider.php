@@ -17,7 +17,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
  * 
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
-class NolejNotificationProvider extends AbstractNotificationProvider
+class NolejNotificationProvider extends AbstractNotificationPluginProvider
 {
 
 	/**
