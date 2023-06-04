@@ -5,15 +5,16 @@
 namespace ILIAS\Nolej\GlobalScreen;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
+// use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractNotificationPluginProvider;
 
 /**
  * Class NolejNotificationProvider
  * 
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
-class NolejNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
+class NolejNotificationProvider extends AbstractNotificationPluginProvider implements NotificationProvider
 {
 	/**
 	 * @inheritDoc
