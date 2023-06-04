@@ -78,8 +78,8 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 			self::$pluginProviderCollection = new PluginProviderCollection();
 
 			// self::$pluginProviderCollection->setMetaBarProvider(self::helpMe()->metaBar());
-			self::$pluginProviderCollection->setMainBarProvider(new NolejMainBarProvider($DIC, self::getInstance()));
-			self::$pluginProviderCollection->setNotificationProvider(new NolejNotificationProvider($DIC, self::getInstance()));
+			// self::$pluginProviderCollection->setMainBarProvider(new \NolejMainBarProvider($DIC, self::getInstance()));
+			self::$pluginProviderCollection->setNotificationProvider(new \NolejNotificationProvider($DIC, self::getInstance()));
 		}
 
 		return self::$pluginProviderCollection;

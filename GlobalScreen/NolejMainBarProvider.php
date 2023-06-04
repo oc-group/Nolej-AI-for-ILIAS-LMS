@@ -2,7 +2,7 @@
 
 namespace ILIAS\Nolej\Provider;
 
-use ilNolejHandler;
+// use ilNolejHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 
