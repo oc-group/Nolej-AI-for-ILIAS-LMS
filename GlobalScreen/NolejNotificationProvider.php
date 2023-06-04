@@ -28,7 +28,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 
 		$lng->loadLanguageModule("badge");
 
-		$factory = $this->globalScreen()->notifications()->factory();
+		$factory = $this->notification_factory;
 		$id = function (string $id) : IdentificationInterface {
 			return $this->if->identifier($id);
 		};
