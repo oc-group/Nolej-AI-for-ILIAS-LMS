@@ -52,7 +52,8 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		global $DIC;
 
 		parent::__construct();
-		$this->provider_collection = $this->getPluginProviderCollection(); // Fix overflow
+		// $this->provider_collection = $this->getPluginProviderCollection(); // Fix overflow
+		$this->provider_collection->setNotificationProvider(new ILIAS\Nolej\GlobalScreen\NolejNotificationProvider($DIC, $this));
 		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
 	}
 
