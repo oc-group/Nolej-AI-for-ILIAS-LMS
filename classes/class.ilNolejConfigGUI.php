@@ -1,7 +1,8 @@
 <?php
-include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejConfig.php");
-include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejAPI.php");
-include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejMediaSelectorGUI.php");
+include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
+include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI.php");
+include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivity.php");
 
 /**
  * Plugin configuration class
@@ -199,6 +200,14 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	public function tic()
 	{
 		global $DIC;
+
+		// Notification
+		$ass = new ilNolejActivity("abc", 6, "testtic");
+		$ass->withStatus("ok")
+			->withCode(0)
+			->withErrorMessage("hello")
+			->withConsumedCredit(0);
+		$ass->store();
 
 		$api_key = $this->plugin->getConfig("api_key", "");
 		if ($api_key == "") {
