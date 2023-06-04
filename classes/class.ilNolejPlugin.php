@@ -276,16 +276,4 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 			array($keyword, $value)
 		);
 	}
-
-	// public function canAccessModules() : bool
-	// {
-	// 	return $this->isAdmin() ||
-	// 		(!$this->isAdmin() && ilUtil::yn2tf($this->getConfig("config_menu", "n")));
-	// }
-
-	// public function canAccessCart() : bool
-	// {
-	// 	return $this->isAdmin() ||
-	// 		(!$this->isAdmin() && ilUtil::yn2tf($this->getConfig("config_user_purchase", "n")));
-	// }
 }
