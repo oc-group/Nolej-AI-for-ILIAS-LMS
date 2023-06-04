@@ -4,6 +4,7 @@ include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php")
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/GlobalScreen/NolejNotificationProvider.php");
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
 
+use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 use ILIAS\Nolej\GlobalScreen\NolejNotificationProvider;
 // use ILIAS\Nolej\Provider\NolejMainBarProvider;
 
@@ -31,7 +32,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	/** @var self|null */
 	protected static $instance = null;
 
-	/** @var PluginProviderCollection */
+	/** @var PluginProviderCollection|null */
 	protected static $pluginProviderCollection;
 
 	/** @var array */
