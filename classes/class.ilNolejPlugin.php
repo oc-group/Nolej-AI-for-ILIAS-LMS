@@ -1,7 +1,7 @@
 <?php
 include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
-// include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/GlobalScreen/NolejMainBarProvider.php");
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/GlobalScreen/NolejNotificationProvider.php");
+// include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/GlobalScreen/NolejMainBarProvider.php");
+require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/GlobalScreen/NolejNotificationProvider.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
 
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
