@@ -209,44 +209,44 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			->withConsumedCredit(0);
 		$ass->store();
 
-		$api_key = $this->plugin->getConfig("api_key", "");
-		if ($api_key == "") {
-			ilUtil::sendFailure($this->plugin->txt("err_api_key_missing"), true);
-			$this->configure();
-			return;
-		}
+		// $api_key = $this->plugin->getConfig("api_key", "");
+		// if ($api_key == "") {
+		// 	ilUtil::sendFailure($this->plugin->txt("err_api_key_missing"), true);
+		// 	$this->configure();
+		// 	return;
+		// }
 
-		$api = new ilNolejAPI($api_key);
-		$message = "hello tic";
-		$mediaUrl = isset($_GET["mediaUrl"])
-			? urldecode($_GET["mediaUrl"])
-			: "http://www.africau.edu/images/default/sample.pdf";
-		$webhookUrl = ILIAS_HTTP_PATH . "/goto.php?target=xnlj_webhook";
+		// $api = new ilNolejAPI($api_key);
+		// $message = "hello tic";
+		// $mediaUrl = isset($_GET["mediaUrl"])
+		// 	? urldecode($_GET["mediaUrl"])
+		// 	: "http://www.africau.edu/images/default/sample.pdf";
+		// $webhookUrl = ILIAS_HTTP_PATH . "/goto.php?target=xnlj_webhook";
 
-		$result = $api->post(
-			"/tic",
-			[
-				"message" => $message,
-				"s3URL" => $mediaUrl,
-				"webhookURL" => $webhookUrl
-			],
-			true
-		);
+		// $result = $api->post(
+		// 	"/tic",
+		// 	[
+		// 		"message" => $message,
+		// 		"s3URL" => $mediaUrl,
+		// 		"webhookURL" => $webhookUrl
+		// 	],
+		// 	true
+		// );
 
-		if (!is_object($result) || !property_exists($result, "exchangeId") || !is_string($result->exchangeId)) {
-			ilUtil::sendFailure($this->plugin->txt("err_tic_response") . " " . print_r($result, true), true);
-			$this->configure();
-			return;
-		}
+		// if (!is_object($result) || !property_exists($result, "exchangeId") || !is_string($result->exchangeId)) {
+		// 	ilUtil::sendFailure($this->plugin->txt("err_tic_response") . " " . print_r($result, true), true);
+		// 	$this->configure();
+		// 	return;
+		// }
 
-		$now = strtotime("now");
-		$sql = "INSERT INTO " . ilNolejPlugin::TABLE_TIC . " (exchange_id, user_id, request_on, message, request_url) VALUES (%s, %s, %s, %s, %s);";
-		$DIC->database()->manipulateF(
-			$sql,
-			["text", "integer", "integer", "text", "text"],
-			[$result->exchangeId, $DIC->user()->getId(), $now, $message, $webhookUrl]
-		);
-		ilUtil::sendSuccess($this->plugin->txt("tic_sent"), true);
+		// $now = strtotime("now");
+		// $sql = "INSERT INTO " . ilNolejPlugin::TABLE_TIC . " (exchange_id, user_id, request_on, message, request_url) VALUES (%s, %s, %s, %s, %s);";
+		// $DIC->database()->manipulateF(
+		// 	$sql,
+		// 	["text", "integer", "integer", "text", "text"],
+		// 	[$result->exchangeId, $DIC->user()->getId(), $now, $message, $webhookUrl]
+		// );
+		// ilUtil::sendSuccess($this->plugin->txt("tic_sent"), true);
 		$this->configure();
 	}
 
