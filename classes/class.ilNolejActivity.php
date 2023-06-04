@@ -229,7 +229,7 @@ class ilNolejActivity
 	 */
 	protected function setDocumentId($a_value)
 	{
-		$this->document_id = (int) $a_value;
+		$this->document_id = $a_value;
 	}
 
 	/**
