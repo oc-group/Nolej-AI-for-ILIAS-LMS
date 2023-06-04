@@ -5,7 +5,7 @@ include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
 
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
-use ILIAS\Nolej\GlobalScreen\NolejNotificationProvider;
+// use ILIAS\Nolej\GlobalScreen\NolejNotificationProvider;
 // use ILIAS\Nolej\Provider\NolejMainBarProvider;
 
 /**
@@ -52,7 +52,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		global $DIC;
 
 		parent::__construct();
-		$this->provider_collection = self::getPluginProviderCollection(); // Fix overflow
+		// $this->provider_collection = self::getPluginProviderCollection(); // Fix overflow
 		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
 	}
 
