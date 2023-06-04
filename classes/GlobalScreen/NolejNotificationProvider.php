@@ -53,13 +53,13 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		$group = $factory->standardGroup($id('nolej_bucket_group'))->withTitle("Nolej activities")
 			->addNotification(
 				$factory->standard($id('nolej_bucket'))->withNotificationItem($nolej_notification_item)
-				->withClosedCallable(
-					function () use ($user) {
-						// Stuff we do, when the notification is closed
-						$noti_repo = new NolejNotificationPrefRepository($user);
-						$noti_repo->updateLastCheckedTimestamp();
-					}
-				)
+				// ->withClosedCallable(
+				// 	function () use ($user) {
+				// 		// Stuff we do, when the notification is closed
+				// 		$noti_repo = new NolejNotificationPrefRepository($user);
+				// 		$noti_repo->updateLastCheckedTimestamp();
+				// 	}
+				// )
 				->withNewAmount($new_activities)
 			)
 			->withOpenedCallable(function () {
