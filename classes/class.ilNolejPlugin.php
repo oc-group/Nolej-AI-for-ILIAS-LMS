@@ -1,15 +1,18 @@
 <?php
-use ILIAS\Nolej\GlobalScreen\NolejNotificationProvider;
 include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/GlobalScreen/NolejMainBarProvider.php");
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/GlobalScreen/NolejNotificationProvider.php");
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
+
+use ILIAS\Nolej\GlobalScreen\NolejNotificationProvider;
+use ILIAS\Nolej\Provider\NolejMainBarProvider;
 
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
 class ilNolejPlugin extends ilRepositoryObjectPlugin
 {
+
 	const PLUGIN_ID = "xnlj";
 	const PLUGIN_NAME = "Nolej";
 	const PLUGIN_DIR = "./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej";

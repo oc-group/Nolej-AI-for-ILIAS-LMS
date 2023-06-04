@@ -1,4 +1,6 @@
-<?php namespace ILIAS\Nolej\Provider;
+<?php declare(strict_types=1);
+
+namespace ILIAS\Nolej\Provider;
 
 use ilNolejHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
