@@ -31,8 +31,8 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	/** @var self|null */
 	protected static $instance = null;
 
-	/** @var bool */
-	protected static $menuItem = false; // Turn true when the menu item has been created
+	/** @var PluginProviderCollection */
+	protected static $pluginProviderCollection;
 
 	/** @var array */
 	static $config = [];
@@ -126,47 +126,6 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		// $this->insertMenuOnce();
 		return self::PLUGIN_NAME;
 	}
-
-	// public function insertMenuOnce() : void
-	// {
-	// 	global $tpl;
-
-	// 	// Add the menu item
-	// 	try {
-	// 		// This is executed one time only
-	// 		if ($tpl && !$this->menuItem && $this->lang_initialised === true) {
-
-	// 			// Save that the code below has been executed once
-	// 			$this->menuItem = true;
-
-	// 			if (!$this->canAccessModules()) {
-	// 				// Display the menu item only if the user is allowed to
-	// 				return;
-	// 			}
-
-	// 			// Load the menu item template
-	// 			if ($this->is6()) {
-	// 				$menuItem = new ilTemplate("tpl.menu_item_6.js", true, true, self::PLUGIN_DIR);
-	// 			} else if ($this->is7()) {
-	// 				$menuItem = new ilTemplate("tpl.menu_item_7.js", true, true, self::PLUGIN_DIR);
-	// 			} else {
-	// 				// Version not compatible, cannot put menu item
-	// 				$this->menuItem = false;
-	// 				return;
-	// 			}
-
-	// 			$menuItem->setVariable("nlj_LINK", ILIAS_HTTP_PATH . "/goto.php?target=" . self::PERMALINK);
-	// 			$menuItem->setVariable("nlj_ICON", $this->_getIcon(self::PLUGIN_ID, ""));
-	// 			$menuItem->setVariable("nlj_LABEL", $this->txt("plugin_title"));
-
-	// 			// Print the item template in the HTML
-	// 			$tpl->addOnLoadCode($menuItem->get());
-	// 		}
-
-	// 	} catch (Exception $e) {
-	// 		// Ignore
-	// 	}
-	// }
 
 	/**
 	 * Returns a list of all repository object types which can be a parent of this type.
