@@ -37,45 +37,45 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		// $id = $this->id;
 
 		$new_activities = \ilNolejActivity::getNewCounter($user->getId());
-		if ($new_activities == 0) {
+		// if ($new_activities == 0) {
 			return [];
-		}
+		// }
 
 		// Creating a Nolej Notification Item
-		$nolej_icon = $ui->factory()->symbol()->icon()->standard("bdga", "NOLEJ")->withIsOutlined(true);
-		$nolej_title = $ui->factory()->link()->standard(
-			"Test notification", //$lng->txt("mm_badges"),
-			$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
-		);
-		$latest = new \ilDateTime(\ilNolejActivity::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
-		$nolej_notification_item = $ui
-			->factory()
-			->item()
-			->notification($nolej_title, $nolej_icon)
-			->withDescription("New Nolej Activity")
-			->withProperties([$lng->txt("time") => \ilDatePresentation::formatDate($latest)]);
+		// $nolej_icon = $ui->factory()->symbol()->icon()->standard("bdga", "NOLEJ")->withIsOutlined(true);
+		// $nolej_title = $ui->factory()->link()->standard(
+		// 	"Test notification", //$lng->txt("mm_badges"),
+		// 	$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
+		// );
+		// $latest = new \ilDateTime(\ilNolejActivity::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
+		// $nolej_notification_item = $ui
+		// 	->factory()
+		// 	->item()
+		// 	->notification($nolej_title, $nolej_icon)
+		// 	->withDescription("New Nolej Activity")
+		// 	->withProperties([$lng->txt("time") => \ilDatePresentation::formatDate($latest)]);
 
-		$group = $factory
-			->standardGroup($this->id('nolej_bucket_group'))
-			->withTitle("Nolej activities")
-			->addNotification(
-				$factory->standard($this->id('nolej_bucket'))
-				->withNotificationItem($nolej_notification_item)
-				// ->withClosedCallable(
-				// 	function () use ($user) {
-				// 		// Stuff we do, when the notification is closed
-				// 		$noti_repo = new NolejNotificationPrefRepository($user);
-				// 		$noti_repo->updateLastCheckedTimestamp();
-				// 	}
-				// )
-				->withNewAmount($new_activities)
-			)
-			->withOpenedCallable(function () {
-				// Stuff we do, when the notification is opened
-			});
+		// $group = $factory
+		// 	->standardGroup($this->id('nolej_bucket_group'))
+		// 	->withTitle("Nolej activities")
+		// 	->addNotification(
+		// 		$factory->standard($this->id('nolej_bucket'))
+		// 		->withNotificationItem($nolej_notification_item)
+		// 		// ->withClosedCallable(
+		// 		// 	function () use ($user) {
+		// 		// 		// Stuff we do, when the notification is closed
+		// 		// 		$noti_repo = new NolejNotificationPrefRepository($user);
+		// 		// 		$noti_repo->updateLastCheckedTimestamp();
+		// 		// 	}
+		// 		// )
+		// 		->withNewAmount($new_activities)
+		// 	)
+		// 	->withOpenedCallable(function () {
+		// 		// Stuff we do, when the notification is opened
+		// 	});
 
-		return [
-			$group,
-		];
+		// return [
+		// 	$group,
+		// ];
 	}
 }
