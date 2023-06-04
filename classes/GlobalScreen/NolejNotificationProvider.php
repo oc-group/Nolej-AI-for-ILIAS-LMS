@@ -23,14 +23,6 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 	/**
 	 * @inheritDoc
 	 */
-	public function getPluginID() : string
-	{
-		return \ilNolejPlugin::PLUGIN_ID;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function getNotifications() : array
 	{
 		global $DIC;
