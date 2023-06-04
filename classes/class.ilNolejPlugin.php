@@ -53,9 +53,6 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		parent::__construct();
 		$this->provider_collection = self::getPluginProviderCollection(); // Fix overflow
 		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
-
-		// $this->provider_collection->setMainBarProvider(new NolejMainBarProvider($DIC, $this));
-		$this->provider_collection->setNotificationProvider(new NolejNotificationProvider($DIC, $this));
 	}
 
 	/**
@@ -68,6 +65,23 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * @return PluginProviderCollection
+	 */
+	protected static function getPluginProviderCollection()
+	{
+		global $DIC;
+		if (self::$pluginProviderCollection === null) {
+			self::$pluginProviderCollection = new PluginProviderCollection();
+
+			// self::$pluginProviderCollection->setMetaBarProvider(self::helpMe()->metaBar());
+			self::$pluginProviderCollection->setMainBarProvider(new NolejMainBarProvider($DIC, self::getInstance()));
+			self::$pluginProviderCollection->setNotificationProvider(new NolejNotificationProvider($DIC, self::getInstance()));
+		}
+
+		return self::$pluginProviderCollection;
 	}
 
 	/** @return bool */
