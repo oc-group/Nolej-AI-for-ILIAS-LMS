@@ -9,7 +9,7 @@ namespace ILIAS\Nolej\Provider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
 use ILIAS\Nolej\Notification\NolejNotificationPrefRepository;
-// use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
+use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 // use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
 /**
@@ -17,7 +17,7 @@ use ILIAS\Nolej\Notification\NolejNotificationPrefRepository;
  * 
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
-class NolejNotificationProvider extends AbstractNotificationPluginProvider
+class NolejNotificationProvider extends AbstractNotificationProvider
 {
 
 	/**
