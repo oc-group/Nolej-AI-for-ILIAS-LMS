@@ -7,7 +7,7 @@ require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 use ILIAS\Nolej\Provider\NolejNotificationProvider;
-// use ILIAS\Nolej\Provider\NolejMainBarProvider;
+use ILIAS\Nolej\Provider\NolejMainBarProvider;
 
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
