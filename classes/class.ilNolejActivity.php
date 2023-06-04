@@ -170,31 +170,6 @@ class ilNolejActivity
 		return $res;
 	}
 
-	// public static function getInstancesByParentId($a_parent_obj_id)
-	// {
-	// 	global $DIC;
-
-	// 	$ilDB = $DIC->database();
-
-	// 	$res = array();
-
-	// 	$badge_ids = array();
-	// 	foreach (ilBadge::getInstancesByParentId($a_parent_obj_id) as $badge) {
-	// 		$badge_ids[] = $badge->getId();
-	// 	}
-	// 	if (sizeof($badge_ids)) {
-	// 		$set = $ilDB->query("SELECT * FROM badge_user_badge" .
-	// 		" WHERE " . $ilDB->in("badge_id", $badge_ids, "", "integer"));
-	// 		while ($row = $ilDB->fetchAssoc($set)) {
-	// 			$obj = new self();
-	// 			$obj->importDBRow($row);
-	// 			$res[] = $obj;
-	// 		}
-	// 	}
-
-	// 	return $res;
-	// }
-
 	/**
 	 * @param string $a_doc_id
 	 */
@@ -421,7 +396,7 @@ class ilNolejActivity
 			!$this->getUserId() ||
 			!$this->getAction()
 		) {
-			ilUtil::sendFailure("some value null", true);
+			ilUtil::sendFailure("Some value null", true);
 			return;
 		}
 
@@ -437,7 +412,6 @@ class ilNolejActivity
 		} else {
 			$res = $ilDB->update(ilNolejPlugin::TABLE_ACTIVITY, $fields, $keys);
 		}
-		ilUtil::sendFailure("Res value: " . $res, true);
 	}
 
 	public function delete()
