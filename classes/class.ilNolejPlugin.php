@@ -111,17 +111,6 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		);
 	}
 
-	// protected function isActiveManual() : bool
-	// {
-	// 	global $DIC;
-	// 	return $DIC["ilPluginAdmin"]->isActive(
-	// 		IL_COMP_SERVICE,
-	// 		self::CNAME,
-	// 		self::SLOT_ID,
-	// 		self::PLUGIN_NAME
-	// 	);
-	// }
-
 	/**
 	 * Must correspond to the plugin subdirectory
 	 * @return string
@@ -159,7 +148,10 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		$rbacreview = $DIC['rbacreview'];
 		if (
 			$ilUser->getId() == SYSTEM_USER_ID ||
-			in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))
+			in_array(
+				SYSTEM_ROLE_ID,
+				$rbacreview->assignedRoles($ilUser->getId())
+			)
 		) {
 			return self::$isAdmin = true;
 		}
@@ -205,17 +197,17 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	/** @return bool */
 	public function currentUserHasRole()
 	{
-		global $ilUser;
+		// global $ilUser;
 
-		$user_roles = self::dic()->rbac()->review()->assignedGlobalRoles($ilUser->getId());
-		return true;
+		// $user_roles = self::dic()->rbac()->review()->assignedGlobalRoles($ilUser->getId());
+		// return true;
 		// $config_roles = $this->config()->getValue(FormBuilder::KEY_ROLES);
 
-		foreach ($user_roles as $user_role) {
-			if (in_array($user_role, $config_roles)) {
-				return true;
-			}
-		}
+		// foreach ($user_roles as $user_role) {
+		// 	if (in_array($user_role, $config_roles)) {
+		// 		return true;
+		// 	}
+		// }
 
 		return false;
 	}
