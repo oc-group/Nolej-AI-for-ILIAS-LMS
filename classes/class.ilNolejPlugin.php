@@ -53,7 +53,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 
 		parent::__construct();
 		// $this->provider_collection = $this->getPluginProviderCollection(); // Fix overflow
-		$this->provider_collection->setNotificationProvider(new NolejNotificationProvider($DIC, $this));
+		// $this->provider_collection->setNotificationProvider(new NolejNotificationProvider($DIC, $this));
 		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
 	}
 
@@ -62,10 +62,12 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	 */
 	public static function getInstance()
 	{
+		global $DIC;
 		if (self::$instance === null) {
 			self::$instance = new self();
 		}
 
+		self::$instance->provider_collection->setNotificationProvider(new NolejNotificationProvider($DIC, self::$instance));
 		return self::$instance;
 	}
 
