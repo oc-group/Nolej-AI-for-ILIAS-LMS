@@ -86,7 +86,9 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		return self::$pluginProviderCollection;
 	}
 
-	/** @return bool */
+	/**
+	 * @return bool
+	 */
 	protected function is6()
 	{
 		return (
@@ -95,7 +97,9 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		);
 	}
 
-	/** @return bool */
+	/**
+	 * @return bool
+	 */
 	protected function is7() : bool
 	{
 		return (
@@ -121,11 +125,6 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	 */
 	public function getPluginName()
 	{
-		// if (!$this->isActiveManual()) {
-		// 	return self::PLUGIN_NAME;
-		// }
-
-		// $this->insertMenuOnce();
 		return self::PLUGIN_NAME;
 	}
 
@@ -139,7 +138,9 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		return $par_types;
 	}
 
-	/** @return bool */
+	/**
+	 * @return bool
+	 */
 	public function isAdmin()
 	{
 		global $DIC, $ilUser;
