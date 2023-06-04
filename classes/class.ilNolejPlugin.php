@@ -33,7 +33,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	protected static $instance = null;
 
 	/** @var PluginProviderCollection|null */
-	protected static $pluginProviderCollection;
+	protected static $pluginProviderCollection = null;
 
 	/** @var array */
 	static $config = [];
@@ -52,7 +52,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		global $DIC;
 
 		parent::__construct();
-		// $this->provider_collection = self::getPluginProviderCollection(); // Fix overflow
+		$this->provider_collection = $this->getPluginProviderCollection(); // Fix overflow
 		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
 	}
 
@@ -71,7 +71,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	/**
 	 * @return PluginProviderCollection
 	 */
-	protected static function getPluginProviderCollection()
+	protected function getPluginProviderCollection()
 	{
 		global $DIC;
 		if (self::$pluginProviderCollection === null) {
