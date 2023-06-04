@@ -421,6 +421,7 @@ class ilNolejActivity
 			!$this->getUserId() ||
 			!$this->getAction()
 		) {
+			ilUtil::sendFailure("some value null", true);
 			return;
 		}
 
@@ -432,10 +433,11 @@ class ilNolejActivity
 		$fields = $this->getPropertiesForStorage();
 
 		if (!(bool) $this->stored) {
-			$ilDB->insert(ilNolejPlugin::TABLE_ACTIVITY, $fields + $keys);
+			$res = $ilDB->insert(ilNolejPlugin::TABLE_ACTIVITY, $fields + $keys);
 		} else {
-			$ilDB->update(ilNolejPlugin::TABLE_ACTIVITY, $fields, $keys);
+			$res = $ilDB->update(ilNolejPlugin::TABLE_ACTIVITY, $fields, $keys);
 		}
+		ilUtil::sendFailure("Res value: " . $res, true);
 	}
 
 	public function delete()
