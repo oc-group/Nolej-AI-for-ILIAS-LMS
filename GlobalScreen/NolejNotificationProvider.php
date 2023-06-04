@@ -26,7 +26,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		$user = $this->dic->user();
 		$ctrl = $this->dic->ctrl();
 
-		$lng->loadLanguageModule("badge");
+		// $lng->loadLanguageModule("badge");
 
 		$factory = $this->notification_factory;
 		$id = function (string $id) : IdentificationInterface {
@@ -38,20 +38,20 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 			return [];
 		}
 
-		// Creating a badge Notification Item
-		$badge_icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", $lng->txt("badge_badge"))->withIsOutlined(true);
-		$badge_title = $ui->factory()->link()->standard(
+		// Creating a Nolej Notification Item
+		$nolej_icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", "NOLEJ")->withIsOutlined(true);
+		$nolej_title = $ui->factory()->link()->standard(
 			"Test notification", //$lng->txt("mm_badges"),
 			$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
 		);
 		$latest = new \ilDateTime(\ilNolejActivity::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
-		$nolej_notification_item = $ui->factory()->item()->notification($badge_title, $badge_icon)
-			->withDescription(str_replace("%1", $new_activities, $lng->txt("badge_new_badges")))
+		$nolej_notification_item = $ui->factory()->item()->notification($nolej_title, $nolej_icon)
+			->withDescription(str_replace("%1", $new_activities, "New Nolej Activity"))
 			->withProperties([$lng->txt("time") => \ilDatePresentation::formatDate($latest)]);
 
-		$group = $factory->standardGroup($id('badge_bucket_group'))->withTitle($lng->txt('badge_badge'))
+		$group = $factory->standardGroup($id('nolej_bucket_group'))->withTitle("Nolej activities")
 			->addNotification(
-				$factory->standard($id('badge_bucket'))->withNotificationItem($nolej_notification_item)
+				$factory->standard($id('nolej_bucket'))->withNotificationItem($nolej_notification_item)
 				->withClosedCallable(
 					function () use ($user) {
 						// Stuff we do, when the notification is closed
