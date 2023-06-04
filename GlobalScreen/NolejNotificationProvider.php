@@ -4,7 +4,7 @@
 
 namespace ILIAS\Nolej\GlobalScreen;
 
-require_once("./src/GlobalScreen/Scope/Notification/Provider/AbstractNotificationPluginProvider.php");
+// require_once("./src/GlobalScreen/Scope/Notification/Provider/AbstractNotificationPluginProvider.php");
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 // use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
