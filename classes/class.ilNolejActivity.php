@@ -12,7 +12,7 @@ class ilNolejActivity
 	/** @var ilDBInterface */
 	protected $db;
 
-	/** @var int */
+	/** @var string */
 	protected $document_id;
 
 	/** @var int */
@@ -43,7 +43,7 @@ class ilNolejActivity
 	protected $stored;
 
 	/**
-	 * @param int|null $a_doc_id
+	 * @param string|null $a_doc_id
 	 * @param int|null $a_user_id
 	 * @param string|null $a_action
 	 */
@@ -144,6 +144,9 @@ class ilNolejActivity
 		return $res;
 	}
 
+	/**
+	 * @param string $a_doc_id
+	 */
 	public static function getInstancesByDocumentId($a_doc_id)
 	{
 		global $DIC;
@@ -152,9 +155,11 @@ class ilNolejActivity
 
 		$res = array();
 
-		$set = $ilDB->query(
+		$set = $ilDB->queryF(
 			"SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
-			. " WHERE document_id = " . $ilDB->quote($a_doc_id, "integer")
+			. " WHERE document_id = %s",
+			array("text"),
+			array($a_doc_id)
 		);
 		while ($row = $ilDB->fetchAssoc($set)) {
 			$obj = new self();
@@ -190,6 +195,9 @@ class ilNolejActivity
 	// 	return $res;
 	// }
 
+	/**
+	 * @param string $a_doc_id
+	 */
 	public static function getAssignedUsers($a_doc_id)
 	{
 		$res = array();
@@ -201,6 +209,11 @@ class ilNolejActivity
 		return $res;
 	}
 
+	/**
+	 * @param string $a_doc_id
+	 * @param int $a_user_id
+	 * @param string $a_action
+	 */
 	public static function exists($a_doc_id, $a_user_id, $a_action)
 	{
 		$obj = new self($a_doc_id, $a_user_id, $a_action);
@@ -323,6 +336,11 @@ class ilNolejActivity
 		$this->setPosition($a_row["pos"]);
 	}
 
+	/**
+	 * @param string $a_doc_id
+	 * @param int $a_user_id
+	 * @param string $a_action
+	 */
 	protected function read($a_doc_id, $a_user_id, $a_action)
 	{
 		$ilDB = $this->db;
@@ -330,7 +348,7 @@ class ilNolejActivity
 		$set = $ilDB->queryF(
 			"SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
 			. " WHERE document_id = %s AND user_id = %s AND action = %s",
-			array("integer", "integer", "text"),
+			array("text", "integer", "text"),
 			array($a_doc_id, $a_user_id, $a_action)
 		);
 		$row = $ilDB->fetchAssoc($set);
@@ -381,9 +399,9 @@ class ilNolejActivity
 		}
 
 		$keys = array(
-			"document_id" => array("integer", $this->getDocumentId()),
+			"document_id" => array("text", $this->getDocumentId()),
 			"user_id" => array("integer", $this->getUserId()),
-			"action" => array("string", $this->getAction())
+			"action" => array("text", $this->getAction())
 		);
 		$fields = $this->getPropertiesForStorage();
 
@@ -413,6 +431,9 @@ class ilNolejActivity
 		);
 	}
 
+	/**
+	 * @param int $a_user_id
+	 */
 	public static function deleteByUserId($a_user_id)
 	{
 		foreach (self::getInstancesByUserId($a_user_id) as $ass) {
@@ -420,6 +441,9 @@ class ilNolejActivity
 		}
 	}
 
+	/**
+	 * @param string $a_doc_id
+	 */
 	public static function deleteByDocumentId($a_doc_id)
 	{
 		foreach (self::getInstancesByDocumentId($a_doc_id) as $ass) {
