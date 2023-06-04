@@ -10,6 +10,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 // use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 // use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
+use ILIAS\Nolej\Notification\NolejNotificationPrefRepository;
 
 /**
  * Class NolejNotificationProvider
@@ -55,7 +56,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 				->withClosedCallable(
 					function () use ($user) {
 						// Stuff we do, when the notification is closed
-						$noti_repo = new \ILIAS\Nolej\Notification\NolejNotificationPrefRepository($user);
+						$noti_repo = new NolejNotificationPrefRepository($user);
 						$noti_repo->updateLastCheckedTimestamp();
 					}
 				)

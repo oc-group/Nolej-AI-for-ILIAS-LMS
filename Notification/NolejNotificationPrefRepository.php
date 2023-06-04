@@ -10,7 +10,7 @@ namespace ILIAS\Nolej\Notification;
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
-class BadgeNotificationPrefRepository
+class NolejNotificationPrefRepository
 {
 	/**
 	 * @var \ilObjUser
