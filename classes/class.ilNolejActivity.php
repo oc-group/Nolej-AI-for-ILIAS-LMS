@@ -224,41 +224,65 @@ class ilNolejActivity
 	// setter/getter
 	//
 
+	/**
+	 * @param string $a_value
+	 */
 	protected function setDocumentId($a_value)
 	{
 		$this->document_id = (int) $a_value;
 	}
 
+	/**
+	 * @return string|null
+	 */
 	public function getDocumentId()
 	{
 		return $this->document_id;
 	}
 
+	/**
+	 * @param int $a_value
+	 */
 	protected function setUserId($a_value)
 	{
 		$this->user_id = (int) $a_value;
 	}
 
+	/**
+	 * @return int|null
+	 */
 	public function getUserId()
 	{
 		return $this->user_id;
 	}
 
+	/**
+	 * @param string $a_value
+	 */
 	protected function setAction($a_value)
 	{
 		$this->action = $a_value;
 	}
 
+	/**
+	 * @return string|null
+	 */
 	public function getAction()
 	{
 		return $this->action;
 	}
 
+	/**
+	 * @param int $a_value
+	 */
 	protected function setTimestamp($a_value)
 	{
 		$this->tstamp = (int) $a_value;
 	}
 
+	/**
+	 * @return int|null
+	 */
 	public function getTimestamp()
 	{
 		return $this->tstamp;
@@ -354,6 +378,8 @@ class ilNolejActivity
 		$row = $ilDB->fetchAssoc($set);
 		if ($row["user_id"]) {
 			$this->importDBRow($row);
+		} else {
+			$this->setTimestamp(time());
 		}
 	}
 
