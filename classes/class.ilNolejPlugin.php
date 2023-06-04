@@ -51,6 +51,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		global $DIC;
 
 		parent::__construct();
+		$this->provider_collection = self::getPluginProviderCollection(); // Fix overflow
 		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
 
 		// $this->provider_collection->setMainBarProvider(new NolejMainBarProvider($DIC, $this));
