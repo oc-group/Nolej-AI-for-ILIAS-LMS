@@ -1,11 +1,11 @@
 <?php
 include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
-include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/GlobalScreen/NolejMainBarProvider.php");
+// include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/GlobalScreen/NolejMainBarProvider.php");
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/GlobalScreen/NolejNotificationProvider.php");
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
 
 use ILIAS\Nolej\GlobalScreen\NolejNotificationProvider;
-use ILIAS\Nolej\Provider\NolejMainBarProvider;
+// use ILIAS\Nolej\Provider\NolejMainBarProvider;
 
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
@@ -53,7 +53,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		parent::__construct();
 		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
 
-		$this->provider_collection->setMainBarProvider(new NolejMainBarProvider($DIC, $this));
+		// $this->provider_collection->setMainBarProvider(new NolejMainBarProvider($DIC, $this));
 		$this->provider_collection->setNotificationProvider(new NolejNotificationProvider($DIC, $this));
 	}
 
