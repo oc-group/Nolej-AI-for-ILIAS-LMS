@@ -19,13 +19,6 @@ use ILIAS\Nolej\Notification\NolejNotificationPrefRepository;
  */
 class NolejNotificationProvider extends AbstractNotificationPluginProvider
 {
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(Container $dic)
-	{
-		parent::__construct($dic);
-	}
 
 	/**
 	 * @inheritDoc
