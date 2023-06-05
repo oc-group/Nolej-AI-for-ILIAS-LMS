@@ -233,7 +233,7 @@ class ilNolejActivityManagementGUI
 			$mediaSource->addOption($mediaFile);
 
 			$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_INPUT_FILE), self::PROP_INPUT_FILE);
-			$file->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_FILE . "_info") . $this->plugin->txt("prop_file_limits"));
+			$file->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_FILE . "_info"));
 			$file->setRequired(true);
 			$file->setSuffixes([
 				"mp3", "was", "opus", "ogg", "oga", "m4a", // Audio
@@ -326,6 +326,8 @@ class ilNolejActivityManagementGUI
 		$this->initSubTabs(self::SUBTAB_CREATION);
 
 		$form = $this->initCreationForm();
+		ilUtil::sendInfo($this->plugin->txt("prop_file_limits"));
+
 		$tpl->setContent($form->getHTML());
 	}
 
