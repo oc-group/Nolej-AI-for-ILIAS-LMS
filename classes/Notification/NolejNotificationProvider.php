@@ -78,7 +78,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 							$noti_repo->updateLastCheckedTimestamp();
 						}
 					)
-					->withNewAmount(count($new_activities))
+					->withNewAmount(1)
 			);
 		}
 
