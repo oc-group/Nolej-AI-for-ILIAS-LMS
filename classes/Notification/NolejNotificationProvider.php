@@ -79,7 +79,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 				->factory()
 				->item()
 				->notification($activity["document_id"], $nolej_icon)
-				->withDescription($title->render())
+				->withDescription($title)
 				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($ts)]);
 
 			$group->addNotification(
