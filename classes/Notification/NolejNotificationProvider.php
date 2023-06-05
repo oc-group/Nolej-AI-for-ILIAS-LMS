@@ -65,7 +65,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 				->item()
 				->notification($title, $nolej_icon)
 				->withDescription("New Nolej Activity")
-				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($latest)]);
+				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($new_activities[$i]->getTimestamp())]);
 
 			$group->addNotification(
 				$factory
