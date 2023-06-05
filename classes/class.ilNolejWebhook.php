@@ -1,6 +1,6 @@
 <?php
 
-include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivity.php");
+include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
 
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
@@ -99,7 +99,7 @@ class ilNolejWebhook
 		}
 
 		// Notification
-		$ass = new ilNolejActivity($exchangeId, $exchange["user_id"], $exchange["action"]);
+		$ass = new NolejActivity($exchangeId, $exchange["user_id"], $exchange["action"]);
 		$ass->withStatus("ok")
 			->withCode(0)
 			->withErrorMessage($this->data["message"])

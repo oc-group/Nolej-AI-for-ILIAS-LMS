@@ -7,7 +7,7 @@
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
-class ilNolejActivity
+class NolejActivity
 {
 	/** @var ilDBInterface */
 	protected $db;

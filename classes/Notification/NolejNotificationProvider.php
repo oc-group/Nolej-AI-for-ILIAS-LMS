@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivity.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
@@ -34,7 +34,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		$factory = $this->notification_factory;
 		// $id = $this->id;
 
-		$new_activities = ilNolejActivity::getNewCounter($user->getId());
+		$new_activities = NolejActivity::getNewCounter($user->getId());
 		if ($new_activities == 0) {
 			return [];
 		}
@@ -45,7 +45,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 			"Test notification", //$lng->txt("mm_badges"),
 			$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
 		);
-		$latest = new ilDateTime(ilNolejActivity::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
+		$latest = new ilDateTime(NolejActivity::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
 		$nolej_notification_item = $ui
 			->factory()
 			->item()
