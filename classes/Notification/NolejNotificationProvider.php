@@ -40,7 +40,11 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
             return $this->if->identifier($id);
         };
 
-		$new_activities = NolejActivity::getInstancesByUserId($user->getId());
+		$new_activities = NolejActivity::getActivitiesForUser(
+			$user->getId(),
+			$noti_repo->getLastCheckedTimestamp()
+		);
+
 		if (count($new_activities) == 0) {
 			return [];
 		}
@@ -57,14 +61,14 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 
 		$group = $factory
 			->standardGroup($id('nolej_bucket_group'))
-			->withTitle("Nolej activities")
+			->withTitle($plugin->txt("plugin_title"))
 			->withOpenedCallable(function () {
 				// Stuff we do, when the notification is opened
 			});
 
 		for ($i = 0, $len = count($new_activities); $i < $len; $i++) {
 			$title = $ui->factory()->link()->standard(
-				$plugin->txt("activity_" . ($new_activities[$i]->getAction() ?? "")),
+				$plugin->txt("action_" . ($new_activities[$i]->getAction() ?? "")),
 				$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
 			);
 			$ts = new ilDateTime($new_activities[$i]->getTimestamp(), IL_CAL_UNIX);
@@ -72,8 +76,8 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 			$nolej_notification_item = $ui
 				->factory()
 				->item()
-				->notification($title, $nolej_icon)
-				->withDescription("New Nolej Activity")
+				->notification($new_activities[$i]->getDocumentId(), $nolej_icon)
+				->withDescription($title)
 				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($ts)]);
 
 			$group->addNotification(

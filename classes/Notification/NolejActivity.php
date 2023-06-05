@@ -483,14 +483,15 @@ class NolejActivity
 	 * Get activities for user
 	 * @param int $a_user_id
 	 * @param int $a_ts_from
-	 * @param int $a_ts_to
+	 * @param int|null $a_ts_to
 	 * @return array
 	 */
-	public static function getActivitiesForUser($a_user_id, $a_ts_from, $a_ts_to)
+	public static function getActivitiesForUser($a_user_id, $a_ts_from, $a_ts_to = null)
 	{
 		global $DIC;
-
 		$db = $DIC->database();
+
+		$a_ts_to = $a_ts_to == null ? time() : $a_ts_to;
 
 		$set = $db->queryF(
 			"SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
@@ -556,17 +557,6 @@ class NolejActivity
 	// 	$json->verify = $verify;
 
 	// 	return $json;
-	// }
-
-	// public function getImagePath(ilBadge $a_badge)
-	// {
-	// 	$json_path = ilBadgeHandler::getInstance()->getInstancePath($this);
-	// 	$baked_path = dirname($json_path);
-	// 	$baked_file = array_shift(explode(".", basename($json_path)));
-
-	// 	// get correct suffix from badge image
-	// 	$suffix = strtolower(array_pop(explode(".", basename($a_badge->getImagePath()))));
-	// 	return $baked_path . "/" . $baked_file . "." . $suffix;
 	// }
 
 	// protected function bakeImage($a_baked_image_path, $a_badge_image_path, $a_assertion_url)
