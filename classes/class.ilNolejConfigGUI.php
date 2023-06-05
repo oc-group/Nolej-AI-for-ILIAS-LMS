@@ -208,7 +208,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			return;
 		}
 
-		$ass = new NolejActivity("123", 6, "testtac");
+		$ass = new NolejActivity("tst-" . time(), 6, "testtac");
 		$ass->withStatus("ok")
 			->withCode(0)
 			->withErrorMessage("")
