@@ -34,7 +34,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		$factory = $this->notification_factory;
 		// $id = $this->id;
 
-		$new_activities = \ilNolejActivity::getNewCounter($user->getId());
+		$new_activities = ilNolejActivity::getNewCounter($user->getId());
 		if ($new_activities == 0) {
 			return [];
 		}
@@ -45,13 +45,13 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 			"Test notification", //$lng->txt("mm_badges"),
 			$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
 		);
-		$latest = new \ilDateTime(\ilNolejActivity::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
+		$latest = new ilDateTime(ilNolejActivity::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
 		$nolej_notification_item = $ui
 			->factory()
 			->item()
 			->notification($nolej_title, $nolej_icon)
 			->withDescription("New Nolej Activity")
-			->withProperties([$lng->txt("time") => \ilDatePresentation::formatDate($latest)]);
+			->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($latest)]);
 
 		$group = $factory
 			->standardGroup($this->id('nolej_bucket_group'))

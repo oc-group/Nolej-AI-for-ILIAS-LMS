@@ -81,8 +81,8 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 			return $this->provider_collection;
 		}
 
-		require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/NolejMainBarProvider.php");
-		require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/NolejNotificationProvider.php");
+		require_once(self::PLUGIN_DIR . "/classes/MainBar/NolejMainBarProvider.php");
+		require_once(self::PLUGIN_DIR . "/classes/Notification/NolejNotificationProvider.php");
 		if (self::$pluginProviderCollection === null) {
 			self::$pluginProviderCollection = new PluginProviderCollection();
 
