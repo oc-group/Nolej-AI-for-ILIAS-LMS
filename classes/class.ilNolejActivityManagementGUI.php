@@ -1,7 +1,6 @@
 <?php
 
 /**
- * Plugin configuration class
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  * 
  * @ilCtrl_isCalledBy ilNolejActivityManagementGUI: ilObjNolejGUI
@@ -420,6 +419,7 @@ class ilNolejActivityManagementGUI
 		$this->initSubTabs(self::SUBTAB_ANALYSIS);
 
 		// TODO
+		// ilUtil::getWebspaceDir()."/xxco/
 	}
 
 	public function analyze()
