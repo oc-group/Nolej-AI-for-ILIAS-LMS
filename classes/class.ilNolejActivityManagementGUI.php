@@ -214,7 +214,7 @@ class ilNolejActivityManagementGUI
 			$mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
 			$mediaSource->addOption($mediaMob);
 
-			$mob = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_INPUT_MOB), self::PROP_INPUT_MOB);
+			$mob = new ilFileInputGUI("", self::PROP_INPUT_MOB);
 			// $mob->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_MOB . "_info"));
 			$mob->setRequired(true);
 			$mediaMob->addSubItem($mob);
@@ -232,7 +232,7 @@ class ilNolejActivityManagementGUI
 			$mediaFile->setInfo($this->plugin->txt("prop_" . self::PROP_M_FILE . "_info"));
 			$mediaSource->addOption($mediaFile);
 
-			$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_INPUT_FILE), self::PROP_INPUT_FILE);
+			$file = new ilFileInputGUI("", self::PROP_INPUT_FILE);
 			// $file->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_FILE . "_info"));
 			$file->setRequired(true);
 			$file->setSuffixes([
