@@ -68,9 +68,17 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 
 		for ($i = 0, $len = count($new_activities); $i < $len; $i++) {
 			$activity = $new_activities[$i];
-			$documentTitle = $activity->getAction() == "tac"
-				? "TAC"
-				: (NolejActivity::lookupDocumentTitle($activity->getDocumentId()) ?? "nf-" . $activity->getAction());
+
+			switch ($activity->getAction()) {
+				case "tac":
+				case "tic":
+					$documentTitle = $plugin->txt("action_" . ($activity->getAction() ?? ""));
+					break;
+
+				default:
+				$documentTitle = NolejActivity::lookupDocumentTitle($activity->getDocumentId()) ?? "nf-" . $activity->getAction();
+			}
+			
 			$title = $ui->factory()->link()->standard(
 				$documentTitle,
 				$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
