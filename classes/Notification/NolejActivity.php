@@ -44,6 +44,12 @@ class NolejActivity
 	/** @var bool */
 	protected $stored;
 
+	/** @var int|null */
+	protected $objId = null;
+
+	/** @var int|null */
+	protected $refId = null;
+
 	/**
 	 * @param string|null $a_doc_id
 	 * @param int|null $a_user_id
@@ -509,23 +515,51 @@ class NolejActivity
 	}
 
 	/**
-	 * @param string $a_doc_id
-	 * @return string
+	 * @return int|null
 	 */
-	public static function lookupDocumentTitle($a_doc_id)
+	public function lookupObjId()
 	{
 		global $DIC;
+
+		if ($this->objId != null) {
+			return $this->objId;
+		}
+
 		$db = $DIC->database();
+
 		$res = $db->queryF(
-			"SELECT title"
-			. " FROM " . ilNolejPlugin::TABLE_DATA . " n INNER JOIN object_data o"
-			. " ON n.id = o.obj_id"
+			"SELECT id FROM " . ilNolejPlugin::TABLE_DATA
 			. " WHERE n.document_id = %s;",
 			array("text"),
-			array($a_doc_id)
+			array($this->getDocumentId())
 		);
 		$row = $db->fetchAssoc($res);
-		return $row["title"];
+		return $this->objId = (int) $row["id"];
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function lookupDocumentTitle()
+	{
+		$objId = $this->lookupObjId();
+		return $objId == null ? null : ilObject::_lookupTitle($objId);
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function lookupRefId()
+	{
+		if ($this->refId != null) {
+			return $this->refId;
+		}
+		$objId = $this->lookupObjId();
+		if ($objId == null) {
+			return null;
+		}
+		$refs = ilObject::_getAllReferences($objId);
+		return $refs ? $refs[0] : null;
 	}
 
 	//

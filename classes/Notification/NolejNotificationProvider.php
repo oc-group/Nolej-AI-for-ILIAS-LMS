@@ -73,15 +73,18 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 				case "tac":
 				case "tic":
 					$documentTitle = $plugin->txt("action_" . ($activity->getAction() ?? ""));
+					$link = "#";
 					break;
 
 				default:
-				$documentTitle = NolejActivity::lookupDocumentTitle($activity->getDocumentId()) ?? "nf-" . $activity->getAction();
+					$documentTitle = $activity->lookupDocumentTitle()
+						?? "nf-" . $activity->getAction();
+					$link = ILIAS_HTTP_PATH . "/goto.php?target=xnlj_" . $activity->lookupRefId();
 			}
-			
+
 			$title = $ui->factory()->link()->standard(
 				$documentTitle,
-				$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
+				$link
 			);
 			// $title = $ui->renderer()->render($titleObj);
 			$ts = new ilDateTime($activity->getTimestamp(), IL_CAL_UNIX);
