@@ -68,21 +68,21 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 
 		for ($i = 0, $len = count($new_activities); $i < $len; $i++) {
 			$activity = $new_activities[$i];
-			$documentTitle = $activity["action"] == "tac"
+			$documentTitle = $activity->getAction() == "tac"
 				? "TAC"
-				: (NolejActivity::lookupDocumentTitle($activity["document_id"]) ?? "nf-" . $activity["action"]);
+				: (NolejActivity::lookupDocumentTitle($activity->getDocumentId()) ?? "nf-" . $activity->getAction());
 			$title = $ui->factory()->link()->standard(
 				$documentTitle,
 				$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
 			);
 			// $title = $ui->renderer()->render($titleObj);
-			$ts = new ilDateTime($activity["tstamp"], IL_CAL_UNIX);
+			$ts = new ilDateTime($activity->getTimestamp(), IL_CAL_UNIX);
 
 			$nolej_notification_item = $ui
 				->factory()
 				->item()
 				->notification($title, $nolej_icon)
-				->withDescription($plugin->txt("action_" . ($activity["action"] ?? "")))
+				->withDescription($plugin->txt("action_" . ($activity->getAction() ?? "")))
 				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($ts)]);
 
 			$group->addNotification(
@@ -90,9 +90,9 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 					->standard($id('nolej_bucket_' . $i))
 					->withNotificationItem($nolej_notification_item)
 					->withClosedCallable(
-						function () use ($noti_repo) {
+						function () use ($activity) {
 							// Stuff we do, when the notification is closed
-							$noti_repo->updateLastCheckedTimestamp();
+							$activity->delete();
 						}
 					)
 					->withNewAmount(1)

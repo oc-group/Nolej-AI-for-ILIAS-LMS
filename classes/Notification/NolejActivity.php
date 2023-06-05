@@ -501,7 +501,9 @@ class NolejActivity
 		);
 		$res = [];
 		while ($rec = $db->fetchAssoc($set)) {
-			$res[] = $rec;
+			$obj = new self();
+			$obj->importDBRow($rec);
+			$res[] = $obj;
 		}
 		return $res;
 	}
