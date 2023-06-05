@@ -42,7 +42,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		}
 
 		// Creating a Nolej Notification Item
-		$nolej_icon = $ui->factory()->symbol()->icon()->standard("bdga", "NOLEJ")->withIsOutlined(true);
+		$nolej_icon = $ui->factory()->symbol()->icon()->standard("xnlj", "NOLEJ")->withIsOutlined(true);
 		$nolej_title = $ui->factory()->link()->standard(
 			"Test notification", //$lng->txt("mm_badges"),
 			$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
