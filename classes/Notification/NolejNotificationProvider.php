@@ -31,6 +31,8 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		$ctrl = $this->dic->ctrl();
 		$plugin = ilNolejPlugin::getInstance();
 
+		$noti_repo = new NolejNotificationPrefRepository($user);
+
 		// $lng->loadLanguageModule("badge");
 
 		$factory = $this->notification_factory;
@@ -79,9 +81,8 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 					->standard($id('nolej_bucket_' . $i))
 					->withNotificationItem($nolej_notification_item)
 					->withClosedCallable(
-						function () use ($user) {
+						function () use ($noti_repo) {
 							// Stuff we do, when the notification is closed
-							$noti_repo = new NolejNotificationPrefRepository($user);
 							$noti_repo->updateLastCheckedTimestamp();
 						}
 					)
