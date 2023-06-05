@@ -69,7 +69,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 
 			$group->addNotification(
 				$factory
-					->standard($id('nolej_bucket'))
+					->standard($id('nolej_bucket_' . $i))
 					->withNotificationItem($nolej_notification_item)
 					->withClosedCallable(
 						function () use ($user) {
