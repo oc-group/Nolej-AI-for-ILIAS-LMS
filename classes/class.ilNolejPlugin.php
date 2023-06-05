@@ -76,9 +76,10 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	protected function getPluginProviderCollection()
 	{
 		global $DIC;
+		$DIC["global_screen"] = $DIC->globalScreen();
 		echo(isset($DIC["global_screen"]) ? "yes" : "no");
 		die("test");
-		$DIC["global_screen"] = $DIC->globalScreen();
+		
 		require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/NolejMainBarProvider.php");
 		require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/NolejNotificationProvider.php");
 		if (self::$pluginProviderCollection === null) {
