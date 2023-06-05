@@ -1,13 +1,11 @@
 <?php
 include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
-include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/NolejMainBarProvider.php");
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/NolejNotificationProvider.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
-use ILIAS\Nolej\Provider\NolejNotificationProvider;
-use ILIAS\Nolej\Provider\NolejMainBarProvider;
+// use ILIAS\Nolej\Provider\NolejNotificationProvider;
+// use ILIAS\Nolej\Provider\NolejMainBarProvider;
 
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
@@ -53,7 +51,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		global $DIC;
 
 		parent::__construct();
-		
+		$this->provider_collection = $this->getPluginProviderCollection(); // Fix overflow
 		// $this->provider_collection = new PluginProviderCollection();
 		// $this->provider_collection->setNotificationProvider(new NolejNotificationProvider($DIC, $this));
 		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
@@ -67,7 +65,6 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		global $DIC;
 		if (self::$instance === null) {
 			self::$instance = new self();
-			self::$instance->provider_collection = self::$instance->getPluginProviderCollection(); // Fix overflow
 		}
 
 		return self::$instance;
@@ -79,6 +76,8 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	protected function getPluginProviderCollection()
 	{
 		global $DIC;
+		require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/NolejMainBarProvider.php");
+		require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/NolejNotificationProvider.php");
 		if (self::$pluginProviderCollection === null) {
 			self::$pluginProviderCollection = new PluginProviderCollection();
 
