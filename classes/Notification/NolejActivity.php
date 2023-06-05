@@ -427,7 +427,7 @@ class NolejActivity
 			return;
 		}
 
-		$ilDB->manipulate(
+		$ilDB->manipulateF(
 			"DELETE FROM " . ilNolejPlugin::TABLE_ACTIVITY
 			. " WHERE document_id = %s AND user_id = %s AND action = %s",
 			array("integer", "integer", "text"),
