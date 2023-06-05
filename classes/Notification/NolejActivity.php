@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificationPrefRepository.php");
+
 /**
  * Class ilBadgeAssignment
  *
@@ -77,7 +79,7 @@ class NolejActivity
 		$db = $DIC->database();
 
 		$user = new ilObjUser($a_user_id);
-		$noti_repo = new \ILIAS\Nolej\Notification\NolejNotificationPrefRepository($user);
+		$noti_repo = new NolejNotificationPrefRepository($user);
 
 		$last = $noti_repo->getLastCheckedTimestamp();
 
