@@ -99,12 +99,12 @@ class ilNolejWebhook
 		}
 
 		// Notification
-		$ass = new NolejActivity($exchangeId, $exchange["user_id"], $exchange["action"]);
+		$ass = new NolejActivity($exchangeId, $exchange["user_id"], "TAC");
 		$ass->withStatus("ok")
 			->withCode(0)
 			->withErrorMessage($this->data["message"])
-			->withConsumedCredit(0);
-		$ass->store();
+			->withConsumedCredit(0)
+			->store();
 
 		require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
 		$recipient_id = $exchange["user_id"];
