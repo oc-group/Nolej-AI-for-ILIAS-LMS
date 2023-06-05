@@ -72,20 +72,21 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 			switch ($activity->getAction()) {
 				case "tac":
 				case "tic":
-					$documentTitle = $plugin->txt("action_" . ($activity->getAction() ?? ""));
-					$link = "#";
+					$title = $plugin->txt("action_" . ($activity->getAction() ?? ""));
+					$description = "";
 					break;
 
 				default:
 					$documentTitle = $activity->lookupDocumentTitle()
 						?? "nf-" . $activity->getAction();
 					$link = ILIAS_HTTP_PATH . "/goto.php?target=xnlj_" . $activity->lookupRefId();
+					$title = $ui->factory()->link()->standard(
+						$documentTitle,
+						$link
+					);
+					$description = $plugin->txt("action_" . ($activity->getAction() ?? ""));
 			}
 
-			$title = $ui->factory()->link()->standard(
-				$documentTitle,
-				$link
-			);
 			// $title = $ui->renderer()->render($titleObj);
 			$ts = new ilDateTime($activity->getTimestamp(), IL_CAL_UNIX);
 
@@ -93,7 +94,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 				->factory()
 				->item()
 				->notification($title, $nolej_icon)
-				->withDescription($plugin->txt("action_" . ($activity->getAction() ?? "")))
+				->withDescription($description)
 				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($ts)]);
 
 			$group->addNotification(
