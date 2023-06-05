@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-// require_once("./src/GlobalScreen/Scope/Notification/Provider/AbstractNotificationPluginProvider.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivity.php");
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
