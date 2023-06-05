@@ -130,6 +130,11 @@ if(!$ilDB->tableExists("rep_robj_xnlj_tic")) {
 
 /* Document data */
 $fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
 	'document_id' => array(
 		'type' => 'text',
 		'length' => 50,
@@ -185,7 +190,7 @@ $fields = array(
 
 if(!$ilDB->tableExists("rep_robj_xnlj_doc")) {
 	$ilDB->createTable("rep_robj_xnlj_doc", $fields);
-	$ilDB->addPrimaryKey("rep_robj_xnlj_doc", array("document_id"));
+	$ilDB->addPrimaryKey("rep_robj_xnlj_doc", array("id"));
 }
 
 /* Object data */

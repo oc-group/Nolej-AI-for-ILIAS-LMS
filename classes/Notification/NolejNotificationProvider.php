@@ -68,18 +68,19 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 
 		for ($i = 0, $len = count($new_activities); $i < $len; $i++) {
 			$activity = $new_activities[$i];
-			$titleObj = $ui->factory()->link()->standard(
-				$plugin->txt("action_" . ($activity["action"] ?? "")),
+			$documentTitle = NolejActivity::lookupDocumentTitle($activity["document_id"]);
+			$title = $ui->factory()->link()->standard(
+				$documentTitle,
 				$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
 			);
-			$title = $ui->renderer()->render($titleObj);
+			// $title = $ui->renderer()->render($titleObj);
 			$ts = new ilDateTime($activity["tstamp"], IL_CAL_UNIX);
 
 			$nolej_notification_item = $ui
 				->factory()
 				->item()
-				->notification($activity["document_id"], $nolej_icon)
-				->withDescription($title)
+				->notification($title, $nolej_icon)
+				->withDescription($plugin->txt("action_" . ($activity["action"] ?? "")))
 				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($ts)]);
 
 			$group->addNotification(

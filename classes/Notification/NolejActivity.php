@@ -506,6 +506,26 @@ class NolejActivity
 		return $res;
 	}
 
+	/**
+	 * @param string $a_doc_id
+	 * @return string
+	 */
+	public static function lookupDocumentTitle($a_doc_id)
+	{
+		global $DIC;
+		$db = $DIC->database();
+		$res = $db->queryF(
+			"SELECT title"
+			. " FROM " . ilNolejPlugin::TABLE_DATA . " n INNER JOIN object_data o"
+			. " ON n.id = o.obj_id"
+			. " WHERE n.document_id = %s;",
+			array("text"),
+			array($a_doc_id)
+		);
+		$row = $db->fetchAssoc($res);
+		return $row["title"];
+	}
+
 	//
 	// PUBLISHING
 	//

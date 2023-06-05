@@ -99,7 +99,7 @@ class ilNolejWebhook
 		}
 
 		// Notification
-		$ass = new NolejActivity($exchangeId, $exchange["user_id"], "TAC");
+		$ass = new NolejActivity($exchangeId, $exchange["user_id"], "tac");
 		$ass->withStatus("ok")
 			->withCode(0)
 			->withErrorMessage($this->data["message"])
