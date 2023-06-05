@@ -32,7 +32,9 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		// $lng->loadLanguageModule("badge");
 
 		$factory = $this->notification_factory;
-		// $id = $this->id;
+		$id = function (string $id) : IdentificationInterface {
+            return $this->if->identifier($id);
+        };
 
 		$new_activities = NolejActivity::getNewCounter($user->getId());
 		if ($new_activities == 0) {
@@ -54,10 +56,10 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 			->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($latest)]);
 
 		$group = $factory
-			->standardGroup($this->id('nolej_bucket_group'))
+			->standardGroup($id('nolej_bucket_group'))
 			->withTitle("Nolej activities")
 			->addNotification(
-				$factory->standard($this->id('nolej_bucket'))
+				$factory->standard($id('nolej_bucket'))
 				->withNotificationItem($nolej_notification_item)
 				// ->withClosedCallable(
 				// 	function () use ($user) {
