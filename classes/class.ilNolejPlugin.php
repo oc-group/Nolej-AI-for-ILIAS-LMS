@@ -76,7 +76,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	protected function getPluginProviderCollection()
 	{
 		global $DIC;
-		$DIC["global_screen"] = $DIC->globalScreen();
+		$DIC["global_screen2"] = $DIC->globalScreen();
 		echo(isset($DIC["global_screen"]) ? "yes" : "no");
 		die("test");
 		
