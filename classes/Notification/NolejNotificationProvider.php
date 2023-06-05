@@ -44,8 +44,14 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		}
 
 		// Creating a Nolej Notification Item
-		$nolej_icon = $ui->factory()->symbol()->icon()->custom($plugin->getImagePath("outlined/icon_xnlj.svg"), $plugin->txt("plugin_title"));
-		$latest = new ilDateTime(NolejActivity::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
+		$nolej_icon = $ui
+			->factory()
+			->symbol()
+			->icon()
+			->custom(
+				$plugin->getImagePath("outlined/icon_xnlj.svg"),
+				$plugin->txt("plugin_title")
+			);
 
 		$group = $factory
 			->standardGroup($id('nolej_bucket_group'))
@@ -59,13 +65,14 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 				$plugin->txt("activity_" . ($new_activities[$i]->getAction() ?? "")),
 				$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
 			);
+			$ts = new ilDateTime($new_activities[$i]->getTimestamp(), IL_CAL_UNIX);
 
 			$nolej_notification_item = $ui
 				->factory()
 				->item()
 				->notification($title, $nolej_icon)
 				->withDescription("New Nolej Activity")
-				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($new_activities[$i]->getTimestamp())]);
+				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($ts)]);
 
 			$group->addNotification(
 				$factory
