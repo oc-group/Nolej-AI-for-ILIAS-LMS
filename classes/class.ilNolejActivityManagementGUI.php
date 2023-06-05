@@ -202,38 +202,38 @@ class ilNolejActivityManagementGUI
 			// Available: web, audio, video, document, freetext.
 
 			$mediaWeb = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_WEB), self::PROP_M_WEB);
-			// $mediaWeb->setInfo($this->plugin->txt("prop_" . self::PROP_M_WEB . "_info"));
+			$mediaWeb->setInfo($this->plugin->txt("prop_" . self::PROP_M_WEB . "_info"));
 			$mediaSource->addOption($mediaWeb);
 
 			$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_M_URL);
-			$url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
+			// $url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
 			$url->setRequired(true);
 			$mediaWeb->addSubItem($url);
 
 			$mediaMob = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_MOB), self::PROP_M_MOB);
-			// $mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
+			$mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
 			$mediaSource->addOption($mediaMob);
 
 			$mob = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_INPUT_MOB), self::PROP_INPUT_MOB);
-			$mob->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_MOB . "_info"));
+			// $mob->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_MOB . "_info"));
 			$mob->setRequired(true);
 			$mediaMob->addSubItem($mob);
 
 			$mediaYT = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_YT), self::PROP_M_YT);
-			// $mediaYT->setInfo($this->plugin->txt("prop_" . self::PROP_M_YT . "_info"));
+			$mediaYT->setInfo($this->plugin->txt("prop_" . self::PROP_M_YT . "_info"));
 			$mediaSource->addOption($mediaYT);
 
 			$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_INPUT_YT);
-			$url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
+			// $url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
 			$url->setRequired(true);
 			$mediaYT->addSubItem($url);
 
 			$mediaFile = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_FILE), self::PROP_M_FILE);
-			// $mediaFile->setInfo($this->plugin->txt("prop_" . self::PROP_M_FILE . "_info"));
+			$mediaFile->setInfo($this->plugin->txt("prop_" . self::PROP_M_FILE . "_info"));
 			$mediaSource->addOption($mediaFile);
 
 			$file = new ilFileInputGUI($this->plugin->txt("prop_" . self::PROP_INPUT_FILE), self::PROP_INPUT_FILE);
-			$file->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_FILE . "_info"));
+			// $file->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_FILE . "_info"));
 			$file->setRequired(true);
 			$file->setSuffixes([
 				"mp3", "was", "opus", "ogg", "oga", "m4a", // Audio
@@ -243,11 +243,11 @@ class ilNolejActivityManagementGUI
 			$mediaFile->addSubItem($file);
 
 			$mediaText = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
-			// $mediaText->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
+			$mediaText->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
 			$mediaSource->addOption($mediaText);
 
 			$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA), self::PROP_M_TEXTAREA);
-			$txt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA . "_info"));
+			// $txt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA . "_info"));
 			$txt->setRequired(true);
 			// if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
 			// 	$txt->setUseRte(true);
