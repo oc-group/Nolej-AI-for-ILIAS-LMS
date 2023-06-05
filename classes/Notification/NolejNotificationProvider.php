@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificationPrefRepository.php");
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
@@ -37,46 +38,50 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
             return $this->if->identifier($id);
         };
 
-		$new_activities = NolejActivity::getNewCounter($user->getId());
-		if ($new_activities == 0) {
+		$new_activities = NolejActivity::getInstancesByUserId($user->getId());
+		if (count($new_activities) == 0) {
 			return [];
 		}
 
 		// Creating a Nolej Notification Item
 		$nolej_icon = $ui->factory()->symbol()->icon()->custom($plugin->getImagePath("outlined/icon_xnlj.svg"), $plugin->txt("plugin_title"));
-		$nolej_title = $ui->factory()->link()->standard(
-			"Test notification", //$lng->txt("mm_badges"),
-			$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
-		);
 		$latest = new ilDateTime(NolejActivity::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
-		$nolej_notification_item = $ui
-			->factory()
-			->item()
-			->notification($nolej_title, $nolej_icon)
-			->withDescription("New Nolej Activity")
-			->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($latest)]);
 
 		$group = $factory
 			->standardGroup($id('nolej_bucket_group'))
 			->withTitle("Nolej activities")
-			->addNotification(
-				$factory->standard($id('nolej_bucket'))
-				->withNotificationItem($nolej_notification_item)
-				// ->withClosedCallable(
-				// 	function () use ($user) {
-				// 		// Stuff we do, when the notification is closed
-				// 		$noti_repo = new NolejNotificationPrefRepository($user);
-				// 		$noti_repo->updateLastCheckedTimestamp();
-				// 	}
-				// )
-				->withNewAmount($new_activities)
-			)
 			->withOpenedCallable(function () {
 				// Stuff we do, when the notification is opened
 			});
 
-		return [
-			$group,
-		];
+		for ($i = 0, $len = count($new_activities); $i < $len; $i++) {
+			$title = $ui->factory()->link()->standard(
+				$plugin->txt("activity_" . ($new_activities[$i]->getAction() ?? "")),
+				$ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
+			);
+
+			$nolej_notification_item = $ui
+				->factory()
+				->item()
+				->notification($title, $nolej_icon)
+				->withDescription("New Nolej Activity")
+				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($latest)]);
+
+			$group->addNotification(
+				$factory
+					->standard($id('nolej_bucket'))
+					->withNotificationItem($nolej_notification_item)
+					->withClosedCallable(
+						function () use ($user) {
+							// Stuff we do, when the notification is closed
+							$noti_repo = new NolejNotificationPrefRepository($user);
+							$noti_repo->updateLastCheckedTimestamp();
+						}
+					)
+					->withNewAmount($new_activities)
+			);
+		}
+
+		return [$group];
 	}
 }
