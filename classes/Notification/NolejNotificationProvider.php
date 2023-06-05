@@ -7,9 +7,9 @@ require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificatio
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
-use ILIAS\Nolej\Notification\NolejNotificationPrefRepository;
-use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
-use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+// use ILIAS\Nolej\Notification\NolejNotificationPrefRepository;
+// use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
+// use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
 /**
  * Class NolejNotificationProvider
