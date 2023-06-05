@@ -246,7 +246,7 @@ class ilNolejActivityManagementGUI
 			$mediaText->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
 			$mediaSource->addOption($mediaText);
 
-			$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA), self::PROP_M_TEXTAREA);
+			$txt = new ilTextAreaInputGUI("", self::PROP_M_TEXTAREA);
 			// $txt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA . "_info"));
 			$txt->setRequired(true);
 			// if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
