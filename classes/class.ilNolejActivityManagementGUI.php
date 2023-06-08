@@ -482,8 +482,8 @@ class ilNolejActivityManagementGUI
 		$result = $api->post(
 			"/documents",
 			[
-				"userID" => "",
-				"organisationID" => "",
+				"userID" => $DIC->user()->getId(),
+				"organisationID" => ($DIC->settings()->get('short_inst_name') ?? "ILIAS") . " [ILIAS Plugin]",
 				"title" => $apiTitle,
 				"decrementedCredit" => $decrementedCredit,
 				"docURL" => $apiUrl,
