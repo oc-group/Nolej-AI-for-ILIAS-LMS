@@ -5,7 +5,7 @@
 include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificationPrefRepository.php");
 
 /**
- * Class ilBadgeAssignment
+ * Class NolejActivity
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
