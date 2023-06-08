@@ -133,13 +133,13 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		return $this->documentId;
 	}
 
-	/** @return string */
+	/** @return int */
 	function getDocumentStatus()
 	{
 		global $ilDB;
 
 		if ($this->getDocumentId() == null) {
-			return "idle";
+			return 0;
 		}
 
 		$result = $ilDB->queryF(
@@ -149,7 +149,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		);
 
 		$row = $this->db->fetchAssoc($result);
-		return $row["status"];
+		return (int) $row["status"];
 	}
 
 	public function hasWritePermission()
