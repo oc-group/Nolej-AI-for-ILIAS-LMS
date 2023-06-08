@@ -186,9 +186,9 @@ class ilNolejWebhook
 
 		$result = $db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_DOC
-			. " SET status = 2 WHERE document_id = %s;",
-			["text"],
-			[$documentId]
+			. " SET status = 2, consumed_credit = %s WHERE document_id = %s;",
+			["integer", "text"],
+			[$this->data["consumedCredit"], $documentId]
 		);
 		if (!$result) {
 			$this->die_message(404, "Document not found.");

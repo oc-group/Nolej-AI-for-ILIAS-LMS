@@ -154,10 +154,6 @@ class ilNolejActivityManagementGUI
 		// Do nothing link: "javascript:void(0)"
 
 		// TODO: icons that follow the status
-		// 
-		// glyphicon glyphicon-time
-		// glyphicon glyphicon-hand-right
-		// glyphicon glyphicon-ok
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_CREATION,
