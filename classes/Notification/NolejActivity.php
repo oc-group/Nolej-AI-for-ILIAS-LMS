@@ -526,7 +526,7 @@ class NolejActivity
 		if (is_array($refs) && count($refs) > 0) {
 			return $refs[0];
 		}
-		return $refs ? $refs[0] : null;
+		return $refs ? $refs[0] : print_r($refs, true);
 	}
 
 	//
