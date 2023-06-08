@@ -497,7 +497,8 @@ class NolejActivity
 			array($this->getDocumentId())
 		);
 		$row = $db->fetchAssoc($res);
-		return $this->objId = (int) $row["id"];
+		$this->objId = (int) $row["id"];
+		return $this->objId;
 	}
 
 	/**
@@ -522,6 +523,9 @@ class NolejActivity
 			return null;
 		}
 		$refs = ilObject::_getAllReferences($objId);
+		if (is_array($refs) && count($refs) > 0) {
+			return $refs[0];
+		}
 		return $refs ? $refs[0] : null;
 	}
 
