@@ -184,13 +184,13 @@ class ilNolejWebhook
 
 		$now = strtotime("now");
 		$result = $db->manipulateF(
-			"UPDATE " . ilNolejPlugin::TABLE_TIC
-			. " SET response_on = %s, response_url = %s WHERE exchange_id = %s;",
+			"UPDATE " . ilNolejPlugin::TABLE_DOC
+			. " SET status = 2 WHERE document_id = %s;",
 			["integer", "text", "text"],
 			[$now, $this->data["s3URL"], $documentId]
 		);
 		if (!$result) {
-			$this->die_message(404, "Exchange not found.");
+			$this->die_message(404, "Document not found.");
 		}
 
 		$this->sendNotification(
