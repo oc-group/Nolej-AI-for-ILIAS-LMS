@@ -608,7 +608,7 @@ class ilNolejActivityManagementGUI
 				$title = $result->title;
 
 				if (!is_dir($dataDir)) {
-					mkdir($dataDir, null, true);
+					mkdir($dataDir, 0777, true);
 				}
 				$success = file_put_contents(
 					$dataDir . "/transcription.htm",
