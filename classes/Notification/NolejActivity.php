@@ -520,7 +520,7 @@ class NolejActivity
 		}
 		$objId = $this->lookupObjId();
 		if ($objId == null) {
-			return null;
+			return -1;
 		}
 		$refs = ilObject::_getAllReferences($objId);
 		if (is_array($refs) && count($refs) > 0) {
