@@ -208,12 +208,12 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			return;
 		}
 
-		// $ass = new NolejActivity("tst-" . time(), 6, "tic");
-		// $ass->withStatus("ok")
-		// 	->withCode(0)
-		// 	->withErrorMessage("")
-		// 	->withConsumedCredit(0)
-		// 	->store();
+		$ass = new NolejActivity("tst-" . time(), 6, "tic");
+		$ass->withStatus("ok")
+			->withCode(0)
+			->withErrorMessage("")
+			->withConsumedCredit(0)
+			->store();
 
 		$api = new ilNolejAPI($api_key);
 		$message = "hello tic";
