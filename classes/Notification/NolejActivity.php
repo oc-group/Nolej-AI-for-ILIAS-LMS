@@ -522,6 +522,7 @@ class NolejActivity
 		if ($objId == null) {
 			return null;
 		}
+		return $objId;
 		$refs = ilObject::_getAllReferences($objId . "");
 		if (is_array($refs) && count($refs) > 0) {
 			return $refs[0];
