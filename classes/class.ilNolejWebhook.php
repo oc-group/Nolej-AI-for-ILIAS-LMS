@@ -201,10 +201,11 @@ class ilNolejWebhook
 		if (!$result) {
 			$this->die_message(404, "User of activity not found.");
 		}
+		$row = $db->fetchAssoc($result);
 
 		$this->sendNotification(
 			$documentId,
-			$result["user_id"],
+			$row["user_id"],
 			"transcription_ready_" . $this->data["status"],
 			$this->data["status"],
 			$this->data["code"],
