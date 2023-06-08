@@ -37,7 +37,7 @@ $fields = array(
 	),
 	'action' => array(
 		'type' => 'text',
-		'length' => 20,
+		'length' => 30,
 		'fixed' => false,
 		'notnull' => true
 	),
