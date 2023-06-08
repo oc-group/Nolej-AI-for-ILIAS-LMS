@@ -346,8 +346,11 @@ class ilNolejActivityManagementGUI
 			$form->addItem($title);
 			$mediaSource = new ilNonEditableValueGUI($this->plugin->txt("prop_" . self::PROP_MEDIA_SRC), self::PROP_MEDIA_SRC);
 			$mediaSource->setValue(
-				$this->gui_obj->object->getDocumentSource()
-				. $this->plugin->txt("prop_" . $this->gui_obj->object->getDocumentMediaType())
+				sprintf(
+					"%s (%s)",
+					$this->gui_obj->object->getDocumentSource(),
+					$this->plugin->txt("prop_" . $this->gui_obj->object->getDocumentMediaType())
+				)
 			);
 			$form->addItem($mediaSource);
 			$language = new ilNonEditableValueGUI($this->plugin->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
