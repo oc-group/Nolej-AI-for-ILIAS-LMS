@@ -110,6 +110,41 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
+	 * @return string
+	 */
+	protected function statusTranscriptionIcon()
+	{
+		$status = $this->gui_obj->object->getDocumentStatus();
+		switch ($status) {
+			case 0:
+				return $this->glyphicon("hand-right");
+			case 1:
+				return $this->glyphicon("time");
+			default:
+				return $this->glyphicon("ok");
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function statusAnalysisIcon()
+	{
+		$status = $this->gui_obj->object->getDocumentStatus();
+		switch ($status) {
+			case 0:
+			case 1:
+				return "";
+			case 2:
+				return $this->glyphicon("hand-right");
+			case 3:
+				return $this->glyphicon("time");
+			default:
+				return $this->glyphicon("ok");
+		}
+	}
+
+	/**
 	 * Init and activate tabs
 	 */
 	protected function initSubTabs($active_subtab = null)
@@ -119,20 +154,20 @@ class ilNolejActivityManagementGUI
 		// Do nothing link: "javascript:void(0)"
 
 		// TODO: icons that follow the status
-		// $status = $this->gui_obj->object->getDocumentStatus();
+		// 
 		// glyphicon glyphicon-time
 		// glyphicon glyphicon-hand-right
 		// glyphicon glyphicon-ok
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_CREATION,
-			$this->glyphicon("hand-right") . $this->plugin->txt("subtab_" . self::SUBTAB_CREATION),
+			$this->statusTranscriptionIcon() . $this->plugin->txt("subtab_" . self::SUBTAB_CREATION),
 			$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
 		);
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_ANALYSIS,
-			$this->plugin->txt("subtab_" . self::SUBTAB_ANALYSIS),
+			$this->statusAnalysisIcon() . $this->plugin->txt("subtab_" . self::SUBTAB_ANALYSIS),
 			$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
 		);
 
