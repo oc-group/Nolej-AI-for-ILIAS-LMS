@@ -464,7 +464,10 @@ class NolejActivity
 
 		$set = $db->queryF(
 			"SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
-			. " WHERE user_id = %s AND tstamp >= %s AND tstamp <= %s AND notified = 'n'",
+			. " WHERE user_id = %s"
+			. " AND tstamp >= %s AND tstamp <= %s"
+			. " AND notified = 'n'"
+			. " ORDER BY tstamp DESC;",
 			array("integer","integer","integer"),
 			array($a_user_id, $a_ts_from, $a_ts_to)
 		);
