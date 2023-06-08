@@ -2,7 +2,7 @@
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejConfig.php");
 
 /**
- * Plugin configuration class
+ * Plugin GUI class
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  * 
  * @ilCtrl_isCalledBy ilNolejGUI: ilUIPluginRouterGUI

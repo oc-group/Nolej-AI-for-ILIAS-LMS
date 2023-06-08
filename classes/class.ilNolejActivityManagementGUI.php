@@ -365,7 +365,7 @@ class ilNolejActivityManagementGUI
 
 	public function create()
 	{
-		global $tpl;
+		global $DIC, $tpl;
 		$this->initSubTabs(self::SUBTAB_CREATION);
 
 		$form = $this->initCreationForm();
@@ -516,6 +516,13 @@ class ilNolejActivityManagementGUI
 			array("integer", "text", "text", "text", "text", "text"),
 			array($decrementedCredit, $apiUrl, $apiFormat, ilUtil::tf2yn($apiAutomaticMode), $apiLanguage, $result->id)
 		);
+
+		$ass = new NolejActivity($result->id, $DIC->user()->getId, "transcription");
+		$ass->withStatus("ok")
+			->withCode(0)
+			->withErrorMessage("")
+			->withConsumedCredit($decrementedCredit)
+			->store();
 
 		ilUtil::sendSuccess($this->plugin->txt("tic_sent"), true);
 		$this->ctrl->redirect($this, self::CMD_ANALYSIS);

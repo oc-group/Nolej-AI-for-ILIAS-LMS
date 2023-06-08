@@ -38,8 +38,8 @@ class NolejActivity
 	/** @var int */
 	protected $consumed_credit;
 
-	/** @var int */
-	protected $pos;
+	/** @var string y|n */
+	protected $notified = "n";
 
 	/** @var bool */
 	protected $stored;
@@ -141,7 +141,7 @@ class NolejActivity
 		$set = $ilDB->query(
 			"SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
 			. " WHERE user_id = " . $ilDB->quote($a_user_id, "integer")
-			. " ORDER BY pos"
+			. " ORDER BY tstamp DESC;"
 		);
 		while ($row = $ilDB->fetchAssoc($set)) {
 			$obj = new self();
@@ -312,19 +312,6 @@ class NolejActivity
 		return $this;
 	}
 
-	public function setPosition($a_value)
-	{
-		if ($a_value !== null) {
-			$a_value = (int) $a_value;
-		}
-		$this->pos = $a_value;
-	}
-
-	public function getPosition()
-	{
-		return $this->pos;
-	}
-
 	//
 	// crud
 	//
@@ -340,7 +327,7 @@ class NolejActivity
 		$this->code = $a_row["code"];
 		$this->error_message = $a_row["error_message"];
 		$this->consumed_credit = $a_row["consumed_credit"];
-		$this->setPosition($a_row["pos"]);
+		$this->notified = $a_row["notified"];
 	}
 
 	/**
@@ -389,9 +376,9 @@ class NolejActivity
 				"integer",
 				$this->consumed_credit
 			),
-			"pos" => array(
-				"integer",
-				$this->getPosition()
+			"notified" => array(
+				"text",
+				$this->notified
 			)
 		);
 	}
@@ -434,8 +421,8 @@ class NolejActivity
 		}
 
 		$ilDB->manipulateF(
-			"DELETE FROM " . ilNolejPlugin::TABLE_ACTIVITY
-			. " WHERE document_id = %s AND user_id = %s AND action = %s",
+			"UPDATE " . ilNolejPlugin::TABLE_ACTIVITY
+			. " SET notified = 'y' WHERE document_id = %s AND user_id = %s AND action = %s",
 			array("integer", "integer", "text"),
 			array($this->getDocumentId(), $this->getUserId(), $this->getAction())
 		);
@@ -462,30 +449,6 @@ class NolejActivity
 	}
 
 	/**
-	 * @param int $a_user_id
-	 * @param array $a_positions
-	 */
-	// public static function updatePositions($a_user_id, $a_positions)
-	// {
-	// 	$existing = array();
-	// 	foreach (self::getInstancesByUserId($a_user_id) as $ass) {
-	// 		$badge = new ilBadge($ass->getBadgeId());
-	// 		$existing[$badge->getId()] = array($badge->getTitle(), $ass);
-	// 	}
-
-	// 	$new_pos = 0;
-	// 	foreach ($a_positions as $title) {
-	// 		foreach ($existing as $id => $item) {
-	// 			if ($title == $item[0]) {
-	// 				$item[1]->setPosition(++$new_pos);
-	// 				$item[1]->store();
-	// 				unset($existing[$id]);
-	// 			}
-	// 		}
-	// 	}
-	// }
-
-	/**
 	 * Get activities for user
 	 * @param int $a_user_id
 	 * @param int $a_ts_from
@@ -501,7 +464,7 @@ class NolejActivity
 
 		$set = $db->queryF(
 			"SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
-			. " WHERE user_id = %s AND tstamp >= %s AND tstamp <= %s",
+			. " WHERE user_id = %s AND tstamp >= %s AND tstamp <= %s AND notified = 'n'",
 			array("integer","integer","integer"),
 			array($a_user_id, $a_ts_from, $a_ts_to)
 		);

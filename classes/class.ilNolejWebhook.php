@@ -1,6 +1,7 @@
 <?php
 
-include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
+require_once("./Services/Notifications/classes/class.ilNotificationConfig.php");
 
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
@@ -36,6 +37,9 @@ class ilNolejWebhook
 		switch ($data["action"]) {
 			case "tac":
 				$this->checkTac();
+				break;
+			case "transcription":
+				$this->checkTranscription();
 				break;
 		}
 		exit;
@@ -98,35 +102,155 @@ class ilNolejWebhook
 			$this->die_message(404, "Exchange not found.");
 		}
 
+		$this->sendNotification(
+			$exchangeId,
+			$exchange["user_id"],
+			"tac",
+			"ok",
+			0,
+			$this->data["message"],
+			0
+		);
+
 		// Notification
-		$ass = new NolejActivity($exchangeId, $exchange["user_id"], "tac");
-		$ass->withStatus("ok")
-			->withCode(0)
-			->withErrorMessage($this->data["message"])
-			->withConsumedCredit(0)
+		// $ass = new NolejActivity($exchangeId, $exchange["user_id"], "tac");
+		// $ass->withStatus("ok")
+		// 	->withCode(0)
+		// 	->withErrorMessage($this->data["message"])
+		// 	->withConsumedCredit(0)
+		// 	->store();
+
+		// require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
+		// $recipient_id = $exchange["user_id"];
+		// $sender_id = SYSTEM_USER_ID;
+		// $lang = ilObjUser::_lookupLanguage($recipient_id);
+		// $lng = new ilLanguage($lang);
+		// $lng->loadLanguageModule(ilNolejPlugin::PREFIX);
+		// ilDatePresentation::setUseRelativeDates(false);
+
+		// $notification = new ilNotificationConfig("chat_invitation");
+		// $notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_tac_received"));
+		// $notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "tac_received_info_short"));
+		// $notification->setLongDescriptionVar(sprintf(
+		// 	$lng->txt(ilNolejPlugin::PREFIX . "_tac_received_info_long"),
+		// 	$exchangeId,
+		// 	ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
+		// ));
+		// $notification->setAutoDisable(false);
+		// $notification->setValidForSeconds(0);
+		// $notification->setHandlerParam('mail.sender', $sender_id);
+		// $notification->notifyByUsers([$recipient_id]);
+
+		$this->die_message(200, "TAC received!");
+	}
+
+	public function checkTranscription()
+	{
+		global $DIC;
+
+		if (
+			!isset(
+				$this->data["documentID"],
+				$this->data["status"],
+				$this->data["code"],
+				$this->data["error_message"],
+				$this->data["consumedCredit"]
+			) ||
+			!is_string($this->data["documentID"]) ||
+			!is_string($this->data["status"]) ||
+			!is_string($this->data["error_message"]) ||
+			!is_integer($this->data["code"]) ||
+			!is_integer($this->data["consumedCredit"])
+		) {
+			$this->die_message(400, "Request not valid.");
+			return;
+		}
+
+		$db = $DIC->database();
+		$documentId = $this->data["documentID"];
+
+		$result = $db->queryF(
+			"SELECT * FROM " . ilNolejPlugin::TABLE_DOC
+			. " WHERE document_id = %s AND status = 1;",
+			["text"],
+			[$documentId]
+		);
+		if ($db->numRows($result) != 1) {
+			$this->die_message(404, "Document ID not found.");
+			return;
+		}
+
+		$document = $db->fetchAssoc($result);
+
+		$now = strtotime("now");
+		$result = $db->manipulateF(
+			"UPDATE " . ilNolejPlugin::TABLE_TIC
+			. " SET response_on = %s, response_url = %s WHERE exchange_id = %s;",
+			["integer", "text", "text"],
+			[$now, $this->data["s3URL"], $documentId]
+		);
+		if (!$result) {
+			$this->die_message(404, "Exchange not found.");
+		}
+
+		$this->sendNotification(
+			$documentId,
+			$document["user_id"],
+			"transcription_ready_" . $this->data["status"],
+			$this->data["status"],
+			$this->data["code"],
+			$this->data["error_message"],
+			$this->data["consumedCredit"]
+		);
+
+		$this->die_message(200, "Transcription received!");
+	}
+
+	/**
+	 * Send notification to user
+	 * 
+	 * @param string $documentId
+	 * @param int $userId
+	 * @param string $action
+	 * @param string $status
+	 * @param int $code
+	 * @param string $errorMessage
+	 * @param int $credits
+	 */
+	public function sendNotification(
+		$documentId,
+		$userId,
+		$action,
+		$status,
+		$code,
+		$errorMessage,
+		$credits
+	) {
+		// Send Notification
+		$ass = new NolejActivity($documentId, $userId, $action);
+		$ass->withStatus($status)
+			->withCode($code)
+			->withErrorMessage($errorMessage)
+			->withConsumedCredit($credits)
 			->store();
 
-		require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
-		$recipient_id = $exchange["user_id"];
-		$sender_id = SYSTEM_USER_ID;
-		$lang = ilObjUser::_lookupLanguage($recipient_id);
+		// Send Email
+		$lang = ilObjUser::_lookupLanguage($userId);
 		$lng = new ilLanguage($lang);
 		$lng->loadLanguageModule(ilNolejPlugin::PREFIX);
 		ilDatePresentation::setUseRelativeDates(false);
 
-		$notification = new ilNotificationConfig("chat_invitation");
-		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_tac_received"));
-		$notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "tac_received_info_short"));
-		$notification->setLongDescriptionVar(sprintf(
-			$lng->txt(ilNolejPlugin::PREFIX . "_tac_received_info_long"),
-			$exchangeId,
-			ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
-		));
+		$notification = new ilNotificationConfig("nolej_activity");
+		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_" . $action));
+		$notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "_" . $action . "_long"));
+		// $notification->setLongDescriptionVar(sprintf(
+		// 	$lng->txt(ilNolejPlugin::PREFIX . "_tac_received_info_long"),
+		// 	$documentId,
+		// 	ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
+		// ));
 		$notification->setAutoDisable(false);
 		$notification->setValidForSeconds(0);
-		$notification->setHandlerParam('mail.sender', $sender_id);
-		$notification->notifyByUsers([$recipient_id]);
-
-		$this->die_message(200, "TAC received!");
+		$notification->setHandlerParam('mail.sender', SYSTEM_USER_ID);
+		$notification->notifyByUsers([$userId]);
 	}
 }

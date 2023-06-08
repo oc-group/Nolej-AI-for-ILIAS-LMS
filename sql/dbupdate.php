@@ -68,10 +68,10 @@ $fields = array(
 		'length' => 4,
 		'notnull' => false
 	),
-	'pos' => array(
-		'type' => 'integer',
-		'length' => 2,
-		'notnull' => false
+	'notified' => array(
+		'type' => 'text',
+		'length' => 1,
+		'notnull' => true
 	)
 );
 
