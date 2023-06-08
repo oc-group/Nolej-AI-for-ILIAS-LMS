@@ -182,12 +182,11 @@ class ilNolejWebhook
 
 		$document = $db->fetchAssoc($result);
 
-		$now = strtotime("now");
 		$result = $db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_DOC
 			. " SET status = 2 WHERE document_id = %s;",
-			["integer", "text", "text"],
-			[$now, $this->data["s3URL"], $documentId]
+			["text"],
+			[$documentId]
 		);
 		if (!$result) {
 			$this->die_message(404, "Document not found.");
