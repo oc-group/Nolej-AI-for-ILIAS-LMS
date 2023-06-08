@@ -193,171 +193,170 @@ class ilNolejActivityManagementGUI
 
 		$status = $this->gui_obj->object->getDocumentStatus();
 
-		/**
-		 * Module title
-		 * By default is the Object title, it can be changed here.
-		 */
-		$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
-		$title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
-		$title->setValue($this->gui_obj->object->getTitle());
-		$form->addItem($title);
-
-		/**
-		 * Choose a source to analyze.
-		 * - Web (url):
-		 *   - Web page content;
-		 *   - Audio streaming;
-		 *   - Video streaming.
-		 * - MediaPool (mob_id)
-		 * - Document (file upload)
-		 * - Text (textarea)
-		 */
-		$mediaSource = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_MEDIA_SRC), self::PROP_MEDIA_SRC);
-		$mediaSource->setRequired(true);
-		$form->addItem($mediaSource);
-
-		/* Source: WEB or Streaming Audio/Video */
-		$mediaWeb = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_WEB), self::PROP_M_WEB);
-		$mediaWeb->setInfo($this->plugin->txt("prop_" . self::PROP_M_WEB . "_info"));
-		$mediaSource->addOption($mediaWeb);
-		/* Source URL */
-		$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_M_URL);
-		$url->setRequired(true);
-		$mediaWeb->addSubItem($url);
-		/* Web Source Type */
-		$mediaSourceType = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_WEB_SRC), self::PROP_WEB_SRC);
-		$mediaSourceType->setRequired(true);
-		$mediaWeb->addSubItem($mediaSourceType);
-		/* Source Web page content */
-		$srcContent = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_CONTENT), self::PROP_M_CONTENT);
-		$srcContent->setInfo($this->plugin->txt("prop_" . self::PROP_M_CONTENT . "_info"));
-		$mediaSourceType->addOption($srcContent);
-		/* Source Video: YouTube, Vimeo, Wistia */
-		$srcAudio = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_AUDIO), self::PROP_M_AUDIO);
-		$srcAudio->setInfo($this->plugin->txt("prop_" . self::PROP_M_AUDIO . "_info"));
-		$mediaSourceType->addOption($srcAudio);
-		/* Source Video: YouTube, Vimeo, Wistia */
-		$srcVideo = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_VIDEO), self::PROP_M_VIDEO);
-		$srcVideo->setInfo($this->plugin->txt("prop_" . self::PROP_M_VIDEO . "_info"));
-		$mediaSourceType->addOption($srcVideo);
-
-		/* Source: Media from MediaPool */
-		$mediaMob = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_MOB), self::PROP_M_MOB);
-		$mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
-		$mediaSource->addOption($mediaMob);
-		/* Mob ID */
-		$mob = new ilTextInputGUI("", self::PROP_INPUT_MOB);
-		$mob->setRequired(true);
-		$mediaMob->addSubItem($mob);
-
-		/**
-		 * Source: File upload
-		 * Upload audio/video/documents/text files in the plugin data directory.
-		 * The media type is taken from the file extension.
-		 */
-		$mediaFile = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_FILE), self::PROP_M_FILE);
-		$mediaFile->setInfo($this->plugin->txt("prop_" . self::PROP_M_FILE . "_info"));
-		$mediaSource->addOption($mediaFile);
-		/* File upload */
-		$file = new ilFileInputGUI("", self::PROP_INPUT_FILE);
-		$file->setRequired(true);
-		$file->setSuffixes([
-			"mp3", "was", "opus", "ogg", "oga", "m4a", // Audio
-			"m4v", "mp4", "ogv", "avi", "webm", // Video
-			"pdf", "doc", "docx", "odt", // Documents
-			"txt", "htm", "html" // Text
-		]);
-		$mediaFile->addSubItem($file);
-
-		/**
-		 * Source: Text
-		 * Write an html text that need to be saved just like uploaded files
-		 * (with .html extension).
-		 * 
-		 * @todo use TinyMCE
-		 */
-		$mediaText = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
-		$mediaText->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
-		$mediaSource->addOption($mediaText);
-		/* Text area */
-		$txt = new ilTextAreaInputGUI("", self::PROP_M_TEXTAREA);
-		// if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
-		// 	$txt->setUseRte(true);
-		// 	$txt->setRteTagSet("mini");
-		// 	$txt->usePurifier(true);
-		// 	$txt->setRTERootBlockElement('');
-		// 	$txt->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
-		// 	$txt->disableButtons(array(
-		// 		'charmap',
-		// 		'undo',
-		// 		'redo',
-		// 		'alignleft',
-		// 		'aligncenter',
-		// 		'alignright',
-		// 		'alignjustify',
-		// 		'anchor',
-		// 		'fullscreen',
-		// 		'cut',
-		// 		'copy',
-		// 		'paste',
-		// 		'pastetext',
-		// 		'formatselect'
-		// 	));
-		// 	$txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
-		// }
-		$txt->setRequired(true);
-		$mediaText->addSubItem($txt);
-
-		/**
-		 * Source language
-		 */
-		$language = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
-		$language->setInfo($this->plugin->txt("prop_" . self::PROP_LANG . "_info"));
-		$language->setOptions([
-			"en" => "English",
-			// "fr" => "French", // Soon
-			// "it" => "Italian" // Soon
-		]);
-		$language->setRequired(true);
-		$form->addItem($language);
-
-		/**
-		 * Automatic mode: skip to the h5p generation,
-		 * just check audio/video transcription.
-		 * Currently disabled.
-		 * 
-		 * @todo enable option when all the other steps are done.
-		 */
-		$automaticMode = new ilCheckboxInputGUI($this->plugin->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
-		$automaticMode->setInfo($this->plugin->txt("prop_" . self::PROP_AUTOMATIC . "_info"));
-		$automaticMode->setChecked(false);
-		$automaticMode->setDisabled(true);
-		$form->addItem($automaticMode);
-
 		if ($status == 0) {
+
+			/**
+			 * Module title
+			 * By default is the Object title, it can be changed here.
+			 */
+			$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
+			$title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
+			$title->setValue($this->gui_obj->object->getTitle());
+			$form->addItem($title);
+
+			/**
+			 * Choose a source to analyze.
+			 * - Web (url):
+			 *   - Web page content;
+			 *   - Audio streaming;
+			 *   - Video streaming.
+			 * - MediaPool (mob_id)
+			 * - Document (file upload)
+			 * - Text (textarea)
+			 */
+			$mediaSource = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_MEDIA_SRC), self::PROP_MEDIA_SRC);
+			$mediaSource->setRequired(true);
+			$form->addItem($mediaSource);
+
+			/* Source: WEB or Streaming Audio/Video */
+			$mediaWeb = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_WEB), self::PROP_M_WEB);
+			$mediaWeb->setInfo($this->plugin->txt("prop_" . self::PROP_M_WEB . "_info"));
+			$mediaSource->addOption($mediaWeb);
+			/* Source URL */
+			$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_M_URL);
+			$url->setRequired(true);
+			$mediaWeb->addSubItem($url);
+			/* Web Source Type */
+			$mediaSourceType = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_WEB_SRC), self::PROP_WEB_SRC);
+			$mediaSourceType->setRequired(true);
+			$mediaWeb->addSubItem($mediaSourceType);
+			/* Source Web page content */
+			$srcContent = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_CONTENT), self::PROP_M_CONTENT);
+			$srcContent->setInfo($this->plugin->txt("prop_" . self::PROP_M_CONTENT . "_info"));
+			$mediaSourceType->addOption($srcContent);
+			/* Source Video: YouTube, Vimeo, Wistia */
+			$srcAudio = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_AUDIO), self::PROP_M_AUDIO);
+			$srcAudio->setInfo($this->plugin->txt("prop_" . self::PROP_M_AUDIO . "_info"));
+			$mediaSourceType->addOption($srcAudio);
+			/* Source Video: YouTube, Vimeo, Wistia */
+			$srcVideo = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_VIDEO), self::PROP_M_VIDEO);
+			$srcVideo->setInfo($this->plugin->txt("prop_" . self::PROP_M_VIDEO . "_info"));
+			$mediaSourceType->addOption($srcVideo);
+
+			/* Source: Media from MediaPool */
+			$mediaMob = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_MOB), self::PROP_M_MOB);
+			$mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
+			$mediaSource->addOption($mediaMob);
+			/* Mob ID */
+			$mob = new ilTextInputGUI("", self::PROP_INPUT_MOB);
+			$mob->setRequired(true);
+			$mediaMob->addSubItem($mob);
+
+			/**
+			 * Source: File upload
+			 * Upload audio/video/documents/text files in the plugin data directory.
+			 * The media type is taken from the file extension.
+			 */
+			$mediaFile = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_FILE), self::PROP_M_FILE);
+			$mediaFile->setInfo($this->plugin->txt("prop_" . self::PROP_M_FILE . "_info"));
+			$mediaSource->addOption($mediaFile);
+			/* File upload */
+			$file = new ilFileInputGUI("", self::PROP_INPUT_FILE);
+			$file->setRequired(true);
+			$file->setSuffixes([
+				"mp3", "was", "opus", "ogg", "oga", "m4a", // Audio
+				"m4v", "mp4", "ogv", "avi", "webm", // Video
+				"pdf", "doc", "docx", "odt", // Documents
+				"txt", "htm", "html" // Text
+			]);
+			$mediaFile->addSubItem($file);
+
+			/**
+			 * Source: Text
+			 * Write an html text that need to be saved just like uploaded files
+			 * (with .html extension).
+			 * 
+			 * @todo use TinyMCE
+			 */
+			$mediaText = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
+			$mediaText->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
+			$mediaSource->addOption($mediaText);
+			/* Text area */
+			$txt = new ilTextAreaInputGUI("", self::PROP_M_TEXTAREA);
+			// if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+			// 	$txt->setUseRte(true);
+			// 	$txt->setRteTagSet("mini");
+			// 	$txt->usePurifier(true);
+			// 	$txt->setRTERootBlockElement('');
+			// 	$txt->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
+			// 	$txt->disableButtons(array(
+			// 		'charmap',
+			// 		'undo',
+			// 		'redo',
+			// 		'alignleft',
+			// 		'aligncenter',
+			// 		'alignright',
+			// 		'alignjustify',
+			// 		'anchor',
+			// 		'fullscreen',
+			// 		'cut',
+			// 		'copy',
+			// 		'paste',
+			// 		'pastetext',
+			// 		'formatselect'
+			// 	));
+			// 	$txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+			// }
+			$txt->setRequired(true);
+			$mediaText->addSubItem($txt);
+
+			/**
+			 * Source language
+			 */
+			$language = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
+			$language->setInfo($this->plugin->txt("prop_" . self::PROP_LANG . "_info"));
+			$language->setOptions([
+				"en" => "English",
+				// "fr" => "French", // Soon
+				// "it" => "Italian" // Soon
+			]);
+			$language->setRequired(true);
+			$form->addItem($language);
+
+			/**
+			 * Automatic mode: skip to the h5p generation,
+			 * just check audio/video transcription.
+			 * Currently disabled.
+			 * 
+			 * @todo enable option when all the other steps are done.
+			 */
+			$automaticMode = new ilCheckboxInputGUI($this->plugin->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
+			$automaticMode->setInfo($this->plugin->txt("prop_" . self::PROP_AUTOMATIC . "_info"));
+			$automaticMode->setChecked(false);
+			$automaticMode->setDisabled(true);
+			$form->addItem($automaticMode);
+
 			$form->addCommandButton(self::CMD_CREATE, $this->plugin->txt("cmd_" . self::CMD_CREATE));
 			$form->setFormAction($this->ctrl->getFormAction($this));
 
 		} else {
 
-			$title->setDisabled(true);
-			$mediaSource->setDisabled(true);
-			$mediaWeb->setValue(true);
-			$mediaWeb->setDisabled(true);
-			$url->setDisabled(true);
-			$mediaSourceType->setDisabled(true);
-			$srcContent->setDisabled(true);
-			$srcContent->setDisabled(true);
-			$srcVideo->setValue(true);
-			$srcVideo->setDisabled(true);
-			$mediaMob->setDisabled(true);
-			$mob->setDisabled(true);
-			$mediaFile->setDisabled(true);
-			$file->setDisabled(true);
-			$mediaText->setDisabled(true);
-			$txt->setDisabled(true);
-			$language->setDisabled(true);
+			$title = new ilNonEditableValueGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
+			$title->setValue($this->gui_obj->object->getTitle());
+			$form->addItem($title);
+			$mediaSource = new ilNonEditableValueGUI($this->plugin->txt("prop_" . self::PROP_MEDIA_SRC), self::PROP_MEDIA_SRC);
+			$mediaSource->setValue(
+				$this->gui_obj->object->getDocumentSource()
+				. $this->plugin->txt("prop_" . $this->gui_obj->object->getDocumentMediaType())
+			);
+			$form->addItem($mediaSource);
+			$language = new ilNonEditableValueGUI($this->plugin->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
+			$language->setValue($this->gui_obj->object->getDocumentLang());
+			$form->addItem($language);
+			$automaticMode = new ilCheckboxInputGUI($this->plugin->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
+			$automaticMode->setChecked($this->gui_obj->object->getDocumentAutomaticMode());
 			$automaticMode->setDisabled(true);
+			$form->addItem($automaticMode);
 		}
 
 		return $form;

@@ -152,6 +152,82 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		return (int) $row["status"];
 	}
 
+	/** @return string */
+	function getDocumentSource()
+	{
+		global $ilDB;
+
+		if ($this->getDocumentId() == null) {
+			return "";
+		}
+
+		$result = $ilDB->queryF(
+			"SELECT `doc_url` FROM " . ilNolejPlugin::TABLE_DOC . " WHERE document_id = %s",
+			array("text"),
+			array($this->getDocumentId())
+		);
+
+		$row = $this->db->fetchAssoc($result);
+		return $row["doc_url"];
+	}
+
+	/** @return string */
+	function getDocumentMediaType()
+	{
+		global $ilDB;
+
+		if ($this->getDocumentId() == null) {
+			return "";
+		}
+
+		$result = $ilDB->queryF(
+			"SELECT `media_type` FROM " . ilNolejPlugin::TABLE_DOC . " WHERE document_id = %s",
+			array("text"),
+			array($this->getDocumentId())
+		);
+
+		$row = $this->db->fetchAssoc($result);
+		return $row["media_type"];
+	}
+
+	/** @return string */
+	function getDocumentLang()
+	{
+		global $ilDB;
+
+		if ($this->getDocumentId() == null) {
+			return "";
+		}
+
+		$result = $ilDB->queryF(
+			"SELECT `language` FROM " . ilNolejPlugin::TABLE_DOC . " WHERE document_id = %s",
+			array("text"),
+			array($this->getDocumentId())
+		);
+
+		$row = $this->db->fetchAssoc($result);
+		return $row["language"];
+	}
+
+	/** @return bool */
+	function getDocumentAutomaticMode()
+	{
+		global $ilDB;
+
+		if ($this->getDocumentId() == null) {
+			return false;
+		}
+
+		$result = $ilDB->queryF(
+			"SELECT `automatic_mode` FROM " . ilNolejPlugin::TABLE_DOC . " WHERE document_id = %s",
+			array("text"),
+			array($this->getDocumentId())
+		);
+
+		$row = $this->db->fetchAssoc($result);
+		return ilUtil::yn2tf($row["automatic_mode"]);
+	}
+
 	public function hasWritePermission()
 	{
 		global $ilAccess;
