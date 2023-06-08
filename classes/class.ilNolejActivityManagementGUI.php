@@ -342,13 +342,13 @@ class ilNolejActivityManagementGUI
 
 			$title->setDisabled(true);
 			$mediaSource->setDisabled(true);
-			$mediaWeb->setChecked(true);
+			$mediaWeb->setValue(true);
 			$mediaWeb->setDisabled(true);
 			$url->setDisabled(true);
 			$mediaSourceType->setDisabled(true);
 			$srcContent->setDisabled(true);
 			$srcContent->setDisabled(true);
-			$srcVideo->setChecked(true);
+			$srcVideo->setValue(true);
 			$srcVideo->setDisabled(true);
 			$mediaMob->setDisabled(true);
 			$mob->setDisabled(true);
