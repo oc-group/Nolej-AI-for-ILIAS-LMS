@@ -171,7 +171,7 @@ class ilNolejWebhook
 
 		$result = $db->queryF(
 			"SELECT * FROM " . ilNolejPlugin::TABLE_DOC
-			. " WHERE document_id = %s;",
+			. " WHERE document_id = %s AND status = 1;",
 			["text"],
 			[$documentId]
 		);
@@ -240,7 +240,7 @@ class ilNolejWebhook
 		$lng->loadLanguageModule(ilNolejPlugin::PREFIX);
 		ilDatePresentation::setUseRelativeDates(false);
 
-		$notification = new ilNotificationConfig("nolej_activity");
+		$notification = new ilNotificationConfig("chat_invitation");
 		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_" . $action));
 		$notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "_" . $action . "_long"));
 		// $notification->setLongDescriptionVar(sprintf(
