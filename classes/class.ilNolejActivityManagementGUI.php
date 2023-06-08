@@ -638,8 +638,12 @@ class ilNolejActivityManagementGUI
 			}
 			$form->addItem($titleInput);
 
+			/**
+			 * Transcription
+			 */
 			$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
 			$txt->setRequired(true);
+			$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
 			$form->addItem($txt);
 
 			$tpl->setContent($form->getHTML());
