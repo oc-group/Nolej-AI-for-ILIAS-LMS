@@ -250,14 +250,15 @@ class ilNolejWebhook
 		$lng->loadLanguageModule(ilNolejPlugin::PREFIX);
 		ilDatePresentation::setUseRelativeDates(false);
 
+		$now = strtotime("now");
 		$notification = new ilNotificationConfig("chat_invitation");
 		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_" . $action));
 		$notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "_" . $action . "_long"));
-		// $notification->setLongDescriptionVar(sprintf(
-		// 	$lng->txt(ilNolejPlugin::PREFIX . "_tac_received_info_long"),
-		// 	$documentId,
-		// 	ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
-		// ));
+		$notification->setLongDescriptionVar(sprintf(
+			$lng->txt(ilNolejPlugin::PREFIX . "_tac_received_info_long"),
+			$documentId,
+			ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
+		));
 		$notification->setAutoDisable(false);
 		$notification->setValidForSeconds(0);
 		$notification->setHandlerParam('mail.sender', SYSTEM_USER_ID);
