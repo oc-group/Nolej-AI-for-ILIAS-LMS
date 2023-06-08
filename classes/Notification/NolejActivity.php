@@ -492,7 +492,7 @@ class NolejActivity
 
 		$res = $db->queryF(
 			"SELECT id FROM " . ilNolejPlugin::TABLE_DATA
-			. " WHERE n.document_id = %s;",
+			. " WHERE document_id = %s;",
 			array("text"),
 			array($this->getDocumentId())
 		);
