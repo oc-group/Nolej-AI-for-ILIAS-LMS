@@ -1,5 +1,7 @@
 <?php
 
+include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
+
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  * 
@@ -24,14 +26,16 @@ class ilNolejActivityManagementGUI
 	const PROP_TITLE = "title";
 	const PROP_MEDIA_SRC = "media_source";
 	const PROP_M_WEB = "web";
+	const PROP_WEB_SRC = "web_src";
 	const PROP_M_URL = "url";
-	const PROP_M_YT = "youtube";
+	const PROP_M_CONTENT = "content";
+	const PROP_M_AUDIO = "audio";
+	const PROP_M_VIDEO = "video";
 	const PROP_M_MOB = "mob";
 	const PROP_M_FILE = "file";
 	const PROP_M_TEXT = "freetext";
 	const PROP_M_TEXTAREA = "textarea";
 	const PROP_INPUT_MOB = "input_mob";
-	const PROP_INPUT_YT = "input_youtube";
 	const PROP_INPUT_FILE = "input_file";
 	const PROP_LANG = "language";
 	const PROP_AUTOMATIC = "automatic";
@@ -188,66 +192,97 @@ class ilNolejActivityManagementGUI
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
 		$status = $this->gui_obj->object->getDocumentStatus();
-		// ilUtil::sendInfo($status, true);
 
 		if ($status == "idle") {
+
+			/**
+			 * Module title
+			 * By default is the Object title, it can be changed here.
+			 */
 			$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
 			$title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
 			$title->setValue($this->gui_obj->object->getTitle());
 			$form->addItem($title);
 
+			/**
+			 * Choose a source to analyze.
+			 * - Web (url):
+			 *   - Web page content;
+			 *   - Audio streaming;
+			 *   - Video streaming.
+			 * - MediaPool (mob_id)
+			 * - Document (file upload)
+			 * - Text (textarea)
+			 */
 			$mediaSource = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_MEDIA_SRC), self::PROP_MEDIA_SRC);
 			$mediaSource->setRequired(true);
 			$form->addItem($mediaSource);
-			// Available: web, audio, video, document, freetext.
 
+			/* Source: WEB or Streaming Audio/Video */
 			$mediaWeb = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_WEB), self::PROP_M_WEB);
 			$mediaWeb->setInfo($this->plugin->txt("prop_" . self::PROP_M_WEB . "_info"));
 			$mediaSource->addOption($mediaWeb);
-
+			/* Source URL */
 			$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_M_URL);
-			// $url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
 			$url->setRequired(true);
 			$mediaWeb->addSubItem($url);
+			/* Web Source Type */
+			$mediaSourceType = new ilRadioGroupInputGUI($this->plugin->txt("prop_" . self::PROP_WEB_SRC), self::PROP_WEB_SRC);
+			$mediaSourceType->setRequired(true);
+			$mediaWeb->addSubItem($mediaSourceType);
+			/* Source Web page content */
+			$srcContent = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_CONTENT), self::PROP_M_CONTENT);
+			$srcContent->setInfo($this->plugin->txt("prop_" . self::PROP_M_CONTENT . "_info"));
+			$mediaSourceType->addOption($srcContent);
+			/* Source Video: YouTube, Vimeo, Wistia */
+			$srcAudio = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_AUDIO), self::PROP_M_AUDIO);
+			$srcAudio->setInfo($this->plugin->txt("prop_" . self::PROP_M_AUDIO . "_info"));
+			$mediaSourceType->addOption($srcAudio);
+			/* Source Video: YouTube, Vimeo, Wistia */
+			$srcVideo = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_VIDEO), self::PROP_M_VIDEO);
+			$srcVideo->setInfo($this->plugin->txt("prop_" . self::PROP_M_VIDEO . "_info"));
+			$mediaSourceType->addOption($srcVideo);
 
+			/* Source: Media from MediaPool */
 			$mediaMob = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_MOB), self::PROP_M_MOB);
 			$mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
 			$mediaSource->addOption($mediaMob);
-
-			$mob = new ilFileInputGUI("", self::PROP_INPUT_MOB);
-			// $mob->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_MOB . "_info"));
+			/* Mob ID */
+			$mob = new ilTextInputGUI("", self::PROP_INPUT_MOB);
 			$mob->setRequired(true);
 			$mediaMob->addSubItem($mob);
 
-			$mediaYT = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_YT), self::PROP_M_YT);
-			$mediaYT->setInfo($this->plugin->txt("prop_" . self::PROP_M_YT . "_info"));
-			$mediaSource->addOption($mediaYT);
-
-			$url = new ilUriInputGUI($this->plugin->txt("prop_" . self::PROP_M_URL), self::PROP_INPUT_YT);
-			// $url->setInfo($this->plugin->txt("prop_" . self::PROP_M_URL . "_info"));
-			$url->setRequired(true);
-			$mediaYT->addSubItem($url);
-
+			/**
+			 * Source: File upload
+			 * Upload audio/video/documents/text files in the plugin data directory.
+			 * The media type is taken from the file extension.
+			 */
 			$mediaFile = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_FILE), self::PROP_M_FILE);
 			$mediaFile->setInfo($this->plugin->txt("prop_" . self::PROP_M_FILE . "_info"));
 			$mediaSource->addOption($mediaFile);
-
+			/* File upload */
 			$file = new ilFileInputGUI("", self::PROP_INPUT_FILE);
-			// $file->setInfo($this->plugin->txt("prop_" . self::PROP_INPUT_FILE . "_info"));
 			$file->setRequired(true);
 			$file->setSuffixes([
 				"mp3", "was", "opus", "ogg", "oga", "m4a", // Audio
 				"m4v", "mp4", "ogv", "avi", "webm", // Video
-				"pdf", "doc", "docx", "odt" // Documents
+				"pdf", "doc", "docx", "odt", // Documents
+				"txt", "htm", "html" // Text
 			]);
 			$mediaFile->addSubItem($file);
 
+			/**
+			 * Source: Text
+			 * Write an html text that need to be saved just like uploaded files
+			 * (with .html extension).
+			 * 
+			 * @todo use TinyMCE
+			 */
 			$mediaText = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
 			$mediaText->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
 			$mediaSource->addOption($mediaText);
-
+			/* Text area */
 			$txt = new ilTextAreaInputGUI("", self::PROP_M_TEXTAREA);
-			// $txt->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXTAREA . "_info"));
 			$txt->setRequired(true);
 			// if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
 			// 	$txt->setUseRte(true);
@@ -276,10 +311,14 @@ class ilNolejActivityManagementGUI
 			$txt->setRequired(true);
 			$mediaText->addSubItem($txt);
 
+			/**
+			 * Source language
+			 * 
+			 * @todo add language translation.
+			 */
 			$language = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
 			$language->setInfo($this->plugin->txt("prop_" . self::PROP_LANG . "_info"));
 			$language->setOptions([
-				// TODO: add language translation
 				"en" => "English",
 				// "fr" => "French", // Soon
 				// "it" => "Italian" // Soon
@@ -287,35 +326,26 @@ class ilNolejActivityManagementGUI
 			$language->setRequired(true);
 			$form->addItem($language);
 
+			/**
+			 * Automatic mode: skip to the h5p generation,
+			 * just check audio/video transcription.
+			 * Currently disabled.
+			 * 
+			 * @todo enable option when all the other steps are done.
+			 */
 			$automaticMode = new ilCheckboxInputGUI($this->plugin->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
 			$automaticMode->setInfo($this->plugin->txt("prop_" . self::PROP_AUTOMATIC . "_info"));
 			$automaticMode->setChecked(false);
 			$automaticMode->setDisabled(true);
 			$form->addItem($automaticMode);
 
-			// $mon_num = new ilNumberInputGUI($this->plugin->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
-			// $mon_num->setInfo($this->plugin->txt("blog_nav_mode_month_list_num_month_info"));
-			// $mon_num->setSize(3);
-			// $mon_num->setMinValue(1);
-			// $opt->addSubItem($mon_num);
+			$form->addCommandButton(self::CMD_CREATE, $this->plugin->txt("cmd_" . self::CMD_CREATE));
+		} else {
+
+			// TODO: Display form with all ilNonEditableValueGUI/disabled and without a submit button
 		}
 
-		// $course = new ilSelectInputGUI($this->plugin->txt("prop_" . self::PROP_STATUS), self::PROP_STATUS);
-
-		// $options = $this->object->getPurchasedCourses();
-
-		// $course->setRequired(true);
-		// $course->setOptions($options);
-
-		// $course->setInfo($this->plugin->txt("prop_" . self::PROP_STATUS . "_info"));
-		// $form->addItem($course);
-
-		// if (count($options) == 0) {
-		// 	ilUtil::sendQuestion($this->plugin->txt("err_no_purchased_courses"), true);
-		// }
-
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->addCommandButton(self::CMD_CREATE, $this->plugin->txt("cmd_create"));
 
 		return $form;
 	}
@@ -326,6 +356,8 @@ class ilNolejActivityManagementGUI
 		$this->initSubTabs(self::SUBTAB_CREATION);
 
 		$form = $this->initCreationForm();
+
+		// TODO: display info in a better way (maybe on the side)
 		ilUtil::sendInfo($this->plugin->txt("prop_file_limits"));
 
 		$tpl->setContent($form->getHTML());
@@ -338,6 +370,14 @@ class ilNolejActivityManagementGUI
 
 		$form = $this->initCreationForm();
 
+		$api_key = $this->plugin->getConfig("api_key", "");
+		if ($api_key == "") {
+			ilUtil::sendFailure($this->plugin->txt("err_api_key_missing"));
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
 		if (!$form->checkInput()) {
 			// input not ok, then
 			$form->setValuesByPost();
@@ -345,74 +385,140 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
-		$title = $form->getInput(self::PROP_TITLE);
-		if ($title != "" && $title != $this->gui_obj->object->getTitle()) {
-			// Title chosen by the user, update if different from current title
-			$this->gui_obj->object->setTitle($title);
-			$this->gui_obj->object->update();
-		}
+		$apiTitle = $form->getInput(self::PROP_TITLE);
 
+		/**
+		 * Set $apiUrl (signed)
+		 * Set $apiFormat
+		 * Set $decrementedCredit (text => 1, audio => 2, video => 3)
+		 */
 		$mediaSrc = $form->getInput(self::PROP_MEDIA_SRC);
-		$language = $form->getInput(self::PROP_LANG);
-		$automaticMode = $form->getInput(self::PROP_AUTOMATIC);
-
 		switch ($mediaSrc) {
 			case self::PROP_M_WEB:
-				// TODO
-				$mediaUrl = $form->getInput(self::PROP_M_URL);
-				$mediaFormat = "web";
+				/**
+				 * No need to sign the url, just check the
+				 * source type (content, or audio/video streaming)
+				 */
+				$apiUrl = $form->getInput(self::PROP_M_URL);
+				$format = $form->getInput(self::PROP_WEB_SRC);
+				switch ($format) {
+					case self::PROP_M_CONTENT:
+						$apiFormat = self::PROP_M_WEB;
+						$decrementedCredit = 1;
+						break;
+
+					case self::PROP_M_AUDIO:
+						$apiFormat = $format;
+						$decrementedCredit = 2;
+						break;
+
+					case self::PROP_M_VIDEO:
+						$apiFormat = $format;
+						$decrementedCredit = 3;
+						break;
+				}
 				break;
 
 			case self::PROP_M_MOB:
-				// TODO
-				$mediaUrl = "";
-				$mediaFormat = "";
-				break;
-
-			case self::PROP_M_YT:
-				// TODO
-				$mediaUrl = $form->getInput(self::PROP_INPUT_YT);
-				$mediaFormat = "youtube";
+				/**
+				 * @todo generate signed url
+				 * @todo detect media format
+				 * @todo decrement credit
+				 */
+				$apiUrl = "";
+				$apiFormat = "";
+				$decrementedCredit = 2;
 				break;
 
 			case self::PROP_M_FILE:
-				// TODO
-				$mediaUrl = "";
-				$mediaFormat = "";
+				/**
+				 * @todo save file to plugin data dir
+				 * @todo generate signed url
+				 * @todo detect media format
+				 * @todo decrement credit
+				 */
+				$apiUrl = "";
+				$apiFormat = "";
+				$decrementedCredit = 1;
 				break;
 
 			case self::PROP_M_TEXT:
-				// TODO
-				$mediaUrl = "";
-				$mediaFormat = "freetext";
+				/**
+				 * @todo save as file in the plugin data dir
+				 * @todo generate signed url
+				 */
+				$apiUrl = "";
+				$apiFormat = "freetext";
+				$decrementedCredit = 1;
 				break;
 		}
 
-		if (!$mediaUrl || $mediaUrl == "") {
+		if (!$apiUrl || $apiUrl == "") {
 			ilUtil::sendFailure($this->plugin->txt("err_media_url_empty"), true);
 			$form->setValuesByPost();
 			$tpl->setContent($form->getHTML());
 			return;
 		}
 
-		if (!$mediaFormat || $mediaFormat == "") {
+		if (!$apiFormat || $apiFormat == "") {
 			ilUtil::sendFailure($this->plugin->txt("err_media_format_unknown"), true);
 			$form->setValuesByPost();
 			$tpl->setContent($form->getHTML());
 			return;
 		}
 
-		// TODO: send api
+		$apiLanguage = $form->getInput(self::PROP_LANG);
+		$apiAutomaticMode = $form->getChecked(self::PROP_AUTOMATIC);
 
-		// TODO: insert document in db
-		$this->db->manipulateF(
-			"INSERT INTO " . ilNolejPlugin::TABLE_DOC
+		// Update object title if it differs from the current one.
+		if ($apiTitle != "" && $apiTitle != $this->gui_obj->object->getTitle()) {
+			$this->gui_obj->object->setTitle($apiTitle);
+			$this->gui_obj->object->update();
+		}
+
+		$api = new ilNolejAPI($api_key);
+		$webhookUrl = ILIAS_HTTP_PATH . "/goto.php?target=xnlj_webhook";
+
+		$result = $api->post(
+			"/documents",
+			[
+				"userID" => "",
+				"organisationID" => "",
+				"title" => $apiTitle,
+				"decrementedCredit" => $decrementedCredit,
+				"docURL" => $apiUrl,
+				"webhookURL" => $webhookUrl,
+				"mediaType" => $apiFormat,
+				"automaticMode" => $apiAutomaticMode,
+				"language" => $apiLanguage
+			],
+			true
 		);
 
-		// Go to creation tab and wait for Nolej to send back the transcription
-		// TODO: check automatic mode
-		ilUtil::sendInfo("Very very soon", true);
-		$this->ctrl->redirect($this, self::CMD_CREATION);
+		if (!is_object($result) || !property_exists($result, "id") || !is_string($result->id)) {
+			ilUtil::sendFailure($this->plugin->txt("err_doc_response") . " " . print_r($result, true));
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
+		$this->db->manipulateF(
+			"UPDATE " . ilNolejPlugin::TABLE_DATA . " SET"
+			. " document_id = %s WHERE id = %s;",
+			array("text", "integer"),
+			array($result->id, $this->gui_obj->object->getId())
+		);
+
+		$this->db->manipulateF(
+			"INSERT INTO " . ilNolejPlugin::TABLE_DOC
+			. " (status, consumed_credit, doc_url, media_type, automatic_mode, language, document_id)"
+			. "VALUES (1, %s, %s, %s, %s, %s, %s);",
+			array("integer", "text", "text", "text", "text", "text"),
+			array($decrementedCredit, $apiUrl, $apiFormat, ilUtil::tf2yn($apiAutomaticMode), $apiLanguage, $result->id)
+		);
+
+		ilUtil::sendSuccess($this->plugin->txt("tic_sent"), true);
+		$this->ctrl->redirect($this, self::CMD_ANALYSIS);
 	}
 
 	public function analysis()
