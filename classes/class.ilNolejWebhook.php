@@ -171,7 +171,7 @@ class ilNolejWebhook
 
 		$result = $db->queryF(
 			"SELECT * FROM " . ilNolejPlugin::TABLE_DOC
-			. " WHERE document_id = %s AND status = 1;",
+			. " WHERE document_id = %s;",
 			["text"],
 			[$documentId]
 		);
