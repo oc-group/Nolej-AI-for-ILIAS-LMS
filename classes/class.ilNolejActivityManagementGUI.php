@@ -517,7 +517,7 @@ class ilNolejActivityManagementGUI
 			array($decrementedCredit, $apiUrl, $apiFormat, ilUtil::tf2yn($apiAutomaticMode), $apiLanguage, $result->id)
 		);
 
-		$ass = new NolejActivity($result->id, $DIC->user()->getId, "transcription");
+		$ass = new NolejActivity($result->id, $DIC->user()->getId(), "transcription");
 		$ass->withStatus("ok")
 			->withCode(0)
 			->withErrorMessage("")
