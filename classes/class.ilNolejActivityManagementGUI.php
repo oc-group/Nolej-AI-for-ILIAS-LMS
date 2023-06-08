@@ -468,8 +468,7 @@ class ilNolejActivityManagementGUI
 		}
 
 		$apiLanguage = $form->getInput(self::PROP_LANG);
-		die(print_r($form->getInput(self::PROP_AUTOMATIC), true));
-		// $apiAutomaticMode = 
+		$apiAutomaticMode = $form->getInput(self::PROP_AUTOMATIC);
 
 		// Update object title if it differs from the current one.
 		if ($apiTitle != "" && $apiTitle != $this->gui_obj->object->getTitle()) {
