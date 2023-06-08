@@ -170,8 +170,10 @@ class ilNolejWebhook
 		$documentId = $this->data["documentID"];
 
 		$result = $db->queryF(
-			"SELECT * FROM " . ilNolejPlugin::TABLE_DOC
-			. " WHERE document_id = %s AND status = 1;",
+			"SELECT a.user_id"
+			. " FROM " . ilNolejPlugin::TABLE_DOC . " d INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
+			. " ON a.document_id = d.document_id"
+			. " WHERE d.document_id = %s AND d.status = 1;",
 			["text"],
 			[$documentId]
 		);
@@ -192,21 +194,10 @@ class ilNolejWebhook
 			$this->die_message(404, "Document not found.");
 		}
 
-		$result = $db->queryF(
-			"SELECT user_id FROM " . ilNolejPlugin::TABLE_ACTIVITY
-			. " WHERE document_id = %s AND action = 'transcription'",
-			array("text"),
-			array($documentId)
-		);
-		if (!$result) {
-			$this->die_message(404, "User of activity not found.");
-		}
-		$row = $db->fetchAssoc($result);
-
 		$this->sendNotification(
 			$documentId,
-			$row["user_id"],
-			"transcription_ready_" . $this->data["status"],
+			$document["user_id"],
+			"transcription_" . $this->data["status"],
 			$this->data["status"],
 			$this->data["code"],
 			$this->data["error_message"],
