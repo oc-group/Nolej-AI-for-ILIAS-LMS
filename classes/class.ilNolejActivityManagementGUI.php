@@ -575,7 +575,71 @@ class ilNolejActivityManagementGUI
 		$this->initSubTabs(self::SUBTAB_ANALYSIS);
 
 		// TODO
-		// ilUtil::getWebspaceDir()."/xxco/
+		$dataDir = ilUtil::getWebspaceDir() . "/" . ilNolejPlugin::PLUGIN_ID . "/" . $this->gui_obj->object->getDocumentId();
+		$documentId = $this->gui_obj->object->getDocumentId();
+		$status = $this->gui_obj->object->getDocumentStatus();
+
+		if ($status < 2) {
+			ilUtil::sendInfo($this->plugin->txt("err_missing_transcription"));
+			return;
+		}
+
+		$api_key = $this->plugin->getConfig("api_key", "");
+		$api = new ilNolejAPI($api_key);
+
+		if ($status == 2) {
+			if (!file_exists($dataDir . "/transcription.htm")) {
+
+				$result = $api->get(
+					sprintf("/documents/%s/transcription", $documentId)
+				);
+
+				if (
+					!is_object($result) ||
+					!property_exists($result, "title") ||
+					!is_string($result->title) ||
+					!property_exists($result, "result") ||
+					!is_string($result->result)
+				) {
+					ilUtil::sendFailure($this->plugin->txt("err_transcription_get") . sprintf($result));
+					return;
+				}
+
+				$title = $result->title;
+				$success = file_put_contents(
+					$dataDir . "/transcription.htm",
+					file_get_contents($result->result)
+				);
+				if (!$success) {
+					ilUtil::sendFailure($this->plugin->txt("err_transcription_download") . sprintf($result));
+					return;
+				}
+			}
+
+			$form = $form = new ilPropertyFormGUI();
+			$form->setTitle($this->plugin->txt("obj_xnlj"));
+
+			/**
+			 * Module title
+			 * Title returned from transcription, or current module title.
+			 */
+			if (isset($title)) {
+				$titleInput = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
+				// $title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
+				$titleInput->setValue($title);
+			} else {
+				$titleInput = new ilNonEditableValueGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
+				// $title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
+				$titleInput->setValue($this->gui_obj->object->getTitle());
+			}
+			$form->addItem($titleInput);
+
+			$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
+			$txt->setRequired(true);
+			$form->addItem($txt);
+
+			$tpl->setContent($form->getHTML());
+		}
 	}
 
 	public function analyze()
