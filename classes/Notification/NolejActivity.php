@@ -520,13 +520,13 @@ class NolejActivity
 		}
 		$objId = $this->lookupObjId();
 		if ($objId == null) {
-			return -1;
+			return null;
 		}
-		$refs = ilObject::_getAllReferences($objId);
+		$refs = ilObject::_getAllReferences($objId . "");
 		if (is_array($refs) && count($refs) > 0) {
 			return $refs[0];
 		}
-		return -2;
+		return null;
 	}
 
 	//
