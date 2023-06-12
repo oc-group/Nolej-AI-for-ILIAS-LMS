@@ -618,7 +618,11 @@ class ilNolejActivityManagementGUI
 		$txt->setRequired(true);
 		if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
 			$txt->setUseRte(true);
-			$txt->setRteTagSet("mini");
+			$txt->setRteTags([
+				"h1", "h2", "h3", "h4", "h5", "h6", "p",
+            	"ul", "ol", "li",
+				"br", "span", "strong", "u", "i", "b"
+			]);
 			$txt->usePurifier(true);
 			$txt->setRTERootBlockElement('');
 			$txt->disableButtons(array(
