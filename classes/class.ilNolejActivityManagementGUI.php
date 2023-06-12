@@ -94,8 +94,26 @@ class ilNolejActivityManagementGUI
 				break;
 
 			default:
-				// TODO: check status
-				$this->creation();
+				$status = $this->gui_obj->object->getDocumentStatus();
+				switch ($status) {
+					case 0:
+					case 1:
+						$this->creation();
+						break;
+					case 2:
+					case 3:
+						$this->analysis();
+						break;
+					case 4:
+					case 5:
+						$this->revision();
+						break;
+					case 6:
+					case 7:
+						$this->activities();
+						break;
+				}
+				
 		}
 
 		return true;
