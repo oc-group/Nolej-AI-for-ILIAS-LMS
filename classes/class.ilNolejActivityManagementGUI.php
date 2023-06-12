@@ -624,11 +624,9 @@ class ilNolejActivityManagementGUI
 				"br", "span", "strong", "u", "i", "b"
 			]);
 			$txt->usePurifier(true);
-			$txt->setRTERootBlockElement('');
+			$txt->setRTERootBlockElement("");
 			$txt->disableButtons([
-				'charmap',
-				// 'undo',
-				// 'redo',
+				"charmap",
 				'numlist',
 				'bullist',
 				'alignleft',
@@ -636,12 +634,7 @@ class ilNolejActivityManagementGUI
 				'alignright',
 				'alignjustify',
 				'anchor',
-				'fullscreen',
-				// 'cut',
-				// 'copy',
-				// 'paste',
-				// 'pastetext',
-				// 'formatselect'
+				'fullscreen'
 			]);
 			// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 		}
