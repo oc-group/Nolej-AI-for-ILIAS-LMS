@@ -85,7 +85,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 			self::$pluginProviderCollection = new PluginProviderCollection();
 
 			// self::$pluginProviderCollection->setMetaBarProvider(self::helpMe()->metaBar());
-			self::$pluginProviderCollection->setMainBarProvider(new NolejMainBarProvider($DIC, $this));
+			// self::$pluginProviderCollection->setMainBarProvider(new NolejMainBarProvider($DIC, $this));
 			self::$pluginProviderCollection->setNotificationProvider(new NolejNotificationProvider($DIC, $this));
 		}
 
@@ -93,25 +93,14 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	}
 
 	/**
-	 * @return bool
+	 * Returns the directory where all Nolej
+	 * data is stored (transcriptions, activities, ...)
+	 * 
+	 * @return string
 	 */
-	protected function is6()
+	public function getPluginDataDir()
 	{
-		return (
-			version_compare(ILIAS_VERSION_NUMERIC, "6.0") >= 0 &&
-			version_compare(ILIAS_VERSION_NUMERIC, "7.0") < 0
-		);
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function is7() : bool
-	{
-		return (
-			version_compare(ILIAS_VERSION_NUMERIC, "7.0") >= 0 &&
-			version_compare(ILIAS_VERSION_NUMERIC, "8.0") < 0
-		);
+		return ilUtil::getWebspaceDir() . "/" . self::PLUGIN_ID . "/";
 	}
 
 	/**

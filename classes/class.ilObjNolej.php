@@ -228,6 +228,14 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		return ilUtil::yn2tf($row["automatic_mode"]);
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getDataDir()
+	{
+		return $this->plugin->getPluginDataDir() . $this->getDocumentId();
+	}
+
 	public function hasWritePermission()
 	{
 		global $ilAccess;

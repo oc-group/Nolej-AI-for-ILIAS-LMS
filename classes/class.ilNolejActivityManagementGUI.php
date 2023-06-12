@@ -98,18 +98,19 @@ class ilNolejActivityManagementGUI
 				switch ($status) {
 					case 0:
 					case 1:
+					case 2:
 						$this->creation();
 						break;
-					case 2:
 					case 3:
+					case 4:
 						$this->analysis();
 						break;
-					case 4:
 					case 5:
+					case 6:
 						$this->revision();
 						break;
-					case 6:
 					case 7:
+					case 8:
 						$this->activities();
 						break;
 				}
@@ -349,8 +350,7 @@ class ilNolejActivityManagementGUI
 					'aligncenter',
 					'alignright',
 					'alignjustify',
-					'anchor',
-					'fullscreen'
+					'anchor'
 				]);
 				// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 			}
@@ -590,7 +590,8 @@ class ilNolejActivityManagementGUI
 	 */
 	public function initAnalysisForm($title = "")
 	{
-		$dataDir = ilUtil::getWebspaceDir() . "/" . ilNolejPlugin::PLUGIN_ID . "/" . $this->gui_obj->object->getDocumentId();
+		$dataDir = $this->gui_obj->object->getDataDir();
+		$status = $this->gui_obj->object->getDocumentStatus();
 		$form = $form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
@@ -631,17 +632,72 @@ class ilNolejActivityManagementGUI
 				'aligncenter',
 				'alignright',
 				'alignjustify',
-				'anchor',
-				'fullscreen'
+				'anchor'
 			]);
 			// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 		}
 		$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
 		$form->addItem($txt);
 
+		if ($status != 2) {
+			$title->setDisabled(true);
+			$txt->setDisabled(true);
+		}
+
 		$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		return $form;
+	}
+
+	/**
+	 * Download the transctiption of the analyzed media
+	 * 
+	 * @return bool
+	 */
+	protected function downloadTranscription()
+	{
+		$dataDir = $this->gui_obj->object->getDataDir();
+		$documentId = $this->gui_obj->object->getDocumentId();
+		$status = $this->gui_obj->object->getDocumentStatus();
+
+		if ($status < 2) {
+			// Transctiption is not ready!
+			return false;
+		}
+
+		$api_key = $this->plugin->getConfig("api_key", "");
+		$api = new ilNolejAPI($api_key);
+
+		$result = $api->get(
+			sprintf("/documents/%s/transcription", $documentId)
+		);
+
+		if (
+			!is_object($result) ||
+			!property_exists($result, "title") ||
+			!is_string($result->title) ||
+			!property_exists($result, "result") ||
+			!is_string($result->result)
+		) {
+			ilUtil::sendFailure($this->plugin->txt("err_transcription_get") . sprintf($result));
+			return false;
+		}
+
+		$title = $result->title;
+
+		if (!is_dir($dataDir)) {
+			mkdir($dataDir, 0777, true);
+		}
+		$success = file_put_contents(
+			$dataDir . "/transcription.htm",
+			file_get_contents($result->result)
+		);
+		if (!$success) {
+			ilUtil::sendFailure($this->plugin->txt("err_transcription_download") . sprintf($result));
+			return false;
+		}
+
+		return true;
 	}
 
 	public function analysis()
@@ -649,9 +705,7 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 		$this->initSubTabs(self::SUBTAB_ANALYSIS);
 
-		// TODO
-		$dataDir = ilUtil::getWebspaceDir() . "/" . ilNolejPlugin::PLUGIN_ID . "/" . $this->gui_obj->object->getDocumentId();
-		$documentId = $this->gui_obj->object->getDocumentId();
+		$dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->gui_obj->object->getDocumentStatus();
 
 		if ($status < 2) {
@@ -659,46 +713,13 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
-		$api_key = $this->plugin->getConfig("api_key", "");
-		$api = new ilNolejAPI($api_key);
-
-		if ($status == 2) {
-			if (!file_exists($dataDir . "/transcription.htm")) {
-
-				$result = $api->get(
-					sprintf("/documents/%s/transcription", $documentId)
-				);
-
-				if (
-					!is_object($result) ||
-					!property_exists($result, "title") ||
-					!is_string($result->title) ||
-					!property_exists($result, "result") ||
-					!is_string($result->result)
-				) {
-					ilUtil::sendFailure($this->plugin->txt("err_transcription_get") . sprintf($result));
-					return;
-				}
-
-				$title = $result->title;
-
-				if (!is_dir($dataDir)) {
-					mkdir($dataDir, 0777, true);
-				}
-				$success = file_put_contents(
-					$dataDir . "/transcription.htm",
-					file_get_contents($result->result)
-				);
-				if (!$success) {
-					ilUtil::sendFailure($this->plugin->txt("err_transcription_download") . sprintf($result));
-					return;
-				}
-			}
-
-			$form = $this->initAnalysisForm($title ?? "");
-
-			$tpl->setContent($form->getHTML());
+		if (!file_exists($dataDir . "/transcription.htm")) {
+			// todo
 		}
+
+		$form = $this->initAnalysisForm(); // $title
+
+		$tpl->setContent($form->getHTML());
 	}
 
 	public function analyze()

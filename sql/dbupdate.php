@@ -148,6 +148,12 @@ $fields = array(
 		'length' => 4,
 		'notnull' => true
 	),
+	'title' => array(
+		'type' => 'text',
+		'length' => 50,
+		'fixed' => false,
+		'notnull' => false
+	),
 	'consumed_credit' => array(
 		'type' => 'integer',
 		'length' => 4,
