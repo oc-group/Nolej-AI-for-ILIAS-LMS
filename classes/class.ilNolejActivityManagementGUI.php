@@ -641,7 +641,7 @@ class ilNolejActivityManagementGUI
 				'copy',
 				'paste',
 				'pastetext',
-				// 'formatselect'
+				'formatselect'
 			));
 			// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 		}
