@@ -616,6 +616,29 @@ class ilNolejActivityManagementGUI
 		 */
 		$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
 		$txt->setRequired(true);
+		if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+			$txt->setUseRte(true);
+			$txt->setRteTagSet("mini");
+			$txt->usePurifier(true);
+			$txt->setRTERootBlockElement('');
+			// $txt->disableButtons(array(
+			// 	'charmap',
+			// 	'undo',
+			// 	'redo',
+			// 	'alignleft',
+			// 	'aligncenter',
+			// 	'alignright',
+			// 	'alignjustify',
+			// 	'anchor',
+			// 	'fullscreen',
+			// 	'cut',
+			// 	'copy',
+			// 	'paste',
+			// 	'pastetext',
+			// 	'formatselect'
+			// ));
+			// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+		}
 		$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
 		$form->addItem($txt);
 
