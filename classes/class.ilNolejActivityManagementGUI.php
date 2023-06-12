@@ -666,6 +666,9 @@ class ilNolejActivityManagementGUI
 			$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
 			$form->addItem($txt);
 
+			$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
+			$form->setFormAction($this->ctrl->getFormAction($this));
+
 			$tpl->setContent($form->getHTML());
 		}
 	}
@@ -676,6 +679,7 @@ class ilNolejActivityManagementGUI
 		$this->initSubTabs(self::SUBTAB_ANALYSIS);
 
 		// TODO
+		ilUtil::sendInfo("Todo: start analysis");
 	}
 
 	public function revision()
