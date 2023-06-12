@@ -709,7 +709,7 @@ class ilNolejActivityManagementGUI
 		// TODO
 		ilUtil::sendInfo("Todo: start analysis");
 
-		$form = $this->initCreationForm();
+		$form = $this->initAnalysisForm();
 
 		$api_key = $this->plugin->getConfig("api_key", "");
 		if ($api_key == "") {
