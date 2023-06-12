@@ -332,30 +332,28 @@ class ilNolejActivityManagementGUI
 			$mediaSource->addOption($mediaText);
 			/* Text area */
 			$txt = new ilTextAreaInputGUI("", self::PROP_M_TEXTAREA);
-			// if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
-			// 	$txt->setUseRte(true);
-			// 	$txt->setRteTagSet("mini");
-			// 	$txt->usePurifier(true);
-			// 	$txt->setRTERootBlockElement('');
-			// 	$txt->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
-			// 	$txt->disableButtons(array(
-			// 		'charmap',
-			// 		'undo',
-			// 		'redo',
-			// 		'alignleft',
-			// 		'aligncenter',
-			// 		'alignright',
-			// 		'alignjustify',
-			// 		'anchor',
-			// 		'fullscreen',
-			// 		'cut',
-			// 		'copy',
-			// 		'paste',
-			// 		'pastetext',
-			// 		'formatselect'
-			// 	));
-			// 	$txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
-			// }
+			if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+				$txt->setUseRte(true);
+				$txt->setRteTags([
+					"h1", "h2", "h3", "h4", "h5", "h6", "p",
+					"ul", "ol", "li",
+					"br", "span", "strong", "u", "i", "b"
+				]);
+				$txt->usePurifier(true);
+				$txt->setRTERootBlockElement("");
+				$txt->disableButtons([
+					"charmap",
+					'numlist',
+					'bullist',
+					'alignleft',
+					'aligncenter',
+					'alignright',
+					'alignjustify',
+					'anchor',
+					'fullscreen'
+				]);
+				// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+			}
 			$txt->setRequired(true);
 			$mediaText->addSubItem($txt);
 
