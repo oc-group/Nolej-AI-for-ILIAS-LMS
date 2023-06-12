@@ -708,6 +708,25 @@ class ilNolejActivityManagementGUI
 
 		// TODO
 		ilUtil::sendInfo("Todo: start analysis");
+
+		$form = $this->initCreationForm();
+
+		$api_key = $this->plugin->getConfig("api_key", "");
+		if ($api_key == "") {
+			ilUtil::sendFailure($this->plugin->txt("err_api_key_missing"));
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
+		if (!$form->checkInput()) {
+			// input not ok, then
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
+		$tpl->setContent($form->getHTML());
 	}
 
 	public function revision()
