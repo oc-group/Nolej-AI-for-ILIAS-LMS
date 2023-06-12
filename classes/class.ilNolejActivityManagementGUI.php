@@ -587,6 +587,41 @@ class ilNolejActivityManagementGUI
 		$this->ctrl->redirect($this, self::CMD_ANALYSIS);
 	}
 
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	public function initAnalysisForm($title = "")
+	{
+		$form = $form = new ilPropertyFormGUI();
+		$form->setTitle($this->plugin->txt("obj_xnlj"));
+
+		/**
+		 * Module title
+		 * Title returned from transcription, or current module title.
+		 */
+		if ($title != "") {
+			$titleInput = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
+			$titleInput->setValue($title);
+		} else {
+			$titleInput = new ilNonEditableValueGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
+			$titleInput->setValue($this->gui_obj->object->getTitle());
+		}
+		$form->addItem($titleInput);
+
+		/**
+		 * Transcription
+		 * 
+		 * @todo use TinyMCE
+		 */
+		$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
+		$txt->setRequired(true);
+		$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
+		$form->addItem($txt);
+
+		$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+	}
+
 	public function analysis()
 	{
 		global $tpl;
@@ -638,36 +673,7 @@ class ilNolejActivityManagementGUI
 				}
 			}
 
-			$form = $form = new ilPropertyFormGUI();
-			$form->setTitle($this->plugin->txt("obj_xnlj"));
-
-			/**
-			 * Module title
-			 * Title returned from transcription, or current module title.
-			 */
-			if (isset($title)) {
-				$titleInput = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
-				// $title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
-				$titleInput->setValue($title);
-			} else {
-				$titleInput = new ilNonEditableValueGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
-				// $title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
-				$titleInput->setValue($this->gui_obj->object->getTitle());
-			}
-			$form->addItem($titleInput);
-
-			/**
-			 * Transcription
-			 * 
-			 * @todo use TinyMCE
-			 */
-			$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
-			$txt->setRequired(true);
-			$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
-			$form->addItem($txt);
-
-			$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
-			$form->setFormAction($this->ctrl->getFormAction($this));
+			$form = $this->initAnalysisForm($title ?? "");
 
 			$tpl->setContent($form->getHTML());
 		}
