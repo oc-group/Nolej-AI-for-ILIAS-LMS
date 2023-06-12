@@ -78,7 +78,7 @@ class ilNolejActivityManagementGUI
 	public function executeCommand()
 	{
 		global $tpl;
-		$cmd = ($this->ctrl->getCmd()) ? $this->ctrl->getCmd() : self::CMD_CREATION;
+		$cmd = $this->ctrl->getCmd();
 
 		switch ($cmd) {
 			// Need to have permission to access modules
