@@ -621,6 +621,7 @@ class ilNolejActivityManagementGUI
 
 		$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
 		$form->setFormAction($this->ctrl->getFormAction($this));
+		return $form;
 	}
 
 	public function analysis()
