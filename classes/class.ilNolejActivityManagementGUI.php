@@ -592,6 +592,7 @@ class ilNolejActivityManagementGUI
 	 */
 	public function initAnalysisForm($title = "")
 	{
+		$dataDir = ilUtil::getWebspaceDir() . "/" . ilNolejPlugin::PLUGIN_ID . "/" . $this->gui_obj->object->getDocumentId();
 		$form = $form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
