@@ -726,6 +726,7 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
+		$form->setValuesByPost();
 		$tpl->setContent($form->getHTML());
 	}
 
