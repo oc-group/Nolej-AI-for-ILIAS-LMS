@@ -625,6 +625,8 @@ class ilNolejActivityManagementGUI
 				'charmap',
 				// 'undo',
 				// 'redo',
+				'numlist',
+				'bullist',
 				'alignleft',
 				'aligncenter',
 				'alignright',
