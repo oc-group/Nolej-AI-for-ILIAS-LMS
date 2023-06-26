@@ -721,7 +721,7 @@ class ilNolejActivityManagementGUI
 		$status = $this->gui_obj->object->getDocumentStatus();
 
 		if ($status < 2) {
-			ilUtil::sendInfo($this->plugin->txt("err_missing_transcription"));
+			ilUtil::sendInfo($this->plugin->txt("err_transcription_not_ready"));
 			return;
 		}
 
