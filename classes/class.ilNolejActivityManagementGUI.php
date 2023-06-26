@@ -825,7 +825,7 @@ class ilNolejActivityManagementGUI
 			[$documentId]
 		);
 
-		$ass = new NolejActivity($result->id, $DIC->user()->getId(), "analysis");
+		$ass = new NolejActivity($documentId, $DIC->user()->getId(), "analysis");
 		$ass->withStatus("ok")
 			->withCode(0)
 			->withErrorMessage("")
