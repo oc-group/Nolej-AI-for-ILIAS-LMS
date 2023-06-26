@@ -656,7 +656,7 @@ class ilNolejActivityManagementGUI
 		$form->addItem($txt);
 
 		if ($status != 2) {
-			$title->setDisabled(true);
+			$titleInput->setDisabled(true);
 			$txt->setDisabled(true);
 		}
 
