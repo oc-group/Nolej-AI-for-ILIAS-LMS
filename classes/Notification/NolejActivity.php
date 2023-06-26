@@ -477,8 +477,14 @@ class NolejActivity
 			. " WHERE user_id = %s"
 			. " AND tstamp >= %s AND tstamp <= %s"
 			. " AND notified = 'n'"
-			. " ORDER BY tstamp DESC"
-			. " GROUP BY document_id;",
+			. " AND (document_id, tstamp) IN ("
+			. "   SELECT document_id, MAX(tstamp) FROM " . ilNolejPlugin::TABLE_ACTIVITY
+			. "   WHERE user_id = %s"
+			. "   AND tstamp >= %s AND tstamp <= %s"
+			. "   AND notified = 'n'"
+			. "   GROUP BY user_id, document_id"
+			. " )"
+			. " ORDER BY tstamp DESC;",
 			array("integer","integer","integer"),
 			array($a_user_id, $a_ts_from, $a_ts_to)
 		);
