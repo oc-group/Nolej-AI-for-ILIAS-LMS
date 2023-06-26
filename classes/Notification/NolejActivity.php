@@ -485,8 +485,8 @@ class NolejActivity
 			. "   GROUP BY user_id, document_id"
 			. " )"
 			. " ORDER BY tstamp DESC;",
-			array("integer","integer","integer"),
-			array($a_user_id, $a_ts_from, $a_ts_to)
+			array("integer","integer","integer", "integer","integer","integer"),
+			array($a_user_id, $a_ts_from, $a_ts_to, $a_user_id, $a_ts_from, $a_ts_to)
 		);
 		$res = [];
 		while ($rec = $db->fetchAssoc($set)) {
