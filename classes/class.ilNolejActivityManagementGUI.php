@@ -808,7 +808,7 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 		if ($result->result != "ok") {
-			ilUtil::sendFailure("4");
+			ilUtil::sendFailure($result->result);
 			return;
 		}
 		return;
