@@ -655,13 +655,14 @@ class ilNolejActivityManagementGUI
 		$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
 		$form->addItem($txt);
 
-		if ($status != 2) {
+		if ($status == 2) {
+			$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
+			$form->setFormAction($this->ctrl->getFormAction($this));
+		} else {
 			$titleInput->setDisabled(true);
 			$txt->setDisabled(true);
 		}
 
-		$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
-		$form->setFormAction($this->ctrl->getFormAction($this));
 		return $form;
 	}
 
