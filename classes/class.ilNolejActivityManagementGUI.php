@@ -820,7 +820,7 @@ class ilNolejActivityManagementGUI
 
 		$this->db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_DOC
-			. " SET status = 3, WHERE document_id = %s;",
+			. " SET status = 3 WHERE document_id = %s;",
 			["text"],
 			[$documentId]
 		);
