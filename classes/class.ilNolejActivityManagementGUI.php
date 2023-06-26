@@ -252,6 +252,7 @@ class ilNolejActivityManagementGUI
 			$title = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
 			$title->setInfo($this->plugin->txt("prop_" . self::PROP_TITLE . "_info"));
 			$title->setValue($this->gui_obj->object->getTitle());
+			$title->setMaxLength(250);
 			$form->addItem($title);
 
 			/**

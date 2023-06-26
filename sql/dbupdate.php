@@ -150,7 +150,7 @@ $fields = array(
 	),
 	'title' => array(
 		'type' => 'text',
-		'length' => 50,
+		'length' => 250,
 		'fixed' => false,
 		'notnull' => false
 	),
