@@ -345,11 +345,16 @@ class ilNolejActivityManagementGUI
 				$txt->setRTERootBlockElement("");
 				$txt->disableButtons([
 					"charmap",
-					'alignleft',
-					'aligncenter',
-					'alignright',
-					'alignjustify',
-					'anchor'
+					"justifyright",
+					"justifyleft",
+					"justifycenter",
+					"justifyfull",
+					"alignleft",
+					"aligncenter",
+					"alignright",
+					"alignjustify",
+					"anchor",
+					"pasteword"
 				]);
 				// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 			}
@@ -634,11 +639,16 @@ class ilNolejActivityManagementGUI
 			$txt->setRTERootBlockElement("");
 			$txt->disableButtons([
 				"charmap",
-				'alignleft',	
-				'aligncenter',
-				'alignright',
-				'alignjustify',
-				'anchor'
+				"justifyright",
+				"justifyleft",
+				"justifycenter",
+				"justifyfull",
+				"alignleft",
+				"aligncenter",
+				"alignright",
+				"alignjustify",
+				"anchor",
+				"pasteword"
 			]);
 			// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 		}
