@@ -432,9 +432,9 @@ class NolejActivity
 
 		$ilDB->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_ACTIVITY
-			. " SET notified = 'y' WHERE document_id = %s AND user_id = %s AND action = %s",
-			array("integer", "integer", "text"),
-			array($this->getDocumentId(), $this->getUserId(), $this->getAction())
+			. " SET notified = 'y' WHERE document_id = %s AND user_id = %s",
+			array("integer", "integer"),
+			array($this->getDocumentId(), $this->getUserId())
 		);
 	}
 
