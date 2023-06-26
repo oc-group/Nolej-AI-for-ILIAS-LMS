@@ -50,6 +50,9 @@ class NolejActivity
 	/** @var int|null */
 	protected $refId = null;
 
+	/** @var ilNolejPlugin */
+	protected $plugin;
+
 	/**
 	 * @param string|null $a_doc_id
 	 * @param int|null $a_user_id
@@ -70,6 +73,8 @@ class NolejActivity
 
 			$this->read($a_doc_id, $a_user_id, $a_action);
 		}
+
+		$this->plugin = ilNolejPlugin::getInstance();
 	}
 
 	/**
@@ -392,6 +397,11 @@ class NolejActivity
 			!$this->getAction()
 		) {
 			ilUtil::sendFailure("Some value null", true);
+			$this->plugin->logger->log("Notification: some values are null: " . print_r([
+				"documentId" => $this->getDocumentId(),
+				"userId" => $this->getUserId(),
+				"action" => $this->getAction()
+			], true));
 			return;
 		}
 
