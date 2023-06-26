@@ -35,6 +35,7 @@ err_modules#:#Error retrieving the modules, please try again.
 err_modules_denied#:#You cannot access the modules.
 err_no_licenses_available#:#There are no more available licenses.
 err_tic_response#:#Nolej endpoint returned an invalid response.
+err_transcription_not_ready#:#La trascrizione non è ancora completa, attendi ancora un po' di tempo e torna qui per verificare. L'attesa stimata è di circa un terzo rispetto alla durata del file scelto; se è trascorso molto più di questo tempo e non hai ancora ricevuto una notifica, per favore contatta un Amministratore.
 fold_create_xnlj#:#Create Nolej object
 grp_create_xnlj#:#Create Nolej object
 lp_status#:#Learning Progress
