@@ -31,6 +31,7 @@ class ilNolejWebhook
 			!is_string($data["action"])
 		) {
 			$this->die_message(400, "Request not valid.");
+			$this->plugin->logger->log("Received invalid request: " . print_r($data, true));
 		}
 
 		$this->data = $data;
@@ -39,11 +40,15 @@ class ilNolejWebhook
 				$this->checkTac();
 				break;
 			case "transcription":
+				$this->plugin->logger->log("Received request: " . print_r($data, true));
 				$this->checkTranscription();
 				break;
 			case "analysis":
+				$this->plugin->logger->log("Received request: " . print_r($data, true));
 				$this->checkAnalysis();
 				break;
+			default:
+				$this->plugin->logger->log("Received invalid action: " . print_r($data, true));
 		}
 		exit;
 	}
@@ -237,7 +242,8 @@ class ilNolejWebhook
 
 		$result = $db->queryF(
 			"SELECT a.user_id"
-			. " FROM " . ilNolejPlugin::TABLE_DOC . " d INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
+			. " FROM " . ilNolejPlugin::TABLE_DOC . " d"
+			. " INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
 			. " ON a.document_id = d.document_id"
 			. " WHERE d.document_id = %s AND d.status = 3;",
 			["text"],
@@ -252,7 +258,8 @@ class ilNolejWebhook
 
 		$result = $db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_DOC
-			. " SET status = 4, consumed_credit = %s WHERE document_id = %s;",
+			. " SET status = 4, consumed_credit = %s"
+			. " WHERE document_id = %s;",
 			["integer", "text"],
 			[$this->data["consumedCredit"], $documentId]
 		);
