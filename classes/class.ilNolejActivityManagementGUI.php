@@ -164,6 +164,50 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
+	 * @return string
+	 */
+	protected function statusReviewIcon()
+	{
+		$status = $this->gui_obj->object->getDocumentStatus();
+		switch ($status) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+				return "";
+			case 4:
+				return $this->glyphicon("hand-right");
+			case 5:
+				return $this->glyphicon("time");
+			default:
+				return $this->glyphicon("ok");
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function statusActivitiesIcon()
+	{
+		$status = $this->gui_obj->object->getDocumentStatus();
+		switch ($status) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+				return "";
+			case 6:
+				return $this->glyphicon("hand-right");
+			case 7:
+				return $this->glyphicon("time");
+			default:
+				return $this->glyphicon("ok");
+		}
+	}
+
+	/**
 	 * Init and activate tabs
 	 */
 	protected function initSubTabs($active_subtab = null)
@@ -188,13 +232,13 @@ class ilNolejActivityManagementGUI
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_REVIEW,
-			$this->plugin->txt("subtab_" . self::SUBTAB_REVIEW),
+			$this->statusReviewIcon() . $this->plugin->txt("subtab_" . self::SUBTAB_REVIEW),
 			$this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
 		);
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_ACTIVITIES,
-			$this->plugin->txt("subtab_" . self::SUBTAB_ACTIVITIES),
+			$this->statusActivitiesIcon() . $this->plugin->txt("subtab_" . self::SUBTAB_ACTIVITIES),
 			$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
 		);
 

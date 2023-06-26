@@ -143,6 +143,8 @@ $fields = array(
 		 * 2 => transcription ready,
 		 * 3 => analyzing,
 		 * 4 => analysis ready,
+		 * 5 => review,
+		 * 6 => review ready,
 		*/
 		'type' => 'integer',
 		'length' => 4,
