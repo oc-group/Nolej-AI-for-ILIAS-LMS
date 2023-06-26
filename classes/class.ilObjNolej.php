@@ -209,6 +209,25 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		return $row["language"];
 	}
 
+	/** @return string */
+	function getDocumentTitle()
+	{
+		global $ilDB;
+
+		if ($this->getDocumentId() == null) {
+			return "";
+		}
+
+		$result = $ilDB->queryF(
+			"SELECT `title` FROM " . ilNolejPlugin::TABLE_DOC . " WHERE document_id = %s",
+			array("text"),
+			array($this->getDocumentId())
+		);
+
+		$row = $this->db->fetchAssoc($result);
+		return $row["title"];
+	}
+
 	/** @return bool */
 	function getDocumentAutomaticMode()
 	{

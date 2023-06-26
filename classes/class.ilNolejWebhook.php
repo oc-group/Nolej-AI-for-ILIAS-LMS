@@ -41,6 +41,9 @@ class ilNolejWebhook
 			case "transcription":
 				$this->checkTranscription();
 				break;
+			case "analysis":
+				$this->checkAnalysis();
+				break;
 		}
 		exit;
 	}
@@ -205,6 +208,69 @@ class ilNolejWebhook
 		);
 
 		$this->die_message(200, "Transcription received!");
+	}
+
+	public function checkAnalysis()
+	{
+		global $DIC;
+
+		if (
+			!isset(
+				$this->data["documentID"],
+				$this->data["status"],
+				$this->data["code"],
+				$this->data["error_message"],
+				$this->data["consumedCredit"]
+			) ||
+			!is_string($this->data["documentID"]) ||
+			!is_string($this->data["status"]) ||
+			!is_string($this->data["error_message"]) ||
+			!is_integer($this->data["code"]) ||
+			!is_integer($this->data["consumedCredit"])
+		) {
+			$this->die_message(400, "Request not valid.");
+			return;
+		}
+
+		$db = $DIC->database();
+		$documentId = $this->data["documentID"];
+
+		$result = $db->queryF(
+			"SELECT a.user_id"
+			. " FROM " . ilNolejPlugin::TABLE_DOC . " d INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
+			. " ON a.document_id = d.document_id"
+			. " WHERE d.document_id = %s AND d.status = 3;",
+			["text"],
+			[$documentId]
+		);
+		if ($db->numRows($result) != 1) {
+			$this->die_message(404, "Document ID not found.");
+			return;
+		}
+
+		$document = $db->fetchAssoc($result);
+
+		$result = $db->manipulateF(
+			"UPDATE " . ilNolejPlugin::TABLE_DOC
+			. " SET status = 4, consumed_credit = %s WHERE document_id = %s;",
+			["integer", "text"],
+			[$this->data["consumedCredit"], $documentId]
+		);
+		if (!$result) {
+			$this->die_message(404, "Document not found.");
+		}
+
+		$this->sendNotification(
+			$documentId,
+			$document["user_id"],
+			"analysis_" . $this->data["status"],
+			$this->data["status"],
+			$this->data["code"],
+			$this->data["error_message"],
+			$this->data["consumedCredit"]
+		);
+
+		$this->die_message(200, "Analysis received!");
 	}
 
 	/**

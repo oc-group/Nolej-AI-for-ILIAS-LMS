@@ -337,16 +337,14 @@ class ilNolejActivityManagementGUI
 			if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
 				$txt->setUseRte(true);
 				$txt->setRteTags([
-					"h1", "h2", "h3", "h4", "h5", "h6", "p",
+					"h1", "h2", "h3", "p",
 					"ul", "ol", "li",
-					"br", "span", "strong", "u", "i", "b"
+					"br", "strong", "u", "i",
 				]);
 				$txt->usePurifier(true);
 				$txt->setRTERootBlockElement("");
 				$txt->disableButtons([
 					"charmap",
-					'numlist',
-					'bullist',
 					'alignleft',
 					'aligncenter',
 					'alignright',
@@ -582,14 +580,14 @@ class ilNolejActivityManagementGUI
 			->withConsumedCredit($decrementedCredit)
 			->store();
 
-		ilUtil::sendSuccess($this->plugin->txt("tic_sent"), true);
+		ilUtil::sendSuccess($this->plugin->txt("action_transcription"), true);
 		$this->ctrl->redirect($this, self::CMD_ANALYSIS);
 	}
 
 	/**
 	 * @return ilPropertyFormGUI
 	 */
-	public function initAnalysisForm($title = "")
+	public function initAnalysisForm()
 	{
 		$dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->gui_obj->object->getDocumentStatus();
@@ -598,14 +596,23 @@ class ilNolejActivityManagementGUI
 
 		/**
 		 * Module title
-		 * Title returned from transcription, or current module title.
+		 * - $title: Title returned from transcription;
+		 * - $objTitle: Current module title.
 		 */
-		if ($title != "") {
-			$titleInput = new ilTextInputGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
+		$title = $this->gui_obj->object->getDocumentTitle();
+		$objTitle = $this->gui_obj->object->getTitle();
+		if ($title != "" && $title != $objTitle) {
+			$titleInput = new ilTextInputGUI(
+				$this->plugin->txt("prop_" . self::PROP_TITLE),
+				self::PROP_TITLE
+			);
 			$titleInput->setValue($title);
 		} else {
-			$titleInput = new ilNonEditableValueGUI($this->plugin->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
-			$titleInput->setValue($this->gui_obj->object->getTitle());
+			$titleInput = new ilNonEditableValueGUI(
+				$this->plugin->txt("prop_" . self::PROP_TITLE),
+				self::PROP_TITLE
+			);
+			$titleInput->setValue($objTitle);
 		}
 		$form->addItem($titleInput);
 
@@ -619,17 +626,15 @@ class ilNolejActivityManagementGUI
 		if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
 			$txt->setUseRte(true);
 			$txt->setRteTags([
-				"h1", "h2", "h3", "h4", "h5", "h6", "p",
-            	"ul", "ol", "li",
-				"br", "span", "strong", "u", "i", "b"
+				"h1", "h2", "h3", "p",
+				"ul", "ol", "li",
+				"br", "strong", "u", "i",
 			]);
 			$txt->usePurifier(true);
 			$txt->setRTERootBlockElement("");
 			$txt->disableButtons([
 				"charmap",
-				'numlist',
-				'bullist',
-				'alignleft',
+				'alignleft',	
 				'aligncenter',
 				'alignright',
 				'alignjustify',
@@ -663,6 +668,7 @@ class ilNolejActivityManagementGUI
 
 		if ($status < 2) {
 			// Transctiption is not ready!
+			ilUtil::sendFailure($this->plugin->txt("err_transcription_not_ready"));
 			return false;
 		}
 
@@ -685,6 +691,11 @@ class ilNolejActivityManagementGUI
 		}
 
 		$title = $result->title;
+		$this->db->manipulateF(
+			"UPDATE " . ilNolejPlugin::TABLE_DOC . " SET title = %s WHERE document_id = %s;",
+			["text", "text"],
+			[$title, $documentId]
+		);
 
 		if (!is_dir($dataDir)) {
 			mkdir($dataDir, 0777, true);
@@ -715,21 +726,21 @@ class ilNolejActivityManagementGUI
 		}
 
 		if (!file_exists($dataDir . "/transcription.htm")) {
-			// todo
+			$downloadSuccess = $this->downloadTranscription();
+			if (!$downloadSuccess) {
+				return;
+			}
 		}
 
-		$form = $this->initAnalysisForm(); // $title
+		$form = $this->initAnalysisForm();
 
 		$tpl->setContent($form->getHTML());
 	}
 
 	public function analyze()
 	{
-		global $tpl;
+		global $DIC, $tpl;
 		$this->initSubTabs(self::SUBTAB_ANALYSIS);
-
-		// TODO
-		ilUtil::sendInfo("Todo: start analysis");
 
 		$form = $this->initAnalysisForm();
 
@@ -748,8 +759,53 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
-		$form->setValuesByPost();
-		$tpl->setContent($form->getHTML());
+		$documentId = $this->gui_obj->object->getDocumentId();
+		$apiAutomaticMode = $this->gui_obj->object->getDocumentAutomaticMode();
+		$dataDir = $this->gui_obj->object->getDataDir();
+		$api = new ilNolejAPI($api_key);
+
+		/**
+		 * May update title
+		 */
+		$title = $form->getInput(self::PROP_TITLE);
+		$objTitle = $this->gui_obj->object->getTitle();
+		if ($title != "" && $title != $objTitle) {
+			$this->gui_obj->object->setTitle($title);
+			$this->gui_obj->object->update();
+		}
+
+		$result = $api->put(
+			sptintf("/documents/%s/transcription", $documentId),
+			[
+				"s3URL" => $dataDir . "/transcription.htm",
+				"automaticMode" => $apiAutomaticMode
+			],
+			true
+		);
+
+		if (!is_object($result) || !property_exists($result, "id") || !is_string($result->id)) {
+			ilUtil::sendFailure($this->plugin->txt("err_doc_response") . " " . print_r($result, true));
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
+		$this->db->manipulateF(
+			"UPDATE " . ilNolejPlugin::TABLE_DOC
+			. " SET status = 3, WHERE document_id = %s;",
+			["text"],
+			[$documentId]
+		);
+
+		$ass = new NolejActivity($result->id, $DIC->user()->getId(), "analysis");
+		$ass->withStatus("ok")
+			->withCode(0)
+			->withErrorMessage("")
+			->withConsumedCredit(0)
+			->store();
+
+		ilUtil::sendSuccess($this->plugin->txt("action_analysis"), true);
+		$this->ctrl->redirect($this, self::CMD_REVISION);
 	}
 
 	public function revision()
