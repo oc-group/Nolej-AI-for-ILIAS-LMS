@@ -784,10 +784,11 @@ class ilNolejActivityManagementGUI
 			$this->gui_obj->object->update();
 		}
 
+		$url = ILIAS_HTTP_PATH . substr(ilWACSignedPath::signFile($dataDir . "/transcription.htm"), 1);
 		$result = $api->put(
 			sprintf("/documents/%s/transcription", $documentId),
 			[
-				"s3URL" => $dataDir . "/transcription.htm",
+				"s3URL" => $url,
 				"automaticMode" => $apiAutomaticMode
 			],
 			true
