@@ -785,7 +785,7 @@ class ilNolejActivityManagementGUI
 		}
 
 		$result = $api->put(
-			sptintf("/documents/%s/transcription", $documentId),
+			sprintf("/documents/%s/transcription", $documentId),
 			[
 				"s3URL" => $dataDir . "/transcription.htm",
 				"automaticMode" => $apiAutomaticMode
