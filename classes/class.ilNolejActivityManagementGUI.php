@@ -809,14 +809,14 @@ class ilNolejActivityManagementGUI
 		}
 		if ($result->result != "ok") {
 			ilUtil::sendFailure($result->result);
-			return;
+			// return;
 		}
-		return;
-			ilUtil::sendFailure($this->plugin->txt("err_doc_response") . " " . print_r($result, true));
-			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
-			return;
-		// }
+		// return;
+		// 	ilUtil::sendFailure($this->plugin->txt("err_doc_response") . " " . print_r($result, true));
+		// 	$form->setValuesByPost();
+		// 	$tpl->setContent($form->getHTML());
+		// 	return;
+		// // }
 
 		$this->db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_DOC
