@@ -316,8 +316,8 @@ class ilNolejWebhook
 
 		$now = strtotime("now");
 		$notification = new ilNotificationConfig("chat_invitation");
-		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_" . $action));
-		$notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "_" . $action . "_long"));
+		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_action_" . $action));
+		$notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "_action_" . $action . "_long"));
 		$notification->setLongDescriptionVar(sprintf(
 			$lng->txt(ilNolejPlugin::PREFIX . "_tac_received_info_long"),
 			$documentId,
