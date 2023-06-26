@@ -477,7 +477,8 @@ class NolejActivity
 			. " WHERE user_id = %s"
 			. " AND tstamp >= %s AND tstamp <= %s"
 			. " AND notified = 'n'"
-			. " ORDER BY tstamp DESC;",
+			. " ORDER BY tstamp DESC"
+			. " GROUP BY document_id;",
 			array("integer","integer","integer"),
 			array($a_user_id, $a_ts_from, $a_ts_to)
 		);
