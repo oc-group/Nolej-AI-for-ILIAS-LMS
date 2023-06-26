@@ -795,17 +795,28 @@ class ilNolejActivityManagementGUI
 			true
 		);
 
-		if (
-			!is_object($result) ||
-			!property_exists($result, "result") ||
-			!is_string($result->result) ||
-			$result->result != "ok"
-		) {
+		if (!is_object($result)) {
+			ilUtil::sendFailure("1");
+			return;
+		}
+		if (!property_exists($result, "result")) {
+			ilUtil::sendFailure("2");
+			return;
+		}
+		if (!is_string($result->result)) {
+			ilUtil::sendFailure("3");
+			return;
+		}
+		if ($result->result != "ok") {
+			ilUtil::sendFailure("4");
+			return;
+		}
+		return;
 			ilUtil::sendFailure($this->plugin->txt("err_doc_response") . " " . print_r($result, true));
 			$form->setValuesByPost();
 			$tpl->setContent($form->getHTML());
 			return;
-		}
+		// }
 
 		$this->db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_DOC
