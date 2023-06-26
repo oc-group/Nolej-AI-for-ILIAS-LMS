@@ -241,7 +241,7 @@ class ilNolejWebhook
 		$documentId = $this->data["documentID"];
 
 		$result = $db->queryF(
-			"SELECT a.user_id"
+			"SELECT DISTINCT(a.user_id)"
 			. " FROM " . ilNolejPlugin::TABLE_DOC . " d"
 			. " INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
 			. " ON a.document_id = d.document_id"
