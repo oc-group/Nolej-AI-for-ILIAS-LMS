@@ -794,7 +794,12 @@ class ilNolejActivityManagementGUI
 			true
 		);
 
-		if (!is_object($result) || !property_exists($result, "id") || !is_string($result->id)) {
+		if (
+			!is_object($result) ||
+			!property_exists($result, "result") ||
+			!is_string($result->result) ||
+			$result->result != "ok"
+		) {
 			ilUtil::sendFailure($this->plugin->txt("err_doc_response") . " " . print_r($result, true));
 			$form->setValuesByPost();
 			$tpl->setContent($form->getHTML());
