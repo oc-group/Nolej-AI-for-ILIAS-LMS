@@ -48,6 +48,29 @@ class ilNolejAPI {
 		return $object !== null ? $object : $response->getBody();
 	}
 
+	public function put($path, $data = array(), $decode = true)
+	{
+		$data_json = json_encode($data);
+		$url = self::API_URL . $path;
+
+		$client = new GuzzleHttp\Client;
+		$response = $client->request("PUT", $url, [
+			"headers" => [
+				"Authorization" => "X-API-KEY " . $this->apikey,
+				"User-Agent" => "ILIAS Plugin",
+				"Content-Type" => "application/json"
+			],
+			"body" => $data_json
+		]);
+
+		if (!$decode) {
+			return $response->getBody();
+		}
+
+		$object = json_decode($response->getBody());
+		return $object !== null ? $object : $response->getBody();
+	}
+
 	/**
 	 * @param string $path
 	 * @param bool $decode
