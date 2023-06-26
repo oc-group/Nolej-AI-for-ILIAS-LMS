@@ -1,4 +1,6 @@
 action_analysis#:#
+action_analysis_ko#:#
+action_analysis_ok#:#
 action_tac#:#
 action_tic#:#
 action_transcription#:#
@@ -13,8 +15,6 @@ cmd_create#:#
 cmd_details#:#
 cmd_edit#:#
 cmd_generate#:#
-cmd_purchase#:#
-cmd_register#:#
 cmd_review#:#
 cmd_save#:#
 cmd_select#:#
@@ -23,17 +23,8 @@ cmd_update#:#
 configuration_title#:#
 crs_create_xnlj#:#
 err_access_denied#:#
-err_already_exists#:#
 err_api_key_missing#:#
-err_course_id#:#
 err_credentials#:#
-err_email_already_exists#:#
-err_forbidden#:#
-err_license_already_assigned#:#
-err_maintenance#:#
-err_modules#:#
-err_modules_denied#:#
-err_no_licenses_available#:#
 err_tic_response#:#
 err_transcription_not_ready#:#
 fold_create_xnlj#:#
@@ -84,8 +75,6 @@ prop_video_info#:#
 prop_web#:#
 prop_web_info#:#
 prop_web_src#:#
-prop_youtube#:#
-prop_youtube_info#:#
 root_create_xnlj#:#
 set_completed#:#
 set_failed#:#
