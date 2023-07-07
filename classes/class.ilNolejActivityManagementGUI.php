@@ -58,6 +58,15 @@ class ilNolejActivityManagementGUI
 	/** @var ilObjNolejGUI */
 	protected $gui_obj;
 
+	/** @var int $status */
+	protected $status = 0;
+
+	/** @var string $defaultCmd */
+	protected $defaultCmd;
+
+	/** @var string[] $statusIcons */
+	protected $statusIcons;
+
 	/** @param ilObjNolejGUI $gui_obj */
 	public function __construct($gui_obj)
 	{
@@ -69,6 +78,7 @@ class ilNolejActivityManagementGUI
 
 		$this->plugin = ilNolejPlugin::getInstance();
 		$this->gui_obj = $gui_obj;
+		$this->statusCheck();
 	}
 
 	/**
@@ -94,30 +104,83 @@ class ilNolejActivityManagementGUI
 				break;
 
 			default:
-				$status = $this->gui_obj->object->getDocumentStatus();
-				switch ($status) {
-					case 0:
-					case 1:
-					case 2:
-						$this->creation();
-						break;
-					case 3:
-					case 4:
-						$this->analysis();
-						break;
-					case 5:
-					case 6:
-						$this->revision();
-						break;
-					case 7:
-					case 8:
-						$this->activities();
-						break;
-				}
-				
+				$cmd = $this->defaultCmd;
+				$this->$cmd();
 		}
 
 		return true;
+	}
+
+	/**
+	 * Return status icon and command
+	 * @return void
+	 */
+	protected function statusCheck()
+	{
+		$this->status = $this->gui_obj->object->getDocumentStatus();
+		$this->defaultCmd = self::CMD_CREATION;
+		$statusIcons = [
+			self::CMD_CREATION => "",
+			self::CMD_ANALYSIS => "",
+			self::CMD_REVISION => "",
+			self::CMD_ACTIVITIES => ""
+		];
+
+		$current = $this->glyphicon("hand-right");
+		$waiting = $this->glyphicon("time");
+		$completed = $this->glyphicon("ok");
+
+		switch ($this->status) {
+			case 0:
+				$statusIcons[self::CMD_CREATION] = $current;
+				break;
+			case 1:
+				$statusIcons[self::CMD_CREATION] = $waiting;
+				break;
+			case 2:
+				$statusIcons[self::CMD_CREATION] = $completed;
+				$statusIcons[self::CMD_ANALYSIS] = $current;
+				break;
+			case 3:
+				$statusIcons[self::CMD_CREATION] = $completed;
+				$statusIcons[self::CMD_ANALYSIS] = $waiting;
+				break;
+			case 4:
+				$this->defaultCmd = self::CMD_ANALYSIS;
+				$statusIcons[self::CMD_CREATION] = $completed;
+				$statusIcons[self::CMD_ANALYSIS] = $completed;
+				$statusIcons[self::CMD_REVISION] = $current;
+				break;
+			case 5:
+				$this->defaultCmd = self::CMD_REVISION;
+				$statusIcons[self::CMD_CREATION] = $completed;
+				$statusIcons[self::CMD_ANALYSIS] = $completed;
+				$statusIcons[self::CMD_REVISION] = $waiting;
+				break;
+			case 6:
+				$this->defaultCmd = self::CMD_REVISION;
+				$statusIcons[self::CMD_CREATION] = $completed;
+				$statusIcons[self::CMD_ANALYSIS] = $completed;
+				$statusIcons[self::CMD_REVISION] = $completed;
+				$statusIcons[self::CMD_ACTIVITIES] = $current;
+				break;
+			case 7:
+				$this->defaultCmd = self::CMD_ACTIVITIES;
+				$statusIcons[self::CMD_CREATION] = $completed;
+				$statusIcons[self::CMD_ANALYSIS] = $completed;
+				$statusIcons[self::CMD_REVISION] = $completed;
+				$statusIcons[self::CMD_ACTIVITIES] = $waiting;
+				break;
+			case 8:
+				$this->defaultCmd = self::CMD_ACTIVITIES;
+				$statusIcons[self::CMD_CREATION] = $completed;
+				$statusIcons[self::CMD_ANALYSIS] = $completed;
+				$statusIcons[self::CMD_REVISION] = $completed;
+				$statusIcons[self::CMD_ACTIVITIES] = $completed;
+				break;
+		}
+
+		$this->statusIcons = $statusIcons;
 	}
 
 	/**
@@ -129,85 +192,6 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
-	 * @return string
-	 */
-	protected function statusTranscriptionIcon()
-	{
-		$status = $this->gui_obj->object->getDocumentStatus();
-		switch ($status) {
-			case 0:
-				return $this->glyphicon("hand-right");
-			case 1:
-				return $this->glyphicon("time");
-			default:
-				return $this->glyphicon("ok");
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function statusAnalysisIcon()
-	{
-		$status = $this->gui_obj->object->getDocumentStatus();
-		switch ($status) {
-			case 0:
-			case 1:
-				return "";
-			case 2:
-				return $this->glyphicon("hand-right");
-			case 3:
-				return $this->glyphicon("time");
-			default:
-				return $this->glyphicon("ok");
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function statusReviewIcon()
-	{
-		$status = $this->gui_obj->object->getDocumentStatus();
-		switch ($status) {
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-				return "";
-			case 4:
-				return $this->glyphicon("hand-right");
-			case 5:
-				return $this->glyphicon("time");
-			default:
-				return $this->glyphicon("ok");
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function statusActivitiesIcon()
-	{
-		$status = $this->gui_obj->object->getDocumentStatus();
-		switch ($status) {
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-				return "";
-			case 6:
-				return $this->glyphicon("hand-right");
-			case 7:
-				return $this->glyphicon("time");
-			default:
-				return $this->glyphicon("ok");
-		}
-	}
-
-	/**
 	 * Init and activate tabs
 	 */
 	protected function initSubTabs($active_subtab = null)
@@ -216,29 +200,27 @@ class ilNolejActivityManagementGUI
 
 		// Do nothing link: "javascript:void(0)"
 
-		// TODO: icons that follow the status
-
 		$this->tabs->addSubTab(
 			self::SUBTAB_CREATION,
-			$this->statusTranscriptionIcon() . $this->plugin->txt("subtab_" . self::SUBTAB_CREATION),
+			$this->statusIcons[self::CMD_CREATION] . $this->plugin->txt("subtab_" . self::SUBTAB_CREATION),
 			$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
 		);
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_ANALYSIS,
-			$this->statusAnalysisIcon() . $this->plugin->txt("subtab_" . self::SUBTAB_ANALYSIS),
+			$this->statusIcons[self::CMD_ANALYSIS] . $this->plugin->txt("subtab_" . self::SUBTAB_ANALYSIS),
 			$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
 		);
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_REVIEW,
-			$this->statusReviewIcon() . $this->plugin->txt("subtab_" . self::SUBTAB_REVIEW),
-			$this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
+			$this->statusIcons[self::CMD_REVISION] . $this->plugin->txt("subtab_" . self::SUBTAB_REVIEW),
+			$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
 		);
 
 		$this->tabs->addSubTab(
 			self::SUBTAB_ACTIVITIES,
-			$this->statusActivitiesIcon() . $this->plugin->txt("subtab_" . self::SUBTAB_ACTIVITIES),
+			$this->statusIcons[self::CMD_ACTIVITIES] . $this->plugin->txt("subtab_" . self::SUBTAB_ACTIVITIES),
 			$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
 		);
 
@@ -285,7 +267,7 @@ class ilNolejActivityManagementGUI
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
-		$status = $this->gui_obj->object->getDocumentStatus();
+		$status = $this->status;
 
 		if ($status == 0) {
 
@@ -639,7 +621,7 @@ class ilNolejActivityManagementGUI
 	public function initAnalysisForm()
 	{
 		$dataDir = $this->gui_obj->object->getDataDir();
-		$status = $this->gui_obj->object->getDocumentStatus();
+		$status = $this->status;
 		$form = $form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
@@ -719,7 +701,7 @@ class ilNolejActivityManagementGUI
 	{
 		$dataDir = $this->gui_obj->object->getDataDir();
 		$documentId = $this->gui_obj->object->getDocumentId();
-		$status = $this->gui_obj->object->getDocumentStatus();
+		$status = $this->status;
 
 		if ($status < 2) {
 			// Transctiption is not ready!
@@ -773,7 +755,7 @@ class ilNolejActivityManagementGUI
 		$this->initSubTabs(self::SUBTAB_ANALYSIS);
 
 		$dataDir = $this->gui_obj->object->getDataDir();
-		$status = $this->gui_obj->object->getDocumentStatus();
+		$status = $this->status;
 
 		if ($status < 2) {
 			ilUtil::sendInfo($this->plugin->txt("err_transcription_not_ready"));
