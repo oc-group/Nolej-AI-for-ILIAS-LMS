@@ -138,10 +138,12 @@ class ilNolejActivityManagementGUI
 				$statusIcons[self::CMD_CREATION] = $waiting;
 				break;
 			case 2:
+				$this->defaultCmd = self::CMD_ANALYSIS;
 				$statusIcons[self::CMD_CREATION] = $completed;
 				$statusIcons[self::CMD_ANALYSIS] = $current;
 				break;
 			case 3:
+				$this->defaultCmd = self::CMD_ANALYSIS;
 				$statusIcons[self::CMD_CREATION] = $completed;
 				$statusIcons[self::CMD_ANALYSIS] = $waiting;
 				break;
@@ -158,7 +160,7 @@ class ilNolejActivityManagementGUI
 				$statusIcons[self::CMD_REVISION] = $waiting;
 				break;
 			case 6:
-				$this->defaultCmd = self::CMD_REVISION;
+				$this->defaultCmd = self::CMD_ACTIVITIES;
 				$statusIcons[self::CMD_CREATION] = $completed;
 				$statusIcons[self::CMD_ANALYSIS] = $completed;
 				$statusIcons[self::CMD_REVISION] = $completed;
