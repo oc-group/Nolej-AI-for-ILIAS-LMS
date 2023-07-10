@@ -93,11 +93,11 @@ class ilNolejActivityManagementGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
-			case "ilpropertyformgui":
-				// include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-				// $this->initFormLink(self::LINK_MOD_EDIT);
-				// $this->ctrl->forwardCommand($this->form);
-				break;
+			// case "ilpropertyformgui":
+			// 	include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+			// 	$this->initFormLink(self::LINK_MOD_EDIT);
+			// 	$this->ctrl->forwardCommand($this->form);
+			// 	break;
 
 			case "ilinternallinkgui":
 				$this->lng->loadLanguageModule("content");
@@ -289,7 +289,7 @@ class ilNolejActivityManagementGUI
 		include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 		$js = ilInternalLinkGUI::getInitHTML(
 			$this->ctrl->getLinkTargetByClass(
-				array("ilpageeditorgui", "ilinternallinkgui"),
+				array("ilinternallinkgui"),
 				"",
 				false,
 				true,
