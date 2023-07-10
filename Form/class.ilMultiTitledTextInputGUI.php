@@ -1,7 +1,7 @@
 <?php
 
-require_once 'Services/Form/classes/class.ilIdentifiedMultiValuesInputGUI.php';
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+require_once "Services/Form/classes/class.ilIdentifiedMultiValuesInputGUI.php";
+require_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
 
 /**
  * Form field with a textbox and a textarea
@@ -20,24 +20,20 @@ class ilMultiTitledTextInputGUI extends ilMultipleTextsInputGUI
 		$this->getIdentifiedMultiValues();
 	}
 
-
 	public function setValue($value)
 	{
 		$this->setIdentifiedMultiValues($value);
 	}
-
 
 	public function getValue()
 	{
 		$this->getIdentifiedMultiValues();
 	}
 
-
 	public function setMultiValues(array $values)
 	{
 		$this->setIdentifiedMultiValues($values);
 	}
-
 
 	public function getMultiValues()
 	{
@@ -48,9 +44,10 @@ class ilMultiTitledTextInputGUI extends ilMultipleTextsInputGUI
 	//	{
 	//		return $this->getPostVar();
 	//	}
+
 	public function render($a_mode = "")
 	{
-		$tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Services/Form");
+		$tpl = new ilTemplate("tpl.prop_multi_titledtext_input.html", true, true, "./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/Form");
 		$i = 0;
 		foreach ($this->getIdentifiedMultiValues() as $identifier => $value) {
 			if (is_array($value)) {
