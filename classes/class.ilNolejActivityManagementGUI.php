@@ -6,7 +6,7 @@ include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  * 
  * @ilCtrl_isCalledBy ilNolejActivityManagementGUI: ilObjNolejGUI
- * @ilCtrl_Calls ilNolejActivityManagementGUI: ilFormPropertyDispatchGUI, ilPropertyFormGUI, ilInternalLinkGUI
+ * @ilCtrl_Calls ilNolejActivityManagementGUI: ilFormPropertyDispatchGUI, ilPropertyFormGUI
  */
 class ilNolejActivityManagementGUI
 {
@@ -287,16 +287,17 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 
 		include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-		$js = ilInternalLinkGUI::getInitHTML(
-			$this->ctrl->getLinkTargetByClass(
-				array("ilinternallinkgui"),
-				"",
-				false,
-				true,
-				false
-			),
-			true
-		);
+		$js = "";
+		//  ilInternalLinkGUI::getInitHTML(
+		// 	$this->ctrl->getLinkTargetByClass(
+		// 		["", "ilinternallinkgui"],
+		// 		"",
+		// 		false,
+		// 		true,
+		// 		false
+		// 	),
+		// 	true
+		// );
 
 		$tpl->addJavaScript("Modules/WebResource/js/intLink.js");
 		$tpl->addJavascript("Services/Form/js/Form.js");
