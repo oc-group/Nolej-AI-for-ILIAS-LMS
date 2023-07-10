@@ -91,22 +91,35 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 		$cmd = $this->ctrl->getCmd();
 
-		switch ($cmd) {
-			// Need to have permission to access modules
-			case self::CMD_CREATION:
-			case self::CMD_CREATE:
-			case self::CMD_ANALYSIS:
-			case self::CMD_ANALYZE:
-			case self::CMD_REVISION:
-			case self::CMD_REVIEW:
-			case self::CMD_ACTIVITIES:
-			case self::CMD_GENERATE:
-				$this->$cmd();
+		$next_class = $this->ctrl->getNextClass($this);
+        switch ($next_class) {
+			case "ilinternallinkgui":
+				$this->lng->loadLanguageModule("content");
+				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+				$link_gui = new ilInternalLinkGUI("RepositoryItem");
+				$link_gui->filterLinkType("Media_Media");
+				$link_gui->setFilterWhiteList(true);
+				$ilCtrl->forwardCommand($link_gui);
 				break;
 
 			default:
-				$cmd = $this->defaultCmd;
-				$this->$cmd();
+				switch ($cmd) {
+					// Need to have permission to access modules
+					case self::CMD_CREATION:
+					case self::CMD_CREATE:
+					case self::CMD_ANALYSIS:
+					case self::CMD_ANALYZE:
+					case self::CMD_REVISION:
+					case self::CMD_REVIEW:
+					case self::CMD_ACTIVITIES:
+					case self::CMD_GENERATE:
+						$this->$cmd();
+						break;
+
+					default:
+						$cmd = $this->defaultCmd;
+						$this->$cmd();
+				}
 		}
 
 		return true;
