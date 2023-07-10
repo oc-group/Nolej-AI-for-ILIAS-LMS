@@ -288,7 +288,7 @@ class ilNolejActivityManagementGUI
 
 		include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 		$js = ilInternalLinkGUI::getInitHTML(
-			$ilCtrl->getLinkTargetByClass(
+			$this->ctrl->getLinkTargetByClass(
 				array("ilpageeditorgui", "ilinternallinkgui"),
 				"",
 				false,
