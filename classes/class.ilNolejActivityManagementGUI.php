@@ -272,6 +272,28 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
+	 * Initialize internal link selector
+	 * 
+	 * @return string js code that needs to be printed after the form
+	*/
+	protected function initIntLink()
+	{
+		global $tpl;
+
+		include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+		$js = ilInternalLinkGUI::getInitHTML("");
+
+		$tpl->addJavaScript("Modules/WebResource/js/intLink.js");
+		$tpl->addJavascript("Services/Form/js/Form.js");
+
+		// include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		// ilYuiUtil::initConnection();
+		// $main_tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
+
+		return $js;
+	}
+
+	/**
 	 * @return ilPropertyFormGUI
 	 */
 	public function initCreationForm()
@@ -464,11 +486,12 @@ class ilNolejActivityManagementGUI
 		$this->initSubTabs(self::SUBTAB_CREATION);
 
 		$form = $this->initCreationForm();
+		$js = $this->initIntLink();
 
 		// TODO: display info in a better way (maybe on the side)
 		ilUtil::sendInfo($this->plugin->txt("prop_file_limits"));
 
-		$tpl->setContent($form->getHTML());
+		$tpl->setContent($form->getHTML() . $js);
 	}
 
 	public function create()
