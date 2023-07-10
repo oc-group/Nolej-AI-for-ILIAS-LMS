@@ -105,7 +105,7 @@ class ilNolejActivityManagementGUI
 				$link_gui = new ilInternalLinkGUI("RepositoryItem");
 				$link_gui->filterLinkType("Media_Media");
 				$link_gui->setFilterWhiteList(true);
-				$ilCtrl->forwardCommand($link_gui);
+				$this->ctrl->forwardCommand($link_gui);
 				break;
 
 			default:
