@@ -333,6 +333,7 @@ class ilNolejActivityManagementGUI
 			$mob->setFilterWhiteList(true);
 			$mob->setInternalLinkFilterTypes(["Media_Media"]);
 			$mob->setRequired(true);
+			$mob->setParent($this);
 			$mediaMob->addSubItem($mob);
 
 			/**
