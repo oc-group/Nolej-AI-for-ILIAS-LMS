@@ -872,8 +872,8 @@ class ilNolejActivityManagementGUI
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
-		include_once(ilNolejPlugin::PLUGIN_DIR . "/Form/class.ilMultiTitledTextInputGUI.php");
-		$input = new ilMultiTitledTextInputGUI("test", "test");
+		include_once(ilNolejPlugin::PLUGIN_DIR . "/Form/class.ilMultiSummaryInputGUI.php");
+		$input = new ilMultiSummaryInputGUI("test", "test");
 		$form->addItem($input);
 		$tpl->setContent($form->getHTML());
 	}

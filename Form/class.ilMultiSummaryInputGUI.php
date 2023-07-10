@@ -8,7 +8,7 @@ require_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
  * 
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
-class ilMultiTitledTextInputGUI extends ilMultipleTextsInputGUI
+class ilMultiSummaryInputGUI extends ilMultipleTextsInputGUI
 {
 	public function setValues($values)
 	{
@@ -47,7 +47,12 @@ class ilMultiTitledTextInputGUI extends ilMultipleTextsInputGUI
 
 	public function render($a_mode = "")
 	{
-		$tpl = new ilTemplate("tpl.prop_multi_titledtext_input.html", true, true, "./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/Form");
+		$tpl = new ilTemplate(
+			"tpl.prop_multi_summary_input.html",
+			true,
+			true,
+			"./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/Form"
+		);
 		$i = 0;
 		foreach ($this->getIdentifiedMultiValues() as $identifier => $value) {
 			if (is_array($value)) {
