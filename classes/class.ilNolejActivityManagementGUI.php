@@ -329,6 +329,7 @@ class ilNolejActivityManagementGUI
 			/* Mob ID */
 			$mob = new ilLinkInputGUI("", self::PROP_INPUT_MOB);
 			$mob->setAllowedLinkTypes(ilLinkInputGUI::INT);
+			$mob->setInternalLinkDefault("Media_Media", 0);
 			$mob->setFilterWhiteList(true);
 			$mob->setInternalLinkFilterTypes(["Media_Media"]);
 			$mob->setRequired(true);
