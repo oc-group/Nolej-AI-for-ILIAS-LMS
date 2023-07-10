@@ -100,6 +100,7 @@ class ilNolejActivityManagementGUI
 				break;
 
 			case "ilinternallinkgui":
+				break;
 				$this->lng->loadLanguageModule("content");
 				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("RepositoryItem");
