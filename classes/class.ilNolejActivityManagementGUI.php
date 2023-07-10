@@ -6,7 +6,7 @@ include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  * 
  * @ilCtrl_isCalledBy ilNolejActivityManagementGUI: ilObjNolejGUI
- * @ilCtrl_Calls ilNolejActivityManagementGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilNolejActivityManagementGUI: ilFormPropertyDispatchGUI, ilPropertyFormGUI
  */
 class ilNolejActivityManagementGUI
 {
