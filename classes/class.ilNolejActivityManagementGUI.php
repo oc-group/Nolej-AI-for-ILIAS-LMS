@@ -100,7 +100,6 @@ class ilNolejActivityManagementGUI
 				break;
 
 			case "ilinternallinkgui":
-				break;
 				$this->lng->loadLanguageModule("content");
 				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("RepositoryItem");
@@ -288,7 +287,16 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 
 		include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-		$js = ilInternalLinkGUI::getInitHTML("");
+		$js = ilInternalLinkGUI::getInitHTML(
+			$ilCtrl->getLinkTargetByClass(
+				array("ilpageeditorgui", "ilinternallinkgui"),
+				"",
+				false,
+				true,
+				false
+			),
+			true
+		);
 
 		$tpl->addJavaScript("Modules/WebResource/js/intLink.js");
 		$tpl->addJavascript("Services/Form/js/Form.js");
