@@ -379,14 +379,14 @@ class ilNolejActivityManagementGUI
 			$mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
 			$mediaSource->addOption($mediaMob);
 			/* Mob ID */
-			$mob = new ilLinkInputGUI("", self::PROP_INPUT_MOB);
-			$mob->setAllowedLinkTypes(ilLinkInputGUI::INT);
-			$mob->setInternalLinkDefault("Media_Media", 0);
-			$mob->setFilterWhiteList(true);
-			$mob->setInternalLinkFilterTypes(["Media_Media"]);
-			$mob->setRequired(true);
-			$mob->setParent($this);
-			$mediaMob->addSubItem($mob);
+			// $mob = new ilLinkInputGUI("", self::PROP_INPUT_MOB);
+			// $mob->setAllowedLinkTypes(ilLinkInputGUI::INT);
+			// $mob->setInternalLinkDefault("Media_Media", 0);
+			// $mob->setFilterWhiteList(true);
+			// $mob->setInternalLinkFilterTypes(["Media_Media"]);
+			// $mob->setRequired(true);
+			// $mob->setParent($this);
+			// $mediaMob->addSubItem($mob);
 
 			/**
 			 * Source: File upload
