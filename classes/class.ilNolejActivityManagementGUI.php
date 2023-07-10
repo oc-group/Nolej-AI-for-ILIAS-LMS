@@ -624,7 +624,7 @@ class ilNolejActivityManagementGUI
 	{
 		$dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->status;
-		$form = $form = new ilPropertyFormGUI();
+		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
 		/**
@@ -869,7 +869,11 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 		$this->initSubTabs(self::SUBTAB_REVIEW);
 
-		// TODO
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->plugin->txt("obj_xnlj"));
+		$input = new ilMultiTitledTextInputGUI("test", "test");
+		$form->addItem($input);
+		$tpl->setContent($form->getHTML());
 	}
 
 	public function review()
