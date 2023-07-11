@@ -993,6 +993,8 @@ class ilNolejActivityManagementGUI
 
 		$this->initTabs(self::TAB_REVIEW);
 
+		$tpl->setRightContent("hello");
+
 		$this->tabs->addSubTab(
 			self::SUBTAB_SUMMARY,
 			$this->plugin->txt(self::SUBTAB_SUMMARY),
