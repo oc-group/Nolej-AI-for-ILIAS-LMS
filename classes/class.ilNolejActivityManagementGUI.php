@@ -288,15 +288,11 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 
 		include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-		$js = ilInternalLinkGUI::getInitHTML(
-			$this->ctrl->getLinkTarget(
-				$this, "testintlink"
-			),
-			true
-		);
+		$js = ilInternalLinkGUI::getInitHTML("");
 
-		$tpl->addJavaScript("Modules/WebResource/js/intLink.js");
-		$tpl->addJavascript("Services/Form/js/Form.js");
+		// Already added in ilInternalLinkGUI::getInitHTML()
+		// $tpl->addJavaScript("Modules/WebResource/js/intLink.js");
+		// $tpl->addJavascript("Services/Form/js/Form.js");
 
 		// include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		// ilYuiUtil::initConnection();
