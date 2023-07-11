@@ -1040,12 +1040,12 @@ class ilNolejActivityManagementGUI
 
 	public function revision()
 	{
-		global $tpl;
 		$this->summary();
 	}
 
 	public function summary()
 	{
+		global $tpl;
 		$this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
 
 		$form = new ilPropertyFormGUI();
@@ -1059,12 +1059,14 @@ class ilNolejActivityManagementGUI
 
 	public function questions()
 	{
+		global $tpl;
 		$this->initRevisionSubTabs(self::SUBTAB_QUESTIONS);
 		// TODO
 	}
 
 	public function concepts()
 	{
+		global $tpl;
 		$this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
 		// TODO
 	}
