@@ -448,9 +448,9 @@ class ilNolejMediaSelectorGUI
 		return 0;
 	}
 
-	public static function getSignedUrl($a_mob_id, int $ttl = 10) : string
+	public static function getSignedUrl($a_mob_id, bool $a_is_obj_id = false, int $ttl = 10) : string
 	{
-		$objId = self::getObjId($a_mob_id);
+		$objId = $a_is_obj_id ? $a_mob_id : self::getObjId($a_mob_id);
 		$path = ilObjMediaObject::_lookupItemPath($objId);
 
 		$tokenMaxLifetimeInSeconds = ilWACSignedPath::getTokenMaxLifetimeInSeconds();

@@ -615,7 +615,7 @@ class ilNolejActivityManagementGUI
 					break;
 				}
 				$mobId = $array[1];
-				$apiUrl = ilNolejMediaSelectorGUI::getSignedUrl($mobId);
+				$apiUrl = ilNolejMediaSelectorGUI::getSignedUrl($mobId, true);
 				ilUtil::sendQuestion($_POST[self::PROP_INPUT_MOB] . " apiUrl: " . $apiUrl);
 				$apiFormat = "";
 				$decrementedCredit = 2;
