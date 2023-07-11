@@ -728,6 +728,9 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
+	 * It returns an editable form if the transcription has
+	 * to be validated, otherwise it returns a static info screen.
+	 * 
 	 * @return ilPropertyFormGUI|ilInfoScreenGUI
 	 */
 	public function initAnalysisForm()
@@ -768,6 +771,7 @@ class ilNolejActivityManagementGUI
 			$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_transcription"), self::PROP_M_TEXT);
 			$txt->setRequired(true);
 			$txt->setRows(50);
+			$txt->setMaxLength(50000);
 			if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
 				$txt->setUseRte(true);
 				$txt->setRteTags([
