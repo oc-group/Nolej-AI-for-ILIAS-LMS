@@ -4,6 +4,7 @@ require_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 require_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 require_once("./Services/Tracking/classes/status/class.ilLPStatusPlugin.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
+include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
@@ -272,7 +273,6 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		$this->tabs->activateTab(self::TAB_CONTENT);
 
 		if ($this->object->status != "completed") {
-			include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
 			$activityManagement = new ilNolejActivityManagementGUI($this);
 			$toolbar = new ilToolbarGUI();
 			$toolbar->addButton(
