@@ -6,6 +6,7 @@ include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  * 
  * @ilCtrl_isCalledBy ilNolejActivityManagementGUI: ilObjNolejGUI
+ * @ilCtrl_Calls ilNolejActivityManagementGUI: ilNolejMediaSelectorGUI
  */
 class ilNolejActivityManagementGUI
 {
@@ -90,7 +91,7 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 		$cmd = $this->ctrl->getCmd();
 
-		$next_class = ""; //$this->ctrl->getNextClass($this);
+		$next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
 			case "ilpropertyformgui":
 				// include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -98,7 +99,7 @@ class ilNolejActivityManagementGUI
 				// $this->ctrl->forwardCommand($this->form);
 				break;
 
-			case "ilinternallinkgui":
+			case "ilnolejmediaselectorgui":
 				$this->lng->loadLanguageModule("content");
 				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("RepositoryItem");
@@ -289,7 +290,7 @@ class ilNolejActivityManagementGUI
 		$js = "";
 		//  ilInternalLinkGUI::getInitHTML(
 		// 	$this->ctrl->getLinkTargetByClass(
-		// 		["", "ilinternallinkgui"],
+		// 		["", "ilnolejmediaselectorgui"],
 		// 		"",
 		// 		false,
 		// 		true,
