@@ -50,6 +50,16 @@ class ilNolejActivityManagementGUI
 	const PROP_LANG = "language";
 	const PROP_AUTOMATIC = "automatic";
 
+	const TYPE_AUDIO = [
+		"mp3", "was", "opus", "ogg", "oga", "m4a"
+	];
+	const TYPE_VIDEO = [
+		"m4v", "mp4", "ogv", "avi", "webm"
+	];
+	const TYPE_DOC = [
+		"pdf", "doc", "docx", "odt"
+	];
+
 	/** @var ilCtrl */
 	protected $ctrl;
 
@@ -421,9 +431,9 @@ class ilNolejActivityManagementGUI
 			$file = new ilFileInputGUI("", self::PROP_INPUT_FILE);
 			$file->setRequired(true);
 			$file->setSuffixes([
-				"mp3", "was", "opus", "ogg", "oga", "m4a", // Audio
-				"m4v", "mp4", "ogv", "avi", "webm", // Video
-				"pdf", "doc", "docx", "odt", // Documents
+				...self::TYPE_AUDIO,
+				...self::TYPE_VIDEO,
+				...self::TYPE_DOC,
 				"txt", "htm", "html" // Text
 			]);
 			$mediaFile->addSubItem($file);
@@ -526,7 +536,30 @@ class ilNolejActivityManagementGUI
 		$js = $this->initIntLink();
 
 		// TODO: display info in a better way (maybe on the side)
-		ilUtil::sendInfo($this->plugin->txt("prop_file_limits"));
+		if ($this->status == 0) {
+			$info = new ilInfoScreenGUI($this);
+			$info->addSection($this->plugin->txt("prop_" . self::PROP_M_AUDIO));
+			$info->addProperty(
+				$this->plugin->txt("limit_max_duration"),
+				sprintf($this->plugin->txt("limit_minutes"), 50)
+			);
+			$info->addProperty(
+				$this->plugin->txt("limit_min_characters"),
+				"500"
+			);
+			$info->addProperty(
+				$this->plugin->txt("limit_max_size"),
+				"500 MB"
+			);
+			$info->addProperty(
+				$this->plugin->txt("limit_type"),
+				implode(", ", self::TYPE_AUDIO)
+			);
+			// $info->addSection($this->plugin->txt("prop_" . self::PROP_M_VIDEO));
+			// $info->addSection($this->plugin->txt("prop_" . self::PROP_M_FILE));
+			$tpl->setRightContent($info->getHTML());
+			// ilUtil::sendInfo($this->plugin->txt("prop_file_limits"));
+		}
 
 		$tpl->setContent($form->getHTML() . $js);
 	}

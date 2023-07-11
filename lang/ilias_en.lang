@@ -134,4 +134,9 @@ concepts_use_for_ftw#:#concepts_use_for_ftw
 concepts_use_for_gaming#:#concepts_use_for_gaming
 concepts_use_for_practice#:#concepts_use_for_practice
 concepts_use_for_assessment#:#concepts_use_for_assessment
+limit_max_duration#:#Max duration
+limit_minutes#:#%s minutes
+limit_min_characters#:#Minimum characters
+limit_max_size#:#File maximum size
+limit_type#:#Allowed types
 
