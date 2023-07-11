@@ -98,19 +98,9 @@ class ilNolejActivityManagementGUI
 
 		switch ($next_class) {
 			case "ilformpropertydispatchgui":
-				$this->lng->loadLanguageModule("content");
-				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
-				$link_gui->filterLinkType("Media_Media");
-				$link_gui->setFilterWhiteList(true);
-				$link_gui->setSetLinkTargetScript(
-                    $this->ctrl->getLinkTarget(
-                        $this,
-                        "setInternalLink"
-                    )
-                );
+				$mob = $this->linkInputGUI();
 				$form_gui = new ilFormPropertyDispatchGUI();
-				$form_gui->setItem($link_gui);
+				$form_gui->setItem($mob);
 				$this->ctrl->forwardCommand($form_gui);
 				break;
 
@@ -346,6 +336,21 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
+	 * 
+	 */
+	protected function linkInputGUI()
+	{
+		$mob = new ilLinkInputGUI("", self::PROP_INPUT_MOB);
+		$mob->setAllowedLinkTypes(ilLinkInputGUI::INT);
+		$mob->setInternalLinkDefault("Media_Media", 0);
+		$mob->setFilterWhiteList(true);
+		$mob->setInternalLinkFilterTypes(["Media_Media"]);
+		$mob->setRequired(true);
+		$mob->setParent($this);
+		return $mob;
+	}
+
+	/**
 	 * @return ilPropertyFormGUI
 	 */
 	public function initCreationForm()
@@ -415,13 +420,7 @@ class ilNolejActivityManagementGUI
 			$mediaMob->setInfo($this->plugin->txt("prop_" . self::PROP_M_MOB . "_info"));
 			$mediaSource->addOption($mediaMob);
 			/* Mob ID */
-			$mob = new ilLinkInputGUI("", self::PROP_INPUT_MOB);
-			$mob->setAllowedLinkTypes(ilLinkInputGUI::INT);
-			$mob->setInternalLinkDefault("Media_Media", 0);
-			$mob->setFilterWhiteList(true);
-			$mob->setInternalLinkFilterTypes(["Media_Media"]);
-			$mob->setRequired(true);
-			$mob->setParent($this);
+			$mob = $this->linkInputGUI();
 			$mediaMob->addSubItem($mob);
 
 			/**
