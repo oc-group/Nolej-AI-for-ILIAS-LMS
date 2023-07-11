@@ -641,14 +641,14 @@ class ilNolejActivityManagementGUI
 		if (!$apiUrl || $apiUrl == "") {
 			ilUtil::sendFailure($this->plugin->txt("err_media_url_empty"), true);
 			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
+			$tpl->setContent($form->getHTML() . $js);
 			return;
 		}
 
 		if (!$apiFormat || $apiFormat == "") {
 			ilUtil::sendFailure($this->plugin->txt("err_media_format_unknown"), true);
 			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
+			$tpl->setContent($form->getHTML() . $js);
 			return;
 		}
 
@@ -683,7 +683,7 @@ class ilNolejActivityManagementGUI
 		if (!is_object($result) || !property_exists($result, "id") || !is_string($result->id)) {
 			ilUtil::sendFailure($this->plugin->txt("err_doc_response") . " " . print_r($result, true));
 			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
+			$tpl->setContent($form->getHTML() . $js);
 			return;
 		}
 
