@@ -13,6 +13,7 @@ api_key#:#Chiave API
 api_key_info#:#La tua chiave API di Nolej.
 cmd_analyze#:#Avvia analisi
 cmd_apply#:#Applica
+cmd_back_to_content#:#Modulo Nolej
 cmd_back_to_modules#:#&laquo; Torna ai moduli Nolej
 cmd_create#:#Crea documento
 cmd_details#:#Dettagli
@@ -87,15 +88,15 @@ set_failed#:#Set LP Status to not failed
 set_in_progress#:#Set LP Status to in progress
 set_not_attempted#:#Set LP Status to not attempted
 set_passed#:#Set LP Status to not completed
-subtab_activities#:#Attività H5P
-subtab_analysis#:#Analisi IA
-subtab_creation#:#Creazione del documento
-subtab_review#:#Revisione
+tab_activities#:#Attività H5P
+tab_analysis#:#Analisi IA
 tab_configuration#:#Configurazione
 tab_content#:#Contenuto
+tab_creation#:#Creazione del documento
 tab_insert_from_pool#:#Seleziona un media dal mediapool
 tab_modules#:#Moduli
 tab_properties#:#Proprietà
+tab_review#:#Revisione
 tac_received#:#TAC ricevuto!
 tac_received_info_long#:#TAC con exchange ID %s è stato ricevuto il %s.
 tac_received_info_short#:#Il TAC è stato ricevuto.

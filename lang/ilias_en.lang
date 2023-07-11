@@ -13,6 +13,7 @@ api_key#:#API Key
 api_key_info#:#Your Nolej API Key.
 cmd_analyze#:#Start analysis
 cmd_apply#:#Apply
+cmd_back_to_content#:#Nolej module
 cmd_back_to_modules#:#&laquo; Back to Nolej modules
 cmd_create#:#Create document
 cmd_details#:#Details
@@ -87,15 +88,15 @@ set_failed#:#Set LP Status to not failed
 set_in_progress#:#Set LP Status to in progress
 set_not_attempted#:#Set LP Status to not attempted
 set_passed#:#Set LP Status to not completed
-subtab_activities#:#H5P activities
-subtab_analysis#:#AI analysis
-subtab_creation#:#Document creation
-subtab_review#:#Review
+tab_activities#:#H5P activities
+tab_analysis#:#AI analysis
 tab_configuration#:#Configuration
 tab_content#:#Content
+tab_creation#:#Document creation
 tab_insert_from_pool#:#Select media from mediapool
 tab_modules#:#Modules
 tab_properties#:#Properties
+tab_review#:#Review
 tac_received#:#TAC received!
 tac_received_info_long#:#TAC with exchange ID %s has been received on %s.
 tac_received_info_short#:#TAC response has been received.

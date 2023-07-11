@@ -241,25 +241,25 @@ class ilNolejActivityManagementGUI
 
 		$this->tabs->addTab(
 			self::TAB_CREATION,
-			$this->statusIcons[self::CMD_CREATION] . $this->plugin->txt("subtab_" . self::TAB_CREATION),
+			$this->statusIcons[self::CMD_CREATION] . $this->plugin->txt("tab_" . self::TAB_CREATION),
 			$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
 		);
 
 		$this->tabs->addTab(
 			self::TAB_ANALYSIS,
-			$this->statusIcons[self::CMD_ANALYSIS] . $this->plugin->txt("subtab_" . self::TAB_ANALYSIS),
+			$this->statusIcons[self::CMD_ANALYSIS] . $this->plugin->txt("tab_" . self::TAB_ANALYSIS),
 			$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
 		);
 
 		$this->tabs->addTab(
 			self::TAB_REVIEW,
-			$this->statusIcons[self::CMD_REVISION] . $this->plugin->txt("subtab_" . self::TAB_REVIEW),
+			$this->statusIcons[self::CMD_REVISION] . $this->plugin->txt("tab_" . self::TAB_REVIEW),
 			$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
 		);
 
 		$this->tabs->addTab(
 			self::TAB_ACTIVITIES,
-			$this->statusIcons[self::CMD_ACTIVITIES] . $this->plugin->txt("subtab_" . self::TAB_ACTIVITIES),
+			$this->statusIcons[self::CMD_ACTIVITIES] . $this->plugin->txt("tab_" . self::TAB_ACTIVITIES),
 			$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
 		);
 
@@ -272,7 +272,7 @@ class ilNolejActivityManagementGUI
 					sprintf(
 						"%s: %s",
 						$this->plugin->txt("plugin_title"),
-						$this->plugin->txt("subtab_" . $active_tab)
+						$this->plugin->txt("tab_" . $active_tab)
 					),
 					false
 				);
@@ -285,7 +285,7 @@ class ilNolejActivityManagementGUI
 					sprintf(
 						"%s: %s",
 						$this->plugin->txt("plugin_title"),
-						$this->plugin->txt("subtab_" . self::TAB_CREATION)
+						$this->plugin->txt("tab_" . self::TAB_CREATION)
 					),
 					false
 				);

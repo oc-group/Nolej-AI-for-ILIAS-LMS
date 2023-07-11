@@ -13,6 +13,7 @@ api_key#:#
 api_key_info#:#
 cmd_analyze#:#
 cmd_apply#:#
+cmd_back_to_content#:#
 cmd_back_to_modules#:#
 cmd_create#:#
 cmd_details#:#
@@ -87,15 +88,15 @@ set_failed#:#
 set_in_progress#:#
 set_not_attempted#:#
 set_passed#:#
-subtab_activities#:#
-subtab_analysis#:#
-subtab_creation#:#
-subtab_review#:#
+tab_activities#:#
+tab_analysis#:#
 tab_configuration#:#
 tab_content#:#
+tab_creation#:#
 tab_insert_from_pool#:#
 tab_modules#:#
 tab_properties#:#
+tab_review#:#
 tac_received#:#
 tac_received_info_long#:#
 tac_received_info_short#:#
