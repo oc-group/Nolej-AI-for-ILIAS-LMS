@@ -129,12 +129,12 @@ class ilNolejActivityManagementGUI
 					case self::CMD_REVIEW:
 					case self::CMD_ACTIVITIES:
 					case self::CMD_GENERATE:
-					case self::CMD_INT_LINK:
+					// case self::CMD_INT_LINK:
 						$this->$cmd();
 						break;
 
 					default:
-						ilUtil::sendQuestion($cmd, true);
+						ilUtil::sendQuestion("Next class: $next_class; Cmd: $cmd", true);
 						$cmd = $this->defaultCmd;
 						$this->$cmd();
 				}
