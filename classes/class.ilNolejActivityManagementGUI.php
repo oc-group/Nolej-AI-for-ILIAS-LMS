@@ -88,7 +88,7 @@ class ilNolejActivityManagementGUI
 	 * Handles all commmands,
 	 * $cmd = functionName()
 	 */
-	public function performCommand()
+	public function executeCommand()
 	{
 		global $tpl;
 
@@ -111,7 +111,7 @@ class ilNolejActivityManagementGUI
 				$this->ctrl->forwardCommand($link_gui);
 				break;
 
-		// 	default:
+			default:
 				switch ($cmd) {
 					// Need to have permission to access modules
 					case self::CMD_CREATION:
