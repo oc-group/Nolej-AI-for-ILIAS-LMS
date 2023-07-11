@@ -608,7 +608,7 @@ class ilNolejActivityManagementGUI
 				 * @todo decrement credit
 				 */
 				$mob = $form->getInput(self::PROP_INPUT_MOB);
-				ilUtil::sendQuestion($mob, true);
+				ilUtil::sendQuestion(print_r($mob, true), true);
 				$apiUrl = "";
 				$apiFormat = "";
 				$decrementedCredit = 2;
