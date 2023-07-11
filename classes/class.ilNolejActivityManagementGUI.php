@@ -235,7 +235,7 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 
 		$this->tabs->setBackTarget(
-			"go back",
+			$this->plugin->txt("cmd_go_back"),
 			$this->ctrl->getLinkTarget($this->gui_obj, "")
 		);
 
