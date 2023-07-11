@@ -99,6 +99,7 @@ class ilNolejActivityManagementGUI
 		switch ($next_class) {
 			case "ilformpropertydispatchgui":
 				$form_gui = new ilFormPropertyDispatchGUI();
+				$form_gui->setItem($this);
 				$this->ctrl->forwardCommand($form_gui);
 				break;
 
