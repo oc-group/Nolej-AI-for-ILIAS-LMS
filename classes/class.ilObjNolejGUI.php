@@ -274,7 +274,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			$activityManagement = new ilNolejActivityManagementGUI($this);
 			$toolbar = new ilToolbarGUI();
 			$toolbar->addButton(
-				$this->plugin->txt("activity_management"),
+				$this->plugin->txt("goto_activity_management"),
 				$this->ctrl->getLinkTarget($activityManagement, "")
 			);
 			// include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejActivityManagementGUI.php");
