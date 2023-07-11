@@ -1,6 +1,9 @@
 action_analysis#:#Analisi in corso
 action_analysis_ko#:#Analisi fallita
 action_analysis_ok#:#Analisi completata
+action_review#:#Revisione in corso
+action_review_ko#:#Revisione fallita
+action_review_ok#:#Revisione completata
 action_tac#:#TAC ricevuto!
 action_tic#:#TIC inviato
 action_transcription#:#Trascrizione in corso
@@ -23,6 +26,7 @@ cmd_update#:#Aggiorna
 configuration_title#:#Configura
 crs_create_xnlj#:#Crea oggetto Nolej
 err_access_denied#:#Non puoi accedere a questo corso.
+err_analysis_not_ready#:#L'analisi non è ancora completa, attendi ancora un po' di tempo e torna qui per verificare.
 err_api_key_missing#:#Non hai indicato la tua chiave API! Vai nella configurazione del plugin e indica la tua chiave API per poter utilizzare il plugin di Nolej.
 err_credentials#:#Le credenziali non sono valide.
 err_tic_response#:#L'endpoint di Nolej ha restituito una risposta non prevista.
@@ -102,4 +106,5 @@ xnlj_new#:#Aggiungi un oggetto Nolej
 xnlj_read#:#Lettura: l'utente può accedere agli oggetti Nolej
 xnlj_visible#:#Visibilità: gli oggetti Nolej sono visibili all'utente
 xnlj_write#:#Modifica impostazioni: l'utente può modificare le impostazioni degli oggetti Nolej
+goto_activity_management#:#Vai in Gestione Attività
 

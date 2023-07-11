@@ -1,6 +1,9 @@
 action_analysis#:#
 action_analysis_ko#:#
 action_analysis_ok#:#
+action_review#:#
+action_review_ko#:#
+action_review_ok#:#
 action_tac#:#
 action_tic#:#
 action_transcription#:#
@@ -23,6 +26,7 @@ cmd_update#:#
 configuration_title#:#
 crs_create_xnlj#:#
 err_access_denied#:#
+err_analysis_not_ready#:#
 err_api_key_missing#:#
 err_credentials#:#
 err_tic_response#:#
@@ -102,4 +106,5 @@ xnlj_new#:#
 xnlj_read#:#
 xnlj_visible#:#
 xnlj_write#:#
+goto_activity_management#:#
 

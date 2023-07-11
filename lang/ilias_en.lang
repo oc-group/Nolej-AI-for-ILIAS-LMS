@@ -1,6 +1,9 @@
 action_analysis#:#Analysis in progress
 action_analysis_ko#:#Analysis failed
 action_analysis_ok#:#Analysis is ready
+action_review#:#Review in progress
+action_review_ko#:#Review failed
+action_review_ok#:#Review is ready
 action_tac#:#TAC received!
 action_tic#:#TIC sent
 action_transcription#:#Transcription in progress
@@ -23,6 +26,7 @@ cmd_update#:#Update
 configuration_title#:#Configure
 crs_create_xnlj#:#Create Nolej object
 err_access_denied#:#You cannot access this course.
+err_analysis_not_ready#:#The analysis is not ready yet, please wait some time and check again.
 err_api_key_missing#:#API Key is missing! Save it and try again.
 err_credentials#:#Invalid/Wrong credentials.
 err_tic_response#:#Nolej endpoint returned an invalid response.
@@ -102,4 +106,5 @@ xnlj_new#:#Add a Nolej object
 xnlj_read#:#Read: User has read access to Nolej objects
 xnlj_visible#:#Visible: Nolej object is visible
 xnlj_write#:#Edit Settings: User can edit settings of Nolej objects
+goto_activity_management#:#Go to Activity Management
 
