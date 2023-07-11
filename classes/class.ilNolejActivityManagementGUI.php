@@ -287,7 +287,7 @@ class ilNolejActivityManagementGUI
 	{
 		$this->lng->loadLanguageModule("content");
 		require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-		$link_gui = new ilInternalLinkGUI("RepositoryItem");
+		$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
 		$link_gui->filterLinkType("Media_Media");
 		$link_gui->setFilterWhiteList(true);
 		$this->ctrl->forwardCommand($link_gui);
