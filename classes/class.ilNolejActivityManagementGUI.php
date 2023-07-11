@@ -97,11 +97,11 @@ class ilNolejActivityManagementGUI
 		$cmd = $this->ctrl->getCmd();
 
 		switch ($next_class) {
-			case "ilformpropertydispatchgui":
+			// case "ilformpropertydispatchgui":
 				// include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 				// $this->initFormLink(self::LINK_MOD_EDIT);
 				// $this->ctrl->forwardCommand($this->form);
-				break;
+				// break;
 
 			case "ilinternallinkgui":
 				$this->lng->loadLanguageModule("content");
