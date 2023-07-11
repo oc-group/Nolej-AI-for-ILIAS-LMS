@@ -282,6 +282,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			// include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejActivityManagementGUI.php");
 			// $activityManagement = new ilNolejActivityManagementGUI($this);
 			// $this->ctrl->forwardCommand($activityManagement);
+			$this->tpl->setContent($toolbar->getHTML());
 			return;
 		}
 
