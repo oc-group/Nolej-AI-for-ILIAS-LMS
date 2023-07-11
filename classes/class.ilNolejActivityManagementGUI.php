@@ -8,6 +8,7 @@ include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
  * @ilCtrl_isCalledBy ilNolejActivityManagementGUI: ilObjNolejGUI
  * @ilCtrl_Calls ilNolejActivityManagementGUI: ilformpropertydispatchgui, ilinternallinkgui
  * @ilCtrl_Calls ilNolejActivityManagementGUI: ilpropertyformgui, ilinternallinkgui
+ * @ilCtrl_Calls ilNolejActivityManagementGUI: ilformpropertydispatchgui, illinkinputgui, ilinternallinkgui
  */
 class ilNolejActivityManagementGUI
 {
@@ -108,6 +109,7 @@ class ilNolejActivityManagementGUI
 				$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
 				$link_gui->filterLinkType("Media_Media");
 				$link_gui->setFilterWhiteList(true);
+				$link_gui->setReturn($this);
 				$this->ctrl->forwardCommand($link_gui);
 				break;
 
