@@ -782,34 +782,35 @@ class ilNolejActivityManagementGUI
 		$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
 		$txt->setRequired(true);
 		$txt->setRows(200);
-		if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
-			$txt->setUseRte(true);
-			$txt->setRteTags([
-				"h1", "h2", "h3", "p",
-				"ul", "ol", "li",
-				"br", "strong", "u", "i",
-			]);
-			$txt->usePurifier(true);
-			$txt->setRTERootBlockElement("");
-			$txt->disableButtons([
-				"charmap",
-				"justifyright",
-				"justifyleft",
-				"justifycenter",
-				"justifyfull",
-				"alignleft",
-				"aligncenter",
-				"alignright",
-				"alignjustify",
-				"anchor",
-				"pasteword"
-			]);
-			// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
-		}
 		$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
 		$form->addItem($txt);
 
 		if ($status == 2) {
+			if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+				$txt->setUseRte(true);
+				$txt->setRteTags([
+					"h1", "h2", "h3", "p",
+					"ul", "ol", "li",
+					"br", "strong", "u", "i",
+				]);
+				$txt->usePurifier(true);
+				$txt->setRTERootBlockElement("");
+				$txt->disableButtons([
+					"charmap",
+					"justifyright",
+					"justifyleft",
+					"justifycenter",
+					"justifyfull",
+					"alignleft",
+					"aligncenter",
+					"alignright",
+					"alignjustify",
+					"anchor",
+					"pasteword"
+				]);
+				// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+			}
+
 			$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
 			$form->setFormAction($this->ctrl->getFormAction($this));
 		} else {
