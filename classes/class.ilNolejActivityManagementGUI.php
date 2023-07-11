@@ -743,14 +743,12 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
-	 * @return ilPropertyFormGUI
+	 * @return ilPropertyFormGUI|ilInfoScreenGUI
 	 */
 	public function initAnalysisForm()
 	{
 		$dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->status;
-		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->plugin->txt("obj_xnlj"));
 
 		/**
 		 * Module title
@@ -759,22 +757,26 @@ class ilNolejActivityManagementGUI
 		 */
 		$title = $this->gui_obj->object->getDocumentTitle();
 		$objTitle = $this->gui_obj->object->getTitle();
-		if ($title != "" && $title != $objTitle) {
-			$titleInput = new ilTextInputGUI(
-				$this->plugin->txt("prop_" . self::PROP_TITLE),
-				self::PROP_TITLE
-			);
-			$titleInput->setValue($title);
-		} else {
-			$titleInput = new ilNonEditableValueGUI(
-				$this->plugin->txt("prop_" . self::PROP_TITLE),
-				self::PROP_TITLE
-			);
-			$titleInput->setValue($objTitle);
-		}
-		$form->addItem($titleInput);
 
 		if ($status == 2) {
+			$form = new ilPropertyFormGUI();
+			$form->setTitle($this->plugin->txt("obj_xnlj"));
+
+			if ($title != "" && $title != $objTitle) {
+				$titleInput = new ilTextInputGUI(
+					$this->plugin->txt("prop_" . self::PROP_TITLE),
+					self::PROP_TITLE
+				);
+				$titleInput->setValue($title);
+			} else {
+				$titleInput = new ilNonEditableValueGUI(
+					$this->plugin->txt("prop_" . self::PROP_TITLE),
+					self::PROP_TITLE
+				);
+				$titleInput->setValue($objTitle);
+			}
+			$form->addItem($titleInput);
+
 			/**
 			 * Transcription
 			 */
@@ -810,18 +812,21 @@ class ilNolejActivityManagementGUI
 
 			$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
 			$form->setFormAction($this->ctrl->getFormAction($this));
-		} else {
-			/**
-			 * Transcription
-			 */
-			$txt = new ilNonEditableValueGUI($this->plugin->txt("prop_transcription"), self::PROP_M_TEXT);
-			$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
-			$form->addItem($txt);
-
-			$titleInput->setDisabled(true);
+			return $form;
 		}
 
-		return $form;
+		$info = new ilInfoScreenGUI($this);
+		$info->addSection($this->plugin->txt("obj_xnlj"));
+		$info->addProperty(
+			$this->plugin->txt("prop_" . self::PROP_TITLE),
+			$objTitle
+		);
+		$info->addProperty(
+			$this->plugin->txt("prop_transcription"),
+			file_get_contents($dataDir . "/transcription.htm")
+		);
+		
+		return $info;
 	}
 
 	/**
