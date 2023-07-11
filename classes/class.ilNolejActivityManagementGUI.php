@@ -774,18 +774,13 @@ class ilNolejActivityManagementGUI
 		}
 		$form->addItem($titleInput);
 
-		/**
-		 * Transcription
-		 * 
-		 * @todo use TinyMCE
-		 */
-		$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
-		$txt->setRequired(true);
-		$txt->setRows(200);
-		$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
-		$form->addItem($txt);
-
 		if ($status == 2) {
+			/**
+			 * Transcription
+			 */
+			$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_transcription"), self::PROP_M_TEXT);
+			$txt->setRequired(true);
+			$txt->setRows(200);
 			if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
 				$txt->setUseRte(true);
 				$txt->setRteTags([
@@ -810,12 +805,20 @@ class ilNolejActivityManagementGUI
 				]);
 				// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 			}
+			$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
+			$form->addItem($txt);
 
 			$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
 			$form->setFormAction($this->ctrl->getFormAction($this));
 		} else {
+			/**
+			 * Transcription
+			 */
+			$txt = new ilNonEditableValueGUI($this->plugin->txt("prop_transcription"), self::PROP_M_TEXT);
+			$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
+			$form->addItem($txt);
+
 			$titleInput->setDisabled(true);
-			$txt->setDisabled(true);
 		}
 
 		return $form;
