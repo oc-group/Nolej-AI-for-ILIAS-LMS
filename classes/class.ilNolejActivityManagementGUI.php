@@ -19,14 +19,19 @@ class ilNolejActivityManagementGUI
 	const CMD_ANALYZE = "analyze";
 	const CMD_REVISION = "revision";
 	const CMD_REVIEW = "review";
+	const CMD_SUMMARY = "summary";
+	const CMD_QUESTIONS = "questions";
+	const CMD_CONCEPTS = "concepts";
 	const CMD_ACTIVITIES = "activities";
 	const CMD_GENERATE = "generate";
-	const CMD_INT_LINK = "showLinkHelp";
 
-	const TAB_CREATION = "creation";
-	const TAB_ANALYSIS = "analysis";
-	const TAB_REVIEW = "review";
-	const TAB_ACTIVITIES = "activities";
+	const TAB_CREATION = "tab_creation";
+	const TAB_ANALYSIS = "tab_analysis";
+	const TAB_REVIEW = "tab_review";
+	const TAB_ACTIVITIES = "tab_activities";
+	const SUBTAB_SUMMARY = "review_summary";
+	const SUBTAB_QUESTIONS = "review_questions";
+	const SUBTAB_CONCEPTS = "review_concepts";
 
 	const PROP_TITLE = "title";
 	const PROP_MEDIA_SRC = "media_source";
@@ -131,7 +136,6 @@ class ilNolejActivityManagementGUI
 					case self::CMD_REVIEW:
 					case self::CMD_ACTIVITIES:
 					case self::CMD_GENERATE:
-					// case self::CMD_INT_LINK:
 						$this->$cmd();
 						break;
 
@@ -242,25 +246,25 @@ class ilNolejActivityManagementGUI
 
 		$this->tabs->addTab(
 			self::TAB_CREATION,
-			$this->statusIcons[self::CMD_CREATION] . $this->plugin->txt("tab_" . self::TAB_CREATION),
+			$this->statusIcons[self::CMD_CREATION] . $this->plugin->txt(self::TAB_CREATION),
 			$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
 		);
 
 		$this->tabs->addTab(
 			self::TAB_ANALYSIS,
-			$this->statusIcons[self::CMD_ANALYSIS] . $this->plugin->txt("tab_" . self::TAB_ANALYSIS),
+			$this->statusIcons[self::CMD_ANALYSIS] . $this->plugin->txt(self::TAB_ANALYSIS),
 			$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
 		);
 
 		$this->tabs->addTab(
 			self::TAB_REVIEW,
-			$this->statusIcons[self::CMD_REVISION] . $this->plugin->txt("tab_" . self::TAB_REVIEW),
+			$this->statusIcons[self::CMD_REVISION] . $this->plugin->txt(self::TAB_REVIEW),
 			$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
 		);
 
 		$this->tabs->addTab(
 			self::TAB_ACTIVITIES,
-			$this->statusIcons[self::CMD_ACTIVITIES] . $this->plugin->txt("tab_" . self::TAB_ACTIVITIES),
+			$this->statusIcons[self::CMD_ACTIVITIES] . $this->plugin->txt(self::TAB_ACTIVITIES),
 			$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
 		);
 
@@ -273,7 +277,7 @@ class ilNolejActivityManagementGUI
 					sprintf(
 						"%s: %s",
 						$this->plugin->txt("plugin_title"),
-						$this->plugin->txt("tab_" . $active_tab)
+						$this->plugin->txt($active_tab)
 					),
 					false
 				);
@@ -286,26 +290,13 @@ class ilNolejActivityManagementGUI
 					sprintf(
 						"%s: %s",
 						$this->plugin->txt("plugin_title"),
-						$this->plugin->txt("tab_" . self::TAB_CREATION)
+						$this->plugin->txt(self::TAB_CREATION)
 					),
 					false
 				);
 		}
 
 		$tpl->setDescription($this->plugin->txt("plugin_description"));
-	}
-
-	/**
-	 * Show internal link selection
-	 */
-	protected function showLinkHelp()
-	{
-		// $this->lng->loadLanguageModule("content");
-		// require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-		// $link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
-		// $link_gui->filterLinkType("Media_Media");
-		// $link_gui->setFilterWhiteList(true);
-		// $this->ctrl->forwardCommand($link_gui);
 	}
 
 	/**
@@ -318,30 +309,17 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 
 		include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-		$js = ilInternalLinkGUI::getInitHTML(
-			""
-			// $this->ctrl->getLinkTargetByClass(
-			// 	array("ilpageeditorgui", "ilinternallinkgui"),
-			// 	"",
-			// 	false,
-			// 	true,
-			// 	false
-			// )
-		);
+		$js = ilInternalLinkGUI::getInitHTML("");
 
 		// Already added in ilInternalLinkGUI::getInitHTML()
 		$tpl->addJavaScript("Modules/WebResource/js/intLink.js");
 		$tpl->addJavascript("Services/Form/js/Form.js");
 
-		// include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		// ilYuiUtil::initConnection();
-		// $main_tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
-
 		return $js;
 	}
 
 	/**
-	 * 
+	 * Form's input to get a media element
 	 */
 	protected function linkInputGUI()
 	{
@@ -1003,10 +981,72 @@ class ilNolejActivityManagementGUI
 		$this->ctrl->redirect($this, self::CMD_REVISION);
 	}
 
+	/**
+	 * Init and activate tabs
+	 */
+	protected function initRevisionSubTabs($active_subtab = null)
+	{
+		global $tpl;
+
+		$this->initTabs(self::TAB_REVIEW);
+
+		$this->tabs->addSubTab(
+			self::SUBTAB_SUMMARY,
+			$this->plugin->txt(self::SUBTAB_SUMMARY),
+			$this->ctrl->getLinkTarget($this, self::CMD_SUMMARY)
+		);
+
+		$this->tabs->addSubTab(
+			self::SUBTAB_QUESTIONS,
+			$this->plugin->txt(self::SUBTAB_QUESTIONS),
+			$this->ctrl->getLinkTarget($this, self::CMD_QUESTIONS)
+		);
+
+		$this->tabs->addSubTab(
+			self::SUBTAB_CONCEPTS,
+			$this->plugin->txt(self::SUBTAB_CONCEPTS),
+			$this->ctrl->getLinkTarget($this, self::CMD_CONCEPTS)
+		);
+
+		switch ($active_subtab) {
+			case self::SUBTAB_QUESTIONS:
+			case self::SUBTAB_CONCEPTS:
+				$this->tabs->activateSubTab($active_subtab);
+				$tpl->setTitle(
+					sprintf(
+						"%s: %s",
+						$this->plugin->txt("plugin_title"),
+						$this->plugin->txt($active_subtab)
+					),
+					false
+				);
+				break;
+
+			case self::SUBTAB_SUMMARY:
+			default:
+				$this->tabs->activateSubTab(self::SUBTAB_SUMMARY);
+				$tpl->setTitle(
+					sprintf(
+						"%s: %s",
+						$this->plugin->txt("plugin_title"),
+						$this->plugin->txt(self::SUBTAB_SUMMARY)
+					),
+					false
+				);
+		}
+
+		// $tpl->setDescription($this->plugin->txt("plugin_description"));
+	}
+
 	public function revision()
 	{
 		global $tpl;
-		$this->initTabs(self::TAB_REVIEW);
+		$this->summary();
+	}
+
+	public function summary()
+	{
+		$this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
 
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
@@ -1015,6 +1055,18 @@ class ilNolejActivityManagementGUI
 		$input = new ilMultiSummaryInputGUI("test", "test");
 		$form->addItem($input);
 		$tpl->setContent($form->getHTML());
+	}
+
+	public function questions()
+	{
+		$this->initRevisionSubTabs(self::SUBTAB_QUESTIONS);
+		// TODO
+	}
+
+	public function concepts()
+	{
+		$this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
+		// TODO
 	}
 
 	public function review()
