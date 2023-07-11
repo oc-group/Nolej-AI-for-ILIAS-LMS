@@ -23,10 +23,10 @@ class ilNolejActivityManagementGUI
 	const CMD_GENERATE = "generate";
 	const CMD_INT_LINK = "showLinkHelp";
 
-	const SUBTAB_CREATION = "creation";
-	const SUBTAB_ANALYSIS = "analysis";
-	const SUBTAB_REVIEW = "review";
-	const SUBTAB_ACTIVITIES = "activities";
+	const TAB_CREATION = "creation";
+	const TAB_ANALYSIS = "analysis";
+	const TAB_REVIEW = "review";
+	const TAB_ACTIVITIES = "activities";
 
 	const PROP_TITLE = "title";
 	const PROP_MEDIA_SRC = "media_source";
@@ -230,59 +230,59 @@ class ilNolejActivityManagementGUI
 	/**
 	 * Init and activate tabs
 	 */
-	protected function initSubTabs($active_subtab = null)
+	protected function initTabs($active_tab = null)
 	{
 		global $tpl;
 
 		// Do nothing link: "javascript:void(0)"
 
-		$this->tabs->addSubTab(
-			self::SUBTAB_CREATION,
-			$this->statusIcons[self::CMD_CREATION] . $this->plugin->txt("subtab_" . self::SUBTAB_CREATION),
+		$this->tabs->addTab(
+			self::TAB_CREATION,
+			$this->statusIcons[self::CMD_CREATION] . $this->plugin->txt("subtab_" . self::TAB_CREATION),
 			$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
 		);
 
-		$this->tabs->addSubTab(
-			self::SUBTAB_ANALYSIS,
-			$this->statusIcons[self::CMD_ANALYSIS] . $this->plugin->txt("subtab_" . self::SUBTAB_ANALYSIS),
+		$this->tabs->addTab(
+			self::TAB_ANALYSIS,
+			$this->statusIcons[self::CMD_ANALYSIS] . $this->plugin->txt("subtab_" . self::TAB_ANALYSIS),
 			$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
 		);
 
-		$this->tabs->addSubTab(
-			self::SUBTAB_REVIEW,
-			$this->statusIcons[self::CMD_REVISION] . $this->plugin->txt("subtab_" . self::SUBTAB_REVIEW),
+		$this->tabs->addTab(
+			self::TAB_REVIEW,
+			$this->statusIcons[self::CMD_REVISION] . $this->plugin->txt("subtab_" . self::TAB_REVIEW),
 			$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
 		);
 
-		$this->tabs->addSubTab(
-			self::SUBTAB_ACTIVITIES,
-			$this->statusIcons[self::CMD_ACTIVITIES] . $this->plugin->txt("subtab_" . self::SUBTAB_ACTIVITIES),
+		$this->tabs->addTab(
+			self::TAB_ACTIVITIES,
+			$this->statusIcons[self::CMD_ACTIVITIES] . $this->plugin->txt("subtab_" . self::TAB_ACTIVITIES),
 			$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
 		);
 
-		switch ($active_subtab) {
-			case self::SUBTAB_ANALYSIS:
-			case self::SUBTAB_REVIEW:
-			case self::SUBTAB_ACTIVITIES:
-				$this->tabs->activateSubTab($active_subtab);
+		switch ($active_tab) {
+			case self::TAB_ANALYSIS:
+			case self::TAB_REVIEW:
+			case self::TAB_ACTIVITIES:
+				$this->tabs->activateTab($active_tab);
 				$tpl->setTitle(
 					sprintf(
 						"%s: %s",
 						$this->plugin->txt("plugin_title"),
-						$this->plugin->txt("subtab_" . $active_subtab)
+						$this->plugin->txt("subtab_" . $active_tab)
 					),
 					false
 				);
 				break;
 
-			case self::SUBTAB_CREATION:
+			case self::TAB_CREATION:
 			default:
-				$this->tabs->activateSubTab(self::SUBTAB_CREATION);
+				$this->tabs->activateTab(self::TAB_CREATION);
 				$tpl->setTitle(
 					sprintf(
 						"%s: %s",
 						$this->plugin->txt("plugin_title"),
-						$this->plugin->txt("subtab_" . self::SUBTAB_CREATION)
+						$this->plugin->txt("subtab_" . self::TAB_CREATION)
 					),
 					false
 				);
@@ -535,7 +535,7 @@ class ilNolejActivityManagementGUI
 	public function creation()
 	{
 		global $tpl;
-		$this->initSubTabs(self::SUBTAB_CREATION);
+		$this->initTabs(self::TAB_CREATION);
 
 		$form = $this->initCreationForm();
 		$js = $this->initIntLink();
@@ -549,7 +549,7 @@ class ilNolejActivityManagementGUI
 	public function create()
 	{
 		global $DIC, $tpl;
-		$this->initSubTabs(self::SUBTAB_CREATION);
+		$this->initTabs(self::TAB_CREATION);
 
 		$form = $this->initCreationForm();
 		$js = $this->initIntLink();
@@ -889,7 +889,7 @@ class ilNolejActivityManagementGUI
 	public function analysis()
 	{
 		global $tpl;
-		$this->initSubTabs(self::SUBTAB_ANALYSIS);
+		$this->initTabs(self::TAB_ANALYSIS);
 
 		$dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->status;
@@ -914,7 +914,7 @@ class ilNolejActivityManagementGUI
 	public function analyze()
 	{
 		global $DIC, $tpl;
-		$this->initSubTabs(self::SUBTAB_ANALYSIS);
+		$this->initTabs(self::TAB_ANALYSIS);
 
 		$form = $this->initAnalysisForm();
 
@@ -1002,7 +1002,7 @@ class ilNolejActivityManagementGUI
 	public function revision()
 	{
 		global $tpl;
-		$this->initSubTabs(self::SUBTAB_REVIEW);
+		$this->initTabs(self::TAB_REVIEW);
 
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("obj_xnlj"));
@@ -1016,7 +1016,7 @@ class ilNolejActivityManagementGUI
 	public function review()
 	{
 		global $tpl;
-		$this->initSubTabs(self::SUBTAB_REVIEW);
+		$this->initTabs(self::TAB_REVIEW);
 
 		// TODO
 	}
@@ -1024,7 +1024,7 @@ class ilNolejActivityManagementGUI
 	public function activities()
 	{
 		global $tpl;
-		$this->initSubTabs(self::SUBTAB_ACTIVITIES);
+		$this->initTabs(self::TAB_ACTIVITIES);
 
 		// TODO
 	}
@@ -1032,7 +1032,7 @@ class ilNolejActivityManagementGUI
 	public function generate()
 	{
 		global $tpl;
-		$this->initSubTabs(self::SUBTAB_ACTIVITIES);
+		$this->initTabs(self::TAB_ACTIVITIES);
 
 		// TODO
 	}
