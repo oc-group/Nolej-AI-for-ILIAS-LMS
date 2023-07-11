@@ -614,11 +614,34 @@ class ilNolejActivityManagementGUI
 				if (!$array) {
 					break;
 				}
-				$mobId = $array[1];
-				$apiUrl = ilNolejMediaSelectorGUI::getSignedUrl($mobId, true);
-				ilUtil::sendQuestion($_POST[self::PROP_INPUT_MOB] . " apiUrl: " . $apiUrl);
-				$apiFormat = "";
-				$decrementedCredit = 2;
+				$objId = $array[1];
+				$path = ilObjMediaObject::_lookupItemPath($objId);
+				$extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+				switch ($extension) {
+					case "mp3":
+					case "was":
+					case "opus":
+					case "ogg":
+					case "oga":
+					case "m4a":
+						$apiFormat = self::PROP_M_AUDIO;
+						$decrementedCredit = 2;
+						break;
+
+					case "m4v":
+					case "mp4":
+					case "ogv":
+					case "avi":
+					case "webm":
+						$apiFormat = self::PROP_M_VIDEO;
+						$decrementedCredit = 3;
+						break;
+
+					default:
+						$apiFormat = "";
+						$decrementedCredit = 0;
+				}
+				$apiUrl = ilNolejMediaSelectorGUI::getSignedUrl($objId, true);
 				break;
 
 			case self::PROP_M_FILE:
