@@ -104,19 +104,18 @@ class ilNolejActivityManagementGUI
 				break;
 
 			case "ilinternallinkgui":
-				// $this->lng->loadLanguageModule("content");
-				// require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-				// $link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
-				// $link_gui->filterLinkType("Media_Media");
-				// $link_gui->setFilterWhiteList(true);
-				// $link_gui->setSetLinkTargetScript(
-                //     $this->ctrl->getLinkTarget(
-                //         $this,
-                //         "setInternalLink"
-                //     )
-                // );
-				// $this->ctrl->forwardCommand($link_gui);
-				$this->showLinkHelp();
+				$this->lng->loadLanguageModule("content");
+				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+				$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
+				$link_gui->filterLinkType("Media_Media");
+				$link_gui->setFilterWhiteList(true);
+				$link_gui->setSetLinkTargetScript(
+                    $this->ctrl->getLinkTarget(
+                        $this,
+                        "setInternalLink"
+                    )
+                );
+				$this->ctrl->forwardCommand($link_gui);
 				break;
 
 			default:
@@ -295,18 +294,12 @@ class ilNolejActivityManagementGUI
 	 */
 	protected function showLinkHelp()
 	{
-		$this->lng->loadLanguageModule("content");
-		require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-		$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
-		$link_gui->filterLinkType("Media_Media");
-		$link_gui->setFilterWhiteList(true);
-		$link_gui->setSetLinkTargetScript(
-			$this->ctrl->getLinkTarget(
-				$this,
-				"setInternalLink"
-			)
-		);
-		$this->ctrl->forwardCommand($link_gui);
+		// $this->lng->loadLanguageModule("content");
+		// require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+		// $link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
+		// $link_gui->filterLinkType("Media_Media");
+		// $link_gui->setFilterWhiteList(true);
+		// $this->ctrl->forwardCommand($link_gui);
 	}
 
 	/**
