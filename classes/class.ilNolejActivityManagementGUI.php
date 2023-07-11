@@ -304,14 +304,14 @@ class ilNolejActivityManagementGUI
 
 		include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 		$js = ilInternalLinkGUI::getInitHTML(
-			// ""
-			$this->ctrl->getLinkTargetByClass(
-				array("ilpageeditorgui", "ilinternallinkgui"),
-				"",
-				false,
-				true,
-				false
-			)
+			""
+			// $this->ctrl->getLinkTargetByClass(
+			// 	array("ilpageeditorgui", "ilinternallinkgui"),
+			// 	"",
+			// 	false,
+			// 	true,
+			// 	false
+			// )
 		);
 
 		// Already added in ilInternalLinkGUI::getInitHTML()
