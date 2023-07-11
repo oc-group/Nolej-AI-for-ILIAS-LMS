@@ -234,6 +234,7 @@ class ilNolejActivityManagementGUI
 	{
 		global $tpl;
 
+		$this->tabs->clearTargets();
 		$this->tabs->setBackTarget(
 			$this->plugin->txt("cmd_back_to_content"),
 			$this->ctrl->getLinkTarget($this->gui_obj, "")
