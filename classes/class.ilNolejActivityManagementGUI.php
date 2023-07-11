@@ -607,6 +607,8 @@ class ilNolejActivityManagementGUI
 				 * @todo detect media format
 				 * @todo decrement credit
 				 */
+				$mob = $form->getInput(self::PROP_INPUT_MOB);
+				ilUtil::sendQuestion($mob, true);
 				$apiUrl = "";
 				$apiFormat = "";
 				$decrementedCredit = 2;
