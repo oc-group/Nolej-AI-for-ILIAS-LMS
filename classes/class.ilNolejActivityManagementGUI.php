@@ -6,7 +6,6 @@ include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  * 
  * @ilCtrl_isCalledBy ilNolejActivityManagementGUI: ilObjNolejGUI
- * @ilCtrl_Calls ilNolejActivityManagementGUI: ilInternalLinkGUI
  */
 class ilNolejActivityManagementGUI
 {
@@ -91,7 +90,7 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 		$cmd = $this->ctrl->getCmd();
 
-		$next_class = $this->ctrl->getNextClass($this);
+		$next_class = ""; //$this->ctrl->getNextClass($this);
         switch ($next_class) {
 			case "ilpropertyformgui":
 				// include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
