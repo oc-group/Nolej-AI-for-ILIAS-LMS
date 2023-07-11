@@ -551,19 +551,20 @@ class ilNolejActivityManagementGUI
 		$this->initSubTabs(self::SUBTAB_CREATION);
 
 		$form = $this->initCreationForm();
+		$js = $this->initIntLink();
 
 		$api_key = $this->plugin->getConfig("api_key", "");
 		if ($api_key == "") {
 			ilUtil::sendFailure($this->plugin->txt("err_api_key_missing"));
 			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
+			$tpl->setContent($form->getHTML() . $js);
 			return;
 		}
 
 		if (!$form->checkInput()) {
 			// input not ok, then
 			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
+			$tpl->setContent($form->getHTML() . $js);
 			return;
 		}
 
