@@ -97,7 +97,7 @@ class ilNolejActivityManagementGUI
 		$cmd = $this->ctrl->getCmd();
 
 		switch ($next_class) {
-			case "ilpropertyformgui":
+			case "ilformpropertydispatchgui":
 				// include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 				// $this->initFormLink(self::LINK_MOD_EDIT);
 				// $this->ctrl->forwardCommand($this->form);
@@ -106,7 +106,7 @@ class ilNolejActivityManagementGUI
 			case "ilinternallinkgui":
 				$this->lng->loadLanguageModule("content");
 				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-				$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
+				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
 				$link_gui->filterLinkType("Media_Media");
 				$link_gui->setFilterWhiteList(true);
 				$link_gui->setSetLinkTargetScript(
