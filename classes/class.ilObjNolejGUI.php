@@ -118,6 +118,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 						$this->$cmd();
 						break;
 					default:
+						$this->checkPermission("read");
 						$this->showContent();
 				}
 		}
