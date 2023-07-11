@@ -32,6 +32,7 @@ err_credentials#:#Le credenziali non sono valide.
 err_tic_response#:#L'endpoint di Nolej ha restituito una risposta non prevista.
 err_transcription_not_ready#:#La trascrizione non è ancora completa, attendi ancora un po' di tempo e torna qui per verificare. L'attesa stimata è di circa un terzo rispetto alla durata del file scelto; se è trascorso molto più di questo tempo e non hai ancora ricevuto una notifica, per favore contatta un Amministratore.
 fold_create_xnlj#:#Crea un oggetto Nolej
+goto_activity_management#:#Vai in Gestione Attività
 grp_create_xnlj#:#Crea un oggetto Nolej
 lp_status#:#Progressi didattici
 lp_status_#:#Nessuno stato salvato.
@@ -72,6 +73,7 @@ prop_textarea#:#Testo
 prop_textarea_info#:#Scrivi qui il testo che Nolej dovrà analizzare.
 prop_title#:#Titolo
 prop_title_info#:#Lascia vuoto questo campo se vuoi che Nolej trovi un titolo adatto, basandosi sul contenuto.
+prop_transcription#:#Trascrizione
 prop_url#:#URL
 prop_url_info#:#Incolla qui l'URL del file multimediale
 prop_video#:#Streaming Video
@@ -106,5 +108,4 @@ xnlj_new#:#Aggiungi un oggetto Nolej
 xnlj_read#:#Lettura: l'utente può accedere agli oggetti Nolej
 xnlj_visible#:#Visibilità: gli oggetti Nolej sono visibili all'utente
 xnlj_write#:#Modifica impostazioni: l'utente può modificare le impostazioni degli oggetti Nolej
-goto_activity_management#:#Vai in Gestione Attività
 

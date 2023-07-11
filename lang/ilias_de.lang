@@ -32,6 +32,7 @@ err_credentials#:#
 err_tic_response#:#
 err_transcription_not_ready#:#
 fold_create_xnlj#:#
+goto_activity_management#:#
 grp_create_xnlj#:#
 lp_status#:#
 lp_status_#:#
@@ -72,6 +73,7 @@ prop_textarea#:#
 prop_textarea_info#:#
 prop_title#:#
 prop_title_info#:#
+prop_transcription#:#
 prop_url#:#
 prop_url_info#:#
 prop_video#:#
@@ -106,5 +108,4 @@ xnlj_new#:#
 xnlj_read#:#
 xnlj_visible#:#
 xnlj_write#:#
-goto_activity_management#:#
 

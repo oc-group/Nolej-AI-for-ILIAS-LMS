@@ -32,6 +32,7 @@ err_credentials#:#Invalid/Wrong credentials.
 err_tic_response#:#Nolej endpoint returned an invalid response.
 err_transcription_not_ready#:#The transcription is not ready yet, please wait some time and check again. It should take a third of the source duration; if after this time you haven't received any notification, please contact an Administrator. 
 fold_create_xnlj#:#Create Nolej object
+goto_activity_management#:#Go to Activity Management
 grp_create_xnlj#:#Create Nolej object
 lp_status#:#Learning Progress
 lp_status_#:#No state yet.
@@ -72,6 +73,7 @@ prop_textarea#:#Text
 prop_textarea_info#:#Write here the text that you want to be analyzed by Nolej.
 prop_title#:#Title
 prop_title_info#:#Leave empty if you want Nolej to set a title for you.
+prop_transcription#:#Transcription
 prop_url#:#URL
 prop_url_info#:#Paste here the media's URL.
 prop_video#:#Video streaming
@@ -106,5 +108,4 @@ xnlj_new#:#Add a Nolej object
 xnlj_read#:#Read: User has read access to Nolej objects
 xnlj_visible#:#Visible: Nolej object is visible
 xnlj_write#:#Edit Settings: User can edit settings of Nolej objects
-goto_activity_management#:#Go to Activity Management
 
