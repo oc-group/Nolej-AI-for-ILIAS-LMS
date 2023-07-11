@@ -557,7 +557,7 @@ class ilNolejActivityManagementGUI
 			);
 			// $info->addSection($this->plugin->txt("prop_" . self::PROP_M_VIDEO));
 			// $info->addSection($this->plugin->txt("prop_" . self::PROP_M_FILE));
-			$tpl->setRightContent($info->getHTML());
+			$tpl->setRightContent($info->getRightColumnHTML());
 			// ilUtil::sendInfo($this->plugin->txt("prop_file_limits"));
 		}
 
