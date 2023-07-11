@@ -1,6 +1,7 @@
 <?php
 
 include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
+include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI.php");
 
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
