@@ -98,8 +98,19 @@ class ilNolejActivityManagementGUI
 
 		switch ($next_class) {
 			case "ilformpropertydispatchgui":
+				$this->lng->loadLanguageModule("content");
+				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
+				$link_gui->filterLinkType("Media_Media");
+				$link_gui->setFilterWhiteList(true);
+				$link_gui->setSetLinkTargetScript(
+                    $this->ctrl->getLinkTarget(
+                        $this,
+                        "setInternalLink"
+                    )
+                );
 				$form_gui = new ilFormPropertyDispatchGUI();
-				$form_gui->setItem($this);
+				$form_gui->setItem($link_gui);
 				$this->ctrl->forwardCommand($form_gui);
 				break;
 
