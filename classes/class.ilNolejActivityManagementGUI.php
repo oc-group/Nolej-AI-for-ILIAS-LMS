@@ -234,7 +234,10 @@ class ilNolejActivityManagementGUI
 	{
 		global $tpl;
 
-		// Do nothing link: "javascript:void(0)"
+		$this->tabs->setBackTarget(
+			"go back",
+			$this->ctrl->getLinkTarget($this->gui_obj, "")
+		);
 
 		$this->tabs->addTab(
 			self::TAB_CREATION,
