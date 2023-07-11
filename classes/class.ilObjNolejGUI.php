@@ -79,7 +79,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 		$nextClass = $this->ctrl->getNextClass();
 		switch ($nextClass) {
-			case "ilNolejActivityManagementGUI":
+			case "ilnolejactivitymanagementgui":
 				$this->checkPermission("write");
 				$activityManagement = new ilNolejActivityManagementGUI($this);
 				$this->ctrl->forwardCommand($activityManagement);
