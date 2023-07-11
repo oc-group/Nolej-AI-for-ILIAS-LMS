@@ -823,7 +823,7 @@ class ilNolejActivityManagementGUI
 		$info->addSection($this->plugin->txt("obj_xnlj"));
 		$info->addProperty(
 			$this->plugin->txt("prop_" . self::PROP_TITLE),
-			$objTitle
+			"<h1>" . $objTitle . "</h1>"
 		);
 		$info->addProperty(
 			$this->plugin->txt("prop_transcription"),
