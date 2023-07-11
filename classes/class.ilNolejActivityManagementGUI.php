@@ -288,17 +288,12 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 
 		include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-		$js = "";
-		//  ilInternalLinkGUI::getInitHTML(
-		// 	$this->ctrl->getLinkTargetByClass(
-		// 		["", "ilnolejmediaselectorgui"],
-		// 		"",
-		// 		false,
-		// 		true,
-		// 		false
-		// 	),
-		// 	true
-		// );
+		$js = ilInternalLinkGUI::getInitHTML(
+			$this->ctrl->getLinkTarget(
+				$this, "testintlink"
+			),
+			true
+		);
 
 		$tpl->addJavaScript("Modules/WebResource/js/intLink.js");
 		$tpl->addJavascript("Services/Form/js/Form.js");
