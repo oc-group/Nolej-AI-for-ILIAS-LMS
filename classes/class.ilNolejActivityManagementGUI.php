@@ -88,7 +88,7 @@ class ilNolejActivityManagementGUI
 	 * Handles all commmands,
 	 * $cmd = functionName()
 	 */
-	public function executeCommand()
+	public function performCommand()
 	{
 		global $tpl;
 
