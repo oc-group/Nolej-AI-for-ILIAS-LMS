@@ -97,7 +97,7 @@ class ilNolejActivityManagementGUI
 		$cmd = $this->ctrl->getCmd();
 
 		switch ($next_class) {
-			case "ilformpropertydispatchgui":
+			// case "ilformpropertydispatchgui":
 				// include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 				// $this->initFormLink(self::LINK_MOD_EDIT);
 				// $this->ctrl->forwardCommand($this->form);
@@ -112,7 +112,7 @@ class ilNolejActivityManagementGUI
 				$link_gui->setSetLinkTargetScript(
                     $this->ctrl->getLinkTarget(
                         $this,
-                        "setInternalLink"
+                        "showLinkHelp"
                     )
                 );
 				$this->ctrl->forwardCommand($link_gui);
