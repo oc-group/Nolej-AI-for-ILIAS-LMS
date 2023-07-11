@@ -139,4 +139,5 @@ limit_minutes#:#
 limit_min_characters#:#
 limit_max_size#:#
 limit_type#:#
+limit_max_pages#:#
 

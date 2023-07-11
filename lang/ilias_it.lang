@@ -57,7 +57,7 @@ prop_content_info#:#Analizza il contenuto della pagina (1 credito)
 prop_description#:#Descrizione
 prop_file#:#File
 prop_file_info#:#Carica un file (audio, video, o un documento).
-prop_file_limits#:#<details><summary><b>Content Limitations</b></summary><ul><li>Audio<ul><li>Maximum duration: 50 minutes</li><li>Minimum characters: 500</li><li>Maximum file size: 500 MB</li><li>Type: MP3, WAS, OPUS, OGG, OGA, M4A</li></ul><li>Video<ul><li>Maximum duration: 50 minutes</li><li>Minimum characters: 500</li><li>Maximum file size: 500 MB</li><li>Type: M4V, MP4, OGV, AVI, WebM</li></ul><li>Document<ul><li>Maximum page: 50 pages</li><li>Minimum character: 500</li><li>Type: PDF, DOC, DOCX, ODT</li></ul></ul></details>
+prop_file_limits#:#Limiti per i contenuti
 prop_freetext#:#Testo
 prop_freetext_info#:#Scrivi direttamente qui un testo.
 prop_input_file#:#File
@@ -139,4 +139,5 @@ limit_minutes#:#%s minuti
 limit_min_characters#:#Numero minimo di caratteri
 limit_max_size#:#Dimensione massima del file
 limit_type#:#Estensioni consentite
+limit_max_pages#:#Numero massimo di pagine
 
