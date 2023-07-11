@@ -271,6 +271,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 	protected function showContent() : void
 	{
+		$this->tabs->activateTab(self::TAB_CONTENT);
+
 		if ($this->object->status != "completed") {
 			$activityManagement = new ilNolejActivityManagementGUI($this);
 			$toolbar = new ilToolbarGUI();
@@ -284,8 +286,6 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			$this->tpl->setContent($toolbar->getHTML());
 			return;
 		}
-
-		$this->tabs->activateTab(self::TAB_CONTENT);
 
 		// if (!$this->object->isBound()) {
 		// 	// This module is not available yet
