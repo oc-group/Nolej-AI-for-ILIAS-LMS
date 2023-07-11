@@ -538,6 +538,7 @@ class ilNolejActivityManagementGUI
 		// TODO: display info in a better way (maybe on the side)
 		if ($this->status == 0) {
 			$info = new ilInfoScreenGUI($this);
+			$info->addSection($this->plugin->txt("prop_file_limits"));
 			$info->addSection($this->plugin->txt("prop_" . self::PROP_M_AUDIO));
 			$info->addProperty(
 				$this->plugin->txt("limit_max_duration"),
@@ -555,9 +556,41 @@ class ilNolejActivityManagementGUI
 				$this->plugin->txt("limit_type"),
 				implode(", ", self::TYPE_AUDIO)
 			);
-			// $info->addSection($this->plugin->txt("prop_" . self::PROP_M_VIDEO));
-			// $info->addSection($this->plugin->txt("prop_" . self::PROP_M_FILE));
-			$tpl->setRightContent($info->getRightColumnHTML());
+			$info->addSection($this->plugin->txt("prop_" . self::PROP_M_VIDEO));
+			$info->addProperty(
+				$this->plugin->txt("limit_max_duration"),
+				sprintf($this->plugin->txt("limit_minutes"), 50)
+			);
+			$info->addProperty(
+				$this->plugin->txt("limit_min_characters"),
+				"500"
+			);
+			$info->addProperty(
+				$this->plugin->txt("limit_max_size"),
+				"500 MB"
+			);
+			$info->addProperty(
+				$this->plugin->txt("limit_type"),
+				implode(", ", self::TYPE_VIDEO)
+			);
+			$info->addSection($this->plugin->txt("prop_" . self::PROP_M_FILE));
+			$info->addProperty(
+				$this->plugin->txt("limit_max_pages"),
+				"50"
+			);
+			$info->addProperty(
+				$this->plugin->txt("limit_min_characters"),
+				"500"
+			);
+			$info->addProperty(
+				$this->plugin->txt("limit_max_size"),
+				"500 MB"
+			);
+			$info->addProperty(
+				$this->plugin->txt("limit_type"),
+				implode(", ", self::TYPE_DOC)
+			);
+			$tpl->setRightContent($info->getHTML());
 			// ilUtil::sendInfo($this->plugin->txt("prop_file_limits"));
 		}
 
