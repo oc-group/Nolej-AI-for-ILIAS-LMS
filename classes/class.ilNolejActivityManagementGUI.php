@@ -133,6 +133,9 @@ class ilNolejActivityManagementGUI
 					case self::CMD_ANALYSIS:
 					case self::CMD_ANALYZE:
 					case self::CMD_REVISION:
+					case self::CMD_SUMMARY:
+					case self::CMD_QUESTIONS:
+					case self::CMD_CONCEPTS:
 					case self::CMD_REVIEW:
 					case self::CMD_ACTIVITIES:
 					case self::CMD_GENERATE:
