@@ -7,7 +7,7 @@ include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
  * 
  * @ilCtrl_isCalledBy ilNolejActivityManagementGUI: ilObjNolejGUI
  * @ilCtrl_Calls ilNolejActivityManagementGUI: ilformpropertydispatchgui, ilinternallinkgui
- * @ilCtrl_Calls ilNolejActivityManagementGUI: ilinternallinkgui
+ * @ilCtrl_Calls ilNolejActivityManagementGUI: ilpropertyformgui, ilinternallinkgui
  */
 class ilNolejActivityManagementGUI
 {
