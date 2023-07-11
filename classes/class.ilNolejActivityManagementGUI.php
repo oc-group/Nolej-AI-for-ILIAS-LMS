@@ -109,7 +109,12 @@ class ilNolejActivityManagementGUI
 				$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
 				$link_gui->filterLinkType("Media_Media");
 				$link_gui->setFilterWhiteList(true);
-				$link_gui->setReturn($this);
+				$link_gui->setSetLinkTargetScript(
+                    $this->ctrl->getLinkTarget(
+                        $this,
+                        "setInternalLink"
+                    )
+                );
 				$this->ctrl->forwardCommand($link_gui);
 				break;
 
@@ -124,12 +129,12 @@ class ilNolejActivityManagementGUI
 					case self::CMD_REVIEW:
 					case self::CMD_ACTIVITIES:
 					case self::CMD_GENERATE:
-					case self::CMD_INT_LINK:
+					// case self::CMD_INT_LINK:
 						$this->$cmd();
 						break;
 
 					default:
-						ilUtil::sendInfo($cmd, true);
+						ilUtil::sendQuestion($cmd, true);
 						$cmd = $this->defaultCmd;
 						$this->$cmd();
 				}
@@ -289,12 +294,12 @@ class ilNolejActivityManagementGUI
 	 */
 	protected function showLinkHelp()
 	{
-		$this->lng->loadLanguageModule("content");
-		require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-		$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
-		$link_gui->filterLinkType("Media_Media");
-		$link_gui->setFilterWhiteList(true);
-		$this->ctrl->forwardCommand($link_gui);
+		// $this->lng->loadLanguageModule("content");
+		// require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+		// $link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
+		// $link_gui->filterLinkType("Media_Media");
+		// $link_gui->setFilterWhiteList(true);
+		// $this->ctrl->forwardCommand($link_gui);
 	}
 
 	/**
