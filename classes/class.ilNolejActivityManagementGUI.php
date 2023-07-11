@@ -780,7 +780,7 @@ class ilNolejActivityManagementGUI
 			 */
 			$txt = new ilTextAreaInputGUI($this->plugin->txt("prop_transcription"), self::PROP_M_TEXT);
 			$txt->setRequired(true);
-			$txt->setRows(200);
+			$txt->setRows(50);
 			if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
 				$txt->setUseRte(true);
 				$txt->setRteTags([
