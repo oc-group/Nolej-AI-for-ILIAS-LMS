@@ -6,7 +6,6 @@ include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  * 
  * @ilCtrl_isCalledBy ilNolejActivityManagementGUI: ilObjNolejGUI
- * @ilCtrl_Calls ilNolejActivityManagementGUI: ilNolejMediaSelectorGUI
  */
 class ilNolejActivityManagementGUI
 {
@@ -91,24 +90,24 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 		$cmd = $this->ctrl->getCmd();
 
-		$next_class = $this->ctrl->getNextClass($this);
-        switch ($next_class) {
-			case "ilpropertyformgui":
-				// include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-				// $this->initFormLink(self::LINK_MOD_EDIT);
-				// $this->ctrl->forwardCommand($this->form);
-				break;
+		// $next_class = $this->ctrl->getNextClass($this);
+        // switch ($next_class) {
+		// 	case "ilpropertyformgui":
+		// 		// include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		// 		// $this->initFormLink(self::LINK_MOD_EDIT);
+		// 		// $this->ctrl->forwardCommand($this->form);
+		// 		break;
 
-			case "ilnolejmediaselectorgui":
-				$this->lng->loadLanguageModule("content");
-				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-				$link_gui = new ilInternalLinkGUI("RepositoryItem");
-				$link_gui->filterLinkType("Media_Media");
-				$link_gui->setFilterWhiteList(true);
-				$this->ctrl->forwardCommand($link_gui);
-				break;
+		// 	case "ilnolejmediaselectorgui":
+		// 		$this->lng->loadLanguageModule("content");
+		// 		require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+		// 		$link_gui = new ilInternalLinkGUI("RepositoryItem");
+		// 		$link_gui->filterLinkType("Media_Media");
+		// 		$link_gui->setFilterWhiteList(true);
+		// 		$this->ctrl->forwardCommand($link_gui);
+		// 		break;
 
-			default:
+		// 	default:
 				switch ($cmd) {
 					// Need to have permission to access modules
 					case self::CMD_CREATION:
@@ -123,10 +122,11 @@ class ilNolejActivityManagementGUI
 						break;
 
 					default:
+						ilUtil::sendInfo($cmd, true);
 						$cmd = $this->defaultCmd;
 						$this->$cmd();
 				}
-		}
+		// }
 
 		return true;
 	}

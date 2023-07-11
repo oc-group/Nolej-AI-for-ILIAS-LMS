@@ -4,7 +4,7 @@
  * Select media object
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  * 
- * @ilCtrl_isCalledBy ilNolejMediaSelectorGUI: ilNolejGUI, ilNolejConfigGUI, ilNolejActivityManagementGUI
+ * @ilCtrl_isCalledBy ilNolejMediaSelectorGUI: ilNolejGUI, ilNolejConfigGUI
  * @ilCtrl_Calls ilNolejMediaSelectorGUI: ilObjMediaObjectGUI
  */
 
