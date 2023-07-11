@@ -18,6 +18,7 @@ class ilNolejActivityManagementGUI
 	const CMD_REVIEW = "review";
 	const CMD_ACTIVITIES = "activities";
 	const CMD_GENERATE = "generate";
+	const CMD_INT_LINK = "showLinkHelp";
 
 	const SUBTAB_CREATION = "creation";
 	const SUBTAB_ANALYSIS = "analysis";
@@ -119,6 +120,7 @@ class ilNolejActivityManagementGUI
 					case self::CMD_REVIEW:
 					case self::CMD_ACTIVITIES:
 					case self::CMD_GENERATE:
+					case self::CMD_INT_LINK:
 						$this->$cmd();
 						break;
 
@@ -276,6 +278,19 @@ class ilNolejActivityManagementGUI
 		}
 
 		$tpl->setDescription($this->plugin->txt("plugin_description"));
+	}
+
+	/**
+	 * Show internal link selection
+	 */
+	protected function showLinkHelp()
+	{
+		$this->lng->loadLanguageModule("content");
+		require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+		$link_gui = new ilInternalLinkGUI("RepositoryItem");
+		$link_gui->filterLinkType("Media_Media");
+		$link_gui->setFilterWhiteList(true);
+		$this->ctrl->forwardCommand($link_gui);
 	}
 
 	/**
