@@ -1263,26 +1263,55 @@ class ilNolejActivityManagementGUI
 		}
 
 		$summary = json_decode($json);
-		
+
+		/**
+		 * Summary -> summary
+		 */
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->plugin->txt("review_summary"));
+		$form->addItem($section);
 		for($i = 0, $len = count($summary->summary); $i < $len; $i++) {
 			$title = new ilTextInputGUI(
 				$this->plugin->txt("prop_" . self::PROP_TITLE),
-				sprintf("%s[%d]", self::PROP_TITLE, $i)
+				sprintf("summary[%d]['title']", $i)
 			);
 			$title->setValue($summary->summary[$i]->title);
 			$form->addItem($title);
 
 			$txt = new ilTextAreaInputGUI(
 				$this->plugin->txt("prop_" . self::PROP_M_TEXT),
-				sprintf("%s[%d]", self::PROP_M_TEXT, $i)
+				sprintf("summary[%d]['text']", $i)
 			);
 			$txt->setValue($summary->summary[$i]->text);
 			$form->addItem($txt);
 		}
 
-		include_once(ilNolejPlugin::PLUGIN_DIR . "/Form/class.ilMultiSummaryInputGUI.php");
-		$input = new ilMultiSummaryInputGUI("test", "test");
-		$form->addItem($input);
+		/**
+		 * Summary -> abstract
+		 */
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->plugin->txt("summary_abstract"));
+		$form->addItem($section);
+		$txt = new ilTextAreaInputGUI(
+			$this->plugin->txt(""),
+			"abstract"
+		);
+		$txt->setValue($summary->abstract);
+		$form->addItem($txt);
+
+		/**
+		 * Summary -> keypoints
+		 */
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->plugin->txt("summary_keypoints"));
+		$form->addItem($section);
+		$txt = new ilTextAreaInputGUI(
+			$this->plugin->txt(""),
+			"keypoints"
+		);
+		$txt->setValue($summary->keypoints[0]);
+		$form->addItem($txt);
+
 		return $form;
 	}
 
