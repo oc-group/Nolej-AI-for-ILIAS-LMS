@@ -1095,31 +1095,24 @@ class ilNolejActivityManagementGUI
 			$this->ctrl->getLinkTarget($this, self::CMD_CONCEPTS)
 		);
 
+		$tpl->setTitle(
+			sprintf(
+				"%s: %s",
+				$this->plugin->txt("plugin_title"),
+				$this->plugin->txt(self::TAB_REVIEW)
+			),
+			false
+		);
+
 		switch ($active_subtab) {
 			case self::SUBTAB_QUESTIONS:
 			case self::SUBTAB_CONCEPTS:
 				$this->tabs->activateSubTab($active_subtab);
-				$tpl->setTitle(
-					sprintf(
-						"%s: %s",
-						$this->plugin->txt("plugin_title"),
-						$this->plugin->txt($active_subtab)
-					),
-					false
-				);
 				break;
 
 			case self::SUBTAB_SUMMARY:
 			default:
 				$this->tabs->activateSubTab(self::SUBTAB_SUMMARY);
-				$tpl->setTitle(
-					sprintf(
-						"%s: %s",
-						$this->plugin->txt("plugin_title"),
-						$this->plugin->txt(self::SUBTAB_SUMMARY)
-					),
-					false
-				);
 		}
 
 		// $tpl->setDescription($this->plugin->txt("plugin_description"));
