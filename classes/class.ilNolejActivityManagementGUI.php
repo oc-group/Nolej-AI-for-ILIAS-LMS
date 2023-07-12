@@ -1129,7 +1129,7 @@ class ilNolejActivityManagementGUI
 		$this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
 
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->plugin->txt("obj_xnlj"));
+		$form->setTitle($this->plugin->txt(self::SUBTAB_SUMMARY));
 
 		include_once(ilNolejPlugin::PLUGIN_DIR . "/Form/class.ilMultiSummaryInputGUI.php");
 		$input = new ilMultiSummaryInputGUI("test", "test");
