@@ -1307,6 +1307,7 @@ class ilNolejActivityManagementGUI
 		$txt = new ilTextInputGUI("", "keypoints");
 		$txt->setMulti(true);
 		$txt->setMultiValues($summary->keypoints);
+		$txt->setSize(100);
 		$form->addItem($txt);
 
 		return $form;
