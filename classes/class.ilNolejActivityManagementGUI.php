@@ -1253,7 +1253,6 @@ class ilNolejActivityManagementGUI
 	protected function initSummaryForm()
 	{
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->plugin->txt(self::SUBTAB_SUMMARY));
 
 		$this->getNolejContent("summary", "summary.json");
 		$json = $this->readDocumentFile("summary.json");
