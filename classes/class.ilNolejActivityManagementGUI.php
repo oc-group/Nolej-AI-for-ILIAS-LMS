@@ -537,6 +537,8 @@ class ilNolejActivityManagementGUI
 
 		// TODO: display info in a better way (maybe on the side)
 		if ($this->status == 0) {
+			$toolbar = new ilToolbarGUI();
+
 			$info = new ilInfoScreenGUI($this);
 			$info->hideFurtherSections(true);
 			$info->addSection($this->plugin->txt("limit_audio"));
@@ -590,11 +592,13 @@ class ilNolejActivityManagementGUI
 				$this->plugin->txt("limit_type"),
 				implode(", ", self::TYPE_DOC)
 			);
-			$tpl->setRightContent($info->getHTML());
+
+			$toolbar->addText($info->getHTML());
+			// $tpl->setRightContent();
 			// ilUtil::sendInfo($this->plugin->txt("prop_file_limits"));
 		}
 
-		$tpl->setContent($form->getHTML() . $js);
+		$tpl->setContent((isset($toolbar) ? $toolbar->getHTML() : "") . $form->getHTML() . $js);
 	}
 
 	public function create()
