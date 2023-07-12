@@ -1259,6 +1259,25 @@ class ilNolejActivityManagementGUI
 		$json = $this->readDocumentFile("summary.json");
 		if (!$json) {
 			ilUtil::sendFailure("err_summary_file");
+			return $form;
+		}
+
+		$summary = json_decode($json);
+		
+		for($i = 0, $len = count($summary->summary); $i < $len; $i++) {
+			$title = new ilTextInputGUI(
+				$this->plugin->txt("prop_" . self::PROP_TITLE),
+				sprintf("%s[%d]", self::PROP_TITLE, $i)
+			);
+			$title->setValue($summary->summary[$i]->title);
+			$form->addItem($title);
+
+			$txt = new ilTextAreaInputGUI(
+				$this->plugin->txt("prop_" . self::PROP_M_TEXT),
+				sprintf("%s[%d]", self::PROP_M_TEXT, $i)
+			);
+			$txt->setValue($summary->summary[$i]->text);
+			$form->addItem($txt);
 		}
 
 		include_once(ilNolejPlugin::PLUGIN_DIR . "/Form/class.ilMultiSummaryInputGUI.php");
