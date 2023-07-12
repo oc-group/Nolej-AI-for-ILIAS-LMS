@@ -60,6 +60,16 @@ class ilNolejActivityManagementGUI
 		"pdf", "doc", "docx", "odt"
 	];
 
+	const STATUS_CREATION = 0;
+	const STATUS_CREATION_PENDING = 1;
+	const STATUS_ANALISYS = 2;
+	const STATUS_ANALISYS_PENDING = 3;
+	const STATUS_REVISION = 4;
+	const STATUS_REVISION_PENDING = 5;
+	const STATUS_ACTIVITIES = 6;
+	const STATUS_ACTIVITIES_PENDING = 7;
+	const STATUS_COMPLETED = 8;
+
 	/** @var ilCtrl */
 	protected $ctrl;
 
@@ -182,49 +192,49 @@ class ilNolejActivityManagementGUI
 		$completed = $this->glyphicon("ok");
 
 		switch ($this->status) {
-			case 0:
+			case self::STATUS_CREATION:
 				$statusIcons[self::CMD_CREATION] = $current;
 				break;
-			case 1:
+			case self::STATUS_CREATION_PENDING:
 				$statusIcons[self::CMD_CREATION] = $waiting;
 				break;
-			case 2:
+			case self::STATUS_ANALISYS:
 				$this->defaultCmd = self::CMD_ANALYSIS;
 				$statusIcons[self::CMD_CREATION] = $completed;
 				$statusIcons[self::CMD_ANALYSIS] = $current;
 				break;
-			case 3:
+			case self::STATUS_ANALISYS_PENDING:
 				$this->defaultCmd = self::CMD_ANALYSIS;
 				$statusIcons[self::CMD_CREATION] = $completed;
 				$statusIcons[self::CMD_ANALYSIS] = $waiting;
 				break;
-			case 4:
+			case self::STATUS_REVISION:
 				$this->defaultCmd = self::CMD_REVISION;
 				$statusIcons[self::CMD_CREATION] = $completed;
 				$statusIcons[self::CMD_ANALYSIS] = $completed;
 				$statusIcons[self::CMD_REVISION] = $current;
 				break;
-			case 5:
+			case self::STATUS_REVISION_PENDING:
 				$this->defaultCmd = self::CMD_REVISION;
 				$statusIcons[self::CMD_CREATION] = $completed;
 				$statusIcons[self::CMD_ANALYSIS] = $completed;
 				$statusIcons[self::CMD_REVISION] = $waiting;
 				break;
-			case 6:
+			case self::STATUS_ACTIVITIES:
 				$this->defaultCmd = self::CMD_ACTIVITIES;
 				$statusIcons[self::CMD_CREATION] = $completed;
 				$statusIcons[self::CMD_ANALYSIS] = $completed;
 				$statusIcons[self::CMD_REVISION] = $completed;
 				$statusIcons[self::CMD_ACTIVITIES] = $current;
 				break;
-			case 7:
+			case self::STATUS_ACTIVITIES_PENDING:
 				$this->defaultCmd = self::CMD_ACTIVITIES;
 				$statusIcons[self::CMD_CREATION] = $completed;
 				$statusIcons[self::CMD_ANALYSIS] = $completed;
 				$statusIcons[self::CMD_REVISION] = $completed;
 				$statusIcons[self::CMD_ACTIVITIES] = $waiting;
 				break;
-			case 8:
+			case self::STATUS_COMPLETED:
 				$this->defaultCmd = self::CMD_ACTIVITIES;
 				$statusIcons[self::CMD_CREATION] = $completed;
 				$statusIcons[self::CMD_ANALYSIS] = $completed;
@@ -360,7 +370,7 @@ class ilNolejActivityManagementGUI
 
 		$status = $this->status;
 
-		if ($status == 0) {
+		if ($status == self::STATUS_CREATION) {
 
 			/**
 			 * Module title
@@ -538,7 +548,7 @@ class ilNolejActivityManagementGUI
 		$js = $this->initIntLink();
 
 		// TODO: display info in a better way (maybe on the side)
-		if ($this->status == 0) {
+		if ($this->status == self::STATUS_CREATION) {
 			$contentLimits = new ilInfoScreenGUI($this);
 
 			$contentLimits->addSection($this->plugin->txt("limit_content"));
@@ -789,9 +799,25 @@ class ilNolejActivityManagementGUI
 		$this->db->manipulateF(
 			"INSERT INTO " . ilNolejPlugin::TABLE_DOC
 			. " (status, consumed_credit, doc_url, media_type, automatic_mode, language, document_id)"
-			. "VALUES (1, %s, %s, %s, %s, %s, %s);",
-			array("integer", "text", "text", "text", "text", "text"),
-			array($decrementedCredit, $apiUrl, $apiFormat, ilUtil::tf2yn($apiAutomaticMode), $apiLanguage, $result->id)
+			. "VALUES (%s, %s, %s, %s, %s, %s, %s);",
+			array(
+				"integer",
+				"integer",
+				"text",
+				"text",
+				"text",
+				"text",
+				"text"
+			),
+			array(
+				self::STATUS_CREATION_PENDING,
+				$decrementedCredit,
+				$apiUrl,
+				$apiFormat,
+				ilUtil::tf2yn($apiAutomaticMode),
+				$apiLanguage,
+				$result->id
+			)
 		);
 
 		$ass = new NolejActivity($result->id, $DIC->user()->getId(), "transcription");
@@ -813,7 +839,6 @@ class ilNolejActivityManagementGUI
 	 */
 	public function initAnalysisForm()
 	{
-		$dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->status;
 
 		/**
@@ -824,7 +849,7 @@ class ilNolejActivityManagementGUI
 		$title = $this->gui_obj->object->getDocumentTitle();
 		$objTitle = $this->gui_obj->object->getTitle();
 
-		if ($status == 2) {
+		if ($status == self::STATUS_ANALISYS) {
 			$form = new ilPropertyFormGUI();
 			$form->setTitle($this->plugin->txt("obj_xnlj"));
 
@@ -874,7 +899,7 @@ class ilNolejActivityManagementGUI
 				]);
 				// $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 			}
-			$txt->setValue(file_get_contents($dataDir . "/transcription.htm"));
+			$txt->setValue($this->readDocumentFile("transcription.htm"));
 			$form->addItem($txt);
 
 			$form->addCommandButton(self::CMD_ANALYZE, $this->plugin->txt("cmd_" . self::CMD_ANALYZE));
@@ -890,10 +915,117 @@ class ilNolejActivityManagementGUI
 		);
 		$info->addProperty(
 			$this->plugin->txt("prop_transcription"),
-			file_get_contents($dataDir . "/transcription.htm")
+			$this->readDocumentFile("transcription.htm")
 		);
 		
 		return $info;
+	}
+
+	/**
+	 * Read a file of the current document, if exists.
+	 * 
+	 * @param string $filename the name of the file.
+	 * @return string|false return the content if the file exists,
+	 *   false otherwise.
+	 */
+	protected function readDocumentFile($filename)
+	{
+		$dataDir = $this->gui_obj->object->getDataDir();
+		return file_get_contents($dataDir . "/" . $filename);
+	}
+
+	/**
+	 * Get and save the content of a Nolej file
+	 * 
+	 * @param string $pathname the "id" of Nolej file
+	 * @param string $saveAs the name of the file to be saved as
+	 * @param bool $forceDownload if false check if the file already exists
+	 * 
+	 * @return bool returns true on success, false on failure.
+	 */
+	protected function getNolejContent($pathname, $saveAs, $forceDownload = false)
+	{
+		$documentId = $this->gui_obj->object->getDocumentId();
+		$dataDir = $this->gui_obj->object->getDataDir();
+		$filepath = $dataDir . "/" . $saveAs;
+
+		$api_key = $this->plugin->getConfig("api_key", "");
+		$api = new ilNolejAPI($api_key);
+
+		if (!$forceDownload && is_file($filepath)) {
+			return true;
+		}
+
+		$result = $api->get(
+			sprintf("/documents/%s/%s", $documentId, $pathname),
+			false
+		);
+		return $this->writeDocumentFile($saveAs, $result);
+	}
+
+	/**
+	 * Put the content of a file to Nolej
+	 * 
+	 * @param string $pathname the "id" of Nolej file
+	 * @param string $filename the name of the file on disk
+	 * 
+	 * @return bool true on success, false on failure
+	 */
+	protected function putNolejContent($pathname, $filename)
+	{
+		$documentId = $this->gui_obj->object->getDocumentId();
+		$content = $this->readDocumentFile($filename);
+		if (!$content) {
+			return false;
+		}
+
+		$api_key = $this->plugin->getConfig("api_key", "");
+		$api = new ilNolejAPI($api_key);
+
+		$result = $api->put(
+			sprintf("/documents/%s/%s", $documentId, $pathname),
+			false
+		);
+		return true;
+	}
+
+	/**
+	 * Write a file of the current document, and create the
+	 * parent directory if it doesn't exists.
+	 * 
+	 * @param string $filename the name of the file.
+	 * @param string $content the content of the file.
+	 * 
+	 * @return bool returns true on success, false on failure.
+	 */
+	protected function writeDocumentFile($filename, $content)
+	{
+		$dataDir = $this->gui_obj->object->getDataDir();
+		if (!is_dir($dataDir)) {
+			mkdir($dataDir, 0777, true);
+		}
+
+		return file_put_contents(
+			$dataDir . "/" . $filename,
+			$content
+		) !== false;
+	}
+
+	/**
+	 * Update the status of the document
+	 * 
+	 * @param int $newStatus
+	 * @return void
+	 */
+	protected function updateDocumentStatus($newStatus)
+	{
+		$documentId = $this->gui_obj->object->getDocumentId();
+		$this->db->manipulateF(
+			"UPDATE " . ilNolejPlugin::TABLE_DOC
+			. " SET status = %s WHERE document_id = %s;",
+			["integer", "text"],
+			[$newStatus, $documentId]
+		);
 	}
 
 	/**
@@ -903,11 +1035,10 @@ class ilNolejActivityManagementGUI
 	 */
 	protected function downloadTranscription()
 	{
-		$dataDir = $this->gui_obj->object->getDataDir();
 		$documentId = $this->gui_obj->object->getDocumentId();
 		$status = $this->status;
 
-		if ($status < 2) {
+		if ($status < self::STATUS_ANALISYS) {
 			// Transctiption is not ready!
 			ilUtil::sendFailure($this->plugin->txt("err_transcription_not_ready"));
 			return false;
@@ -938,11 +1069,8 @@ class ilNolejActivityManagementGUI
 			[$title, $documentId]
 		);
 
-		if (!is_dir($dataDir)) {
-			mkdir($dataDir, 0777, true);
-		}
-		$success = file_put_contents(
-			$dataDir . "/transcription.htm",
+		$success = $this->writeDocumentFile(
+			"transcription.htm",
 			file_get_contents($result->result)
 		);
 		if (!$success) {
@@ -961,7 +1089,7 @@ class ilNolejActivityManagementGUI
 		$dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->status;
 
-		if ($status < 2) {
+		if ($status < self::STATUS_ANALISYS) {
 			ilUtil::sendInfo($this->plugin->txt("err_transcription_not_ready"));
 			return;
 		}
@@ -1025,35 +1153,16 @@ class ilNolejActivityManagementGUI
 			true
 		);
 
-		if (!is_object($result)) {
-			ilUtil::sendFailure("1");
+		if (
+			!is_object($result) ||
+			!property_exists($result, "result") ||
+			!is_string($result->result) ||
+			$result->result != "ok"
+		) {
 			return;
 		}
-		if (!property_exists($result, "result")) {
-			ilUtil::sendFailure("2");
-			return;
-		}
-		if (!is_string($result->result)) {
-			ilUtil::sendFailure("3");
-			return;
-		}
-		if ($result->result != "ok") {
-			ilUtil::sendFailure($result->result);
-			// return;
-		}
-		// return;
-		// 	ilUtil::sendFailure($this->plugin->txt("err_doc_response") . " " . print_r($result, true));
-		// 	$form->setValuesByPost();
-		// 	$tpl->setContent($form->getHTML());
-		// 	return;
-		// // }
 
-		$this->db->manipulateF(
-			"UPDATE " . ilNolejPlugin::TABLE_DOC
-			. " SET status = 3 WHERE document_id = %s;",
-			["text"],
-			[$documentId]
-		);
+		$this->updateDocumentStatus(self::STATUS_ANALISYS_PENDING);
 
 		$ass = new NolejActivity($documentId, $DIC->user()->getId(), "analysis");
 		$ass->withStatus("ok")
@@ -1120,20 +1229,50 @@ class ilNolejActivityManagementGUI
 
 	public function revision()
 	{
+		$dataDir = $this->gui_obj->object->getDataDir();
+		$status = $this->status;
+
+		if ($status < self::STATUS_REVISION) {
+			ilUtil::sendInfo($this->plugin->txt("err_transcription_not_ready"));
+			return;
+		}
+
+		if (!file_exists($dataDir . "/transcription.htm")) {
+			$downloadSuccess = $this->downloadTranscription();
+			if (!$downloadSuccess) {
+				return;
+			}
+		}
+
 		$this->summary();
+	}
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initSummaryForm()
+	{
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->plugin->txt(self::SUBTAB_SUMMARY));
+
+		$this->getNolejContent("summary", "summary.json");
+		$json = $this->readDocumentFile("summary.json");
+		if (!$json) {
+			ilUtil::sendFailure("err_summary_file");
+		}
+
+		include_once(ilNolejPlugin::PLUGIN_DIR . "/Form/class.ilMultiSummaryInputGUI.php");
+		$input = new ilMultiSummaryInputGUI("test", "test");
+		$form->addItem($input);
+		return $form;
 	}
 
 	public function summary()
 	{
 		global $tpl;
 		$this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
-
-		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->plugin->txt(self::SUBTAB_SUMMARY));
-
-		include_once(ilNolejPlugin::PLUGIN_DIR . "/Form/class.ilMultiSummaryInputGUI.php");
-		$input = new ilMultiSummaryInputGUI("test", "test");
-		$form->addItem($input);
+		$form = $this->initSummaryForm();
+		
 		$tpl->setContent($form->getHTML());
 	}
 
