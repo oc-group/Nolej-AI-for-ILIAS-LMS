@@ -1283,6 +1283,7 @@ class ilNolejActivityManagementGUI
 				sprintf("summary[%d]['text']", $i)
 			);
 			$txt->setValue($summary->summary[$i]->text);
+			$txt->setRows(count($summary->summary[$i]->text) / 150);
 			$form->addItem($txt);
 		}
 
