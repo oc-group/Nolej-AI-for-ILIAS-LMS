@@ -140,4 +140,7 @@ limit_min_characters#:#
 limit_max_size#:#
 limit_type#:#
 limit_max_pages#:#
+limit_audio#:#
+limit_video#:#
+limit_doc#:#
 

@@ -538,8 +538,7 @@ class ilNolejActivityManagementGUI
 		// TODO: display info in a better way (maybe on the side)
 		if ($this->status == 0) {
 			$info = new ilInfoScreenGUI($this);
-			$info->addSection($this->plugin->txt("prop_file_limits"));
-			$info->addSection($this->plugin->txt("prop_" . self::PROP_M_AUDIO));
+			$info->addSection($this->plugin->txt("limit_audio"));
 			$info->addProperty(
 				$this->plugin->txt("limit_max_duration"),
 				sprintf($this->plugin->txt("limit_minutes"), 50)
@@ -556,7 +555,7 @@ class ilNolejActivityManagementGUI
 				$this->plugin->txt("limit_type"),
 				implode(", ", self::TYPE_AUDIO)
 			);
-			$info->addSection($this->plugin->txt("prop_" . self::PROP_M_VIDEO));
+			$info->addSection($this->plugin->txt("limit_video"));
 			$info->addProperty(
 				$this->plugin->txt("limit_max_duration"),
 				sprintf($this->plugin->txt("limit_minutes"), 50)
@@ -573,7 +572,7 @@ class ilNolejActivityManagementGUI
 				$this->plugin->txt("limit_type"),
 				implode(", ", self::TYPE_VIDEO)
 			);
-			$info->addSection($this->plugin->txt("prop_" . self::PROP_M_FILE));
+			$info->addSection($this->plugin->txt("limit_doc"));
 			$info->addProperty(
 				$this->plugin->txt("limit_max_pages"),
 				"50"

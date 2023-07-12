@@ -140,4 +140,7 @@ limit_min_characters#:#Minimum characters
 limit_max_size#:#File maximum size
 limit_type#:#Allowed types
 limit_max_pages#:#Maximum number of pages
+limit_audio#:#Audio limits
+limit_video#:#Video limits
+limit_doc#:#Document limits
 
