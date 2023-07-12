@@ -450,6 +450,8 @@ class ilNolejActivityManagementGUI
 			$mediaSource->addOption($mediaText);
 			/* Text area */
 			$txt = new ilTextAreaInputGUI("", self::PROP_M_TEXTAREA);
+			$txt->setRows(50);
+			$txt->setMaxNumOfChars(50000);
 			if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
 				$txt->setUseRte(true);
 				$txt->setRteTags([
