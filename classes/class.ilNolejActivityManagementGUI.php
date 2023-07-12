@@ -1283,7 +1283,7 @@ class ilNolejActivityManagementGUI
 				sprintf("summary[%d]['text']", $i)
 			);
 			$txt->setValue($summary->summary[$i]->text);
-			$txt->setRows(strlen($summary->summary[$i]->text) / 120);
+			$txt->setRows(6);
 			$form->addItem($txt);
 		}
 
@@ -1295,6 +1295,7 @@ class ilNolejActivityManagementGUI
 		$form->addItem($section);
 		$txt = new ilTextAreaInputGUI("", "abstract");
 		$txt->setValue($summary->abstract);
+		$txt->setRows(10);
 		$form->addItem($txt);
 
 		/**
@@ -1303,9 +1304,11 @@ class ilNolejActivityManagementGUI
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->plugin->txt("summary_keypoints"));
 		$form->addItem($section);
-		$txt = new ilTextAreaInputGUI("", "keypoints");
-		$txt->setValue($summary->keypoints[0]);
-		$form->addItem($txt);
+		for ($i = 0, $len = count($summary->keypoints); $i < $len; $i++) {
+			$txt = new ilTextInputGUI("", sprintf("keypoints[%d]", $i));
+			$txt->setValue($summary->keypoints[$i]);
+			$form->addItem($txt);
+		}
 
 		return $form;
 	}
