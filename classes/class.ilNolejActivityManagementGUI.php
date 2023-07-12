@@ -538,6 +538,10 @@ class ilNolejActivityManagementGUI
 		// TODO: display info in a better way (maybe on the side)
 		if ($this->status == 0) {
 			$info = new ilInfoScreenGUI($this);
+
+			$info->addSection($this->plugin->txt("limit_content"));
+			// $info->
+			
 			$info->hideFurtherSections(true);
 			$info->addSection($this->plugin->txt("limit_audio"));
 			$info->addProperty(

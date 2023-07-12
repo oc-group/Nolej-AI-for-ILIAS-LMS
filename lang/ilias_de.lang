@@ -57,7 +57,7 @@ prop_content_info#:#
 prop_description#:#
 prop_file#:#
 prop_file_info#:#
-prop_file_limits#:#
+limit_content#:#
 prop_freetext#:#
 prop_freetext_info#:#
 prop_input_file#:#

@@ -57,7 +57,7 @@ prop_content_info#:#Analizza il contenuto della pagina (1 credito)
 prop_description#:#Descrizione
 prop_file#:#File
 prop_file_info#:#Carica un file (audio, video, o un documento).
-prop_file_limits#:#Limiti per i contenuti
+limit_content#:#Limiti per i contenuti
 prop_freetext#:#Testo
 prop_freetext_info#:#Scrivi direttamente qui un testo.
 prop_input_file#:#File
