@@ -1292,10 +1292,7 @@ class ilNolejActivityManagementGUI
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->plugin->txt("summary_abstract"));
 		$form->addItem($section);
-		$txt = new ilTextAreaInputGUI(
-			$this->plugin->txt(""),
-			"abstract"
-		);
+		$txt = new ilTextAreaInputGUI("", "abstract");
 		$txt->setValue($summary->abstract);
 		$form->addItem($txt);
 
@@ -1305,10 +1302,7 @@ class ilNolejActivityManagementGUI
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->plugin->txt("summary_keypoints"));
 		$form->addItem($section);
-		$txt = new ilTextAreaInputGUI(
-			$this->plugin->txt(""),
-			"keypoints"
-		);
+		$txt = new ilTextAreaInputGUI("", "keypoints");
 		$txt->setValue($summary->keypoints[0]);
 		$form->addItem($txt);
 
