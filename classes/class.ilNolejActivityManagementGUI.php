@@ -543,6 +543,9 @@ class ilNolejActivityManagementGUI
 
 			$info = new ilInfoScreenGUI($this);
 			$info->hideFurtherSections(true);
+
+			$info->addSection("");
+			$info->addProperty("", "");
 			$info->addSection($this->plugin->txt("limit_audio"));
 			$info->addProperty(
 				$this->plugin->txt("limit_max_duration"),
