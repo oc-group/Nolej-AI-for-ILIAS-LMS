@@ -1436,9 +1436,6 @@ class ilNolejActivityManagementGUI
 		$questions = json_decode($json);
 		$questions = $questions->questions;
 
-		/**
-		 * Summary -> summary
-		 */
 		$length = count($questions);
 		$length_input = new ilHiddenInputGUI("questions_count");
 		$length_input->setValue($length);
@@ -1582,7 +1579,7 @@ class ilNolejActivityManagementGUI
 					"answer" => $answer,
 					"use_for_grading" => $useForGrading,
 					"question" => $question,
-					"questionType" => $questionType,
+					"question_type" => $questionType,
 					"distractors" => $distractors,
 					"selected_distractor" => $selectedDistractor
 				];
