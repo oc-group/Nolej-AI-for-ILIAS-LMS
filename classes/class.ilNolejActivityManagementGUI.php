@@ -1347,7 +1347,7 @@ class ilNolejActivityManagementGUI
 
 	public function saveSummary()
 	{
-		$form = $this->initSummaryForm();
+		$form = $this->initSummaryForm(true);
 	}
 
 	public function questions()
