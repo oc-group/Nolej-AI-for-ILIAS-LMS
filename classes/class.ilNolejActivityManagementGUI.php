@@ -1400,7 +1400,19 @@ class ilNolejActivityManagementGUI
 			}
 		}
 
-		$this->writeDocumentFile("summary.json", json_encode($summary));
+		$success = $this->writeDocumentFile("summary.json", json_encode($summary));
+		if (!$success) {
+			ilUtil::sendFailure($this->plugin->txt("err_summary_save"));
+			$this->summary();
+			return;
+		}
+
+		$success = $this->putNolejContent("summary", "summary.json");
+		if (!$success) {
+			ilUtil::sendFailure($this->plugin->txt("err_summary_put"));
+		} else {
+			ilUtil::sendSuccess($this->plugin->txt("summary_saved"));
+		}
 		$this->summary();
 	}
 
