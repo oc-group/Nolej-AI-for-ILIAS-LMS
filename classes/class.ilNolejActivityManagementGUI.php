@@ -1434,6 +1434,7 @@ class ilNolejActivityManagementGUI
 		}
 
 		$questions = json_decode($json);
+		$questions = $questions->questions;
 
 		/**
 		 * Summary -> summary
