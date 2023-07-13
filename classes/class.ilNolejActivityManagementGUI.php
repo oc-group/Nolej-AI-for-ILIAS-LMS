@@ -1424,7 +1424,7 @@ class ilNolejActivityManagementGUI
 	protected function initQuestionsForm($a_use_post = false, $a_disabled = false)
 	{
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->plugin->txt("summary_questions"));
+		$form->setTitle($this->plugin->txt("review_questions"));
 
 		$this->getNolejContent("questions", "questions.json");
 		$json = $this->readDocumentFile("questions.json");
