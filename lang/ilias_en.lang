@@ -131,9 +131,9 @@ concepts_enable#:#concepts_enable
 concepts_use_for_cw#:#concepts_use_for_cw
 concepts_use_for_dtw#:#concepts_use_for_dtw
 concepts_use_for_ftw#:#concepts_use_for_ftw
-concepts_use_for_gaming#:#concepts_use_for_gaming
-concepts_use_for_practice#:#concepts_use_for_practice
-concepts_use_for_assessment#:#concepts_use_for_assessment
+concepts_use_for_gaming#:#Use for gaming
+concepts_use_for_practice#:#Use for practice
+concepts_use_for_assessment#:#Use for assessment
 limit_max_duration#:#Max duration
 limit_minutes#:#%s minutes
 limit_min_characters#:#Minimum characters
@@ -163,4 +163,5 @@ concepts_language#:#Language
 concepts_game_cw#:#CW
 concepts_game_dtw#:#DTW
 concepts_game_ftw#:#FTW
+concepts_games#:#Available games
 

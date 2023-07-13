@@ -1709,7 +1709,7 @@ class ilNolejActivityManagementGUI
 			$form->addItem($games);
 
 			$gamesLabel = new ilNonEditableValueGUI(
-				$this->plugin->txt("concepts_games_label"),
+				$this->plugin->txt("concepts_games"),
 				sprintf("question_%d_games_label", $i)
 			);
 			$gamesLabelTxt = [];
