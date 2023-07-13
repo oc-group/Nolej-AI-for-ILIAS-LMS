@@ -1447,55 +1447,44 @@ class ilNolejActivityManagementGUI
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle(sprintf($this->plugin->txt("questions_n"), $i + 1));
 			$form->addItem($section);
-			// $enable = $form->getInput(sprintf("question_%d_enable", $i)); //bool
-			// $answer = $form->getInput(sprintf("question_%d_answer", $i));
-			// $useForGrading = $form->getInput(sprintf("question_%d_ufg", $i)); //bool
-			// $question = $form->getInput(sprintf("question_%d_question", $i));
-			// $distractorsLength = $form->getInput(sprintf("question_%d_distractors", $i));
-			// $distractors = [];
-			// for ($j = 0; $j < $distractorsLength; $j++) {
-			// 	$distractor = $form->getInput(sprintf("question_%d_distractor_%d", $i, $j));
-			// 	if (!empty($distractor)) {
-			// 		$distractors[] = $distractor;
-			// 	}
-			// }
+
 			$id = new ilHiddenInputGUI(sprintf("question_%d_id", $i));
 			$id->setValue($questions[$i]->id);
 			$form->addItem($id);
-			
+
 			$explaination = new ilNonEditableValueGUI(
 				$this->plugin->txt("questions_explaination"),
 				sprintf("question_%d_explaination", $i)
 			);
 			$explaination->setValue($questions[$i]->explaination);
 			$form->addItem($explaination);
-			
+
 			$enable = new ilCheckBoxInputGUI(
 				$this->plugin->txt("questions_enable"),
 				sprintf("question_%d_enable", $i)
 			);
 			$form->addItem($enable);
-			
+
 			$answer = new ilTextAreaInputGUI(
 				$this->plugin->txt("questions_answer"),
 				sprintf("summary_%d_answer", $i)
 			);
 			$form->addItem($answer);
 			$answer->setRows(3);
-			
+
 			$useForGrading = new ilCheckBoxInputGUI(
 				$this->plugin->txt("questions_use_for_grading"),
 				sprintf("question_%d_ufg", $i)
 			);
 			$form->addItem($useForGrading);
-			
+
 			$question = new ilTextAreaInputGUI(
 				$this->plugin->txt("questions_answer"),
 				sprintf("summary_%d_question", $i)
 			);
 			$question->setRows(3);
 			$form->addItem($question);
-			
+
 			$questionType = new ilHiddenInputGUI(sprintf("question_%d_type", $i));
 			$questionType->setValue($questions[$i]->question_type);
 			$form->addItem($questionType);
@@ -1532,9 +1521,9 @@ class ilNolejActivityManagementGUI
 				$useForGrading->setValueByArray($_POST);
 				$question->setValueByArray($_POST);
 			} else {
-				$enable->setValue($questions[$i]->enable);
+				$enable->setChecked($questions[$i]->enable);
 				$answer->setValue($questions[$i]->answer);
-				$useForGrading->setValue($questions[$i]->use_for_grading);
+				$useForGrading->setChecked($questions[$i]->use_for_grading);
 				$question->setValue($questions[$i]->question);
 			}
 		}
