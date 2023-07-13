@@ -1278,14 +1278,14 @@ class ilNolejActivityManagementGUI
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->plugin->txt("review_summary"));
 		$form->addItem($section);
-		$length = $a_use_post ? $_POST["summary_count"] : count($summary->summary);
+		$length = count($summary->summary);
 		$length_input = new ilHiddenInputGUI("summary_count");
 		$length_input->setValue($length);
 		$form->addItem($length_input);
 		for($i = 0; $i < $length; $i++) {
 			$title = new ilTextInputGUI(
 				$this->plugin->txt("prop_" . self::PROP_TITLE),
-				sprintf("summary[%d]['title']", $i)
+				sprintf("summary_%d_title", $i)
 			);
 			if ($a_use_post) {
 				$title->setValueByArray($_POST);
@@ -1296,7 +1296,7 @@ class ilNolejActivityManagementGUI
 
 			$txt = new ilTextAreaInputGUI(
 				$this->plugin->txt("prop_" . self::PROP_M_TEXT),
-				sprintf("summary[%d]['text']", $i)
+				sprintf("summary_%d_text", $i)
 			);
 			if ($a_use_post) {
 				$txt->setValueByArray($_POST);
@@ -1328,14 +1328,14 @@ class ilNolejActivityManagementGUI
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->plugin->txt("summary_keypoints"));
 		$form->addItem($section);
-		$length = $a_use_post ? $_POST["keypoints_count"] : count($summary->keypoints);
+		$length = count($summary->keypoints);
 		$length_input = new ilHiddenInputGUI("keypoints_count");
 		$length_input->setValue($length);
 		$form->addItem($length_input);
 		for($i = 0; $i < $length; $i++) {
 			$txt = new ilTextAreaInputGUI(
 				"",
-				sprintf("keypoints[%d]", $i)
+				sprintf("keypoints_%d", $i)
 			);
 			if ($a_use_post) {
 				$txt->setValueByArray($_POST);
@@ -1363,8 +1363,45 @@ class ilNolejActivityManagementGUI
 
 	public function saveSummary()
 	{
+		global $tpl;
 		$form = $this->initSummaryForm(true);
+		if (!$form->checkInput()) {
+			// input not ok, then
+			$this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
+			$tpl->setContent($form->getHTML());
+			return;
+		}
 
+		$summary = [
+			"summary" => [],
+			"abstract" => "",
+			"keypoints" => []
+		];
+
+		$length = $form->getInput("summary_count");
+		for ($i = 0; $i < $length; $i++) {
+			$title = $form->getInput(sprintf("summary_%d_title", $i));
+			$txt = $form->getInput(sprintf("summary_%d_text", $i));
+			if (!empty($title) && !empty($txt)) {
+				$summary["summary"][] = [
+					"title" => $title,
+					"text" => $txt
+				];
+			}
+		}
+
+		$summary["abstract"] = $form->getInput("abstract");
+
+		$length = $form->getInput("keypoints_count");
+		for ($i = 0; $i < $length; $i++) {
+			$txt = $form->getInput(sprintf("keypoints_%d", $i));
+			if (!empty($txt)) {
+				$summary["keypoints"][] = $txt;
+			}
+		}
+
+		$this->writeDocumentFile("summary.json", json_encode($summary));
+		$this->summary();
 	}
 
 	public function questions()
