@@ -1467,7 +1467,7 @@ class ilNolejActivityManagementGUI
 
 			$answer = new ilTextAreaInputGUI(
 				$this->plugin->txt("questions_answer"),
-				sprintf("summary_%d_answer", $i)
+				sprintf("question_%d_answer", $i)
 			);
 			$form->addItem($answer);
 			$answer->setRows(3);
@@ -1480,7 +1480,7 @@ class ilNolejActivityManagementGUI
 
 			$question = new ilTextAreaInputGUI(
 				$this->plugin->txt("questions_answer"),
-				sprintf("summary_%d_question", $i)
+				sprintf("question_%d_question", $i)
 			);
 			$question->setRows(3);
 			$form->addItem($question);
@@ -1560,9 +1560,9 @@ class ilNolejActivityManagementGUI
 		for ($i = 0; $i < $length; $i++) {
 			$id = $form->getInput(sprintf("question_%d_id", $i));
 			$explaination = $form->getInput(sprintf("question_%d_explaination", $i));
-			$enable = $form->getInput(sprintf("question_%d_enable", $i)); //bool
+			$enable = (bool) $form->getInput(sprintf("question_%d_enable", $i));
 			$answer = $form->getInput(sprintf("question_%d_answer", $i));
-			$useForGrading = $form->getInput(sprintf("question_%d_ufg", $i)); //bool
+			$useForGrading = (bool) $form->getInput(sprintf("question_%d_ufg", $i));
 			$question = $form->getInput(sprintf("question_%d_question", $i));
 			$questionType = $form->getInput(sprintf("question_%d_type", $i));
 			$distractorsLength = $form->getInput(sprintf("question_%d_distractors", $i));
@@ -1589,7 +1589,10 @@ class ilNolejActivityManagementGUI
 			}
 		}
 
-		$success = $this->writeDocumentFile("questions.json", json_encode($questions));
+		$success = $this->writeDocumentFile(
+			"questions.json",
+			json_encode(["questions" => $questions])
+		);
 		if (!$success) {
 			ilUtil::sendFailure($this->plugin->txt("err_questions_save"));
 			$this->questions();
