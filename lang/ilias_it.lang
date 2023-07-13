@@ -152,4 +152,15 @@ err_questions_save#:#Impossibile salvare il file delle domande. Riprova, e se pe
 err_questions_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 questions_saved#:#Le domande sono state aggiornate.
 questions_n#:#Domanda n° %d
+err_concepts_file#:#Impossibile caricare i concetti. Per favore, riprova.
+err_concepts_save#:#Impossibile salvare il file dei concetti. Riprova, e se persiste contatta un Amministratore.
+err_concepts_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
+concepts_saved#:#I concetti sono stati aggiornati.
+concepts_n#:#Concetto n° %d
+concepts_definition#:#Definizione
+concepts_label#:#Parola chiave
+concepts_language#:#Lingua
+concepts_game_cw#:#CW
+concepts_game_dtw#:#DTW
+concepts_game_ftw#:#FTW
 

@@ -152,4 +152,15 @@ err_questions_save#:#
 err_questions_put#:#
 questions_saved#:#
 questions_n#:#
+err_concepts_file#:#
+err_concepts_save#:#
+err_concepts_put#:#
+concepts_saved#:#
+concepts_n#:#
+concepts_definition#:#
+concepts_label#:#
+concepts_language#:#
+concepts_game_cw#:#
+concepts_game_dtw#:#
+concepts_game_ftw#:#
 
