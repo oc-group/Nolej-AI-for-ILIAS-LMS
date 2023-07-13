@@ -1605,16 +1605,219 @@ class ilNolejActivityManagementGUI
 		$this->questions();
 	}
 
+	/**
+	 * @param bool $a_use_post Set value from POST, if false load summary file
+	 * @param bool $a_disabled Set all inputs disabled
+	 * 
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initConceptsForm($a_use_post = false, $a_disabled = false)
+	{
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->plugin->txt("review_concepts"));
+
+		$this->getNolejContent("concepts", "concepts.json");
+		$json = $this->readDocumentFile("concepts.json");
+		if (!$json) {
+			ilUtil::sendFailure("err_concepts_file");
+			return $form;
+		}
+
+		$concepts = json_decode($json);
+		$concepts = $concepts->concepts;
+
+		$length = count($concepts);
+		$length_input = new ilHiddenInputGUI("concepts_count");
+		$length_input->setValue($length);
+		$form->addItem($length_input);
+		for($i = 0; $i < $length; $i++) {
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle(sprintf($this->plugin->txt("concepts_n"), $i + 1));
+			$form->addItem($section);
+
+			$id = new ilHiddenInputGUI(sprintf("concept_%d_id", $i));
+			$id->setValue($concepts[$i]->id);
+			$form->addItem($id);
+
+			$enable = new ilCheckBoxInputGUI(
+				$this->plugin->txt("concepts_enable"),
+				sprintf("concept_%d_enable", $i)
+			);
+			$form->addItem($enable);
+
+			$useForCW = new ilCheckBoxInputGUI(
+				$this->plugin->txt("concepts_use_for_cw"),
+				sprintf("concept_%d_cw", $i)
+			);
+			$form->addItem($useForCW);
+
+			$useForDTW = new ilCheckBoxInputGUI(
+				$this->plugin->txt("concepts_use_for_dtw"),
+				sprintf("concept_%d_dtw", $i)
+			);
+			$form->addItem($useForDTW);
+
+			$useForFTW = new ilCheckBoxInputGUI(
+				$this->plugin->txt("concepts_use_for_ftw"),
+				sprintf("concept_%d_ftw", $i)
+			);
+			$form->addItem($useForFTW);
+
+			$useForGaming = new ilCheckBoxInputGUI(
+				$this->plugin->txt("concepts_use_for_gaming"),
+				sprintf("concept_%d_gaming", $i)
+			);
+			$form->addItem($useForGaming);
+
+			$useForPractice = new ilCheckBoxInputGUI(
+				$this->plugin->txt("concepts_use_for_practice"),
+				sprintf("concept_%d_practice", $i)
+			);
+			$form->addItem($useForPractice);
+
+			$useForAssessment = new ilCheckBoxInputGUI(
+				$this->plugin->txt("concepts_use_for_assessment"),
+				sprintf("concept_%d_assessment", $i)
+			);
+			$form->addItem($useForAssessment);
+
+			$label = new ilNonEditableValueGUI(
+				$this->plugin->txt("concepts_label"),
+				sprintf("question_%d_label", $i)
+			);
+			$label->setValue($concepts[$i]->concept->label);
+			$form->addItem($label);
+
+			$language = new ilNonEditableValueGUI(
+				$this->plugin->txt("concepts_language"),
+				sprintf("question_%d_language", $i)
+			);
+			$language->setValue($concepts[$i]->concept->language);
+			$form->addItem($language);
+
+			$definition = new ilTextAreaInputGUI(
+				$this->plugin->txt("concepts_definition"),
+				sprintf("question_%d_definition", $i)
+			);
+			$form->addItem($definition);
+			$definition->setRows(4);
+
+			$games = new ilHiddenInputGUI(
+				sprintf("question_%d_games", $i)
+			);
+			$games->setValue(json_encode($concepts[$i]->concept->available_games));
+			$form->addItem($games);
+
+			$gamesLabel = new ilNonEditableValueGUI(
+				$this->plugin->txt("concepts_games_label"),
+				sprintf("question_%d_games_label", $i)
+			);
+			$gamesLabelTxt = [];
+			for ($j = 0, $nGames = count($concepts[$i]->concept->available_games); $j < $nGames; $j++) {
+				$gamesLabelTxt[] = $this->plugin->txt("concepts_game_" . $concepts[$i]->concept->available_games[$j]);
+			}
+			$gamesLabel->setValue(implode(", ", $gamesLabelTxt));
+			$form->addItem($gamesLabel);
+
+			if ($a_use_post) {
+				$enable->setValueByArray($_POST);
+				$useForCW->setValueByArray($_POST);
+				$useForDTW->setValueByArray($_POST);
+				$useForFTW->setValueByArray($_POST);
+				$useForGaming->setValueByArray($_POST);
+				$useForPractice->setValueByArray($_POST);
+				$useForAssessment->setValueByArray($_POST);
+				$definition->setValueByArray($_POST);
+			} else {
+				$enable->setChecked($concepts[$i]->enable);
+				$useForCW->setChecked($concepts[$i]->use_for_cw);
+				$useForDTW->setChecked($concepts[$i]->use_for_dtw);
+				$useForFTW->setChecked($concepts[$i]->use_for_ftw);
+				$useForGaming->setChecked($concepts[$i]->use_for_gaming);
+				$useForPractice->setChecked($concepts[$i]->use_for_practice);
+				$useForAssessment->setChecked($concepts[$i]->use_for_assessment);
+				$definition->setValue($concepts[$i]->concept->definition);
+			}
+		}
+
+		$form->addCommandButton(self::CMD_CONCEPTS_SAVE, $this->plugin->txt("cmd_save"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		return $form;
+	}
+
 	public function concepts()
 	{
 		global $tpl;
 		$this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
-		// TODO
+		$form = $this->initConceptsForm();
+
+		$tpl->setContent($form->getHTML());
 	}
 
 	public function saveConcepts()
 	{
-		//
+		global $tpl;
+		$form = $this->initConceptsForm(true);
+		if (!$form->checkInput()) {
+			// input not ok, then
+			$this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
+		$concepts = [];
+
+		$length = $form->getInput("concepts_count");
+		for ($i = 0; $i < $length; $i++) {
+			$id = $form->getInput(sprintf("concept_%d_id", $i));
+			$useForCW = $form->getInput(sprintf("concept_%d_cw", $i));
+			$useForDTW = $form->getInput(sprintf("concept_%d_dtw", $i));
+			$useForFTW = $form->getInput(sprintf("concept_%d_ftw", $i));
+			$useForGaming = $form->getInput(sprintf("concept_%d_gaming", $i));
+			$useForPractice = $form->getInput(sprintf("concept_%d_practice", $i));
+			$useForAssessment = $form->getInput(sprintf("concept_%d_assessment", $i));
+			$label = $form->getInput(sprintf("concept_%d_label", $i));
+			$language = $form->getInput(sprintf("concept_%d_language", $i));
+			$definition = $form->getInput(sprintf("concept_%d_definition", $i));
+			$games = $form->getInput(sprintf("concept_%d_games", $i));
+
+			if (!empty($id)) {
+				$concepts[] = [
+					"id" => $id,
+					"use_for_cw" => $useForCW,
+					"use_for_dtw" => $useForDTW,
+					"use_for_ftw" => $useForFTW,
+					"use_for_gaming" => $useForGaming,
+					"use_for_practice" => $useForPractice,
+					"use_for_assessment" => $useForAssessment,
+					"concept" => [
+						"label" => $label,
+						"language" => $language,
+						"definition" => $definition,
+						"available_games" => $games
+					]
+				];
+			}
+		}
+
+		$success = $this->writeDocumentFile(
+			"concepts.json",
+			json_encode(["concepts" => $concepts])
+		);
+		if (!$success) {
+			ilUtil::sendFailure($this->plugin->txt("err_concepts_save"));
+			$this->questions();
+			return;
+		}
+
+		$success = $this->putNolejContent("concepts", "concepts.json");
+		if (!$success) {
+			ilUtil::sendFailure($this->plugin->txt("err_concepts_put"));
+		} else {
+			ilUtil::sendSuccess($this->plugin->txt("concepts_saved"));
+		}
+		$this->concepts();
 	}
 
 	public function review()
