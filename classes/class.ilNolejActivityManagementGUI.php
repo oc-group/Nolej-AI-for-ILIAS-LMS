@@ -1515,7 +1515,7 @@ class ilNolejActivityManagementGUI
 			$form->addItem($distractors);
 			for ($j = 0; $j < $distractorsLength; $j++) {
 				$distractor = new ilTextAreaInputGUI(
-					$j == 0 ? $this->Plugin->txt("questions_distractors") : "",
+					$j == 0 ? $this->plugin->txt("questions_distractors") : "",
 					sprintf("question_%d_distractor_%d", $i, $j)
 				);
 				$form->addItem($distractor);
