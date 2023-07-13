@@ -48,9 +48,16 @@ class ilNolejAPI {
 		return $object !== null ? $object : $response->getBody();
 	}
 
-	public function put($path, $data = array(), $decode = true)
+	/**
+	 * Put to Nolej server
+	 * @param string $path
+	 * @param mixed $data
+	 * @param bool $encode input's data
+	 * @param bool $decode output
+	 */
+	public function put($path, $data = array(), $encode = false, $decode = true)
 	{
-		$data_json = json_encode($data);
+		$data_json = $encode ? json_encode($data) : $data;
 		$url = self::API_URL . $path;
 
 		$client = new GuzzleHttp\Client;
