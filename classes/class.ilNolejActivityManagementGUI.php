@@ -20,8 +20,11 @@ class ilNolejActivityManagementGUI
 	const CMD_REVISION = "revision";
 	const CMD_REVIEW = "review";
 	const CMD_SUMMARY = "summary";
+	const CMD_SUMMARY_SAVE = "saveSummary";
 	const CMD_QUESTIONS = "questions";
+	const CMD_QUESTIONS_SAVE = "saveQuestions";
 	const CMD_CONCEPTS = "concepts";
+	const CMD_CONCEPTS_SAVE = "saveConcepts";
 	const CMD_ACTIVITIES = "activities";
 	const CMD_GENERATE = "generate";
 
@@ -154,8 +157,11 @@ class ilNolejActivityManagementGUI
 					case self::CMD_ANALYZE:
 					case self::CMD_REVISION:
 					case self::CMD_SUMMARY:
+					case self::CMD_SUMMARY_SAVE:
 					case self::CMD_QUESTIONS:
+					case self::CMD_QUESTIONS_SAVE:
 					case self::CMD_CONCEPTS:
+					case self::CMD_CONCEPTS_SAVE:
 					case self::CMD_REVIEW:
 					case self::CMD_ACTIVITIES:
 					case self::CMD_GENERATE:
@@ -1248,20 +1254,31 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
+	 * @param bool $a_use_post Set value from POST, if false load summary file
+	 * @param bool $a_disabled Set all inputs disabled
+	 * 
 	 * @return ilPropertyFormGUI
 	 */
-	protected function initSummaryForm()
+	protected function initSummaryForm($a_use_post = false, $a_disabled = false)
 	{
 		$form = new ilPropertyFormGUI();
 
-		$this->getNolejContent("summary", "summary.json");
-		$json = $this->readDocumentFile("summary.json");
-		if (!$json) {
-			ilUtil::sendFailure("err_summary_file");
-			return $form;
-		}
+		if ($a_use_post) {
+			$this->getNolejContent("summary", "summary.json");
+			$json = $this->readDocumentFile("summary.json");
+			if (!$json) {
+				ilUtil::sendFailure("err_summary_file");
+				return $form;
+			}
 
-		$summary = json_decode($json);
+			$summary = json_decode($json);
+		} else {
+			$summary = (object) [
+				"summary" => $_POST["summary"],
+				"abstract" => $_POST["abstract"],
+				"keypoints" => $_POST["keypoints"]
+			];
+		}
 
 		/**
 		 * Summary -> summary
@@ -1312,11 +1329,9 @@ class ilNolejActivityManagementGUI
 			$txt->setRows(2);
 			$form->addItem($txt);
 		}
-		// $txt = new ilTextInputGUI("", "keypoints");
-		// $txt->setMulti(true);
-		// $txt->setMultiValues($summary->keypoints);
-		// $txt->setSize(100);
-		// $form->addItem($txt);
+
+		$form->addCommandButton(self::CMD_SUMMARY_SAVE, $this->plugin->txt("cmd_save"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		return $form;
 	}
@@ -1330,6 +1345,11 @@ class ilNolejActivityManagementGUI
 		$tpl->setContent($form->getHTML());
 	}
 
+	public function saveSummary()
+	{
+		$form = $this->initSummaryForm();
+	}
+
 	public function questions()
 	{
 		global $tpl;
@@ -1337,11 +1357,21 @@ class ilNolejActivityManagementGUI
 		// TODO
 	}
 
+	public function saveQuestions()
+	{
+		//
+	}
+
 	public function concepts()
 	{
 		global $tpl;
 		$this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
 		// TODO
+	}
+
+	public function saveConcepts()
+	{
+		//
 	}
 
 	public function review()
