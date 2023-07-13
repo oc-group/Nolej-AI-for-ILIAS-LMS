@@ -1476,7 +1476,7 @@ class ilNolejActivityManagementGUI
 			$form->addItem($useForGrading);
 
 			$question = new ilTextAreaInputGUI(
-				$this->plugin->txt("questions_answer"),
+				$this->plugin->txt("questions_question"),
 				sprintf("question_%d_question", $i)
 			);
 			$question->setRows(3);
