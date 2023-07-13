@@ -1463,7 +1463,7 @@ class ilNolejActivityManagementGUI
 			$id->setValue($questions[$i]->id);
 			$form->addItem($id);
 			
-			$explaination = new ilNonEditableInputGUI(
+			$explaination = new ilNonEditableValueGUI(
 				$this->plugin->txt("questions_explaination"),
 				sprintf("question_%d_explaination", $i)
 			);
@@ -1500,7 +1500,7 @@ class ilNolejActivityManagementGUI
 			$questionType->setValue($questions[$i]->question_type);
 			$form->addItem($questionType);
 
-			$questionTypeLabel = new ilNonEditableInputGUI(
+			$questionTypeLabel = new ilNonEditableValueGUI(
 				$this->plugin->txt("questions_question_type"),
 				sprintf("question_%d_type_label", $i)
 			);
