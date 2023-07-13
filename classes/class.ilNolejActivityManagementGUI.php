@@ -1263,7 +1263,7 @@ class ilNolejActivityManagementGUI
 	{
 		$form = new ilPropertyFormGUI();
 
-		if ($a_use_post) {
+		if (!$a_use_post) {
 			$this->getNolejContent("summary", "summary.json");
 			$json = $this->readDocumentFile("summary.json");
 			if (!$json) {
