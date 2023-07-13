@@ -1303,7 +1303,7 @@ class ilNolejActivityManagementGUI
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->plugin->txt("summary_keypoints"));
 		$form->addItem($section);
-		$txt = new ilTextAreaInputGUI("", "keypoints"); //ilTextInputGUI
+		$txt = new ilTextInputGUI("", "keypoints");
 		$txt->setMulti(true);
 		$txt->setMultiValues($summary->keypoints);
 		$txt->setSize(100);
