@@ -127,10 +127,10 @@ questions_type_hoq#:#questions_type_hoq
 questions_type_open#:#Open answer
 questions_type_mcq#:#questions_type_mcq
 questions_type_ftb#:#questions_type_ftb
-concepts_enable#:#concepts_enable
-concepts_use_for_cw#:#concepts_use_for_cw
-concepts_use_for_dtw#:#concepts_use_for_dtw
-concepts_use_for_ftw#:#concepts_use_for_ftw
+concepts_enable#:#Concept enabled
+concepts_use_for_cw#:#Use for Crossword
+concepts_use_for_dtw#:#Use for Drag the word
+concepts_use_for_ftw#:#Use for Find the word
 concepts_use_for_gaming#:#Use for gaming
 concepts_use_for_practice#:#Use for practice
 concepts_use_for_assessment#:#Use for assessment
@@ -160,8 +160,8 @@ concepts_n#:#Concept #%d
 concepts_definition#:#Definition
 concepts_label#:#Label
 concepts_language#:#Language
-concepts_game_cw#:#CW
-concepts_game_dtw#:#DTW
-concepts_game_ftw#:#FTW
+concepts_game_cw#:#Crossword
+concepts_game_dtw#:#Drag the word
+concepts_game_ftw#:#Find the word
 concepts_games#:#Available games
 
