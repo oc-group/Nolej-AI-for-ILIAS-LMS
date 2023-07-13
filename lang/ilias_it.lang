@@ -147,4 +147,9 @@ err_summary_file#:#Impossibile caricare il file di sommario. Per favore, riprova
 err_summary_save#:#Impossibile salvare il file di sommario. Riprova, e se persiste contatta un Amministratore.
 err_summary_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 summary_saved#:#Il sommario è stato aggiornato.
+err_questions_file#:#Impossibile caricare le domande. Per favore, riprova.
+err_questions_save#:#Impossibile salvare il file delle domande. Riprova, e se persiste contatta un Amministratore.
+err_questions_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
+questions_saved#:#Le domande sono state aggiornate.
+questions_n#:#Domanda n° %d
 

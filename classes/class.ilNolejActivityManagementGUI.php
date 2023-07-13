@@ -1287,24 +1287,23 @@ class ilNolejActivityManagementGUI
 				$this->plugin->txt("prop_" . self::PROP_TITLE),
 				sprintf("summary_%d_title", $i)
 			);
-			if ($a_use_post) {
-				$title->setValueByArray($_POST);
-			} else {
-				$title->setValue($summary->summary[$i]->title);
-			}
 			$form->addItem($title);
 
 			$txt = new ilTextAreaInputGUI(
 				$this->plugin->txt("prop_" . self::PROP_M_TEXT),
 				sprintf("summary_%d_text", $i)
 			);
-			if ($a_use_post) {
-				$txt->setValueByArray($_POST);
-			} else {
-				$txt->setValue($summary->summary[$i]->text);
-			}
 			$txt->setRows(6);
 			$form->addItem($txt);
+			
+			if ($a_use_post) {
+				$txt->setValueByArray($_POST);
+				$title->setValueByArray($_POST);
+			} else {
+				$txt->setValue($summary->summary[$i]->text);
+				$title->setValue($summary->summary[$i]->title);
+			}
+			
 		}
 
 		/**
@@ -1416,16 +1415,204 @@ class ilNolejActivityManagementGUI
 		$this->summary();
 	}
 
+	/**
+	 * @param bool $a_use_post Set value from POST, if false load summary file
+	 * @param bool $a_disabled Set all inputs disabled
+	 * 
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initQuestionsForm($a_use_post = false, $a_disabled = false)
+	{
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->plugin->txt("summary_questions"));
+
+		$this->getNolejContent("questions", "questions.json");
+		$json = $this->readDocumentFile("questions.json");
+		if (!$json) {
+			ilUtil::sendFailure("err_questions_file");
+			return $form;
+		}
+
+		$questions = json_decode($json);
+
+		/**
+		 * Summary -> summary
+		 */
+		$length = count($questions);
+		$length_input = new ilHiddenInputGUI("questions_count");
+		$length_input->setValue($length);
+		$form->addItem($length_input);
+		for($i = 0; $i < $length; $i++) {
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle(sprintf($this->plugin->txt("questions_n"), $i + 1));
+			$form->addItem($section);
+			// $enable = $form->getInput(sprintf("question_%d_enable", $i)); //bool
+			// $answer = $form->getInput(sprintf("question_%d_answer", $i));
+			// $useForGrading = $form->getInput(sprintf("question_%d_ufg", $i)); //bool
+			// $question = $form->getInput(sprintf("question_%d_question", $i));
+			// $distractorsLength = $form->getInput(sprintf("question_%d_distractors", $i));
+			// $distractors = [];
+			// for ($j = 0; $j < $distractorsLength; $j++) {
+			// 	$distractor = $form->getInput(sprintf("question_%d_distractor_%d", $i, $j));
+			// 	if (!empty($distractor)) {
+			// 		$distractors[] = $distractor;
+			// 	}
+			// }
+			$id = new ilHiddenInputGUI(sprintf("question_%d_id", $i));
+			$id->setValue($questions[$i]->id);
+			$form->addItem($id);
+			
+			$explaination = new ilNonEditableInputGUI(
+				$this->plugin->txt("questions_explaination"),
+				sprintf("question_%d_explaination", $i)
+			);
+			$explaination->setValue($questions[$i]->explaination);
+			$form->addItem($explaination);
+			
+			$enable = new ilCheckBoxInputGUI(
+				$this->plugin->txt("questions_enable"),
+				sprintf("question_%d_enable", $i)
+			);
+			$form->addItem($enable);
+			
+			$answer = new ilTextAreaInputGUI(
+				$this->plugin->txt("questions_answer"),
+				sprintf("summary_%d_answer", $i)
+			);
+			$form->addItem($answer);
+			$answer->setRows(3);
+			
+			$useForGrading = new ilCheckBoxInputGUI(
+				$this->plugin->txt("questions_use_for_grading"),
+				sprintf("question_%d_ufg", $i)
+			);
+			$form->addItem($useForGrading);
+			
+			$question = new ilTextAreaInputGUI(
+				$this->plugin->txt("questions_answer"),
+				sprintf("summary_%d_question", $i)
+			);
+			$question->setRows(3);
+			$form->addItem($question);
+			
+			$questionType = new ilHiddenInputGUI(sprintf("question_%d_type", $i));
+			$questionType->setValue($questions[$i]->question_type);
+			$form->addItem($questionType);
+
+			$questionTypeLabel = new ilNonEditableInputGUI(
+				$this->plugin->txt("questions_question_type"),
+				sprintf("question_%d_type_label", $i)
+			);
+			$questionTypeLabel->setValue(
+				$this->plugin->txt("questions_type_" . $questions[$i]->question_type)
+			);
+			$form->addItem($questionTypeLabel);
+
+			$distractorsLength = count($questions[$i]->distractors);
+			$distractors = new ilHiddenInputGUI(sprintf("question_%d_distractors", $i));
+			$distractors->setValue($distractorsLength);
+			$form->addItem($distractors);
+			for ($j = 0; $j < $distractorsLength; $j++) {
+				$distractor = new ilTextAreaInputGUI(
+					$j == 0 ? $this->Plugin->txt("questions_distractors") : "",
+					sprintf("question_%d_distractor_%d", $i, $j)
+				);
+				$form->addItem($distractor);
+				if ($a_use_post) {
+					$distractor->setValueByArray($_POST);
+				} else {
+					$distractor->setValue($questions[$i]->distractors[$j]);
+				}
+			}
+
+			if ($a_use_post) {
+				$enable->setValueByArray($_POST);
+				$answer->setValueByArray($_POST);
+				$useForGrading->setValueByArray($_POST);
+				$question->setValueByArray($_POST);
+			} else {
+				$enable->setValue($questions[$i]->enable);
+				$answer->setValue($questions[$i]->answer);
+				$useForGrading->setValue($questions[$i]->use_for_grading);
+				$question->setValue($questions[$i]->question);
+			}
+		}
+
+		$form->addCommandButton(self::CMD_QUESTIONS_SAVE, $this->plugin->txt("cmd_save"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		return $form;
+	}
+
 	public function questions()
 	{
 		global $tpl;
 		$this->initRevisionSubTabs(self::SUBTAB_QUESTIONS);
-		// TODO
+		$form = $this->initQuestionsForm();
+
+		$tpl->setContent($form->getHTML());
 	}
 
 	public function saveQuestions()
 	{
-		//
+		global $tpl;
+		$form = $this->initQuestionsForm(true);
+		if (!$form->checkInput()) {
+			// input not ok, then
+			$this->initRevisionSubTabs(self::SUBTAB_QUESTIONS);
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
+		$questions = [];
+
+		$length = $form->getInput("questions_count");
+		for ($i = 0; $i < $length; $i++) {
+			$id = $form->getInput(sprintf("question_%d_id", $i));
+			$explaination = $form->getInput(sprintf("question_%d_explaination", $i));
+			$enable = $form->getInput(sprintf("question_%d_enable", $i)); //bool
+			$answer = $form->getInput(sprintf("question_%d_answer", $i));
+			$useForGrading = $form->getInput(sprintf("question_%d_ufg", $i)); //bool
+			$question = $form->getInput(sprintf("question_%d_question", $i));
+			$questionType = $form->getInput(sprintf("question_%d_type", $i));
+			$distractorsLength = $form->getInput(sprintf("question_%d_distractors", $i));
+			$distractors = [];
+			for ($j = 0; $j < $distractorsLength; $j++) {
+				$distractor = $form->getInput(sprintf("question_%d_distractor_%d", $i, $j));
+				if (!empty($distractor)) {
+					$distractors[] = $distractor;
+				}
+			}
+			$selectedDistractor = "";
+			if (!empty($id)) {
+				$questions[] = [
+					"id" => $id,
+					"explaination" => $explaination,
+					"enable" => $enable,
+					"answer" => $answer,
+					"use_for_grading" => $useForGrading,
+					"question" => $question,
+					"questionType" => $questionType,
+					"distractors" => $distractors,
+					"selected_distractor" => $selectedDistractor
+				];
+			}
+		}
+
+		$success = $this->writeDocumentFile("questions.json", json_encode($questions));
+		if (!$success) {
+			ilUtil::sendFailure($this->plugin->txt("err_questions_save"));
+			$this->questions();
+			return;
+		}
+
+		$success = $this->putNolejContent("questions", "questions.json");
+		if (!$success) {
+			ilUtil::sendFailure($this->plugin->txt("err_questions_put"));
+		} else {
+			ilUtil::sendSuccess($this->plugin->txt("questions_saved"));
+		}
+		$this->questions();
 	}
 
 	public function concepts()

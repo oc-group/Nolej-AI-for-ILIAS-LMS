@@ -147,4 +147,9 @@ err_summary_file#:#
 err_summary_save#:#
 err_summary_put#:#
 summary_saved#:#
+err_questions_file#:#
+err_questions_save#:#
+err_questions_put#:#
+questions_saved#:#
+questions_n#:#
 

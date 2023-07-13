@@ -147,4 +147,9 @@ err_summary_file#:#Summary file cannot be retrieved. Please, try again.
 err_summary_save#:#Summary file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
 err_summary_put#:#Nolej returned an error, please check your data and try again.
 summary_saved#:#Summary has been updated.
+err_questions_file#:#Questions file cannot be retrieved. Please, try again.
+err_questions_save#:#Questions file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
+err_questions_put#:#Nolej returned an error, please check your data and try again.
+questions_saved#:#Questions have been updated.
+questions_n#:#Question #%d
 
