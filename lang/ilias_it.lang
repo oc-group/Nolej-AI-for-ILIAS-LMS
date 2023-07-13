@@ -143,4 +143,8 @@ limit_max_pages#:#Numero massimo di pagine
 limit_audio#:#Limiti per gli audio
 limit_video#:#Limiti per i video
 limit_doc#:#Limiti per i documenti
+err_summary_file#:#Impossibile caricare il file di sommario. Per favore, riprova.
+err_summary_save#:#Impossibile salvare il file di sommario. Riprova, e se persiste contatta un Amministratore.
+err_summary_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
+summary_saved#:#Il sommario è stato aggiornato.
 

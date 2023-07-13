@@ -143,4 +143,8 @@ limit_max_pages#:#
 limit_audio#:#
 limit_video#:#
 limit_doc#:#
+err_summary_file#:#
+err_summary_save#:#
+err_summary_put#:#
+summary_saved#:#
 

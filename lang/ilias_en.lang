@@ -143,4 +143,8 @@ limit_max_pages#:#Maximum number of pages
 limit_audio#:#Audio limits
 limit_video#:#Video limits
 limit_doc#:#Document limits
+err_summary_file#:#Summary file cannot be retrieved. Please, try again.
+err_summary_save#:#Summary file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
+err_summary_put#:#Nolej returned an error, please check your data and try again.
+summary_saved#:#Summary has been updated.
 
