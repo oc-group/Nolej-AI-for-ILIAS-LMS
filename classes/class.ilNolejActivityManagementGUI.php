@@ -1263,22 +1263,14 @@ class ilNolejActivityManagementGUI
 	{
 		$form = new ilPropertyFormGUI();
 
-		if (!$a_use_post) {
-			$this->getNolejContent("summary", "summary.json");
-			$json = $this->readDocumentFile("summary.json");
-			if (!$json) {
-				ilUtil::sendFailure("err_summary_file");
-				return $form;
-			}
-
-			$summary = json_decode($json);
-		} else {
-			$summary = (object) [
-				"summary" => $_POST["summary"],
-				"abstract" => $_POST["abstract"],
-				"keypoints" => $_POST["keypoints"]
-			];
+		$this->getNolejContent("summary", "summary.json");
+		$json = $this->readDocumentFile("summary.json");
+		if (!$json) {
+			ilUtil::sendFailure("err_summary_file");
+			return $form;
 		}
+
+		$summary = json_decode($json);
 
 		/**
 		 * Summary -> summary
@@ -1286,19 +1278,31 @@ class ilNolejActivityManagementGUI
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->plugin->txt("review_summary"));
 		$form->addItem($section);
-		for($i = 0, $len = count($summary->summary); $i < $len; $i++) {
+		$length = $a_use_post ? $_POST["summary_count"] : count($summary->summary);
+		$length_input = new ilHiddenInputGUI("summary_count");
+		$length_input->setValue($length);
+		$form->addItem($length_input);
+		for($i = 0; $i < $length; $i++) {
 			$title = new ilTextInputGUI(
 				$this->plugin->txt("prop_" . self::PROP_TITLE),
 				sprintf("summary[%d]['title']", $i)
 			);
-			$title->setValue($summary->summary[$i]->title);
+			if ($a_use_post) {
+				$title->setValuesByPost();
+			} else {
+				$title->setValue($summary->summary[$i]->title);
+			}
 			$form->addItem($title);
 
 			$txt = new ilTextAreaInputGUI(
 				$this->plugin->txt("prop_" . self::PROP_M_TEXT),
 				sprintf("summary[%d]['text']", $i)
 			);
-			$txt->setValue($summary->summary[$i]->text);
+			if ($a_use_post) {
+				$txt->setValuesByPost();
+			} else {
+				$txt->setValue($summary->summary[$i]->text);
+			}
 			$txt->setRows(6);
 			$form->addItem($txt);
 		}
@@ -1310,7 +1314,11 @@ class ilNolejActivityManagementGUI
 		$section->setTitle($this->plugin->txt("summary_abstract"));
 		$form->addItem($section);
 		$txt = new ilTextAreaInputGUI("", "abstract");
-		$txt->setValue($summary->abstract);
+		if ($a_use_post) {
+			$txt->setValuesByPost();
+		} else {
+			$txt->setValue($summary->abstract);
+		}
 		$txt->setRows(10);
 		$form->addItem($txt);
 
@@ -1320,12 +1328,20 @@ class ilNolejActivityManagementGUI
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->plugin->txt("summary_keypoints"));
 		$form->addItem($section);
-		for($i = 0, $len = count($summary->keypoints); $i < $len; $i++) {
+		$length = $a_use_post ? $_POST["keypoints_count"] : count($summary->keypoints);
+		$length_input = new ilHiddenInputGUI("keypoints_count");
+		$length_input->setValue($length);
+		$form->addItem($length_input);
+		for($i = 0; $i < $length; $i++) {
 			$txt = new ilTextAreaInputGUI(
 				"",
 				sprintf("keypoints[%d]", $i)
 			);
-			$txt->setValue($summary->keypoints[$i]);
+			if ($a_use_post) {
+				$txt->setValuesByPost();
+			} else {
+				$txt->setValue($summary->keypoints[$i]);
+			}
 			$txt->setRows(2);
 			$form->addItem($txt);
 		}
@@ -1341,13 +1357,14 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 		$this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
 		$form = $this->initSummaryForm();
-		
+
 		$tpl->setContent($form->getHTML());
 	}
 
 	public function saveSummary()
 	{
 		$form = $this->initSummaryForm(true);
+
 	}
 
 	public function questions()
