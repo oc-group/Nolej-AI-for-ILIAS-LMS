@@ -990,7 +990,7 @@ class ilNolejActivityManagementGUI
 
 		$result = $api->put(
 			sprintf("/documents/%s/%s", $documentId, $pathname),
-			false
+			$content
 		);
 		return true;
 	}
