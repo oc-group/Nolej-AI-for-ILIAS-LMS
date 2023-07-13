@@ -1288,7 +1288,7 @@ class ilNolejActivityManagementGUI
 				sprintf("summary[%d]['title']", $i)
 			);
 			if ($a_use_post) {
-				$title->setValueByPost();
+				$title->setValueByArray($_POST);
 			} else {
 				$title->setValue($summary->summary[$i]->title);
 			}
@@ -1299,7 +1299,7 @@ class ilNolejActivityManagementGUI
 				sprintf("summary[%d]['text']", $i)
 			);
 			if ($a_use_post) {
-				$txt->setValueByPost();
+				$txt->setValueByArray($_POST);
 			} else {
 				$txt->setValue($summary->summary[$i]->text);
 			}
@@ -1315,7 +1315,7 @@ class ilNolejActivityManagementGUI
 		$form->addItem($section);
 		$txt = new ilTextAreaInputGUI("", "abstract");
 		if ($a_use_post) {
-			$txt->setValueByPost();
+			$txt->setValueByArray($_POST);
 		} else {
 			$txt->setValue($summary->abstract);
 		}
@@ -1338,7 +1338,7 @@ class ilNolejActivityManagementGUI
 				sprintf("keypoints[%d]", $i)
 			);
 			if ($a_use_post) {
-				$txt->setValueByPost();
+				$txt->setValueByArray($_POST);
 			} else {
 				$txt->setValue($summary->keypoints[$i]);
 			}
