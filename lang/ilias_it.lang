@@ -24,17 +24,52 @@ cmd_save#:#Salva
 cmd_select#:#Seleziona un oggetto dal mediapool
 cmd_tic#:#Invia TIC
 cmd_update#:#Aggiorna
+concepts_definition#:#Definizione
+concepts_enable#:#Concetto abilitato
+concepts_game_cw#:#Cruciverba
+concepts_game_dtw#:#Trascina la parola
+concepts_game_ftw#:#Trova la parola
+concepts_games#:#Giochi disponibili
+concepts_label#:#Parola chiave
+concepts_language#:#Lingua
+concepts_n#:#Concetto n° %d
+concepts_saved#:#I concetti sono stati aggiornati.
+concepts_use_for_assessment#:#Utilizza per i test
+concepts_use_for_cw#:#Utilizza per Cruciverba
+concepts_use_for_dtw#:#Utilizza per Trascina la parola
+concepts_use_for_ftw#:#Utilizza per Trova la parola
+concepts_use_for_gaming#:#Utilizza per i giochi
+concepts_use_for_practice#:#Utilizza per la pratica
 configuration_title#:#Configura
 crs_create_xnlj#:#Crea oggetto Nolej
 err_access_denied#:#Non puoi accedere a questo corso.
 err_analysis_not_ready#:#L'analisi non è ancora completa, attendi ancora un po' di tempo e torna qui per verificare.
 err_api_key_missing#:#Non hai indicato la tua chiave API! Vai nella configurazione del plugin e indica la tua chiave API per poter utilizzare il plugin di Nolej.
+err_concepts_file#:#Impossibile caricare i concetti. Per favore, riprova.
+err_concepts_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
+err_concepts_save#:#Impossibile salvare il file dei concetti. Riprova, e se persiste contatta un Amministratore.
 err_credentials#:#Le credenziali non sono valide.
+err_questions_file#:#Impossibile caricare le domande. Per favore, riprova.
+err_questions_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
+err_questions_save#:#Impossibile salvare il file delle domande. Riprova, e se persiste contatta un Amministratore.
+err_summary_file#:#Impossibile caricare il file di sommario. Per favore, riprova.
+err_summary_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
+err_summary_save#:#Impossibile salvare il file di sommario. Riprova, e se persiste contatta un Amministratore.
 err_tic_response#:#L'endpoint di Nolej ha restituito una risposta non prevista.
 err_transcription_not_ready#:#La trascrizione non è ancora completa, attendi ancora un po' di tempo e torna qui per verificare. L'attesa stimata è di circa un terzo rispetto alla durata del file scelto; se è trascorso molto più di questo tempo e non hai ancora ricevuto una notifica, per favore contatta un Amministratore.
 fold_create_xnlj#:#Crea un oggetto Nolej
 goto_activity_management#:#Vai in Gestione Attività
 grp_create_xnlj#:#Crea un oggetto Nolej
+limit_audio#:#Limiti per gli audio
+limit_content#:#Limiti per i contenuti
+limit_doc#:#Limiti per i documenti
+limit_max_duration#:#Durata massima
+limit_max_pages#:#Numero massimo di pagine
+limit_max_size#:#Dimensione massima del file
+limit_min_characters#:#Numero minimo di caratteri
+limit_minutes#:#%s minuti
+limit_type#:#Estensioni consentite
+limit_video#:#Limiti per i video
 lp_status#:#Progressi didattici
 lp_status_#:#Nessuno stato salvato.
 lp_status_0#:#Accesso non effettuato
@@ -57,7 +92,6 @@ prop_content_info#:#Analizza il contenuto della pagina (1 credito)
 prop_description#:#Descrizione
 prop_file#:#File
 prop_file_info#:#Carica un file (audio, video, o un documento).
-limit_content#:#Limiti per i contenuti
 prop_freetext#:#Testo
 prop_freetext_info#:#Scrivi direttamente qui un testo.
 prop_input_file#:#File
@@ -82,12 +116,33 @@ prop_video_info#:#Analizza video da YouTube, Vimeo o Wistia (3 crediti)
 prop_web#:#URL web
 prop_web_info#:#Analizza una risorsa da Internet.
 prop_web_src#:#Scegli cosa Nolej dovrà analizzare da questo URL.
+questions_answer#:#Risposta
+questions_distractors#:#Distrattori
+questions_enable#:#Domanda abilitata
+questions_explaination#:#Spiegazione
+questions_n#:#Domanda n° %d
+questions_question#:#Domanda
+questions_question_type#:#Tipologia di domanda
+questions_saved#:#Le domande sono state aggiornate.
+questions_selected_distractor#:#Distrattore selezionato
+questions_type_ftb#:#Completa gli spazi vuoti
+questions_type_hoq#:#questions_type_hoq
+questions_type_mcq#:#Risposta multipla
+questions_type_open#:#Risposta aperta
+questions_type_tf#:#Vero/Falso
+questions_use_for_grading#:#Utilizza per la classificazione
+review_concepts#:#Concetti
+review_questions#:#Domande
+review_summary#:#Sommario
 root_create_xnlj#:#Crea oggetto Nolej
 set_completed#:#Set LP Status to completed
 set_failed#:#Set LP Status to not failed
 set_in_progress#:#Set LP Status to in progress
 set_not_attempted#:#Set LP Status to not attempted
 set_passed#:#Set LP Status to not completed
+summary_abstract#:#Abstract
+summary_keypoints#:#Punti chiave
+summary_saved#:#Il sommario è stato aggiornato.
 tab_activities#:#Attività H5P
 tab_analysis#:#Analisi IA
 tab_configuration#:#Configurazione
@@ -109,59 +164,4 @@ xnlj_new#:#Aggiungi un oggetto Nolej
 xnlj_read#:#Lettura: l'utente può accedere agli oggetti Nolej
 xnlj_visible#:#Visibilità: gli oggetti Nolej sono visibili all'utente
 xnlj_write#:#Modifica impostazioni: l'utente può modificare le impostazioni degli oggetti Nolej
-review_summary#:#Sommario
-review_questions#:#Domande
-review_concepts#:#Concetti
-summary_abstract#:#Abstract
-summary_keypoints#:#Punti chiave
-questions_explaination#:#Spiegazione
-questions_enable#:#Domanda abilitata
-questions_answer#:#Risposta
-questions_use_for_grading#:#Utilizza per la classificazione
-questions_question#:#Domanda
-questions_question_type#:#Tipologia di domanda
-questions_type_tf#:#Vero/Falso
-questions_distractors#:#Distrattori
-questions_selected_distractor#:#Distrattore selezionato
-questions_type_hoq#:#questions_type_hoq
-questions_type_open#:#Risposta aperta
-questions_type_mcq#:#questions_type_mcq
-questions_type_ftb#:#questions_type_ftb
-concepts_enable#:#Concetto abilitato
-concepts_use_for_cw#:#Utilizza per Cruciverba
-concepts_use_for_dtw#:#Utilizza per Trascina la parola
-concepts_use_for_ftw#:#Utilizza per Trova la parola
-concepts_use_for_gaming#:#Utilizza per i giochi
-concepts_use_for_practice#:#Utilizza per la pratica
-concepts_use_for_assessment#:#Utilizza per i test
-limit_max_duration#:#Durata massima
-limit_minutes#:#%s minuti
-limit_min_characters#:#Numero minimo di caratteri
-limit_max_size#:#Dimensione massima del file
-limit_type#:#Estensioni consentite
-limit_max_pages#:#Numero massimo di pagine
-limit_audio#:#Limiti per gli audio
-limit_video#:#Limiti per i video
-limit_doc#:#Limiti per i documenti
-err_summary_file#:#Impossibile caricare il file di sommario. Per favore, riprova.
-err_summary_save#:#Impossibile salvare il file di sommario. Riprova, e se persiste contatta un Amministratore.
-err_summary_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
-summary_saved#:#Il sommario è stato aggiornato.
-err_questions_file#:#Impossibile caricare le domande. Per favore, riprova.
-err_questions_save#:#Impossibile salvare il file delle domande. Riprova, e se persiste contatta un Amministratore.
-err_questions_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
-questions_saved#:#Le domande sono state aggiornate.
-questions_n#:#Domanda n° %d
-err_concepts_file#:#Impossibile caricare i concetti. Per favore, riprova.
-err_concepts_save#:#Impossibile salvare il file dei concetti. Riprova, e se persiste contatta un Amministratore.
-err_concepts_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
-concepts_saved#:#I concetti sono stati aggiornati.
-concepts_n#:#Concetto n° %d
-concepts_definition#:#Definizione
-concepts_label#:#Parola chiave
-concepts_language#:#Lingua
-concepts_game_cw#:#Cruciverba
-concepts_game_dtw#:#Trascina la parola
-concepts_game_ftw#:#Trova la parola
-concepts_games#:#Giochi disponibili
 

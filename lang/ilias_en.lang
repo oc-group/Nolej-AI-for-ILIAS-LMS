@@ -24,17 +24,52 @@ cmd_save#:#Save
 cmd_select#:#Select media from mediapool
 cmd_tic#:#Send TIC
 cmd_update#:#Update
+concepts_definition#:#Definition
+concepts_enable#:#Concept enabled
+concepts_game_cw#:#Crossword
+concepts_game_dtw#:#Drag the word
+concepts_game_ftw#:#Find the word
+concepts_games#:#Available games
+concepts_label#:#Label
+concepts_language#:#Language
+concepts_n#:#Concept #%d
+concepts_saved#:#Concepts have been updated.
+concepts_use_for_assessment#:#Use for assessment
+concepts_use_for_cw#:#Use for Crossword
+concepts_use_for_dtw#:#Use for Drag the word
+concepts_use_for_ftw#:#Use for Find the word
+concepts_use_for_gaming#:#Use for gaming
+concepts_use_for_practice#:#Use for practice
 configuration_title#:#Configure
 crs_create_xnlj#:#Create Nolej object
 err_access_denied#:#You cannot access this course.
 err_analysis_not_ready#:#The analysis is not ready yet, please wait some time and check again.
 err_api_key_missing#:#API Key is missing! Save it and try again.
+err_concepts_file#:#Concepts file cannot be retrieved. Please, try again.
+err_concepts_put#:#Nolej returned an error, please check your data and try again.
+err_concepts_save#:#Concepts file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
 err_credentials#:#Invalid/Wrong credentials.
+err_questions_file#:#Questions file cannot be retrieved. Please, try again.
+err_questions_put#:#Nolej returned an error, please check your data and try again.
+err_questions_save#:#Questions file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
+err_summary_file#:#Summary file cannot be retrieved. Please, try again.
+err_summary_put#:#Nolej returned an error, please check your data and try again.
+err_summary_save#:#Summary file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
 err_tic_response#:#Nolej endpoint returned an invalid response.
 err_transcription_not_ready#:#The transcription is not ready yet, please wait some time and check again. It should take a third of the source duration; if after this time you haven't received any notification, please contact an Administrator. 
 fold_create_xnlj#:#Create Nolej object
 goto_activity_management#:#Go to Activity Management
 grp_create_xnlj#:#Create Nolej object
+limit_audio#:#Audio limits
+limit_content#:#Content limitations
+limit_doc#:#Document limits
+limit_max_duration#:#Max duration
+limit_max_pages#:#Maximum number of pages
+limit_max_size#:#File maximum size
+limit_min_characters#:#Minimum characters
+limit_minutes#:#%s minutes
+limit_type#:#Allowed types
+limit_video#:#Video limits
 lp_status#:#Learning Progress
 lp_status_#:#No state yet.
 lp_status_0#:#Not Attempted
@@ -57,7 +92,6 @@ prop_content_info#:#Analyze the web page content (1 credit)
 prop_description#:#Description
 prop_file#:#File
 prop_file_info#:#Upload a file (audio, video, or a document).
-limit_content#:#Content limitations
 prop_freetext#:#Text
 prop_freetext_info#:#Write some text directly.
 prop_input_file#:#File
@@ -82,12 +116,33 @@ prop_video_info#:#Analyze video from YouTube, Vimeo or Wistia (3 credits)
 prop_web#:#Web URL
 prop_web_info#:#Analyze a resource from the Web.
 prop_web_src#:#Choose what to analyze from that URL
+questions_answer#:#Answer
+questions_distractors#:#Distractors
+questions_enable#:#Question enabled
+questions_explaination#:#Explaination
+questions_n#:#Question #%d
+questions_question#:#Question
+questions_question_type#:#Type of question
+questions_saved#:#Questions have been updated.
+questions_selected_distractor#:#Selected distractor
+questions_type_ftb#:#Fill in the blanks
+questions_type_hoq#:#questions_type_hoq
+questions_type_mcq#:#Multichoice question
+questions_type_open#:#Open answer
+questions_type_tf#:#True/False
+questions_use_for_grading#:#Use for grading
+review_concepts#:#Concepts
+review_questions#:#Questions
+review_summary#:#Summary
 root_create_xnlj#:#Create Nolej object
 set_completed#:#Set LP Status to completed
 set_failed#:#Set LP Status to not failed
 set_in_progress#:#Set LP Status to in progress
 set_not_attempted#:#Set LP Status to not attempted
 set_passed#:#Set LP Status to not completed
+summary_abstract#:#Abstract
+summary_keypoints#:#Keypoints
+summary_saved#:#Summary has been updated.
 tab_activities#:#H5P activities
 tab_analysis#:#AI analysis
 tab_configuration#:#Configuration
@@ -109,59 +164,4 @@ xnlj_new#:#Add a Nolej object
 xnlj_read#:#Read: User has read access to Nolej objects
 xnlj_visible#:#Visible: Nolej object is visible
 xnlj_write#:#Edit Settings: User can edit settings of Nolej objects
-review_summary#:#Summary
-review_questions#:#Questions
-review_concepts#:#Concepts
-summary_abstract#:#Abstract
-summary_keypoints#:#Keypoints
-questions_explaination#:#Explaination
-questions_enable#:#Question enabled
-questions_answer#:#Answer
-questions_use_for_grading#:#Use for grading
-questions_question#:#Question
-questions_question_type#:#Type of question
-questions_type_tf#:#True/False
-questions_distractors#:#Distractors
-questions_selected_distractor#:#Selected distractor
-questions_type_hoq#:#questions_type_hoq
-questions_type_open#:#Open answer
-questions_type_mcq#:#questions_type_mcq
-questions_type_ftb#:#questions_type_ftb
-concepts_enable#:#Concept enabled
-concepts_use_for_cw#:#Use for Crossword
-concepts_use_for_dtw#:#Use for Drag the word
-concepts_use_for_ftw#:#Use for Find the word
-concepts_use_for_gaming#:#Use for gaming
-concepts_use_for_practice#:#Use for practice
-concepts_use_for_assessment#:#Use for assessment
-limit_max_duration#:#Max duration
-limit_minutes#:#%s minutes
-limit_min_characters#:#Minimum characters
-limit_max_size#:#File maximum size
-limit_type#:#Allowed types
-limit_max_pages#:#Maximum number of pages
-limit_audio#:#Audio limits
-limit_video#:#Video limits
-limit_doc#:#Document limits
-err_summary_file#:#Summary file cannot be retrieved. Please, try again.
-err_summary_save#:#Summary file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
-err_summary_put#:#Nolej returned an error, please check your data and try again.
-summary_saved#:#Summary has been updated.
-err_questions_file#:#Questions file cannot be retrieved. Please, try again.
-err_questions_save#:#Questions file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
-err_questions_put#:#Nolej returned an error, please check your data and try again.
-questions_saved#:#Questions have been updated.
-questions_n#:#Question #%d
-err_concepts_file#:#Concepts file cannot be retrieved. Please, try again.
-err_concepts_save#:#Concepts file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
-err_concepts_put#:#Nolej returned an error, please check your data and try again.
-concepts_saved#:#Concepts have been updated.
-concepts_n#:#Concept #%d
-concepts_definition#:#Definition
-concepts_label#:#Label
-concepts_language#:#Language
-concepts_game_cw#:#Crossword
-concepts_game_dtw#:#Drag the word
-concepts_game_ftw#:#Find the word
-concepts_games#:#Available games
 
