@@ -1802,7 +1802,7 @@ class ilNolejActivityManagementGUI
 			$label = $form->getInput(sprintf("concept_%d_label", $i));
 			$language = $form->getInput(sprintf("concept_%d_language", $i));
 			$definition = $form->getInput(sprintf("concept_%d_definition", $i));
-			$games = $form->getInput(sprintf("concept_%d_games", $i));
+			$games = json_decode($form->getInput(sprintf("concept_%d_games", $i)));
 
 			if (!empty($id)) {
 				$concepts[] = [
