@@ -165,4 +165,5 @@ xnlj_new#:#Aggiungi un oggetto Nolej
 xnlj_read#:#Lettura: l'utente può accedere agli oggetti Nolej
 xnlj_visible#:#Visibilità: gli oggetti Nolej sono visibili all'utente
 xnlj_write#:#Modifica impostazioni: l'utente può modificare le impostazioni degli oggetti Nolej
+cmd_review_info#:#Se hai revisionato il sommario, tutte le domande e i concetti, puoi procedere con la creazione degli oggetti H5P.
 
