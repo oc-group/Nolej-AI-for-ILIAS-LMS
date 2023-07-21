@@ -1449,12 +1449,12 @@ class ilNolejActivityManagementGUI
 			$id->setValue($questions[$i]->id);
 			$form->addItem($id);
 
-			$explaination = new ilNonEditableValueGUI(
-				$this->plugin->txt("questions_explaination"),
-				sprintf("question_%d_explaination", $i)
+			$explanation = new ilNonEditableValueGUI(
+				$this->plugin->txt("questions_explanation"),
+				sprintf("question_%d_explanation", $i)
 			);
-			$explaination->setValue($questions[$i]->explaination);
-			$form->addItem($explaination);
+			$explanation->setValue($questions[$i]->explanation);
+			$form->addItem($explanation);
 
 			$enable = new ilCheckBoxInputGUI(
 				$this->plugin->txt("questions_enable"),
@@ -1556,7 +1556,7 @@ class ilNolejActivityManagementGUI
 		$length = $form->getInput("questions_count");
 		for ($i = 0; $i < $length; $i++) {
 			$id = $form->getInput(sprintf("question_%d_id", $i));
-			$explaination = $form->getInput(sprintf("question_%d_explaination", $i));
+			$explanation = $form->getInput(sprintf("question_%d_explanation", $i));
 			$enable = (bool) $form->getInput(sprintf("question_%d_enable", $i));
 			$answer = $form->getInput(sprintf("question_%d_answer", $i));
 			$useForGrading = (bool) $form->getInput(sprintf("question_%d_ufg", $i));
@@ -1574,7 +1574,7 @@ class ilNolejActivityManagementGUI
 			if (!empty($id)) {
 				$questions[] = [
 					"id" => $id,
-					"explaination" => $explaination,
+					"explanation" => $explanation,
 					"enable" => $enable,
 					"answer" => $answer,
 					"use_for_grading" => $useForGrading,
