@@ -1713,20 +1713,20 @@ class ilNolejActivityManagementGUI
 
 			$language = new ilNonEditableValueGUI(
 				$this->plugin->txt("concepts_language"),
-				sprintf("question_%d_language", $i)
+				sprintf("concept_%d_language", $i)
 			);
 			$language->setValue($concepts[$i]->concept->language);
 			$form->addItem($language);
 
 			$games = new ilHiddenInputGUI(
-				sprintf("question_%d_games", $i)
+				sprintf("concept_%d_games", $i)
 			);
 			$games->setValue(json_encode($concepts[$i]->concept->available_games));
 			$form->addItem($games);
 
 			// $gamesLabel = new ilNonEditableValueGUI(
 			// 	$this->plugin->txt("concepts_games"),
-			// 	sprintf("question_%d_games_label", $i)
+			// 	sprintf("concept_%d_games_label", $i)
 			// );
 			// $gamesLabelTxt = [];
 			// for ($j = 0, $nGames = count($concepts[$i]->concept->available_games); $j < $nGames; $j++) {
