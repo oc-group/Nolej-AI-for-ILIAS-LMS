@@ -1641,7 +1641,7 @@ class ilNolejActivityManagementGUI
 
 			$label = new ilNonEditableValueGUI(
 				$this->plugin->txt("concepts_label"),
-				sprintf("question_%d_label", $i)
+				sprintf("concept_%d_label", $i)
 			);
 			$label->setValue($concepts[$i]->concept->label);
 			$form->addItem($label);
@@ -1654,49 +1654,46 @@ class ilNolejActivityManagementGUI
 
 			$definition = new ilTextAreaInputGUI(
 				$this->plugin->txt("concepts_definition"),
-				sprintf("question_%d_definition", $i)
+				sprintf("concept_%d_definition", $i)
 			);
 			$form->addItem($definition);
 			$definition->setRows(4);
 
+			$availableGames = $concepts[$i]->concept->available_games;
 			$useForGaming = new ilCheckBoxInputGUI(
 				$this->plugin->txt("concepts_use_for_gaming"),
 				sprintf("concept_%d_gaming", $i)
 			);
-			if (count($concepts[$i]->concept->available_games) > 0) {
-				$form->addItem($useForGaming);
-			}
-
-			// for ($j = 0, $nGames = count($concepts[$i]->concept->available_games); $j < $nGames; $j++) {
-			// 	$game = new ilCheckBoxInputGUI(
-			// 		$this->plugin->txt("concepts_use_for_" . $concepts[$i]->concept->available_games[$j]),
-			// 		sprintf("concept_%d_%s", $i, $concepts[$i]->concept->available_games[$j])
-			// 	);
-			// 	$useForGaming->addSubItem($game);
-			// }
 
 			$useForCW = new ilCheckBoxInputGUI(
 				$this->plugin->txt("concepts_use_for_cw"),
 				sprintf("concept_%d_cw", $i)
 			);
-			if (in_array("cw", $concepts[$i]->concept->available_games)) {
-				$useForGaming->addSubItem($useForCW);
-			}
 
 			$useForDTW = new ilCheckBoxInputGUI(
 				$this->plugin->txt("concepts_use_for_dtw"),
 				sprintf("concept_%d_dtw", $i)
 			);
-			if (in_array("dtw", $concepts[$i]->concept->available_games)) {
-				$useForGaming->addSubItem($useForDTW);
-			}
 
 			$useForFTW = new ilCheckBoxInputGUI(
 				$this->plugin->txt("concepts_use_for_ftw"),
 				sprintf("concept_%d_ftw", $i)
 			);
-			if (in_array("ftw", $concepts[$i]->concept->available_games)) {
-				$useForGaming->addSubItem($useForFTW);
+
+			if ($availableGames != null && count($availableGames) > 0) {
+				$form->addItem($useForGaming);
+
+				if (in_array("cw", $concepts[$i]->concept->available_games)) {
+					$useForGaming->addSubItem($useForCW);
+				}
+
+				if (in_array("dtw", $concepts[$i]->concept->available_games)) {
+					$useForGaming->addSubItem($useForDTW);
+				}
+
+				if (in_array("ftw", $concepts[$i]->concept->available_games)) {
+					$useForGaming->addSubItem($useForFTW);
+				}
 			}
 
 			$useForPractice = new ilCheckBoxInputGUI(
@@ -1787,13 +1784,13 @@ class ilNolejActivityManagementGUI
 		$length = $form->getInput("concepts_count");
 		for ($i = 0; $i < $length; $i++) {
 			$id = $form->getInput(sprintf("concept_%d_id", $i));
-			$enable = $form->getInput(sprintf("concept_%d_enable", $i));
-			$useForCW = $form->getInput(sprintf("concept_%d_cw", $i)) ?? false;
-			$useForDTW = $form->getInput(sprintf("concept_%d_dtw", $i)) ?? false;
-			$useForFTW = $form->getInput(sprintf("concept_%d_ftw", $i)) ?? false;
-			$useForGaming = $form->getInput(sprintf("concept_%d_gaming", $i)) ?? false;
-			$useForPractice = $form->getInput(sprintf("concept_%d_practice", $i)) ?? false;
-			$useForAssessment = $form->getInput(sprintf("concept_%d_assessment", $i)) ?? false;
+			$enable = (bool) $form->getInput(sprintf("concept_%d_enable", $i));
+			$useForCW = (bool) $form->getInput(sprintf("concept_%d_cw", $i)) ?? false;
+			$useForDTW = (bool) $form->getInput(sprintf("concept_%d_dtw", $i)) ?? false;
+			$useForFTW = (bool) $form->getInput(sprintf("concept_%d_ftw", $i)) ?? false;
+			$useForGaming = (bool) $form->getInput(sprintf("concept_%d_gaming", $i)) ?? false;
+			$useForPractice = (bool) $form->getInput(sprintf("concept_%d_practice", $i)) ?? false;
+			$useForAssessment = (bool) $form->getInput(sprintf("concept_%d_assessment", $i)) ?? false;
 			$label = $form->getInput(sprintf("concept_%d_label", $i));
 			$language = $form->getInput(sprintf("concept_%d_language", $i));
 			$definition = $form->getInput(sprintf("concept_%d_definition", $i));
