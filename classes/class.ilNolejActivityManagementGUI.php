@@ -1666,27 +1666,27 @@ class ilNolejActivityManagementGUI
 			// 	$useForGaming->addSubItem($game);
 			// }
 
+			$useForCW = new ilCheckBoxInputGUI(
+				$this->plugin->txt("concepts_use_for_cw"),
+				sprintf("concept_%d_cw", $i)
+			);
 			if (in_array("cw", $concepts[$i]->concept->available_games)) {
-				$useForCW = new ilCheckBoxInputGUI(
-					$this->plugin->txt("concepts_use_for_cw"),
-					sprintf("concept_%d_cw", $i)
-				);
 				$useForGaming->addSubItem($useForCW);
 			}
 
+			$useForDTW = new ilCheckBoxInputGUI(
+				$this->plugin->txt("concepts_use_for_dtw"),
+				sprintf("concept_%d_dtw", $i)
+			);
 			if (in_array("dtw", $concepts[$i]->concept->available_games)) {
-				$useForDTW = new ilCheckBoxInputGUI(
-					$this->plugin->txt("concepts_use_for_dtw"),
-					sprintf("concept_%d_dtw", $i)
-				);
 				$useForGaming->addSubItem($useForDTW);
 			}
 
+			$useForFTW = new ilCheckBoxInputGUI(
+				$this->plugin->txt("concepts_use_for_ftw"),
+				sprintf("concept_%d_ftw", $i)
+			);
 			if (in_array("ftw", $concepts[$i]->concept->available_games)) {
-				$useForFTW = new ilCheckBoxInputGUI(
-					$this->plugin->txt("concepts_use_for_ftw"),
-					sprintf("concept_%d_ftw", $i)
-				);
 				$useForGaming->addSubItem($useForFTW);
 			}
 
@@ -1785,9 +1785,9 @@ class ilNolejActivityManagementGUI
 		$length = $form->getInput("concepts_count");
 		for ($i = 0; $i < $length; $i++) {
 			$id = $form->getInput(sprintf("concept_%d_id", $i));
-			$useForCW = $form->getInput(sprintf("concept_%d_cw", $i));
-			$useForDTW = $form->getInput(sprintf("concept_%d_dtw", $i));
-			$useForFTW = $form->getInput(sprintf("concept_%d_ftw", $i));
+			$useForCW = $form->getInput(sprintf("concept_%d_cw", $i)) ?? false;
+			$useForDTW = $form->getInput(sprintf("concept_%d_dtw", $i)) ?? false;
+			$useForFTW = $form->getInput(sprintf("concept_%d_ftw", $i)) ?? false;
 			$useForGaming = $form->getInput(sprintf("concept_%d_gaming", $i));
 			$useForPractice = $form->getInput(sprintf("concept_%d_practice", $i));
 			$useForAssessment = $form->getInput(sprintf("concept_%d_assessment", $i));
