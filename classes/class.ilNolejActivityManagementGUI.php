@@ -1714,11 +1714,12 @@ class ilNolejActivityManagementGUI
 			);
 			$form->addItem($useForPractice);
 
-			$useForAssessment = new ilCheckBoxInputGUI(
-				$this->plugin->txt("concepts_use_for_assessment"),
-				sprintf("concept_%d_assessment", $i)
-			);
-			$form->addItem($useForAssessment);
+			// No longer supported
+			// $useForAssessment = new ilCheckBoxInputGUI(
+			// 	$this->plugin->txt("concepts_use_for_assessment"),
+			// 	sprintf("concept_%d_assessment", $i)
+			// );
+			// $form->addItem($useForAssessment);
 
 			$language = new ilNonEditableValueGUI(
 				$this->plugin->txt("concepts_language"),
@@ -1751,7 +1752,7 @@ class ilNolejActivityManagementGUI
 				$useForFTW->setValueByArray($_POST);
 				$useForGaming->setValueByArray($_POST);
 				$useForPractice->setValueByArray($_POST);
-				$useForAssessment->setValueByArray($_POST);
+				// $useForAssessment->setValueByArray($_POST);
 				$definition->setValueByArray($_POST);
 			} else {
 				$enable->setChecked($concepts[$i]->enable);
@@ -1760,7 +1761,7 @@ class ilNolejActivityManagementGUI
 				$useForFTW->setChecked($concepts[$i]->use_for_ftw);
 				$useForGaming->setChecked($concepts[$i]->use_for_gaming);
 				$useForPractice->setChecked($concepts[$i]->use_for_practice);
-				$useForAssessment->setChecked($concepts[$i]->use_for_assessment);
+				// $useForAssessment->setChecked($concepts[$i]->use_for_assessment);
 				$definition->setValue($concepts[$i]->concept->definition);
 			}
 		}
@@ -1802,7 +1803,7 @@ class ilNolejActivityManagementGUI
 			$useForFTW = (bool) $form->getInput(sprintf("concept_%d_ftw", $i)) ?? false;
 			$useForGaming = (bool) $form->getInput(sprintf("concept_%d_gaming", $i)) ?? false;
 			$useForPractice = (bool) $form->getInput(sprintf("concept_%d_practice", $i)) ?? false;
-			$useForAssessment = (bool) $form->getInput(sprintf("concept_%d_assessment", $i)) ?? false;
+			// $useForAssessment = (bool) $form->getInput(sprintf("concept_%d_assessment", $i)) ?? false;
 			$label = $form->getInput(sprintf("concept_%d_label", $i));
 			$language = $form->getInput(sprintf("concept_%d_language", $i));
 			$definition = $form->getInput(sprintf("concept_%d_definition", $i));
@@ -1817,7 +1818,7 @@ class ilNolejActivityManagementGUI
 					"use_for_ftw" => $useForFTW,
 					"use_for_gaming" => $useForGaming,
 					"use_for_practice" => $useForPractice,
-					"use_for_assessment" => $useForAssessment,
+					// "use_for_assessment" => $useForAssessment,
 					"concept" => [
 						"label" => $label,
 						"language" => $language,
