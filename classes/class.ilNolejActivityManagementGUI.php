@@ -1652,6 +1652,13 @@ class ilNolejActivityManagementGUI
 			);
 			$form->addItem($enable);
 
+			$definition = new ilTextAreaInputGUI(
+				$this->plugin->txt("concepts_definition"),
+				sprintf("question_%d_definition", $i)
+			);
+			$form->addItem($definition);
+			$definition->setRows(4);
+
 			$useForGaming = new ilCheckBoxInputGUI(
 				$this->plugin->txt("concepts_use_for_gaming"),
 				sprintf("concept_%d_gaming", $i)
@@ -1708,13 +1715,6 @@ class ilNolejActivityManagementGUI
 			);
 			$language->setValue($concepts[$i]->concept->language);
 			$form->addItem($language);
-
-			$definition = new ilTextAreaInputGUI(
-				$this->plugin->txt("concepts_definition"),
-				sprintf("question_%d_definition", $i)
-			);
-			$form->addItem($definition);
-			$definition->setRows(4);
 
 			$games = new ilHiddenInputGUI(
 				sprintf("question_%d_games", $i)
