@@ -1156,7 +1156,7 @@ class ilNolejActivityManagementGUI
 				"s3URL" => $url,
 				"automaticMode" => $apiAutomaticMode
 			],
-			false,
+			true,
 			true
 		);
 
@@ -1166,6 +1166,7 @@ class ilNolejActivityManagementGUI
 			!is_string($result->result) ||
 			$result->result != "ok"
 		) {
+			ilUtil::sendQuestion(print_r($result, true));
 			return;
 		}
 
