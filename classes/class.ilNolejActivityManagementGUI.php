@@ -653,7 +653,7 @@ class ilNolejActivityManagementGUI
 		/**
 		 * Set $apiUrl (signed)
 		 * Set $apiFormat
-		 * Set $decrementedCredit (text => 1, audio => 2, video => 3)
+		 * Set $decrementedCredit (all to 1)
 		 */
 		$mediaSrc = $form->getInput(self::PROP_MEDIA_SRC);
 		switch ($mediaSrc) {
@@ -672,12 +672,12 @@ class ilNolejActivityManagementGUI
 
 					case self::PROP_M_AUDIO:
 						$apiFormat = $format;
-						$decrementedCredit = 2;
+						$decrementedCredit = 1;
 						break;
 
 					case self::PROP_M_VIDEO:
 						$apiFormat = $format;
-						$decrementedCredit = 3;
+						$decrementedCredit = 1;
 						break;
 				}
 				break;
@@ -704,7 +704,7 @@ class ilNolejActivityManagementGUI
 					case "oga":
 					case "m4a":
 						$apiFormat = self::PROP_M_AUDIO;
-						$decrementedCredit = 2;
+						$decrementedCredit = 1;
 						break;
 
 					case "m4v":
@@ -713,7 +713,7 @@ class ilNolejActivityManagementGUI
 					case "avi":
 					case "webm":
 						$apiFormat = self::PROP_M_VIDEO;
-						$decrementedCredit = 3;
+						$decrementedCredit = 1;
 						break;
 
 					default:
