@@ -1156,6 +1156,7 @@ class ilNolejActivityManagementGUI
 				"s3URL" => $url,
 				"automaticMode" => $apiAutomaticMode
 			],
+			false,
 			true
 		);
 
