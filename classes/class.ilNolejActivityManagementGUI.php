@@ -1195,8 +1195,6 @@ class ilNolejActivityManagementGUI
 
 		$this->initTabs(self::TAB_REVIEW);
 
-		// $tpl->setRightContent("hello");
-
 		$this->tabs->addSubTab(
 			self::SUBTAB_SUMMARY,
 			$this->plugin->txt(self::SUBTAB_SUMMARY),
@@ -1862,10 +1860,10 @@ class ilNolejActivityManagementGUI
 
 	public function review()
 	{
-		global $tpl;
-		$this->initTabs(self::TAB_REVIEW);
+		$this->updateDocumentStatus(self::STATUS_ACTIVITIES);
 
-		// TODO
+		// Go to activities
+		$this->activities();
 	}
 
 	public function activities()
