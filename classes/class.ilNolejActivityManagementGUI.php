@@ -1639,35 +1639,56 @@ class ilNolejActivityManagementGUI
 			$id->setValue($concepts[$i]->id);
 			$form->addItem($id);
 
+			$label = new ilNonEditableValueGUI(
+				$this->plugin->txt("concepts_label"),
+				sprintf("question_%d_label", $i)
+			);
+			$label->setValue($concepts[$i]->concept->label);
+			$form->addItem($label);
+
 			$enable = new ilCheckBoxInputGUI(
 				$this->plugin->txt("concepts_enable"),
 				sprintf("concept_%d_enable", $i)
 			);
 			$form->addItem($enable);
 
-			$useForCW = new ilCheckBoxInputGUI(
-				$this->plugin->txt("concepts_use_for_cw"),
-				sprintf("concept_%d_cw", $i)
-			);
-			$form->addItem($useForCW);
-
-			$useForDTW = new ilCheckBoxInputGUI(
-				$this->plugin->txt("concepts_use_for_dtw"),
-				sprintf("concept_%d_dtw", $i)
-			);
-			$form->addItem($useForDTW);
-
-			$useForFTW = new ilCheckBoxInputGUI(
-				$this->plugin->txt("concepts_use_for_ftw"),
-				sprintf("concept_%d_ftw", $i)
-			);
-			$form->addItem($useForFTW);
-
 			$useForGaming = new ilCheckBoxInputGUI(
 				$this->plugin->txt("concepts_use_for_gaming"),
 				sprintf("concept_%d_gaming", $i)
 			);
 			$form->addItem($useForGaming);
+
+			// for ($j = 0, $nGames = count($concepts[$i]->concept->available_games); $j < $nGames; $j++) {
+			// 	$game = new ilCheckBoxInputGUI(
+			// 		$this->plugin->txt("concepts_use_for_" . $concepts[$i]->concept->available_games[$j]),
+			// 		sprintf("concept_%d_%s", $i, $concepts[$i]->concept->available_games[$j])
+			// 	);
+			// 	$useForGaming->addSubItem($game);
+			// }
+
+			if (in_array("cw", $concepts[$i]->concept->available_games)) {
+				$useForCW = new ilCheckBoxInputGUI(
+					$this->plugin->txt("concepts_use_for_cw"),
+					sprintf("concept_%d_cw", $i)
+				);
+				$useForGaming->addSubItem($useForCW);
+			}
+
+			if (in_array("dtw", $concepts[$i]->concept->available_games)) {
+				$useForDTW = new ilCheckBoxInputGUI(
+					$this->plugin->txt("concepts_use_for_dtw"),
+					sprintf("concept_%d_dtw", $i)
+				);
+				$useForGaming->addSubItem($useForDTW);
+			}
+
+			if (in_array("ftw", $concepts[$i]->concept->available_games)) {
+				$useForFTW = new ilCheckBoxInputGUI(
+					$this->plugin->txt("concepts_use_for_ftw"),
+					sprintf("concept_%d_ftw", $i)
+				);
+				$useForGaming->addSubItem($useForFTW);
+			}
 
 			$useForPractice = new ilCheckBoxInputGUI(
 				$this->plugin->txt("concepts_use_for_practice"),
@@ -1680,13 +1701,6 @@ class ilNolejActivityManagementGUI
 				sprintf("concept_%d_assessment", $i)
 			);
 			$form->addItem($useForAssessment);
-
-			$label = new ilNonEditableValueGUI(
-				$this->plugin->txt("concepts_label"),
-				sprintf("question_%d_label", $i)
-			);
-			$label->setValue($concepts[$i]->concept->label);
-			$form->addItem($label);
 
 			$language = new ilNonEditableValueGUI(
 				$this->plugin->txt("concepts_language"),
@@ -1708,16 +1722,16 @@ class ilNolejActivityManagementGUI
 			$games->setValue(json_encode($concepts[$i]->concept->available_games));
 			$form->addItem($games);
 
-			$gamesLabel = new ilNonEditableValueGUI(
-				$this->plugin->txt("concepts_games"),
-				sprintf("question_%d_games_label", $i)
-			);
-			$gamesLabelTxt = [];
-			for ($j = 0, $nGames = count($concepts[$i]->concept->available_games); $j < $nGames; $j++) {
-				$gamesLabelTxt[] = $this->plugin->txt("concepts_game_" . $concepts[$i]->concept->available_games[$j]);
-			}
-			$gamesLabel->setValue(implode(", ", $gamesLabelTxt));
-			$form->addItem($gamesLabel);
+			// $gamesLabel = new ilNonEditableValueGUI(
+			// 	$this->plugin->txt("concepts_games"),
+			// 	sprintf("question_%d_games_label", $i)
+			// );
+			// $gamesLabelTxt = [];
+			// for ($j = 0, $nGames = count($concepts[$i]->concept->available_games); $j < $nGames; $j++) {
+			// 	$gamesLabelTxt[] = $this->plugin->txt("concepts_game_" . $concepts[$i]->concept->available_games[$j]);
+			// }
+			// $gamesLabel->setValue(implode(", ", $gamesLabelTxt));
+			// $form->addItem($gamesLabel);
 
 			if ($a_use_post) {
 				$enable->setValueByArray($_POST);
