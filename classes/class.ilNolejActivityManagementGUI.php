@@ -1224,6 +1224,18 @@ class ilNolejActivityManagementGUI
 			false
 		);
 
+		if ($this->status == self::STATUS_REVISION) {
+			$toolbar = new ilToolbarGUI();
+
+			$toolbar->addText($this->plugin->txt("cmd_review_info"));
+			$toolbar->addButton(
+				$this->plugin->txt("cmd_review"),
+				$this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
+			);
+
+			$tpl->setRightContent($toolbar->getHTML());
+		}
+
 		switch ($active_subtab) {
 			case self::SUBTAB_QUESTIONS:
 			case self::SUBTAB_CONCEPTS:
