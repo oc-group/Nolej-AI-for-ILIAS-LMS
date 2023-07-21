@@ -1169,12 +1169,7 @@ class ilNolejActivityManagementGUI
 				$result->result == "ok"
 			)
 		) {
-			ilUtil::sendQuestion(print_r($result, true) . implode(";", [
-				is_object($result),
-				property_exists($result, "result"),
-				is_string($result->result),
-				$result->result
-			]));
+			ilUtil::sendFailure("An error occurred: " . print_r($result, true));
 			return;
 		}
 
