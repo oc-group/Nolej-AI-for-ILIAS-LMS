@@ -1663,7 +1663,9 @@ class ilNolejActivityManagementGUI
 				$this->plugin->txt("concepts_use_for_gaming"),
 				sprintf("concept_%d_gaming", $i)
 			);
-			$form->addItem($useForGaming);
+			if (count($concepts[$i]->concept->available_games) > 0) {
+				$form->addItem($useForGaming);
+			}
 
 			// for ($j = 0, $nGames = count($concepts[$i]->concept->available_games); $j < $nGames; $j++) {
 			// 	$game = new ilCheckBoxInputGUI(
@@ -1788,9 +1790,9 @@ class ilNolejActivityManagementGUI
 			$useForCW = $form->getInput(sprintf("concept_%d_cw", $i)) ?? false;
 			$useForDTW = $form->getInput(sprintf("concept_%d_dtw", $i)) ?? false;
 			$useForFTW = $form->getInput(sprintf("concept_%d_ftw", $i)) ?? false;
-			$useForGaming = $form->getInput(sprintf("concept_%d_gaming", $i));
-			$useForPractice = $form->getInput(sprintf("concept_%d_practice", $i));
-			$useForAssessment = $form->getInput(sprintf("concept_%d_assessment", $i));
+			$useForGaming = $form->getInput(sprintf("concept_%d_gaming", $i)) ?? false;
+			$useForPractice = $form->getInput(sprintf("concept_%d_practice", $i)) ?? false;
+			$useForAssessment = $form->getInput(sprintf("concept_%d_assessment", $i)) ?? false;
 			$label = $form->getInput(sprintf("concept_%d_label", $i));
 			$language = $form->getInput(sprintf("concept_%d_language", $i));
 			$definition = $form->getInput(sprintf("concept_%d_definition", $i));
