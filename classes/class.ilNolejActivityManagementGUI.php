@@ -1688,7 +1688,7 @@ class ilNolejActivityManagementGUI
 				sprintf("concept_%d_ftw", $i)
 			);
 
-			if ($availableGames != null && count($availableGames) > 0) {
+			if ($availableGames != null && is_array($availableGames) && count($availableGames) > 0) {
 				$form->addItem($useForGaming);
 
 				if (in_array("cw", $concepts[$i]->concept->available_games)) {
