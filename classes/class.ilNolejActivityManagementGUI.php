@@ -1663,7 +1663,7 @@ class ilNolejActivityManagementGUI
 				$this->plugin->txt("concepts_use_for_gaming"),
 				sprintf("concept_%d_gaming", $i)
 			);
-			if (isset($concepts[$i]->concept->available_games) && count($concepts[$i]->concept->available_games) > 0) {
+			if (count($concepts[$i]->concept->available_games) > 0) {
 				$form->addItem($useForGaming);
 			}
 
