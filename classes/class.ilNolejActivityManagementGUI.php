@@ -1164,7 +1164,10 @@ class ilNolejActivityManagementGUI
 			!is_object($result) ||
 			!property_exists($result, "result") ||
 			!is_string($result->result) ||
-			$result->result != "ok"
+			!(
+				$result->result == "\"ok\"" ||
+				$result->result == "ok"
+			)
 		) {
 			ilUtil::sendQuestion(print_r($result, true) . implode(";", [
 				is_object($result),
