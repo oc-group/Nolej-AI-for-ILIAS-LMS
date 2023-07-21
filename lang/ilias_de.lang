@@ -52,6 +52,7 @@ err_credentials#:#
 err_questions_file#:#
 err_questions_put#:#
 err_questions_save#:#
+err_review_not_ready#:#
 err_summary_file#:#
 err_summary_put#:#
 err_summary_save#:#

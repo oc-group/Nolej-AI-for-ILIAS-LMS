@@ -1239,8 +1239,15 @@ class ilNolejActivityManagementGUI
 		$dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->status;
 
-		if ($status < self::STATUS_REVISION) {
+		$this->initTabs(self::TAB_REVIEW);
+
+		if ($status < self::STATUS_ANALISYS) {
 			ilUtil::sendInfo($this->plugin->txt("err_transcription_not_ready"));
+			return;
+		}
+
+		if ($status < self::STATUS_REVISION) {
+			ilUtil::sendInfo($this->plugin->txt("err_analysis_not_ready"));
 			return;
 		}
 
@@ -1847,7 +1854,25 @@ class ilNolejActivityManagementGUI
 	public function activities()
 	{
 		global $tpl;
+		// $dataDir = $this->gui_obj->object->getDataDir();
+		$status = $this->status;
+
 		$this->initTabs(self::TAB_ACTIVITIES);
+
+		if ($status < self::STATUS_ANALISYS) {
+			ilUtil::sendInfo($this->plugin->txt("err_transcription_not_ready"));
+			return;
+		}
+
+		if ($status < self::STATUS_REVISION) {
+			ilUtil::sendInfo($this->plugin->txt("err_analysis_not_ready"));
+			return;
+		}
+
+		if ($status < self::STATUS_ACTIVITIES) {
+			ilUtil::sendInfo($this->plugin->txt("err_review_not_ready"));
+			return;
+		}
 
 		// TODO
 	}

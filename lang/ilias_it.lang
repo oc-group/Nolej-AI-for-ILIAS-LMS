@@ -52,11 +52,12 @@ err_credentials#:#Le credenziali non sono valide.
 err_questions_file#:#Impossibile caricare le domande. Per favore, riprova.
 err_questions_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 err_questions_save#:#Impossibile salvare il file delle domande. Riprova, e se persiste contatta un Amministratore.
+err_review_not_ready#:#Non hai ancora completato la revisione.
 err_summary_file#:#Impossibile caricare il file di sommario. Per favore, riprova.
 err_summary_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 err_summary_save#:#Impossibile salvare il file di sommario. Riprova, e se persiste contatta un Amministratore.
 err_tic_response#:#L'endpoint di Nolej ha restituito una risposta non prevista.
-err_transcription_not_ready#:#La trascrizione non è ancora completa, attendi ancora un po' di tempo e torna qui per verificare. L'attesa stimata è di circa un terzo rispetto alla durata del file scelto; se è trascorso molto più di questo tempo e non hai ancora ricevuto una notifica, per favore contatta un Amministratore.
+err_transcription_not_ready#:#La trascrizione non è ancora completa, attendi ancora un po' di tempo e torna qui per verificare. L'attesa stimata è di circa un decimo rispetto alla durata del file scelto; se è trascorso molto più di questo tempo e non hai ancora ricevuto una notifica, per favore contatta un Amministratore.
 fold_create_xnlj#:#Crea un oggetto Nolej
 goto_activity_management#:#Vai in Gestione Attività
 grp_create_xnlj#:#Crea un oggetto Nolej
@@ -84,11 +85,11 @@ objs_xnlj#:#Oggetti Nolej
 plugin_description#:#Nolej: Crea microlearning interattivo con l'IA
 plugin_title#:#Nolej
 prop_audio#:#Streaming Audio
-prop_audio_info#:#Analizza un audio da SoundCloud (2 crediti)
+prop_audio_info#:#Analizza un audio da SoundCloud
 prop_automatic#:#Modalità automatica
 prop_automatic_info#:#Se impostato, Nolej procede direttamente con l'ultimo step: la generazione degli oggetti H5P. Ad eccezione di audio e video, per i quali l'utente deve confermare la trascrizione.
 prop_content#:#Contenuto della pagina web
-prop_content_info#:#Analizza il contenuto della pagina (1 credito)
+prop_content_info#:#Analizza il contenuto della pagina
 prop_description#:#Descrizione
 prop_file#:#File
 prop_file_info#:#Carica un file (audio, video, o un documento).
@@ -112,7 +113,7 @@ prop_transcription#:#Trascrizione
 prop_url#:#URL
 prop_url_info#:#Incolla qui l'URL del file multimediale
 prop_video#:#Streaming Video
-prop_video_info#:#Analizza video da YouTube, Vimeo o Wistia (3 crediti)
+prop_video_info#:#Analizza video da YouTube, Vimeo o Wistia
 prop_web#:#URL web
 prop_web_info#:#Analizza una risorsa da Internet.
 prop_web_src#:#Scegli cosa Nolej dovrà analizzare da questo URL.

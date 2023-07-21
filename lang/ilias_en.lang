@@ -52,11 +52,12 @@ err_credentials#:#Invalid/Wrong credentials.
 err_questions_file#:#Questions file cannot be retrieved. Please, try again.
 err_questions_put#:#Nolej returned an error, please check your data and try again.
 err_questions_save#:#Questions file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
+err_review_not_ready#:#You haven't completed the review yet.
 err_summary_file#:#Summary file cannot be retrieved. Please, try again.
 err_summary_put#:#Nolej returned an error, please check your data and try again.
 err_summary_save#:#Summary file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
 err_tic_response#:#Nolej endpoint returned an invalid response.
-err_transcription_not_ready#:#The transcription is not ready yet, please wait some time and check again. It should take a third of the source duration; if after this time you haven't received any notification, please contact an Administrator. 
+err_transcription_not_ready#:#The transcription is not ready yet, please wait some time and check again. It should take a tenth of the source duration; if after this time you haven't received any notification, please contact an Administrator. 
 fold_create_xnlj#:#Create Nolej object
 goto_activity_management#:#Go to Activity Management
 grp_create_xnlj#:#Create Nolej object
@@ -84,11 +85,11 @@ objs_xnlj#:#Nolej objects
 plugin_description#:#Nolej: Build interactive microlearning with AI
 plugin_title#:#Nolej
 prop_audio#:#Audio streaming
-prop_audio_info#:#Analyze audio from SoundCloud (2 credits)
+prop_audio_info#:#Analyze audio from SoundCloud
 prop_automatic#:#Automatic mode
 prop_automatic_info#:#If checked, Nolej goes directly to the final step: the generation of H5P activities. Except for audio and video, where the user is asked to review the transcription.
 prop_content#:#Web page content
-prop_content_info#:#Analyze the web page content (1 credit)
+prop_content_info#:#Analyze the web page content
 prop_description#:#Description
 prop_file#:#File
 prop_file_info#:#Upload a file (audio, video, or a document).
@@ -112,7 +113,7 @@ prop_transcription#:#Transcription
 prop_url#:#URL
 prop_url_info#:#Paste here the media's URL.
 prop_video#:#Video streaming
-prop_video_info#:#Analyze video from YouTube, Vimeo or Wistia (3 credits)
+prop_video_info#:#Analyze video from YouTube, Vimeo or Wistia
 prop_web#:#Web URL
 prop_web_info#:#Analyze a resource from the Web.
 prop_web_src#:#Choose what to analyze from that URL
