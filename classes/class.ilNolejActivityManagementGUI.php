@@ -1787,6 +1787,7 @@ class ilNolejActivityManagementGUI
 		$length = $form->getInput("concepts_count");
 		for ($i = 0; $i < $length; $i++) {
 			$id = $form->getInput(sprintf("concept_%d_id", $i));
+			$enable = $form->getInput(sprintf("concept_%d_enable", $i));
 			$useForCW = $form->getInput(sprintf("concept_%d_cw", $i)) ?? false;
 			$useForDTW = $form->getInput(sprintf("concept_%d_dtw", $i)) ?? false;
 			$useForFTW = $form->getInput(sprintf("concept_%d_ftw", $i)) ?? false;
@@ -1801,6 +1802,7 @@ class ilNolejActivityManagementGUI
 			if (!empty($id)) {
 				$concepts[] = [
 					"id" => $id,
+					"enable" => $enable,
 					"use_for_cw" => $useForCW,
 					"use_for_dtw" => $useForDTW,
 					"use_for_ftw" => $useForFTW,
