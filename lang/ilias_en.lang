@@ -166,4 +166,33 @@ xnlj_read#:#Read: User has read access to Nolej objects
 xnlj_visible#:#Visible: Nolej object is visible
 xnlj_write#:#Edit Settings: User can edit settings of Nolej objects
 cmd_review_info#:#If you have reviewed the summary, and every question and concept, you can proceed with the creation of H5P objects.
+activities_settings#:#Activities settings
+activities_available#:#Available activities
+activities_selected#:#Selected activities
+activities_ftw_words#:#Defines how many words to use in the Find The Word activity
+activities_dtw_words#:#Defines how many words to use in the Drag The Word activity
+activities_cw_words#:#Defines how many words to use in the Crossword activity
+activities_practice_flashcards#:#Defines how many questions should appear in the conceptual flashcard activity
+activities_ibook#:#Interactive book
+activities_hoquestions#:#High order questions
+activities_glossary#:#Glossary
+activities_practice#:#Conceptual flashcards
+activities_grade#:#Conceptual assessment
+activities_gradeq#:#Contextual assessment
+activities_findtheword#:#Find the word
+activities_dragtheword#:#Drag the word
+activities_crossword#:#Crossword
+activities_ivideo#:#Interactive video
+activities_practiceq#:#Contextual flashcards
+activities_summary#:#Summary
+activities_practiceq_flashcards#:#Defines how many questions should appear in the contextual flashcard activity
+activities_grade_questions#:#Defines how many questions should appear in the conceptual assessment activity
+activities_flashcards_flashcards#:#Defines how many flashcards should appear in the conceptual assessment activity
+activities_ivideo_questions#:#Defines how many questions should be proposed per set in the Interactive Video activity. There are 2 sets: one at the middle of the video, one at the end of the video
+activities_ivideo_summary#:#Defines if the summary will be added to the end of the Interactive Video activity
+activities_gradeq_questions#:#Defines how many questions should appear in the contextual assessment activity
+activities_ibook_include#:#Choose which activities should be included in the interactive book
+err_settings_file#:#Activities settings file cannot be retrieved. Please, try again.
+err_settings_put#:#Nolej returned an error, please check your data and try again.
+err_settings_save#:#Activities settings file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
 
