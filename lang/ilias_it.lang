@@ -195,4 +195,5 @@ activities_ibook_include#:#Scegli quali attività dovranno essere incluse nel li
 err_settings_file#:#Impossibile caricare le impostazioni delle attività. Per favore, riprova.
 err_settings_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 err_settings_save#:#Impossibile salvare il file delle impostazioni delle attività. Riprova, e se persiste contatta un Amministratore.
+activities_desired_packages#:#Attività da generare
 

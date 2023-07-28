@@ -1886,6 +1886,7 @@ class ilNolejActivityManagementGUI
 
 		$settings = json_decode($json);
 		$availableActivities = $settings->avaible_packages ?? [];
+		$desiredActivities = $settings->desired_packages ?? [];
 		$settings = $settings->settings;
 
 		$section = new ilFormSectionHeaderGUI();
@@ -1940,6 +1941,23 @@ class ilNolejActivityManagementGUI
 		);
 		if (in_array("practiceq", $availableActivities)) {
 			$form->addItem($practiceq);
+		}
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->plugin->txt("activities_desired_packages"));
+		$form->addItem($section);
+
+		for ($i = 0, $len = count($availableActivities); $i < $len; $i++) {
+			$activity = new ilCheckBoxInputGUI(
+				$this->plugin->txt("activities_" . $availableActivities[$i]),
+				"activity_" . $availableActivities[$i]
+			);
+			if ($a_use_post) {
+				$activity->setValueByArray($_POST);
+			} else if (in_array($availableActivities[$i], $desiredActivities)) {
+				$activity->setChecked(true);
+			}
+			$form->addItem($activity);
 		}
 
 		$section = new ilFormSectionHeaderGUI();
@@ -2124,15 +2142,15 @@ class ilNolejActivityManagementGUI
 	public function saveActivities()
 	{
 		global $tpl;
-		$form = $this->initConceptsForm(true);
+		$form = $this->initActivitiesForm(true);
 		if (!$form->checkInput()) {
 			// input not ok, then
-			$this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
+			$this->initTabs(self::TAB_ACTIVITIES);
 			$tpl->setContent($form->getHTML());
 			return;
 		}
 
-		$concepts = [];
+		$settings = [];
 
 		$length = $form->getInput("concepts_count");
 		for ($i = 0; $i < $length; $i++) {
