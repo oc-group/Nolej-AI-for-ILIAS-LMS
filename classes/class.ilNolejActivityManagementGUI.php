@@ -2060,7 +2060,7 @@ class ilNolejActivityManagementGUI
 
 		$ivQuestions = new ilNumberInputGUI(
 			$this->plugin->txt("activities_ivideo_questions"),
-			"IV_number_question__perset_current"
+			"IV_number_question_perset_current"
 		);
 		$ivQuestions->allowDecimals(false);
 		$ivQuestions->setMinValue(0, true);
@@ -2069,10 +2069,10 @@ class ilNolejActivityManagementGUI
 			"IV_include_summary"
 		);
 		if (in_array("ivideo", $availableActivities)) {
-			$ivQuestionsMax = new ilHiddenInputGUI("IV_number_question__perset_max");
-			$ivQuestionsMax->setValue($settings->IV_number_question__perset_max);
+			$ivQuestionsMax = new ilHiddenInputGUI("IV_number_question_perset_max");
+			$ivQuestionsMax->setValue($settings->IV_number_question_perset_max);
 			$form->addItem($ivQuestionsMax);
-			$ivQuestions->setMaxValue($settings->IV_number_question__perset_max, true);
+			$ivQuestions->setMaxValue($settings->IV_number_question_perset_max, true);
 			$form->addItem($ivQuestions);
 			$form->addItem($ivSummary);
 		}
