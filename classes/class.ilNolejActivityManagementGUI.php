@@ -1438,7 +1438,7 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
-	 * @param bool $a_use_post Set value from POST, if false load summary file
+	 * @param bool $a_use_post Set value from POST, if false load questions file
 	 * @param bool $a_disabled Set all inputs disabled
 	 * 
 	 * @return ilPropertyFormGUI
@@ -1628,7 +1628,7 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
-	 * @param bool $a_use_post Set value from POST, if false load summary file
+	 * @param bool $a_use_post Set value from POST, if false load concepts file
 	 * @param bool $a_disabled Set all inputs disabled
 	 * 
 	 * @return ilPropertyFormGUI
@@ -1866,6 +1866,328 @@ class ilNolejActivityManagementGUI
 		$this->activities();
 	}
 
+	/**
+	 * @param bool $a_use_post Set value from POST, if false load activities file
+	 * @param bool $a_disabled Set all inputs disabled
+	 * 
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initActivitiesForm($a_use_post = false, $a_disabled = false)
+	{
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->plugin->txt("activities_settings"));
+
+		$this->getNolejContent("settings", "settings.json");
+		$json = $this->readDocumentFile("settings.json");
+		if (!$json) {
+			ilUtil::sendFailure("err_settings_file");
+			return $form;
+		}
+
+		$settings = json_decode($json);
+		$availableActivities = $settings->avaible_packages ?? [];
+		$settings = $settings->settings;
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->plugin->txt("activities_ibook_include"));
+		$form->addItem($section);
+
+		$glossary = new ilCheckBoxInputGUI(
+			$this->plugin->txt("activities_glossary"),
+			"Glossary_include_IB"
+		);
+		if (in_array("glossary", $availableActivities)) {
+			$form->addItem($glossary);
+		}
+		$summary = new ilCheckBoxInputGUI(
+			$this->plugin->txt("activities_summary"),
+			"Summary_include_IB"
+		);
+		if (in_array("summary", $availableActivities)) {
+			$form->addItem($summary);
+		}
+		$dtw = new ilCheckBoxInputGUI(
+			$this->plugin->txt("activities_dragtheword"),
+			"DTW_include_IB"
+		);
+		if (in_array("dragtheword", $availableActivities)) {
+			$form->addItem($dtw);
+		}
+		$grade = new ilCheckBoxInputGUI(
+			$this->plugin->txt("activities_grade"),
+			"Grade_include_IB"
+		);
+		if (in_array("grade", $availableActivities)) {
+			$form->addItem($grade);
+		}
+		$gradeq = new ilCheckBoxInputGUI(
+			$this->plugin->txt("activities_gradeq"),
+			"GradeQ_include_IB"
+		);
+		if (in_array("gradeq", $availableActivities)) {
+			$form->addItem($gradeq);
+		}
+		$practice = new ilCheckBoxInputGUI(
+			$this->plugin->txt("activities_practice"),
+			"Practice_include_IB"
+		);
+		if (in_array("practice", $availableActivities)) {
+			$form->addItem($practice);
+		}
+		$practiceq = new ilCheckBoxInputGUI(
+			$this->plugin->txt("activities_practiceq"),
+			"PracticeQ_include_IB"
+		);
+		if (in_array("practiceq", $availableActivities)) {
+			$form->addItem($practiceq);
+		}
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->plugin->txt("activities_settings"));
+		$form->addItem($section);
+
+		$ftwWords = new ilNumberInputGUI(
+			$this->plugin->txt("activities_ftw_words"),
+			"FTW_number_word_current"
+		);
+		$ftwWords->allowDecimals(false);
+		$ftwWords->setMinValue(3);
+		if (in_array("findtheword", $availableActivities)) {
+			$ftwWordsMax = new ilHiddenInputGUI("FTW_number_word_max");
+			$ftwWordsMax->setValue($settings->FTW_number_word_max);
+			$form->addItem($ftwWordsMax);
+			$ftwWords->setMaxValue($settings->FTW_number_word_max);
+			$form->addItem($ftwWords);
+		}
+
+		$dtwWords = new ilNumberInputGUI(
+			$this->plugin->txt("activities_dtw_words"),
+			"DTW_number_word_current"
+		);
+		$dtwWords->allowDecimals(false);
+		$dtwWords->setMinValue(3);
+		if (in_array("dragtheword", $availableActivities)) {
+			$dtwWordsMax = new ilHiddenInputGUI("DTW_number_word_max");
+			$dtwWordsMax->setValue($settings->DTW_number_word_max);
+			$form->addItem($dtwWordsMax);
+			$dtwWords->setMaxValue($settings->DTW_number_word_max);
+			$form->addItem($dtwWords);
+		}
+
+		$cwWords = new ilNumberInputGUI(
+			$this->plugin->txt("activities_cw_words"),
+			"CW_number_word_current"
+		);
+		$cwWords->allowDecimals(false);
+		$cwWords->setMinValue(3);
+		if (in_array("crossword", $availableActivities)) {
+			$cwWordsMax = new ilHiddenInputGUI("CW_number_word_max");
+			$cwWordsMax->setValue($settings->CW_number_word_max);
+			$form->addItem($cwWordsMax);
+			$cwWords->setMaxValue($settings->CW_number_word_max);
+			$form->addItem($cwWords);
+		}
+
+		$practiceFlashcards = new ilNumberInputGUI(
+			$this->plugin->txt("activities_practice_flashcards"),
+			"Practice_number_flashcard_current"
+		);
+		$practiceFlashcards->allowDecimals(false);
+		$practiceFlashcards->setMinValue(0);
+		if (in_array("practice", $availableActivities)) {
+			$practiceFlashcardsMax = new ilHiddenInputGUI("Practice_number_flashcard_max");
+			$practiceFlashcardsMax->setValue($settings->Practice_number_flashcard_max);
+			$form->addItem($practiceFlashcardsMax);
+			$practiceFlashcards->setMaxValue($settings->Practice_number_flashcard_max);
+			$form->addItem($practiceFlashcards);
+		}
+
+		$practiceqFlashcards = new ilNumberInputGUI(
+			$this->plugin->txt("activities_practiceq_flashcards"),
+			"Practiceq_number_flashcard_current"
+		);
+		$practiceqFlashcards->allowDecimals(false);
+		$practiceqFlashcards->setMinValue(0);
+		if (in_array("practiceq", $availableActivities)) {
+			$practiceqFlashcardsMax = new ilHiddenInputGUI("Practiceq_number_flashcard_max");
+			$practiceqFlashcardsMax->setValue($settings->Practiceq_number_flashcard_max);
+			$form->addItem($practiceqFlashcardsMax);
+			$practiceqFlashcards->setMaxValue($settings->Practiceq_number_flashcard_max);
+			$form->addItem($practiceqFlashcards);
+		}
+
+		$gradeQuestions = new ilNumberInputGUI(
+			$this->plugin->txt("activities_grade_questions"),
+			"Grade_number_question_current"
+		);
+		$gradeQuestions->allowDecimals(false);
+		$gradeQuestions->setMinValue(0);
+		if (in_array("grade", $availableActivities)) {
+			$gradeQuestionsMax = new ilHiddenInputGUI("Grade_number_question_max");
+			$gradeQuestionsMax->setValue($settings->Grade_number_question_max);
+			$form->addItem($gradeQuestionsMax);
+			$gradeQuestions->setMaxValue($settings->Grade_number_question_max);
+			$form->addItem($gradeQuestions);
+		}
+
+		$gradeqQuestions = new ilNumberInputGUI(
+			$this->plugin->txt("activities_gradeq_questions"),
+			"Gradeq_number_question_current"
+		);
+		$gradeqQuestions->allowDecimals(false);
+		$gradeqQuestions->setMinValue(0);
+		if (in_array("gradeq", $availableActivities)) {
+			$gradeqQuestionsMax = new ilHiddenInputGUI("Gradeq_number_question_max");
+			$gradeqQuestionsMax->setValue($settings->Gradeq_number_question_max);
+			$form->addItem($gradeqQuestionsMax);
+			$gradeqQuestions->setMaxValue($settings->Gradeq_number_question_max);
+			$form->addItem($gradeqQuestions);
+		}
+
+		$flashcardsFlashcards = new ilNumberInputGUI(
+			$this->plugin->txt("activities_flashcards_flashcards"),
+			"Flashcards_number_flashcard_current"
+		);
+		$flashcardsFlashcards->allowDecimals(false);
+		$flashcardsFlashcards->setMinValue(0);
+		if (in_array("flashcards", $availableActivities)) {
+			$flashcardsFlashcardsMax = new ilHiddenInputGUI("Flashcards_number_flashcard_max");
+			$flashcardsFlashcardsMax->setValue($settings->Flashcards_number_flashcard_max);
+			$form->addItem($flashcardsFlashcardsMax);
+			$flashcardsFlashcards->setMaxValue($settings->Flashcards_number_flashcard_max);
+			$form->addItem($flashcardsFlashcards);
+		}
+
+		$ivQuestions = new ilNumberInputGUI(
+			$this->plugin->txt("activities_ivideo_questions"),
+			"IV_number_question__perset_current"
+		);
+		$ivQuestions->allowDecimals(false);
+		$ivQuestions->setMinValue(0);
+		$ivSummary = new ilCheckBoxInputGUI(
+			$this->plugin->txt("activities_ivideo_summary"),
+			"IV_include_summary"
+		);
+		if (in_array("ivideo", $availableActivities)) {
+			$ivQuestionsMax = new ilHiddenInputGUI("IV_number_question__perset_max");
+			$ivQuestionsMax->setValue($settings->IV_number_question__perset_max);
+			$form->addItem($ivQuestionsMax);
+			$ivQuestions->setMaxValue($settings->IV_number_question__perset_max);
+			$form->addItem($ivQuestions);
+			$form->addItem($ivSummary);
+		}
+
+		if ($a_use_post) {
+			$glossary->setValueByArray($_POST);
+			$summary->setValueByArray($_POST);
+			$dtw->setValueByArray($_POST);
+			$grade->setValueByArray($_POST);
+			$gradeq->setValueByArray($_POST);
+			$practice->setValueByArray($_POST);
+			$practiceq->setValueByArray($_POST);
+			$ftwWords->setValueByArray($_POST);
+			$dtwWords->setValueByArray($_POST);
+			$cwWords->setValueByArray($_POST);
+			$practiceFlashcards->setValueByArray($_POST);
+			$practiceqFlashcards->setValueByArray($_POST);
+			$gradeQuestions->setValueByArray($_POST);
+			$gradeqQuestions->setValueByArray($_POST);
+			$flashcardsFlashcards->setValueByArray($_POST);
+			$ivQuestions->setValueByArray($_POST);
+			$ivSummary->setValueByArray($_POST);
+		} else {
+			$glossary->setChecked($settings->Glossary_include_IB);
+			$summary->setChecked($settings->Summary_include_IB);
+			$dtw->setChecked($settings->DTW_include_IB);
+			$grade->setChecked($settings->Grade_include_IB);
+			$gradeq->setChecked($settings->GradeQ_include_IB);
+			$practice->setChecked($settings->Practice_include_IB);
+			$practiceq->setChecked($settings->PracticeQ_include_IB);
+			$ftwWords->setValue($settings->FTW_number_word_current);
+			$dtwWords->setValue($settings->DTW_number_word_current);
+			$cwWords->setValue($settings->CW_number_word_current);
+			$practiceFlashcards->setValue($settings->Practice_number_flashcard_current);
+			$practiceqFlashcards->setValue($settings->Practiceq_number_flashcard_current);
+			$gradeQuestions->setValue($settings->Grade_number_question_current);
+			$gradeqQuestions->setValue($settings->Gradeq_number_question_current);
+			$flashcardsFlashcards->setValue($settings->Flashcards_number_flashcard_current);
+			$ivQuestions->setValue($settings->IV_number_question__perset_current);
+			$ivSummary->setChecked($settings->IV_include_summary);
+		}
+
+		$form->addCommandButton(self::CMD_CONCEPTS_SAVE, $this->plugin->txt("cmd_save"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		return $form;
+	}
+
+	public function saveActivities()
+	{
+		global $tpl;
+		$form = $this->initConceptsForm(true);
+		if (!$form->checkInput()) {
+			// input not ok, then
+			$this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
+			$tpl->setContent($form->getHTML());
+			return;
+		}
+
+		$concepts = [];
+
+		$length = $form->getInput("concepts_count");
+		for ($i = 0; $i < $length; $i++) {
+			$id = $form->getInput(sprintf("concept_%d_id", $i));
+			$enable = (bool) $form->getInput(sprintf("concept_%d_enable", $i));
+			$useForCW = (bool) $form->getInput(sprintf("concept_%d_cw", $i)) ?? false;
+			$useForDTW = (bool) $form->getInput(sprintf("concept_%d_dtw", $i)) ?? false;
+			$useForFTW = (bool) $form->getInput(sprintf("concept_%d_ftw", $i)) ?? false;
+			$useForGaming = (bool) $form->getInput(sprintf("concept_%d_gaming", $i)) ?? false;
+			$useForPractice = (bool) $form->getInput(sprintf("concept_%d_practice", $i)) ?? false;
+			$useForAssessment = (bool) $form->getInput(sprintf("concept_%d_assessment", $i)) ?? false;
+			$label = $form->getInput(sprintf("concept_%d_label", $i));
+			$language = $form->getInput(sprintf("concept_%d_language", $i));
+			$definition = $form->getInput(sprintf("concept_%d_definition", $i));
+			$games = json_decode($form->getInput(sprintf("concept_%d_games", $i)));
+
+			if (!empty($id)) {
+				$concepts[] = [
+					"id" => $id,
+					"enable" => $enable,
+					"use_for_cw" => $useForCW,
+					"use_for_dtw" => $useForDTW,
+					"use_for_ftw" => $useForFTW,
+					"use_for_gaming" => $useForGaming,
+					"use_for_practice" => $useForPractice,
+					"use_for_assessment" => $useForAssessment,
+					"concept" => [
+						"label" => $label,
+						"language" => $language,
+						"definition" => $definition,
+						"available_games" => $games
+					]
+				];
+			}
+		}
+
+		$success = $this->writeDocumentFile(
+			"concepts.json",
+			json_encode(["concepts" => $concepts])
+		);
+		if (!$success) {
+			ilUtil::sendFailure($this->plugin->txt("err_concepts_save"));
+			$this->questions();
+			return;
+		}
+
+		$success = $this->putNolejContent("concepts", "concepts.json");
+		if (!$success) {
+			ilUtil::sendFailure($this->plugin->txt("err_concepts_put"));
+		} else {
+			ilUtil::sendSuccess($this->plugin->txt("concepts_saved"));
+		}
+		$this->concepts();
+	}
+
 	public function activities()
 	{
 		global $tpl;
@@ -1889,7 +2211,8 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
-		// TODO
+		$form = $this->initActivitiesForm();
+		$tpl->setContent($form->getHTML());
 	}
 
 	public function generate()
