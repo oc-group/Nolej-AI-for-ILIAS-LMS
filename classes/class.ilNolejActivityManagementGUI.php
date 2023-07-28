@@ -2111,7 +2111,7 @@ class ilNolejActivityManagementGUI
 			$gradeQuestions->setValue($settings->Grade_number_question_current);
 			$gradeqQuestions->setValue($settings->GradeQ_number_question_current);
 			$flashcardsFlashcards->setValue($settings->Flashcards_number_flashcard_current);
-			$ivQuestions->setValue($settings->IV_number_question__perset_current);
+			$ivQuestions->setValue($settings->IV_number_question_perset_current);
 			$ivSummary->setChecked($settings->IV_include_summary);
 		}
 
