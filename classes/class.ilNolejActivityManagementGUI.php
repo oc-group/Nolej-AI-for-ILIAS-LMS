@@ -1951,12 +1951,12 @@ class ilNolejActivityManagementGUI
 			"FTW_number_word_current"
 		);
 		$ftwWords->allowDecimals(false);
-		$ftwWords->setMinValue(3);
+		$ftwWords->setMinValue(3, true);
 		if (in_array("findtheword", $availableActivities)) {
 			$ftwWordsMax = new ilHiddenInputGUI("FTW_number_word_max");
 			$ftwWordsMax->setValue($settings->FTW_number_word_max);
 			$form->addItem($ftwWordsMax);
-			$ftwWords->setMaxValue($settings->FTW_number_word_max);
+			$ftwWords->setMaxValue($settings->FTW_number_word_max, true);
 			$form->addItem($ftwWords);
 		}
 
@@ -1965,12 +1965,12 @@ class ilNolejActivityManagementGUI
 			"DTW_number_word_current"
 		);
 		$dtwWords->allowDecimals(false);
-		$dtwWords->setMinValue(3);
+		$dtwWords->setMinValue(3, true);
 		if (in_array("dragtheword", $availableActivities)) {
 			$dtwWordsMax = new ilHiddenInputGUI("DTW_number_word_max");
 			$dtwWordsMax->setValue($settings->DTW_number_word_max);
 			$form->addItem($dtwWordsMax);
-			$dtwWords->setMaxValue($settings->DTW_number_word_max);
+			$dtwWords->setMaxValue($settings->DTW_number_word_max, true);
 			$form->addItem($dtwWords);
 		}
 
@@ -1979,12 +1979,12 @@ class ilNolejActivityManagementGUI
 			"CW_number_word_current"
 		);
 		$cwWords->allowDecimals(false);
-		$cwWords->setMinValue(3);
+		$cwWords->setMinValue(3, true);
 		if (in_array("crossword", $availableActivities)) {
 			$cwWordsMax = new ilHiddenInputGUI("CW_number_word_max");
 			$cwWordsMax->setValue($settings->CW_number_word_max);
 			$form->addItem($cwWordsMax);
-			$cwWords->setMaxValue($settings->CW_number_word_max);
+			$cwWords->setMaxValue($settings->CW_number_word_max, true);
 			$form->addItem($cwWords);
 		}
 
@@ -1993,12 +1993,12 @@ class ilNolejActivityManagementGUI
 			"Practice_number_flashcard_current"
 		);
 		$practiceFlashcards->allowDecimals(false);
-		$practiceFlashcards->setMinValue(0);
+		$practiceFlashcards->setMinValue(0, true);
 		if (in_array("practice", $availableActivities)) {
 			$practiceFlashcardsMax = new ilHiddenInputGUI("Practice_number_flashcard_max");
 			$practiceFlashcardsMax->setValue($settings->Practice_number_flashcard_max);
 			$form->addItem($practiceFlashcardsMax);
-			$practiceFlashcards->setMaxValue($settings->Practice_number_flashcard_max);
+			$practiceFlashcards->setMaxValue($settings->Practice_number_flashcard_max, true);
 			$form->addItem($practiceFlashcards);
 		}
 
@@ -2007,12 +2007,12 @@ class ilNolejActivityManagementGUI
 			"Practiceq_number_flashcard_current"
 		);
 		$practiceqFlashcards->allowDecimals(false);
-		$practiceqFlashcards->setMinValue(0);
+		$practiceqFlashcards->setMinValue(0, true);
 		if (in_array("practiceq", $availableActivities)) {
 			$practiceqFlashcardsMax = new ilHiddenInputGUI("Practiceq_number_flashcard_max");
 			$practiceqFlashcardsMax->setValue($settings->Practiceq_number_flashcard_max);
 			$form->addItem($practiceqFlashcardsMax);
-			$practiceqFlashcards->setMaxValue($settings->Practiceq_number_flashcard_max);
+			$practiceqFlashcards->setMaxValue($settings->Practiceq_number_flashcard_max, true);
 			$form->addItem($practiceqFlashcards);
 		}
 
@@ -2021,12 +2021,12 @@ class ilNolejActivityManagementGUI
 			"Grade_number_question_current"
 		);
 		$gradeQuestions->allowDecimals(false);
-		$gradeQuestions->setMinValue(0);
+		$gradeQuestions->setMinValue(0, true);
 		if (in_array("grade", $availableActivities)) {
 			$gradeQuestionsMax = new ilHiddenInputGUI("Grade_number_question_max");
 			$gradeQuestionsMax->setValue($settings->Grade_number_question_max);
 			$form->addItem($gradeQuestionsMax);
-			$gradeQuestions->setMaxValue($settings->Grade_number_question_max);
+			$gradeQuestions->setMaxValue($settings->Grade_number_question_max, true);
 			$form->addItem($gradeQuestions);
 		}
 
@@ -2035,12 +2035,12 @@ class ilNolejActivityManagementGUI
 			"Gradeq_number_question_current"
 		);
 		$gradeqQuestions->allowDecimals(false);
-		$gradeqQuestions->setMinValue(0);
+		$gradeqQuestions->setMinValue(0, true);
 		if (in_array("gradeq", $availableActivities)) {
 			$gradeqQuestionsMax = new ilHiddenInputGUI("Gradeq_number_question_max");
 			$gradeqQuestionsMax->setValue($settings->Gradeq_number_question_max);
 			$form->addItem($gradeqQuestionsMax);
-			$gradeqQuestions->setMaxValue($settings->Gradeq_number_question_max);
+			$gradeqQuestions->setMaxValue($settings->Gradeq_number_question_max, true);
 			$form->addItem($gradeqQuestions);
 		}
 
@@ -2049,12 +2049,12 @@ class ilNolejActivityManagementGUI
 			"Flashcards_number_flashcard_current"
 		);
 		$flashcardsFlashcards->allowDecimals(false);
-		$flashcardsFlashcards->setMinValue(0);
+		$flashcardsFlashcards->setMinValue(0, true);
 		if (in_array("flashcards", $availableActivities)) {
 			$flashcardsFlashcardsMax = new ilHiddenInputGUI("Flashcards_number_flashcard_max");
 			$flashcardsFlashcardsMax->setValue($settings->Flashcards_number_flashcard_max);
 			$form->addItem($flashcardsFlashcardsMax);
-			$flashcardsFlashcards->setMaxValue($settings->Flashcards_number_flashcard_max);
+			$flashcardsFlashcards->setMaxValue($settings->Flashcards_number_flashcard_max, true);
 			$form->addItem($flashcardsFlashcards);
 		}
 
@@ -2063,7 +2063,7 @@ class ilNolejActivityManagementGUI
 			"IV_number_question__perset_current"
 		);
 		$ivQuestions->allowDecimals(false);
-		$ivQuestions->setMinValue(0);
+		$ivQuestions->setMinValue(0, true);
 		$ivSummary = new ilCheckBoxInputGUI(
 			$this->plugin->txt("activities_ivideo_summary"),
 			"IV_include_summary"
@@ -2072,7 +2072,7 @@ class ilNolejActivityManagementGUI
 			$ivQuestionsMax = new ilHiddenInputGUI("IV_number_question__perset_max");
 			$ivQuestionsMax->setValue($settings->IV_number_question__perset_max);
 			$form->addItem($ivQuestionsMax);
-			$ivQuestions->setMaxValue($settings->IV_number_question__perset_max);
+			$ivQuestions->setMaxValue($settings->IV_number_question__perset_max, true);
 			$form->addItem($ivQuestions);
 			$form->addItem($ivSummary);
 		}
