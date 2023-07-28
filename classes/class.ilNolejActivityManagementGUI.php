@@ -2004,15 +2004,15 @@ class ilNolejActivityManagementGUI
 
 		$practiceqFlashcards = new ilNumberInputGUI(
 			$this->plugin->txt("activities_practiceq_flashcards"),
-			"Practiceq_number_flashcard_current"
+			"PracticeQ_number_flashcard_current"
 		);
 		$practiceqFlashcards->allowDecimals(false);
 		$practiceqFlashcards->setMinValue(0, true);
 		if (in_array("practiceq", $availableActivities)) {
-			$practiceqFlashcardsMax = new ilHiddenInputGUI("Practiceq_number_flashcard_max");
-			$practiceqFlashcardsMax->setValue($settings->Practiceq_number_flashcard_max);
+			$practiceqFlashcardsMax = new ilHiddenInputGUI("PracticeQ_number_flashcard_max");
+			$practiceqFlashcardsMax->setValue($settings->PracticeQ_number_flashcard_max);
 			$form->addItem($practiceqFlashcardsMax);
-			$practiceqFlashcards->setMaxValue($settings->Practiceq_number_flashcard_max, true);
+			$practiceqFlashcards->setMaxValue($settings->PracticeQ_number_flashcard_max, true);
 			$form->addItem($practiceqFlashcards);
 		}
 
@@ -2032,15 +2032,15 @@ class ilNolejActivityManagementGUI
 
 		$gradeqQuestions = new ilNumberInputGUI(
 			$this->plugin->txt("activities_gradeq_questions"),
-			"Gradeq_number_question_current"
+			"GradeQ_number_question_current"
 		);
 		$gradeqQuestions->allowDecimals(false);
 		$gradeqQuestions->setMinValue(0, true);
 		if (in_array("gradeq", $availableActivities)) {
-			$gradeqQuestionsMax = new ilHiddenInputGUI("Gradeq_number_question_max");
-			$gradeqQuestionsMax->setValue($settings->Gradeq_number_question_max);
+			$gradeqQuestionsMax = new ilHiddenInputGUI("GradeQ_number_question_max");
+			$gradeqQuestionsMax->setValue($settings->GradeQ_number_question_max);
 			$form->addItem($gradeqQuestionsMax);
-			$gradeqQuestions->setMaxValue($settings->Gradeq_number_question_max, true);
+			$gradeqQuestions->setMaxValue($settings->GradeQ_number_question_max, true);
 			$form->addItem($gradeqQuestions);
 		}
 
@@ -2107,9 +2107,9 @@ class ilNolejActivityManagementGUI
 			$dtwWords->setValue($settings->DTW_number_word_current);
 			$cwWords->setValue($settings->CW_number_word_current);
 			$practiceFlashcards->setValue($settings->Practice_number_flashcard_current);
-			$practiceqFlashcards->setValue($settings->Practiceq_number_flashcard_current);
+			$practiceqFlashcards->setValue($settings->PracticeQ_number_flashcard_current);
 			$gradeQuestions->setValue($settings->Grade_number_question_current);
-			$gradeqQuestions->setValue($settings->Gradeq_number_question_current);
+			$gradeqQuestions->setValue($settings->GradeQ_number_question_current);
 			$flashcardsFlashcards->setValue($settings->Flashcards_number_flashcard_current);
 			$ivQuestions->setValue($settings->IV_number_question__perset_current);
 			$ivSummary->setChecked($settings->IV_include_summary);
