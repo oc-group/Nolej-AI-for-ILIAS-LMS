@@ -196,4 +196,5 @@ err_settings_file#:#Activities settings file cannot be retrieved. Please, try ag
 err_settings_put#:#Nolej returned an error, please check your data and try again.
 err_settings_save#:#Activities settings file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
 activities_desired_packages#:#Desired packages
+activities_use_in_ibook#:#Use in interactive book
 
