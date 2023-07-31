@@ -1,7 +1,8 @@
 <?php
 
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
-require_once("./Services/Notifications/classes/class.ilNotificationConfig.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/NolejActivity.php");
+require_once("./Services/Notifications/classes/class.ilNolejActivityManagementGUI.php");
 
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
@@ -39,14 +40,20 @@ class ilNolejWebhook
 			case "tac":
 				$this->checkTac();
 				break;
+
 			case "transcription":
 				$this->plugin->logger->log("Received request: " . print_r($data, true));
 				$this->checkTranscription();
 				break;
+
 			case "analysis":
 				$this->plugin->logger->log("Received request: " . print_r($data, true));
 				$this->checkAnalysis();
 				break;
+
+			case "activities":
+				$this->checkActivities();
+
 			default:
 				$this->plugin->logger->log("Received invalid action: " . print_r($data, true));
 		}
@@ -117,37 +124,10 @@ class ilNolejWebhook
 			"ok",
 			0,
 			$this->data["message"],
-			0
+			0,
+			"tac_received_info",
+			[$exchangeId, $now]
 		);
-
-		// Notification
-		// $ass = new NolejActivity($exchangeId, $exchange["user_id"], "tac");
-		// $ass->withStatus("ok")
-		// 	->withCode(0)
-		// 	->withErrorMessage($this->data["message"])
-		// 	->withConsumedCredit(0)
-		// 	->store();
-
-		// require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
-		// $recipient_id = $exchange["user_id"];
-		// $sender_id = SYSTEM_USER_ID;
-		// $lang = ilObjUser::_lookupLanguage($recipient_id);
-		// $lng = new ilLanguage($lang);
-		// $lng->loadLanguageModule(ilNolejPlugin::PREFIX);
-		// ilDatePresentation::setUseRelativeDates(false);
-
-		// $notification = new ilNotificationConfig("chat_invitation");
-		// $notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_tac_received"));
-		// $notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "tac_received_info_short"));
-		// $notification->setLongDescriptionVar(sprintf(
-		// 	$lng->txt(ilNolejPlugin::PREFIX . "_tac_received_info_long"),
-		// 	$exchangeId,
-		// 	ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
-		// ));
-		// $notification->setAutoDisable(false);
-		// $notification->setValidForSeconds(0);
-		// $notification->setHandlerParam('mail.sender', $sender_id);
-		// $notification->notifyByUsers([$recipient_id]);
 
 		$this->die_message(200, "TAC received!");
 	}
@@ -178,12 +158,18 @@ class ilNolejWebhook
 		$documentId = $this->data["documentID"];
 
 		$result = $db->queryF(
-			"SELECT a.user_id"
+			"SELECT a.user_id, d.title"
 			. " FROM " . ilNolejPlugin::TABLE_DOC . " d INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
 			. " ON a.document_id = d.document_id"
-			. " WHERE d.document_id = %s AND d.status = 1;",
-			["text"],
-			[$documentId]
+			. " WHERE d.document_id = %s AND d.status = %s;",
+			[
+				"text",
+				"integer"
+			],
+			[
+				$documentId,
+				ilNolejActivityManagementGUI::STATUS_CREATION_PENDING
+			]
 		);
 		if ($db->numRows($result) != 1) {
 			$this->die_message(404, "Document ID not found.");
@@ -194,14 +180,23 @@ class ilNolejWebhook
 
 		$result = $db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_DOC
-			. " SET status = 2, consumed_credit = %s WHERE document_id = %s;",
-			["integer", "text"],
-			[$this->data["consumedCredit"], $documentId]
+			. " SET status = %s, consumed_credit = %s WHERE document_id = %s;",
+			[
+				"integer",
+				"integer",
+				"text"
+			],
+			[
+				ilNolejActivityManagementGUI::STATUS_ANALISYS,
+				$this->data["consumedCredit"],
+				$documentId
+			]
 		);
 		if (!$result) {
 			$this->die_message(404, "Document not found.");
 		}
 
+		$now = strtotime("now");
 		$this->sendNotification(
 			$documentId,
 			$document["user_id"],
@@ -209,7 +204,9 @@ class ilNolejWebhook
 			$this->data["status"],
 			$this->data["code"],
 			$this->data["error_message"],
-			$this->data["consumedCredit"]
+			$this->data["consumedCredit"],
+			"transcription_" . $this->data["status"] . "_desc",
+			[$document["title"], $now, $this->data["error_message"]]
 		);
 
 		$this->die_message(200, "Transcription received!");
@@ -241,13 +238,19 @@ class ilNolejWebhook
 		$documentId = $this->data["documentID"];
 
 		$result = $db->queryF(
-			"SELECT DISTINCT(a.user_id)"
+			"SELECT a.user_id, d.title"
 			. " FROM " . ilNolejPlugin::TABLE_DOC . " d"
 			. " INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
 			. " ON a.document_id = d.document_id"
-			. " WHERE d.document_id = %s AND d.status = 3;",
-			["text"],
-			[$documentId]
+			. " WHERE d.document_id = %s AND d.status = %s;",
+			[
+				"text",
+				"integer"
+			],
+			[
+				$documentId,
+				ilNolejActivityManagementGUI::STATUS_ANALISYS_PENDING
+			]
 		);
 		if ($db->numRows($result) != 1) {
 			$this->die_message(404, "Document ID not found.");
@@ -258,15 +261,24 @@ class ilNolejWebhook
 
 		$result = $db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_DOC
-			. " SET status = 4, consumed_credit = %s"
+			. " SET status = %s, consumed_credit = %s"
 			. " WHERE document_id = %s;",
-			["integer", "text"],
-			[$this->data["consumedCredit"], $documentId]
+			[
+				"integer",
+				"integer",
+				"text"
+			],
+			[
+				ilNolejActivityManagementGUI::STATUS_REVISION,
+				$this->data["consumedCredit"],
+				$documentId
+			]
 		);
 		if (!$result) {
 			$this->die_message(404, "Document not found.");
 		}
 
+		$now = strtotime("now");
 		$this->sendNotification(
 			$documentId,
 			$document["user_id"],
@@ -274,10 +286,129 @@ class ilNolejWebhook
 			$this->data["status"],
 			$this->data["code"],
 			$this->data["error_message"],
-			$this->data["consumedCredit"]
+			$this->data["consumedCredit"],
+			"analysis_" . $this->data["status"] . "_desc",
+			[$document["title"], $now, $this->data["error_message"]]
 		);
 
 		$this->die_message(200, "Analysis received!");
+	}
+
+	function checkActivities()
+	{
+		global $DIC;
+
+		if (
+			!isset(
+				$this->data["documentID"],
+				$this->data["status"],
+				$this->data["code"],
+				$this->data["error_message"],
+				$this->data["consumedCredit"]
+			) ||
+			!is_string($this->data["documentID"]) ||
+			!is_string($this->data["status"]) ||
+			!is_string($this->data["error_message"]) ||
+			!is_integer($this->data["code"]) ||
+			!is_integer($this->data["consumedCredit"])
+		) {
+			$this->die_message(400, "Request not valid.");
+			return;
+		}
+
+		$db = $DIC->database();
+		$documentId = $this->data["documentID"];
+
+		$result = $db->queryF(
+			"SELECT a.user_id, d.title"
+			. " FROM " . ilNolejPlugin::TABLE_DOC . " d"
+			. " INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
+			. " ON a.document_id = d.document_id"
+			. " WHERE d.document_id = %s AND d.status = %s;",
+			[
+				"text",
+				"integer"
+			],
+			[
+				$documentId,
+				ilNolejActivityManagementGUI::STATUS_ACTIVITIES_PENDING
+			]
+		);
+		if ($db->numRows($result) != 1) {
+			$this->die_message(404, "Document ID not found.");
+			return;
+		}
+
+		$document = $db->fetchAssoc($result);
+		$now = strtotime("now");
+
+		if (
+			$result->result != "\"ok\"" &&
+			$result->result != "ok"
+		) {
+			$this->sendNotification(
+				$documentId,
+				$document["user_id"],
+				"activities_ko",
+				$this->data["status"],
+				$this->data["code"],
+				$this->data["error_message"],
+				$this->data["consumedCredit"],
+				"action_activities_ko_desc",
+				[$document["title"], $now, $this->data["error_message"]]
+			);
+			return;
+		}
+
+		$result = $db->manipulateF(
+			"UPDATE " . ilNolejPlugin::TABLE_DOC
+			. " SET status = %s, consumed_credit = %s"
+			. " WHERE document_id = %s;",
+			[
+				"integer",
+				"integer",
+				"text"
+			],
+			[
+				ilNolejActivityManagementGUI::STATUS_COMPLETED,
+				$this->data["consumedCredit"],
+				$documentId
+			]
+		);
+		if (!$result) {
+			$this->die_message(404, "Document not found.");
+		}
+
+		$activityManagement = new ilNolejActivityManagementGUI(null, $documentId);
+		$success = $activityManagement->downloadActivities();
+		if (!$success) {
+			$this->sendNotification(
+				$documentId,
+				$document["user_id"],
+				"activities_ko",
+				$this->data["status"],
+				$this->data["code"],
+				$this->data["error_message"],
+				$this->data["consumedCredit"],
+				"err_activities_get"
+			);
+	
+			$this->die_message(200, "Activities received, but something went wrong while retrieving them.");
+			return;
+		}
+
+		$this->sendNotification(
+			$documentId,
+			$document["user_id"],
+			"activities_ok",
+			$this->data["status"],
+			$this->data["code"],
+			$this->data["error_message"],
+			$this->data["consumedCredit"],
+			"action_activities_ko_desc",
+			[$document["title"], $now]
+		);
+		$this->die_message(200, "Activities received!");
 	}
 
 	/**
@@ -285,11 +416,13 @@ class ilNolejWebhook
 	 * 
 	 * @param string $documentId
 	 * @param int $userId
-	 * @param string $action
+	 * @param string $action used as language key for title
 	 * @param string $status
 	 * @param int $code
 	 * @param string $errorMessage
 	 * @param int $credits
+	 * @param string $bodyVar language variable to use in mail body
+	 * @param string[] $vars parameters to use in $bodyVar's sprintf
 	 */
 	public function sendNotification(
 		$documentId,
@@ -298,7 +431,9 @@ class ilNolejWebhook
 		$status,
 		$code,
 		$errorMessage,
-		$credits
+		$credits,
+		$bodyVar,
+		$vars = array()
 	) {
 		// Send Notification
 		$ass = new NolejActivity($documentId, $userId, $action);
@@ -314,15 +449,20 @@ class ilNolejWebhook
 		$lng->loadLanguageModule(ilNolejPlugin::PREFIX);
 		ilDatePresentation::setUseRelativeDates(false);
 
-		$now = strtotime("now");
 		$notification = new ilNotificationConfig("chat_invitation");
-		$notification->setTitleVar($lng->txt(ilNolejPlugin::PREFIX . "_action_" . $action));
-		$notification->setShortDescriptionVar($lng->txt(ilNolejPlugin::PREFIX . "_action_" . $action . "_long"));
-		$notification->setLongDescriptionVar(sprintf(
-			$lng->txt(ilNolejPlugin::PREFIX . "_tac_received_info_long"),
-			$documentId,
-			ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
-		));
+		$notification->setTitleVar(
+			sprintf(
+				"%s_action_%s",
+				$lng->txt(ilNolejPlugin::PREFIX),
+				$action
+			)
+		);
+		$descriptionVar = sprintf(
+			$lng->txt(ilNolejPlugin::PREFIX . "_" . $bodyVar),
+			...$vars
+		);
+		$notification->setShortDescriptionVar($descriptionVar);
+		$notification->setLongDescriptionVar($descriptionVar);
 		$notification->setAutoDisable(false);
 		$notification->setValidForSeconds(0);
 		$notification->setHandlerParam('mail.sender', SYSTEM_USER_ID);

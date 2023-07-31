@@ -1,6 +1,13 @@
+action_activities#:#Generazione delle attività in corso
+action_activities_ko#:#Generazione delle attività fallita
+action_activities_ko_desc#:#Sfortunatamente, la generazione delle attività del documento "%s" non ha avuto successo, in data %s. Messaggio di errore: %s
+action_activities_ok#:#Attività generate
+action_activities_ok_desc#:#Le attività del documento "%s" sono state generate con successo in data %s; puoi ora vederle nel tab "Contenuto".
 action_analysis#:#Analisi in corso
 action_analysis_ko#:#Analisi fallita
+action_analysis_ko_desc#:#Sfortunatamente, l'analisi del documento "%s" non ha avuto successo, in data %s. Messaggio di errore: %s
 action_analysis_ok#:#Analisi completata
+action_analysis_ok_desc#:#Il documento "%s" è stato analizzato con successo in data %s; puoi ora procedere con la revisione.
 action_review#:#Revisione in corso
 action_review_ko#:#Revisione fallita
 action_review_ok#:#Revisione completata
@@ -8,7 +15,9 @@ action_tac#:#TAC ricevuto!
 action_tic#:#TIC inviato
 action_transcription#:#Trascrizione in corso
 action_transcription_ko#:#Trascrizione fallita
+action_transcription_ko_desc#:#Sfortunatamente, la trascrizione del documento "%s" non ha avuto successo, in data %s. Messaggio di errore: %s
 action_transcription_ok#:#Trascrizione completata
+action_transcription_ok_desc#:#Il documento "%s" è stato trascritto con successo in data %s; puoi ora controllarlo e procedere con l'analisi.
 activities_crossword#:#Cruciverba
 activities_cw_words#:#Definisce quante parole utilizzare nel cruciverba
 activities_dragtheword#:#Trascina la parola
@@ -16,7 +25,7 @@ activities_dtw_words#:#Definisce quante parole utilizzare in Trascina la parola
 activities_findtheword#:#Trova la parola
 activities_flashcards_flashcards#:#Definisce quante flashcard dovranno apparire nel quiz concettuale
 activities_ftw_words#:#Numero di parole
-activities_generated#:#Le attività sono state generate! Puoi ora vederle nel tab Contenuto.
+activities_generation_start#:#Le attività selezionate sono in generazione; riceverai una notifica quando saranno pronte. Può volerci fino a un minuto.
 activities_glossary#:#Glossario
 activities_grade#:#Quiz concettuale
 activities_grade_questions#:#Definisce quante domande dovranno apparire nel quiz concettuale
@@ -27,6 +36,7 @@ activities_ibook#:#Libro interattivo
 activities_ivideo#:#Video interattivo
 activities_ivideo_questions#:#Definisce quante domande dovranno apparire in ogni set nel video interattivo. Ci sono 2 set: uno a metà del video, uno al termine
 activities_ivideo_summary#:#Definisce se il sommario deve essere aggiunto in coda al video interattivo
+activities_ko#:#La generazione delle attività è fallita: %s
 activities_practice#:#Flashcard concettuali
 activities_practice_flashcards#:#Definisce quante domande dovranno apparire nelle flashcard concettuali
 activities_practiceq#:#Flashcard contestuali
@@ -69,6 +79,7 @@ concepts_use_for_practice#:#Utilizza per le Carte concettuali
 configuration_title#:#Configura
 crs_create_xnlj#:#Crea oggetto Nolej
 err_access_denied#:#Non puoi accedere a questo corso.
+err_activities_get#:#Impossibile ottenere le attività generate. Riprova a generare nuovamente le attività.
 err_analysis_not_ready#:#L'analisi non è ancora completa, attendi ancora un po' di tempo e torna qui per verificare.
 err_api_key_missing#:#Non hai indicato la tua chiave API! Vai nella configurazione del plugin e indica la tua chiave API per poter utilizzare il plugin di Nolej.
 err_concepts_file#:#Impossibile caricare i concetti. Per favore, riprova.
@@ -183,8 +194,7 @@ tab_modules#:#Moduli
 tab_properties#:#Proprietà
 tab_review#:#Revisione
 tac_received#:#TAC ricevuto!
-tac_received_info_long#:#TAC con exchange ID %s è stato ricevuto il %s.
-tac_received_info_short#:#Il TAC è stato ricevuto.
+tac_received_info#:#TAC con exchange ID %s è stato ricevuto il %s.
 tic_sent#:#TIC inviato.
 update_successful#:#Aggiornamento completato.
 xnlj_add#:#Crea

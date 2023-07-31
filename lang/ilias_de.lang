@@ -1,6 +1,13 @@
+action_activities#:#
+action_activities_ko#:#
+action_activities_ko_desc#:#
+action_activities_ok#:#
+action_activities_ok_desc#:#
 action_analysis#:#
 action_analysis_ko#:#
+action_analysis_ko_desc#:#
 action_analysis_ok#:#
+action_analysis_ok_desc#:#
 action_review#:#
 action_review_ko#:#
 action_review_ok#:#
@@ -8,7 +15,9 @@ action_tac#:#
 action_tic#:#
 action_transcription#:#
 action_transcription_ko#:#
+action_transcription_ko_desc#:#
 action_transcription_ok#:#
+action_transcription_ok_desc#:#
 activities_crossword#:#
 activities_cw_words#:#
 activities_dragtheword#:#
@@ -16,7 +25,7 @@ activities_dtw_words#:#
 activities_findtheword#:#
 activities_flashcards_flashcards#:#
 activities_ftw_words#:#
-activities_generated#:#
+activities_generation_start#:#
 activities_glossary#:#
 activities_grade#:#
 activities_grade_questions#:#
@@ -27,6 +36,7 @@ activities_ibook#:#
 activities_ivideo#:#
 activities_ivideo_questions#:#
 activities_ivideo_summary#:#
+activities_ko#:#
 activities_practice#:#
 activities_practice_flashcards#:#
 activities_practiceq#:#
@@ -69,6 +79,7 @@ concepts_use_for_practice#:#
 configuration_title#:#
 crs_create_xnlj#:#
 err_access_denied#:#
+err_activities_get#:#
 err_analysis_not_ready#:#
 err_api_key_missing#:#
 err_concepts_file#:#
@@ -183,8 +194,7 @@ tab_modules#:#
 tab_properties#:#
 tab_review#:#
 tac_received#:#
-tac_received_info_long#:#
-tac_received_info_short#:#
+tac_received_info#:#
 tic_sent#:#
 update_successful#:#
 xnlj_add#:#

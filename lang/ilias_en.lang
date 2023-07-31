@@ -1,6 +1,13 @@
+action_activities#:#Activity generation in progress
+action_activities_ko#:#Activity generation failed
+action_activities_ko_desc#:#Unfortunately, activities generation of document "%s" has failed on %s. Error message: %s
+action_activities_ok#:#Activities generated
+action_activities_ok_desc#:#Activities of document "%s" have been generated on %s, you can now see them in the "Content" tab.
 action_analysis#:#Analysis in progress
 action_analysis_ko#:#Analysis failed
+action_analysis_ko_desc#:#Unfortunately, analysis of document "%s" has failed on %s. Error message: %s
 action_analysis_ok#:#Analysis is ready
+action_analysis_ok_desc#:#Analysis of document "%s" has been completed on %s, you can now review it.
 action_review#:#Review in progress
 action_review_ko#:#Review failed
 action_review_ok#:#Review is ready
@@ -8,7 +15,9 @@ action_tac#:#TAC received!
 action_tic#:#TIC sent
 action_transcription#:#Transcription in progress
 action_transcription_ko#:#Transcription failed
+action_transcription_ko_desc#:#Unfortunately, transcription of document "%s" has failed on %s. Error message: %s
 action_transcription_ok#:#Transcription is ready
+action_transcription_ok_desc#:#Transcription of document "%s" has been completed on %s, you can now check it and start the analysis.
 activities_crossword#:#Crossword
 activities_cw_words#:#Defines how many words to use in the Crossword activity
 activities_dragtheword#:#Drag the word
@@ -16,7 +25,7 @@ activities_dtw_words#:#Defines how many words to use in the Drag The Word activi
 activities_findtheword#:#Find the word
 activities_flashcards_flashcards#:#Defines how many flashcards should appear in the conceptual assessment activity
 activities_ftw_words#:#Defines how many words to use in the Find The Word activity
-activities_generated#:#Activities have been generated! You can now view them in the Content tab.
+activities_generation_start#:#Selected activities are generating; you will receive a notification when they are ready. It may take up to 1 minute.
 activities_glossary#:#Glossary
 activities_grade#:#Conceptual assessment
 activities_grade_questions#:#Defines how many questions should appear in the conceptual assessment activity
@@ -27,6 +36,7 @@ activities_ibook#:#Interactive book
 activities_ivideo#:#Interactive video
 activities_ivideo_questions#:#Defines how many questions should be proposed per set in the Interactive Video activity. There are 2 sets: one at the middle of the video, one at the end of the video
 activities_ivideo_summary#:#Defines if the summary will be added to the end of the Interactive Video activity
+activities_ko#:#Activities generation failed: %s
 activities_practice#:#Conceptual flashcards
 activities_practice_flashcards#:#Defines how many questions should appear in the conceptual flashcard activity
 activities_practiceq#:#Contextual flashcards
@@ -69,6 +79,7 @@ concepts_use_for_practice#:#Use for Concept cards
 configuration_title#:#Configure
 crs_create_xnlj#:#Create Nolej object
 err_access_denied#:#You cannot access this course.
+err_activities_get#:#Cannot retrieve the generated activities. Please, try again to generate the activities.
 err_analysis_not_ready#:#The analysis is not ready yet, please wait some time and check again.
 err_api_key_missing#:#API Key is missing! Save it and try again.
 err_concepts_file#:#Concepts file cannot be retrieved. Please, try again.
@@ -183,8 +194,7 @@ tab_modules#:#Modules
 tab_properties#:#Properties
 tab_review#:#Review
 tac_received#:#TAC received!
-tac_received_info_long#:#TAC with exchange ID %s has been received on %s.
-tac_received_info_short#:#TAC response has been received.
+tac_received_info#:#TAC with exchange ID %s has been received on %s.
 tic_sent#:#TIC sent.
 update_successful#:#Update Successful
 xnlj_add#:#Create

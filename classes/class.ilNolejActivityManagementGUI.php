@@ -100,8 +100,17 @@ class ilNolejActivityManagementGUI
 	/** @var string[] $statusIcons */
 	protected $statusIcons;
 
-	/** @param ilObjNolejGUI $gui_obj */
-	public function __construct($gui_obj)
+	/** @var string */
+	protected $documentId;
+
+	/** @var string */
+	protected $dataDir;
+
+	/**
+	 * @param ilObjNolejGUI|null $gui_obj
+	 * @param string|null $documentId
+	 */
+	public function __construct($gui_obj = null, $documentId = null)
 	{
 		global $DIC, $tpl;
 		$this->ctrl = $DIC->ctrl();
@@ -111,6 +120,10 @@ class ilNolejActivityManagementGUI
 
 		$this->plugin = ilNolejPlugin::getInstance();
 		$this->gui_obj = $gui_obj;
+		$this->documentId = $gui_obj != null
+			? $this->gui_obj->object->getDocumentId()
+			: $documentId;
+		$this->dataDir = $this->plugin->getPluginDataDir() . $this->documentId;
 		$this->statusCheck();
 	}
 
@@ -165,11 +178,13 @@ class ilNolejActivityManagementGUI
 					case self::CMD_REVIEW:
 					case self::CMD_ACTIVITIES:
 					case self::CMD_GENERATE:
-						$this->$cmd();
+						if ($this->gui_obj != null) {
+							$this->$cmd();
+						}
 						break;
 
 					default:
-						ilUtil::sendQuestion("Next class: $next_class; Cmd: $cmd", true);
+						// ilUtil::sendQuestion("Next class: $next_class; Cmd: $cmd", true);
 						$cmd = $this->defaultCmd;
 						$this->$cmd();
 				}
@@ -934,10 +949,9 @@ class ilNolejActivityManagementGUI
 	 * @return string|false return the content if the file exists,
 	 *   false otherwise.
 	 */
-	protected function readDocumentFile($filename)
+	public function readDocumentFile($filename)
 	{
-		$dataDir = $this->gui_obj->object->getDataDir();
-		return file_get_contents($dataDir . "/" . $filename);
+		return file_get_contents($this->dataDir . "/" . $filename);
 	}
 
 	/**
@@ -952,16 +966,14 @@ class ilNolejActivityManagementGUI
 	 * @return bool|string return true on success, false on failure. If $saveAs
 	 * is null, then the content is returned as string.
 	 */
-	protected function getNolejContent(
+	public function getNolejContent(
 		$pathname,
 		$saveAs = null,
 		$forceDownload = false,
 		$withData = array(),
 		$encode = false
 	) {
-		$documentId = $this->gui_obj->object->getDocumentId();
-		$dataDir = $this->gui_obj->object->getDataDir();
-		$filepath = $dataDir . "/" . $saveAs;
+		$filepath = $this->dataDir . "/" . $saveAs;
 
 		$api_key = $this->plugin->getConfig("api_key", "");
 		$api = new ilNolejAPI($api_key);
@@ -975,7 +987,7 @@ class ilNolejActivityManagementGUI
 		}
 
 		$result = $api->get(
-			sprintf("/documents/%s/%s", $documentId, $pathname),
+			sprintf("/documents/%s/%s", $this->documentId, $pathname),
 			$withData,
 			$encode,
 			false
@@ -994,9 +1006,8 @@ class ilNolejActivityManagementGUI
 	 * 
 	 * @return bool true on success, false on failure
 	 */
-	protected function putNolejContent($pathname, $filename)
+	public function putNolejContent($pathname, $filename)
 	{
-		$documentId = $this->gui_obj->object->getDocumentId();
 		$content = $this->readDocumentFile($filename);
 		if (!$content) {
 			return false;
@@ -1006,7 +1017,7 @@ class ilNolejActivityManagementGUI
 		$api = new ilNolejAPI($api_key);
 
 		$result = $api->put(
-			sprintf("/documents/%s/%s", $documentId, $pathname),
+			sprintf("/documents/%s/%s", $this->documentId, $pathname),
 			$content
 		);
 		return true;
@@ -1021,15 +1032,14 @@ class ilNolejActivityManagementGUI
 	 * 
 	 * @return bool returns true on success, false on failure.
 	 */
-	protected function writeDocumentFile($filename, $content)
+	public function writeDocumentFile($filename, $content)
 	{
-		$dataDir = $this->gui_obj->object->getDataDir();
-		if (!is_dir($dataDir)) {
-			mkdir($dataDir, 0777, true);
+		if (!is_dir($this->dataDir)) {
+			mkdir($this->dataDir, 0777, true);
 		}
 
 		return file_put_contents(
-			$dataDir . "/" . $filename,
+			$this->dataDir . "/" . $filename,
 			$content
 		) !== false;
 	}
@@ -1040,14 +1050,13 @@ class ilNolejActivityManagementGUI
 	 * @param int $newStatus
 	 * @return void
 	 */
-	protected function updateDocumentStatus($newStatus)
+	public function updateDocumentStatus($newStatus)
 	{
-		$documentId = $this->gui_obj->object->getDocumentId();
 		$this->db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_DOC
 			. " SET status = %s WHERE document_id = %s;",
 			["integer", "text"],
-			[$newStatus, $documentId]
+			[$newStatus, $this->documentId]
 		);
 	}
 
@@ -1058,7 +1067,6 @@ class ilNolejActivityManagementGUI
 	 */
 	protected function downloadTranscription()
 	{
-		$documentId = $this->gui_obj->object->getDocumentId();
 		$status = $this->status;
 
 		if ($status < self::STATUS_ANALISYS) {
@@ -1071,7 +1079,7 @@ class ilNolejActivityManagementGUI
 		$api = new ilNolejAPI($api_key);
 
 		$result = $api->get(
-			sprintf("/documents/%s/transcription", $documentId)
+			sprintf("/documents/%s/transcription", $this->documentId)
 		);
 
 		if (
@@ -1089,7 +1097,7 @@ class ilNolejActivityManagementGUI
 		$this->db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_DOC . " SET title = %s WHERE document_id = %s;",
 			["text", "text"],
-			[$title, $documentId]
+			[$title, $this->documentId]
 		);
 
 		$success = $this->writeDocumentFile(
@@ -1109,7 +1117,6 @@ class ilNolejActivityManagementGUI
 		global $tpl;
 		$this->initTabs(self::TAB_ANALYSIS);
 
-		$dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->status;
 
 		if ($status < self::STATUS_ANALISYS) {
@@ -1117,7 +1124,7 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
-		if (!file_exists($dataDir . "/transcription.htm")) {
+		if (!file_exists($this->dataDir . "/transcription.htm")) {
 			$downloadSuccess = $this->downloadTranscription();
 			if (!$downloadSuccess) {
 				return;
@@ -1151,9 +1158,7 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
-		$documentId = $this->gui_obj->object->getDocumentId();
 		$apiAutomaticMode = $this->gui_obj->object->getDocumentAutomaticMode();
-		$dataDir = $this->gui_obj->object->getDataDir();
 		$api = new ilNolejAPI($api_key);
 
 		/**
@@ -1166,9 +1171,9 @@ class ilNolejActivityManagementGUI
 			$this->gui_obj->object->update();
 		}
 
-		$url = ILIAS_HTTP_PATH . substr(ilWACSignedPath::signFile($dataDir . "/transcription.htm"), 1);
+		$url = ILIAS_HTTP_PATH . substr(ilWACSignedPath::signFile($this->dataDir . "/transcription.htm"), 1);
 		$result = $api->put(
-			sprintf("/documents/%s/transcription", $documentId),
+			sprintf("/documents/%s/transcription", $this->documentId),
 			[
 				"s3URL" => $url,
 				"automaticMode" => $apiAutomaticMode
@@ -1192,7 +1197,7 @@ class ilNolejActivityManagementGUI
 
 		$this->updateDocumentStatus(self::STATUS_ANALISYS_PENDING);
 
-		$ass = new NolejActivity($documentId, $DIC->user()->getId(), "analysis");
+		$ass = new NolejActivity($this->documentId, $DIC->user()->getId(), "analysis");
 		$ass->withStatus("ok")
 			->withCode(0)
 			->withErrorMessage("")
@@ -1267,7 +1272,6 @@ class ilNolejActivityManagementGUI
 
 	public function revision()
 	{
-		$dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->status;
 
 		$this->initTabs(self::TAB_REVIEW);
@@ -1282,7 +1286,7 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
-		if (!file_exists($dataDir . "/transcription.htm")) {
+		if (!file_exists($this->dataDir . "/transcription.htm")) {
 			$downloadSuccess = $this->downloadTranscription();
 			if (!$downloadSuccess) {
 				return;
@@ -2251,6 +2255,8 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
+		$this->updateDocumentStatus(self::STATUS_ACTIVITIES_PENDING);
+
 		$success = $this->putNolejContent("settings", "settings.json");
 		if (!$success) {
 			ilUtil::sendFailure($this->plugin->txt("err_settings_put"));
@@ -2258,7 +2264,16 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
-		$h5pDir = $this->gui_obj->object->getDataDir() . "/h5p";
+		ilUtil::sendSuccess($this->plugin->txt("activities_generation_start"));
+		$this->activities(true);
+	}
+
+	/**
+	 * @return bool success.
+	 */
+	public function downloadActivities()
+	{
+		$h5pDir = $this->dataDir . "/h5p";
 		if (!is_dir($h5pDir)) {
 			mkdir($h5pDir, 0777, true);
 		}
@@ -2279,9 +2294,7 @@ class ilNolejActivityManagementGUI
 			true
 		);
 		if (!$json) {
-			ilUtil::sendFailure("err_settings_file");
-			$this->activities();
-			return;
+			return false;
 		}
 		$activities = json_decode($json, true);
 		$activities = $activities->activities;
@@ -2294,14 +2307,16 @@ class ilNolejActivityManagementGUI
 			);
 		}
 
-		ilUtil::sendSuccess($this->plugin->txt("settings_saved"));
-		$this->activities();
+		return true;
 	}
 
-	public function activities()
+	/**
+	 * @param bool $hideInfo if false and the activities are in generation,
+	 * show an info box with the appropriate message.
+	 */
+	public function activities($hideInfo = false)
 	{
 		global $tpl;
-		// $dataDir = $this->gui_obj->object->getDataDir();
 		$status = $this->status;
 
 		$this->initTabs(self::TAB_ACTIVITIES);
@@ -2319,6 +2334,10 @@ class ilNolejActivityManagementGUI
 		if ($status < self::STATUS_ACTIVITIES) {
 			ilUtil::sendInfo($this->plugin->txt("err_review_not_ready"));
 			return;
+		}
+
+		if (!$hideInfo && $status == self::STATUS_ACTIVITIES_PENDING) {
+			ilUtil::sendInfo($this->plugin->txt("activities_generation_start"));
 		}
 
 		$form = $this->initActivitiesForm();
