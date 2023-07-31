@@ -2168,57 +2168,57 @@ class ilNolejActivityManagementGUI
 					break;
 
 				case "findtheword":
-					$number = $form->getInput("FTW_number_word_current");
+					$number = (int) $form->getInput("FTW_number_word_current");
 					$settingsToSave["settings"]["FTW_number_word_current"] = $number;
 					break;
 
 				case "dragtheword":
 					$ibook = (bool) $form->getInput("DTW_include_IB");
 					$settingsToSave["settings"]["DTW_include_IB"] = $ibook;
-					$number = $form->getInput("DTW_number_word_current");
+					$number = (int) $form->getInput("DTW_number_word_current");
 					$settingsToSave["settings"]["DTW_number_word_current"] = $number;
 					break;
 
 				case "crossword":
-					$number = $form->getInput("CW_number_word_current");
+					$number = (int) $form->getInput("CW_number_word_current");
 					$settingsToSave["settings"]["CW_number_word_current"] = $number;
 					break;
 
 				case "practice":
 					$ibook = (bool) $form->getInput("Practice_include_IB");
 					$settingsToSave["settings"]["Practice_include_IB"] = $ibook;
-					$number = $form->getInput("Practice_number_flashcard_current");
+					$number = (int) $form->getInput("Practice_number_flashcard_current");
 					$settingsToSave["settings"]["Practice_number_flashcard_current"] = $number;
 					break;
 
 				case "practiceq":
 					$ibook = (bool) $form->getInput("PracticeQ_include_IB");
 					$settingsToSave["settings"]["PracticeQ_include_IB"] = $ibook;
-					$number = $form->getInput("PracticeQ_number_flashcard_current");
+					$number = (int) $form->getInput("PracticeQ_number_flashcard_current");
 					$settingsToSave["settings"]["PracticeQ_number_flashcard_current"] = $number;
 					break;
 
 				case "grade":
 					$ibook = (bool) $form->getInput("Grade_include_IB");
 					$settingsToSave["settings"]["Grade_include_IB"] = $ibook;
-					$number = $form->getInput("Grade_number_question_current");
+					$number = (int) $form->getInput("Grade_number_question_current");
 					$settingsToSave["settings"]["Grade_number_question_current"] = $number;
 					break;
 
 				case "gradeq":
 					$ibook = (bool) $form->getInput("GradeQ_include_IB");
 					$settingsToSave["settings"]["GradeQ_include_IB"] = $ibook;
-					$number = $form->getInput("GradeQ_number_question_current");
+					$number = (int) $form->getInput("GradeQ_number_question_current");
 					$settingsToSave["settings"]["GradeQ_number_question_current"] = $number;
 					break;
 
 				case "flashcards":
-					$number = $form->getInput("Flashcards_number_flashcard_current");
+					$number = (int) $form->getInput("Flashcards_number_flashcard_current");
 					$settingsToSave["settings"]["Flashcards_number_flashcard_current"] = $number;
 					break;
 
 				case "ivideo":
-					$number = $form->getInput("IV_number_question_perset_current");
+					$number = (int) $form->getInput("IV_number_question_perset_current");
 					$settingsToSave["settings"]["IV_number_question_perset_current"] = $number;
 					break;
 			}
