@@ -2143,7 +2143,7 @@ class ilNolejActivityManagementGUI
 		$availableActivities = $settings["avaible_packages"] ?? [];
 
 		$settingsToSave = [
-			"setting" => $settings["settings"],
+			"setting" => $settings["setting"],
 			"avaible_packages" => $availableActivities,
 			"desired_packages" => []
 		];
