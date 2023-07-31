@@ -9,6 +9,31 @@ action_tic#:#TIC inviato
 action_transcription#:#Trascrizione in corso
 action_transcription_ko#:#Trascrizione fallita
 action_transcription_ok#:#Trascrizione completata
+activities_crossword#:#Cruciverba
+activities_cw_words#:#Definisce quante parole utilizzare nel cruciverba
+activities_dragtheword#:#Trascina la parola
+activities_dtw_words#:#Definisce quante parole utilizzare in Trascina la parola
+activities_findtheword#:#Trova la parola
+activities_flashcards_flashcards#:#Definisce quante flashcard dovranno apparire nel quiz concettuale
+activities_ftw_words#:#Numero di parole
+activities_generated#:#Le attività sono state generate! Puoi ora vederle nel tab Contenuto.
+activities_glossary#:#Glossario
+activities_grade#:#Quiz concettuale
+activities_grade_questions#:#Definisce quante domande dovranno apparire nel quiz concettuale
+activities_gradeq#:#Quiz contestuale
+activities_gradeq_questions#:#Definisce quante domande dovranno apparire nel quiz contestuale
+activities_hoquestions#:#Domande di alto livello
+activities_ibook#:#Libro interattivo
+activities_ivideo#:#Video interattivo
+activities_ivideo_questions#:#Definisce quante domande dovranno apparire in ogni set nel video interattivo. Ci sono 2 set: uno a metà del video, uno al termine
+activities_ivideo_summary#:#Definisce se il sommario deve essere aggiunto in coda al video interattivo
+activities_practice#:#Flashcard concettuali
+activities_practice_flashcards#:#Definisce quante domande dovranno apparire nelle flashcard concettuali
+activities_practiceq#:#Flashcard contestuali
+activities_practiceq_flashcards#:#Definisce quante domande dovranno apparire nelle flashcard contestuali
+activities_settings#:#Rifinisci i dettagli prima di generare le attività
+activities_summary#:#Sommario
+activities_use_in_ibook#:#Utilizza nel libro interattivo
 api_key#:#Chiave API
 api_key_info#:#La tua chiave API di Nolej.
 cmd_analyze#:#Avvia analisi
@@ -20,6 +45,7 @@ cmd_details#:#Dettagli
 cmd_edit#:#Modifica
 cmd_generate#:#Genera attività
 cmd_review#:#Conferma revisione
+cmd_review_info#:#Se hai revisionato il sommario, tutte le domande e i concetti, puoi procedere con la creazione degli oggetti H5P.
 cmd_save#:#Salva
 cmd_select#:#Seleziona un oggetto dal mediapool
 cmd_tic#:#Invia TIC
@@ -53,6 +79,9 @@ err_questions_file#:#Impossibile caricare le domande. Per favore, riprova.
 err_questions_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 err_questions_save#:#Impossibile salvare il file delle domande. Riprova, e se persiste contatta un Amministratore.
 err_review_not_ready#:#Non hai ancora completato la revisione.
+err_settings_file#:#Impossibile caricare le impostazioni delle attività. Per favore, riprova.
+err_settings_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
+err_settings_save#:#Impossibile salvare il file delle impostazioni delle attività. Riprova, e se persiste contatta un Amministratore.
 err_summary_file#:#Impossibile caricare il file di sommario. Per favore, riprova.
 err_summary_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 err_summary_save#:#Impossibile salvare il file di sommario. Riprova, e se persiste contatta un Amministratore.
@@ -165,36 +194,4 @@ xnlj_new#:#Aggiungi un oggetto Nolej
 xnlj_read#:#Lettura: l'utente può accedere agli oggetti Nolej
 xnlj_visible#:#Visibilità: gli oggetti Nolej sono visibili all'utente
 xnlj_write#:#Modifica impostazioni: l'utente può modificare le impostazioni degli oggetti Nolej
-cmd_review_info#:#Se hai revisionato il sommario, tutte le domande e i concetti, puoi procedere con la creazione degli oggetti H5P.
-activities_settings#:#Impostazioni delle attività
-activities_available#:#Attività disponibili
-activities_selected#:#Attività selezionate
-activities_ftw_words#:#Numero di parole
-activities_dtw_words#:#Definisce quante parole utilizzare in Trascina la parola
-activities_cw_words#:#Definisce quante parole utilizzare nel cruciverba
-activities_practice_flashcards#:#Definisce quante domande dovranno apparire nelle flashcard concettuali
-activities_ibook#:#Libro interattivo
-activities_hoquestions#:#Domande di alto livello
-activities_glossary#:#Glossario
-activities_practice#:#Flashcard concettuali
-activities_grade#:#Quiz concettuale
-activities_gradeq#:#Quiz contestuale
-activities_findtheword#:#Trova la parola
-activities_dragtheword#:#Trascina la parola
-activities_crossword#:#Cruciverba
-activities_ivideo#:#Video interattivo
-activities_practiceq#:#Flashcard contestuali
-activities_summary#:#Sommario
-activities_practiceq_flashcards#:#Definisce quante domande dovranno apparire nelle flashcard contestuali
-activities_grade_questions#:#Definisce quante domande dovranno apparire nel quiz concettuale
-activities_flashcards_flashcards#:#Definisce quante flashcard dovranno apparire nel quiz concettuale
-activities_ivideo_questions#:#Definisce quante domande dovranno apparire in ogni set nel video interattivo. Ci sono 2 set: uno a metà del video, uno al termine
-activities_ivideo_summary#:#Definisce se il sommario deve essere aggiunto in coda al video interattivo
-activities_gradeq_questions#:#Definisce quante domande dovranno apparire nel quiz contestuale
-activities_ibook_include#:#Scegli quali attività dovranno essere incluse nel libro interattivo
-err_settings_file#:#Impossibile caricare le impostazioni delle attività. Per favore, riprova.
-err_settings_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
-err_settings_save#:#Impossibile salvare il file delle impostazioni delle attività. Riprova, e se persiste contatta un Amministratore.
-activities_desired_packages#:#Attività da generare
-activities_use_in_ibook#:#Utilizza nel libro interattivo
 
