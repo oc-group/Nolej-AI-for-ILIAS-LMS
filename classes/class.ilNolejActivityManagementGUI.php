@@ -2140,10 +2140,10 @@ class ilNolejActivityManagementGUI
 			return $form;
 		}
 		$settings = json_decode($json, true);
-		$availableActivities = $settings->avaible_packages ?? [];
+		$availableActivities = $settings["avaible_packages"] ?? [];
 
 		$settingsToSave = [
-			"setting" => $settings->settings,
+			"setting" => $settings["settings"],
 			"avaible_packages" => $availableActivities,
 			"desired_packages" => []
 		];
