@@ -944,13 +944,21 @@ class ilNolejActivityManagementGUI
 	 * Get and save the content of a Nolej file
 	 * 
 	 * @param string $pathname the "id" of Nolej file
-	 * @param string $saveAs the name of the file to be saved as
+	 * @param string|null $saveAs the name of the file to be saved as
 	 * @param bool $forceDownload if false check if the file already exists
+	 * @param mixed $withData
+	 * @param bool $encode input's data
 	 * 
-	 * @return bool returns true on success, false on failure.
+	 * @return bool|string return true on success, false on failure. If $saveAs
+	 * is null, then the content is returned as string.
 	 */
-	protected function getNolejContent($pathname, $saveAs, $forceDownload = false)
-	{
+	protected function getNolejContent(
+		$pathname,
+		$saveAs = null,
+		$forceDownload = false,
+		$withData = array(),
+		$encode = false
+	) {
 		$documentId = $this->gui_obj->object->getDocumentId();
 		$dataDir = $this->gui_obj->object->getDataDir();
 		$filepath = $dataDir . "/" . $saveAs;
@@ -958,15 +966,24 @@ class ilNolejActivityManagementGUI
 		$api_key = $this->plugin->getConfig("api_key", "");
 		$api = new ilNolejAPI($api_key);
 
-		if (!$forceDownload && is_file($filepath)) {
+		if (
+			$saveAs != null &&
+			!$forceDownload &&
+			is_file($filepath)
+		) {
 			return true;
 		}
 
 		$result = $api->get(
 			sprintf("/documents/%s/%s", $documentId, $pathname),
+			$withData,
+			$encode,
 			false
 		);
-		return $this->writeDocumentFile($saveAs, $result);
+
+		return $saveAs == null
+			? $result
+			: $this->writeDocumentFile($saveAs, $result);
 	}
 
 	/**
@@ -1845,7 +1862,7 @@ class ilNolejActivityManagementGUI
 		);
 		if (!$success) {
 			ilUtil::sendFailure($this->plugin->txt("err_concepts_save"));
-			$this->questions();
+			$this->concepts();
 			return;
 		}
 
@@ -2230,16 +2247,54 @@ class ilNolejActivityManagementGUI
 		);
 		if (!$success) {
 			ilUtil::sendFailure($this->plugin->txt("err_settings_save"));
-			$this->questions();
+			$this->activities();
 			return;
 		}
 
 		$success = $this->putNolejContent("settings", "settings.json");
 		if (!$success) {
 			ilUtil::sendFailure($this->plugin->txt("err_settings_put"));
-		} else {
-			ilUtil::sendSuccess($this->plugin->txt("settings_saved"));
+			$this->activities();
+			return;
 		}
+
+		$h5pDir = $this->gui_obj->object->getDataDir() . "/h5p";
+		if (!is_dir($h5pDir)) {
+			mkdir($h5pDir, 0777, true);
+		}
+
+		// Delete previouses h5p files
+		$dirIterator = new DirectoryIterator($h5pDir);
+		foreach($dirIterator as $item) {
+			if (!$item->isDot() && $item->isFile()) {
+				unlink($item->getPathname());
+			}
+		}
+
+		$json = $this->getNolejContent(
+			"activities",
+			null,
+			true,
+			["format" => "h5p"],
+			true
+		);
+		if (!$json) {
+			ilUtil::sendFailure("err_settings_file");
+			$this->activities();
+			return;
+		}
+		$activities = json_decode($json, true);
+		$activities = $activities->activities;
+
+		foreach ($activities as $activity) {
+			// Download activity
+			file_put_contents(
+				sprintf("%s/%s.h5p", $h5pDir, $activity->activity_name),
+				file_get_contents($activity->url)
+			);
+		}
+
+		ilUtil::sendSuccess($this->plugin->txt("settings_saved"));
 		$this->activities();
 	}
 

@@ -80,11 +80,17 @@ class ilNolejAPI {
 
 	/**
 	 * @param string $path
+	 * @param mixed $data
+	 * @param bool $encode input's data
 	 * @param bool $decode
+	 * 
+	 * @return object|string return the result given by Nolej. If
+	 * $decode is true, treat the result as json object and decode it.
 	 */
-	public function get($path, $decode = true)
+	public function get($path, $data = array(), $encode = false, $decode = true)
 	{
 		$url = self::API_URL . $path;
+		$data_json = $encode ? json_encode($data) : $data;
 
 		$client = new GuzzleHttp\Client;
 		$response = $client->request("GET", $url, [
@@ -92,7 +98,8 @@ class ilNolejAPI {
 				"Authorization" => "X-API-KEY " . $this->apikey,
 				"User-Agent" => "ILIAS Plugin",
 				"Content-Type" => "application/json"
-			]
+			],
+			"body" => $data_json
 		]);
 
 		if (!$decode) {

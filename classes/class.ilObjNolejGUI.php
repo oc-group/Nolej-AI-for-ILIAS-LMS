@@ -273,7 +273,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	{
 		$this->tabs->activateTab(self::TAB_CONTENT);
 
-		if ($this->object->status != "completed") {
+		if ($this->object->status != ilNolejActivityManagementGUI::STATUS_COMPLETED) {
 			$activityManagement = new ilNolejActivityManagementGUI($this);
 			$toolbar = new ilToolbarGUI();
 			$toolbar->addButton(
@@ -287,58 +287,12 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			return;
 		}
 
-		// if (!$this->object->isBound()) {
-		// 	// This module is not available yet
-		// 	if ($this->object->hasWritePermission()) {
-		// 		ilUtil::sendFailure($this->plugin->txt("err_not_bound"), true);
-		// 	} else {
-		// 		ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
-		// 	}
-		// 	return;
-		// }
+		$h5pDir = $this->object->getDataDir() . "/h5p";
+		if (!is_dir($h5pDir)) {
+			return;
+		}
 
-		// if (!$this->object->isLicenseAssignedToUser($ilUser->getId())) {
-		// 	ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
-		// 	return;
-		// }
-
-		// $idPage = $this->object->config->getParameterPositive("id_page", $this->object->getLastVisitedPage());
-		// $result = $this->object->config->anonymousApi(array(
-		// 	"cmd" => "content",
-		// 	"id_partner" => $this->getIdPartner(),
-		// 	"id_course" => $this->getIdCourse(),
-		// 	"id_page" => $idPage
-		// ));
-
-		// if (!$result) {
-		// 	ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
-		// 	return;
-		// }
-
-		// switch ($result) {
-		// 	case "err_response":
-		// 	case "err_maintenance":
-		// 	case "err_partner_id":
-		// 	case "err_course_id":
-		// 	case "err_page_id":
-		// 	case "err_forbidden":
-		// 		ilUtil::sendFailure($this->plugin->txt($result), true);
-		// 		return;
-		// }
-
-		// if (!$result->url) {
-		// 	ilUtil::sendFailure($this->plugin->txt("err_access_denied"), true);
-		// }
-
-		// $this->object->updateStatus($idPage);
-		// $this->tpl->setContent($this->renderContentAndStructure($result->url, $idPage));
-
-		// // Show TOC
-		// $DIC->globalScreen()->tool()->context()->claim()->repository();
-		// $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
-		// 	ilLMGSToolProvider::SHOW_TOC_TOOL,
-		// 	true
-		// );
+		// Display activities
 	}
 
 	/**
