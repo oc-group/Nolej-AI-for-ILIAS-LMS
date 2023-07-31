@@ -2139,7 +2139,7 @@ class ilNolejActivityManagementGUI
 			ilUtil::sendFailure("err_settings_file");
 			return $form;
 		}
-		$settings = json_decode($json);
+		$settings = json_decode($json, true);
 		$availableActivities = $settings->avaible_packages ?? [];
 
 		$settingsToSave = [
