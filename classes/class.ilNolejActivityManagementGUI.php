@@ -2143,7 +2143,7 @@ class ilNolejActivityManagementGUI
 		$availableActivities = $settings["avaible_packages"] ?? [];
 
 		$settingsToSave = [
-			"setting" => $settings["setting"],
+			"settings" => $settings["settings"],
 			"avaible_packages" => $availableActivities,
 			"desired_packages" => []
 		];
@@ -2159,67 +2159,67 @@ class ilNolejActivityManagementGUI
 			switch($availableActivities[$i]) {
 				case "glossary":
 					$ibook = (bool) $form->getInput("Glossary_include_IB");
-					$settingsToSave["setting"]["Glossary_include_IB"] = $ibook;
+					$settingsToSave["settings"]["Glossary_include_IB"] = $ibook;
 					break;
 
 				case "summary":
 					$ibook = (bool) $form->getInput("Summary_include_IB");
-					$settingsToSave["setting"]["Summary_include_IB"] = $ibook;
+					$settingsToSave["settings"]["Summary_include_IB"] = $ibook;
 					break;
 
 				case "findtheword":
 					$number = $form->getInput("FTW_number_word_current");
-					$settingsToSave["setting"]["FTW_number_word_current"] = $number;
+					$settingsToSave["settings"]["FTW_number_word_current"] = $number;
 					break;
 
 				case "dragtheword":
 					$ibook = (bool) $form->getInput("DTW_include_IB");
-					$settingsToSave["setting"]["DTW_include_IB"] = $ibook;
+					$settingsToSave["settings"]["DTW_include_IB"] = $ibook;
 					$number = $form->getInput("DTW_number_word_current");
-					$settingsToSave["setting"]["DTW_number_word_current"] = $number;
+					$settingsToSave["settings"]["DTW_number_word_current"] = $number;
 					break;
 
 				case "crossword":
 					$number = $form->getInput("CW_number_word_current");
-					$settingsToSave["setting"]["CW_number_word_current"] = $number;
+					$settingsToSave["settings"]["CW_number_word_current"] = $number;
 					break;
 
 				case "practice":
 					$ibook = (bool) $form->getInput("Practice_include_IB");
-					$settingsToSave["setting"]["Practice_include_IB"] = $ibook;
+					$settingsToSave["settings"]["Practice_include_IB"] = $ibook;
 					$number = $form->getInput("Practice_number_flashcard_current");
-					$settingsToSave["setting"]["Practice_number_flashcard_current"] = $number;
+					$settingsToSave["settings"]["Practice_number_flashcard_current"] = $number;
 					break;
 
 				case "practiceq":
 					$ibook = (bool) $form->getInput("PracticeQ_include_IB");
-					$settingsToSave["setting"]["PracticeQ_include_IB"] = $ibook;
+					$settingsToSave["settings"]["PracticeQ_include_IB"] = $ibook;
 					$number = $form->getInput("PracticeQ_number_flashcard_current");
-					$settingsToSave["setting"]["PracticeQ_number_flashcard_current"] = $number;
+					$settingsToSave["settings"]["PracticeQ_number_flashcard_current"] = $number;
 					break;
 
 				case "grade":
 					$ibook = (bool) $form->getInput("Grade_include_IB");
-					$settingsToSave["setting"]["Grade_include_IB"] = $ibook;
+					$settingsToSave["settings"]["Grade_include_IB"] = $ibook;
 					$number = $form->getInput("Grade_number_question_current");
-					$settingsToSave["setting"]["Grade_number_question_current"] = $number;
+					$settingsToSave["settings"]["Grade_number_question_current"] = $number;
 					break;
 
 				case "gradeq":
 					$ibook = (bool) $form->getInput("GradeQ_include_IB");
-					$settingsToSave["setting"]["GradeQ_include_IB"] = $ibook;
+					$settingsToSave["settings"]["GradeQ_include_IB"] = $ibook;
 					$number = $form->getInput("GradeQ_number_question_current");
-					$settingsToSave["setting"]["GradeQ_number_question_current"] = $number;
+					$settingsToSave["settings"]["GradeQ_number_question_current"] = $number;
 					break;
 
 				case "flashcards":
 					$number = $form->getInput("Flashcards_number_flashcard_current");
-					$settingsToSave["setting"]["Flashcards_number_flashcard_current"] = $number;
+					$settingsToSave["settings"]["Flashcards_number_flashcard_current"] = $number;
 					break;
 
 				case "ivideo":
 					$number = $form->getInput("IV_number_question_perset_current");
-					$settingsToSave["setting"]["IV_number_question_perset_current"] = $number;
+					$settingsToSave["settings"]["IV_number_question_perset_current"] = $number;
 					break;
 			}
 		}
