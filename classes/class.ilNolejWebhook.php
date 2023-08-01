@@ -405,6 +405,7 @@ class ilNolejWebhook
 			$result->result != "\"ok\"" &&
 			$result->result != "ok"
 		) {
+			$this->log("Result: ko");
 			$this->sendNotification(
 				$documentId,
 				$document["user_id"],
@@ -445,6 +446,7 @@ class ilNolejWebhook
 		$activityManagement = new ilNolejActivityManagementGUI(null, $documentId);
 		$success = $activityManagement->downloadActivities();
 		if (!$success) {
+			$this->log("Failed to download activities.");
 			$this->sendNotification(
 				$documentId,
 				$document["user_id"],
