@@ -137,7 +137,10 @@ class ilNolejWebhook
 			$this->data["message"],
 			0,
 			"tac_received_info",
-			[$exchangeId, $now]
+			[
+				$exchangeId,
+				ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
+			]
 		);
 
 		$this->die_message(200, "TAC received!");
@@ -230,7 +233,11 @@ class ilNolejWebhook
 			$this->data["error_message"],
 			$this->data["consumedCredit"],
 			"transcription_" . $this->data["status"] . "_desc",
-			[$document["title"], $now, $this->data["error_message"]]
+			[
+				$document["title"],
+				ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
+				$this->data["error_message"]
+			]
 		);
 
 		$this->die_message(200, "Transcription received!");
@@ -324,7 +331,11 @@ class ilNolejWebhook
 			$this->data["error_message"],
 			$this->data["consumedCredit"],
 			"analysis_" . $this->data["status"] . "_desc",
-			[$document["title"], $now, $this->data["error_message"]]
+			[
+				$document["title"],
+				ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
+				$this->data["error_message"]
+			]
 		);
 
 		$this->die_message(200, "Analysis received!");
@@ -403,7 +414,11 @@ class ilNolejWebhook
 				$this->data["error_message"],
 				$this->data["consumedCredit"],
 				"action_activities_ko_desc",
-				[$document["title"], $now, $this->data["error_message"]]
+				[
+					$document["title"],
+					ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
+					$this->data["error_message"]
+				]
 			);
 			return;
 		}
@@ -454,7 +469,10 @@ class ilNolejWebhook
 			$this->data["error_message"],
 			$this->data["consumedCredit"],
 			"action_activities_ko_desc",
-			[$document["title"], $now]
+			[
+				$document["title"],
+				ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
+			]
 		);
 		$this->die_message(200, "Activities received!");
 	}
