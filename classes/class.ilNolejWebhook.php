@@ -21,6 +21,14 @@ class ilNolejWebhook
 		$this->plugin = ilNolejPlugin::getInstance();
 	}
 
+	/**
+	 * @param string $msg
+	 */
+	public function log($msg)
+	{
+		$this->plugin->logger->log($msg);
+	}
+
 	public function parse()
 	{
 		header("Content-type: application/json; charset=UTF-8");
@@ -32,7 +40,7 @@ class ilNolejWebhook
 			!is_string($data["action"])
 		) {
 			$this->die_message(400, "Request not valid.");
-			$this->plugin->logger->log("Received invalid request: " . print_r($data, true));
+			$this->log("Received invalid request: " . print_r($data, true));
 		}
 
 		$this->data = $data;
@@ -42,20 +50,22 @@ class ilNolejWebhook
 				break;
 
 			case "transcription":
-				$this->plugin->logger->log("Received request: " . print_r($data, true));
+				$this->log("Received request: " . print_r($data, true));
 				$this->checkTranscription();
 				break;
 
 			case "analysis":
-				$this->plugin->logger->log("Received request: " . print_r($data, true));
+				$this->log("Received request: " . print_r($data, true));
 				$this->checkAnalysis();
 				break;
 
 			case "activities":
+				$this->log("Received request: " . print_r($data, true));
 				$this->checkActivities();
+				break;
 
 			default:
-				$this->plugin->logger->log("Received invalid action: " . print_r($data, true));
+				$this->log("Received invalid action: " . print_r($data, true));
 		}
 		exit;
 	}
@@ -71,6 +81,7 @@ class ilNolejWebhook
 	) {
 		http_response_code($code);
 		if (!empty($message)) {
+			$this->log("Replied to Nolej with message: " . $message);
 			echo json_encode(["message" => $message]);
 		}
 		exit;
