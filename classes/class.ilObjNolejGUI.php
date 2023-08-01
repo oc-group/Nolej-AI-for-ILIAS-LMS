@@ -273,22 +273,22 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	{
 		$this->tabs->activateTab(self::TAB_CONTENT);
 
-		if ($this->object->status != ilNolejActivityManagementGUI::STATUS_COMPLETED) {
+		if ($this->checkPermissionBool("write")) {
 			$activityManagement = new ilNolejActivityManagementGUI($this);
 			$toolbar = new ilToolbarGUI();
 			$toolbar->addButton(
 				$this->plugin->txt("goto_activity_management"),
 				$this->ctrl->getLinkTarget($activityManagement, "")
 			);
-			// include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejActivityManagementGUI.php");
-			// $activityManagement = new ilNolejActivityManagementGUI($this);
-			// $this->ctrl->forwardCommand($activityManagement);
-			$this->tpl->setContent($toolbar->getHTML());
-			return;
+			$this->tpl->setRightContent($toolbar->getHTML());
 		}
 
 		$h5pDir = $this->object->getDataDir() . "/h5p";
-		if (!is_dir($h5pDir)) {
+		if (
+			$this->object->status != ilNolejActivityManagementGUI::STATUS_COMPLETED ||
+			!is_dir($h5pDir)
+		) {
+			ilUtil::sendInfo($this->plugin->txt("activities_not_yet_generated"));
 			return;
 		}
 
