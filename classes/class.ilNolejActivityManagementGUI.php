@@ -2282,10 +2282,9 @@ class ilNolejActivityManagementGUI
 		if (!$json) {
 			return false;
 		}
-		$activities = json_decode($json, true);
-		$activities = $activities->activities;
+		$activities = json_decode($json);
 
-		foreach ($activities as $activity) {
+		foreach ($activities->activities as $activity) {
 			// Download activity
 			file_put_contents(
 				sprintf("%s/%s.h5p", $h5pDir, $activity->activity_name),
