@@ -1691,8 +1691,8 @@ class ilNolejActivityManagementGUI
 				$this->plugin->txt("concepts_definition"),
 				sprintf("concept_%d_definition", $i)
 			);
-			$form->addItem($definition);
 			$definition->setRows(4);
+			$enable->addSubItem($definition);
 
 			$availableGames = $concepts[$i]->concept->available_games;
 			$useForGaming = new ilCheckBoxInputGUI(
@@ -1716,7 +1716,7 @@ class ilNolejActivityManagementGUI
 			);
 
 			if ($availableGames != null && is_array($availableGames) && count($availableGames) > 0) {
-				$form->addItem($useForGaming);
+				$enable->addSubItem($useForGaming);
 
 				if (in_array("cw", $concepts[$i]->concept->available_games)) {
 					$useForGaming->addSubItem($useForCW);
@@ -1735,38 +1735,27 @@ class ilNolejActivityManagementGUI
 				$this->plugin->txt("concepts_use_for_practice"),
 				sprintf("concept_%d_practice", $i)
 			);
-			$form->addItem($useForPractice);
+			$enable->addSubItem($useForPractice);
 
 			// TODO: remove this
 			$useForAssessment = new ilCheckBoxInputGUI(
 				$this->plugin->txt("concepts_use_for_assessment"),
 				sprintf("concept_%d_assessment", $i)
 			);
-			$form->addItem($useForAssessment);
+			$enable->addSubItem($useForAssessment);
 
 			$language = new ilNonEditableValueGUI(
 				$this->plugin->txt("concepts_language"),
 				sprintf("concept_%d_language", $i)
 			);
 			$language->setValue($concepts[$i]->concept->language);
-			$form->addItem($language);
+			$enable->addSubItem($language);
 
 			$games = new ilHiddenInputGUI(
 				sprintf("concept_%d_games", $i)
 			);
 			$games->setValue(json_encode($concepts[$i]->concept->available_games));
-			$form->addItem($games);
-
-			// $gamesLabel = new ilNonEditableValueGUI(
-			// 	$this->plugin->txt("concepts_games"),
-			// 	sprintf("concept_%d_games_label", $i)
-			// );
-			// $gamesLabelTxt = [];
-			// for ($j = 0, $nGames = count($concepts[$i]->concept->available_games); $j < $nGames; $j++) {
-			// 	$gamesLabelTxt[] = $this->plugin->txt("concepts_game_" . $concepts[$i]->concept->available_games[$j]);
-			// }
-			// $gamesLabel->setValue(implode(", ", $gamesLabelTxt));
-			// $form->addItem($gamesLabel);
+			$enable->addSubItem($games);
 
 			if ($a_use_post) {
 				$enable->setValueByArray($_POST);
