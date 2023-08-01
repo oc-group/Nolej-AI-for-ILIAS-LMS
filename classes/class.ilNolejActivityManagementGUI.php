@@ -199,14 +199,21 @@ class ilNolejActivityManagementGUI
 	 */
 	protected function statusCheck()
 	{
-		$this->status = $this->gui_obj->object->getDocumentStatus();
-		$this->defaultCmd = self::CMD_CREATION;
-		$statusIcons = [
+		$this->statusIcons = [
 			self::CMD_CREATION => "",
 			self::CMD_ANALYSIS => "",
 			self::CMD_REVISION => "",
 			self::CMD_ACTIVITIES => ""
 		];
+
+		if ($this->gui_obj == null) {
+			$this->status = -1;
+			$this->defaultCmd = "";
+			return;
+		}
+
+		$this->status = $this->gui_obj->object->getDocumentStatus();
+		$this->defaultCmd = self::CMD_CREATION;
 
 		$current = $this->glyphicon("hand-right");
 		$waiting = $this->glyphicon("time");
@@ -214,57 +221,55 @@ class ilNolejActivityManagementGUI
 
 		switch ($this->status) {
 			case self::STATUS_CREATION:
-				$statusIcons[self::CMD_CREATION] = $current;
+				$this->statusIcons[self::CMD_CREATION] = $current;
 				break;
 			case self::STATUS_CREATION_PENDING:
-				$statusIcons[self::CMD_CREATION] = $waiting;
+				$this->statusIcons[self::CMD_CREATION] = $waiting;
 				break;
 			case self::STATUS_ANALISYS:
 				$this->defaultCmd = self::CMD_ANALYSIS;
-				$statusIcons[self::CMD_CREATION] = $completed;
-				$statusIcons[self::CMD_ANALYSIS] = $current;
+				$this->statusIcons[self::CMD_CREATION] = $completed;
+				$this->statusIcons[self::CMD_ANALYSIS] = $current;
 				break;
 			case self::STATUS_ANALISYS_PENDING:
 				$this->defaultCmd = self::CMD_ANALYSIS;
-				$statusIcons[self::CMD_CREATION] = $completed;
-				$statusIcons[self::CMD_ANALYSIS] = $waiting;
+				$this->statusIcons[self::CMD_CREATION] = $completed;
+				$this->statusIcons[self::CMD_ANALYSIS] = $waiting;
 				break;
 			case self::STATUS_REVISION:
 				$this->defaultCmd = self::CMD_REVISION;
-				$statusIcons[self::CMD_CREATION] = $completed;
-				$statusIcons[self::CMD_ANALYSIS] = $completed;
-				$statusIcons[self::CMD_REVISION] = $current;
+				$this->statusIcons[self::CMD_CREATION] = $completed;
+				$this->statusIcons[self::CMD_ANALYSIS] = $completed;
+				$this->statusIcons[self::CMD_REVISION] = $current;
 				break;
 			case self::STATUS_REVISION_PENDING:
 				$this->defaultCmd = self::CMD_REVISION;
-				$statusIcons[self::CMD_CREATION] = $completed;
-				$statusIcons[self::CMD_ANALYSIS] = $completed;
-				$statusIcons[self::CMD_REVISION] = $waiting;
+				$this->statusIcons[self::CMD_CREATION] = $completed;
+				$this->statusIcons[self::CMD_ANALYSIS] = $completed;
+				$this->statusIcons[self::CMD_REVISION] = $waiting;
 				break;
 			case self::STATUS_ACTIVITIES:
 				$this->defaultCmd = self::CMD_ACTIVITIES;
-				$statusIcons[self::CMD_CREATION] = $completed;
-				$statusIcons[self::CMD_ANALYSIS] = $completed;
-				$statusIcons[self::CMD_REVISION] = $completed;
-				$statusIcons[self::CMD_ACTIVITIES] = $current;
+				$this->statusIcons[self::CMD_CREATION] = $completed;
+				$this->statusIcons[self::CMD_ANALYSIS] = $completed;
+				$this->statusIcons[self::CMD_REVISION] = $completed;
+				$this->statusIcons[self::CMD_ACTIVITIES] = $current;
 				break;
 			case self::STATUS_ACTIVITIES_PENDING:
 				$this->defaultCmd = self::CMD_ACTIVITIES;
-				$statusIcons[self::CMD_CREATION] = $completed;
-				$statusIcons[self::CMD_ANALYSIS] = $completed;
-				$statusIcons[self::CMD_REVISION] = $completed;
-				$statusIcons[self::CMD_ACTIVITIES] = $waiting;
+				$this->statusIcons[self::CMD_CREATION] = $completed;
+				$this->statusIcons[self::CMD_ANALYSIS] = $completed;
+				$this->statusIcons[self::CMD_REVISION] = $completed;
+				$this->statusIcons[self::CMD_ACTIVITIES] = $waiting;
 				break;
 			case self::STATUS_COMPLETED:
 				$this->defaultCmd = self::CMD_ACTIVITIES;
-				$statusIcons[self::CMD_CREATION] = $completed;
-				$statusIcons[self::CMD_ANALYSIS] = $completed;
-				$statusIcons[self::CMD_REVISION] = $completed;
-				$statusIcons[self::CMD_ACTIVITIES] = $completed;
+				$this->statusIcons[self::CMD_CREATION] = $completed;
+				$this->statusIcons[self::CMD_ANALYSIS] = $completed;
+				$this->statusIcons[self::CMD_REVISION] = $completed;
+				$this->statusIcons[self::CMD_ACTIVITIES] = $completed;
 				break;
 		}
-
-		$this->statusIcons = $statusIcons;
 	}
 
 	/**
