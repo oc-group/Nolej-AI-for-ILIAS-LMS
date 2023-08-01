@@ -1518,18 +1518,18 @@ class ilNolejActivityManagementGUI
 			);
 			$form->addItem($enable);
 
-			$useForGrading = new ilCheckBoxInputGUI(
-				$this->plugin->txt("questions_use_for_grading"),
-				sprintf("question_%d_ufg", $i)
-			);
-			$enable->addSubItem($useForGrading);
-
 			$answer = new ilTextAreaInputGUI(
 				$this->plugin->txt("questions_answer"),
 				sprintf("question_%d_answer", $i)
 			);
 			$answer->setRows(3);
 			$enable->addSubItem($answer);
+
+			$useForGrading = new ilCheckBoxInputGUI(
+				$this->plugin->txt("questions_use_for_grading"),
+				sprintf("question_%d_ufg", $i)
+			);
+			$enable->addSubItem($useForGrading);
 
 			$distractorsLength = count($questions[$i]->distractors);
 			$distractors = new ilHiddenInputGUI(sprintf("question_%d_distractors", $i));
