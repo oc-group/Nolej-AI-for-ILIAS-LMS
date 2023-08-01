@@ -170,14 +170,25 @@ class ilNolejWebhook
 
 		$result = $db->queryF(
 			"SELECT a.user_id, d.title"
-			. " FROM " . ilNolejPlugin::TABLE_DOC . " d INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
+			. " FROM " . ilNolejPlugin::TABLE_DOC . " d"
+			. " INNER JOIN ("
+			. "   SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
+			. "   WHERE document_id = %s"
+			. "   AND tstamp = ("
+			. "     SELECT MAX(tstamp)"
+			. "     FROM " . ilNolejPlugin::TABLE_ACTIVITY
+			. "     WHERE document_id = %s"
+			. "   )"
+			. " ) a"
 			. " ON a.document_id = d.document_id"
 			. " WHERE d.document_id = %s AND d.status = %s;",
 			[
 				"text",
+				"text",
 				"integer"
 			],
 			[
+				$documentId,
 				$documentId,
 				ilNolejActivityManagementGUI::STATUS_CREATION_PENDING
 			]
@@ -251,14 +262,24 @@ class ilNolejWebhook
 		$result = $db->queryF(
 			"SELECT a.user_id, d.title"
 			. " FROM " . ilNolejPlugin::TABLE_DOC . " d"
-			. " INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
+			. " INNER JOIN ("
+			. "   SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
+			. "   WHERE document_id = %s"
+			. "   AND tstamp = ("
+			. "     SELECT MAX(tstamp)"
+			. "     FROM " . ilNolejPlugin::TABLE_ACTIVITY
+			. "     WHERE document_id = %s"
+			. "   )"
+			. " ) a"
 			. " ON a.document_id = d.document_id"
 			. " WHERE d.document_id = %s AND d.status = %s;",
 			[
 				"text",
+				"text",
 				"integer"
 			],
 			[
+				$documentId,
 				$documentId,
 				ilNolejActivityManagementGUI::STATUS_ANALISYS_PENDING
 			]
@@ -333,14 +354,24 @@ class ilNolejWebhook
 		$result = $db->queryF(
 			"SELECT a.user_id, d.title"
 			. " FROM " . ilNolejPlugin::TABLE_DOC . " d"
-			. " INNER JOIN " . ilNolejPlugin::TABLE_ACTIVITY . " a"
+			. " INNER JOIN ("
+			. "   SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
+			. "   WHERE document_id = %s"
+			. "   AND tstamp = ("
+			. "     SELECT MAX(tstamp)"
+			. "     FROM " . ilNolejPlugin::TABLE_ACTIVITY
+			. "     WHERE document_id = %s"
+			. "   )"
+			. " ) a"
 			. " ON a.document_id = d.document_id"
 			. " WHERE d.document_id = %s AND d.status = %s;",
 			[
 				"text",
+				"text",
 				"integer"
 			],
 			[
+				$documentId,
 				$documentId,
 				ilNolejActivityManagementGUI::STATUS_ACTIVITIES_PENDING
 			]
