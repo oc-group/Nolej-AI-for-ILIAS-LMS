@@ -1525,12 +1525,6 @@ class ilNolejActivityManagementGUI
 			$answer->setRows(3);
 			$enable->addSubItem($answer);
 
-			$useForGrading = new ilCheckBoxInputGUI(
-				$this->plugin->txt("questions_use_for_grading"),
-				sprintf("question_%d_ufg", $i)
-			);
-			$enable->addSubItem($useForGrading);
-
 			$distractorsLength = count($questions[$i]->distractors);
 			$distractors = new ilHiddenInputGUI(sprintf("question_%d_distractors", $i));
 			$distractors->setValue($distractorsLength);
@@ -1547,6 +1541,12 @@ class ilNolejActivityManagementGUI
 					$distractor->setValue($questions[$i]->distractors[$j]);
 				}
 			}
+
+			$useForGrading = new ilCheckBoxInputGUI(
+				$this->plugin->txt("questions_use_for_grading"),
+				sprintf("question_%d_ufg", $i)
+			);
+			$enable->addSubItem($useForGrading);
 
 			if ($a_use_post) {
 				$enable->setValueByArray($_POST);
