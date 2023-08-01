@@ -402,8 +402,8 @@ class ilNolejWebhook
 		$now = strtotime("now");
 
 		if (
-			$result->result != "\"ok\"" &&
-			$result->result != "ok"
+			$this->data["status"] != "\"ok\"" &&
+			$this->data["status"] != "ok"
 		) {
 			$this->log("Result: ko");
 			$this->sendNotification(
