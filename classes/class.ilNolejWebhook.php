@@ -470,7 +470,7 @@ class ilNolejWebhook
 			$this->data["code"],
 			$this->data["error_message"],
 			$this->data["consumedCredit"],
-			"action_activities_ko_desc",
+			"action_activities_ok_desc",
 			[
 				$document["title"],
 				ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX))
