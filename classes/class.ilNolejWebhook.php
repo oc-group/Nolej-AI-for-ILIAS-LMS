@@ -118,6 +118,9 @@ class ilNolejWebhook
 		$exchange = $db->fetchAssoc($result);
 
 		$now = strtotime("now");
+		$lang = ilObjUser::_lookupLanguage($exchange["user_id"]);
+		ilDatePresentation::setLanguage($lang);
+
 		$result = $db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_TIC
 			. " SET response_on = %s, response_url = %s WHERE exchange_id = %s;",
@@ -224,6 +227,9 @@ class ilNolejWebhook
 		}
 
 		$now = strtotime("now");
+		$lang = ilObjUser::_lookupLanguage($document["user_id"]);
+		ilDatePresentation::setLanguage($lang);
+
 		$this->sendNotification(
 			$documentId,
 			$document["user_id"],
@@ -322,6 +328,9 @@ class ilNolejWebhook
 		}
 
 		$now = strtotime("now");
+		$lang = ilObjUser::_lookupLanguage($document["user_id"]);
+		ilDatePresentation::setLanguage($lang);
+
 		$this->sendNotification(
 			$documentId,
 			$document["user_id"],
@@ -400,6 +409,8 @@ class ilNolejWebhook
 
 		$document = $db->fetchAssoc($result);
 		$now = strtotime("now");
+		$lang = ilObjUser::_lookupLanguage($document["user_id"]);
+		ilDatePresentation::setLanguage($lang);
 
 		if (
 			$this->data["status"] != "\"ok\"" &&
