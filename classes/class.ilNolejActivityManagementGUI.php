@@ -1492,25 +1492,6 @@ class ilNolejActivityManagementGUI
 			$id->setValue($questions[$i]->id);
 			$form->addItem($id);
 
-			$enable = new ilCheckBoxInputGUI(
-				$this->plugin->txt("questions_enable"),
-				sprintf("question_%d_enable", $i)
-			);
-			$form->addItem($enable);
-
-			$answer = new ilTextAreaInputGUI(
-				$this->plugin->txt("questions_answer"),
-				sprintf("question_%d_answer", $i)
-			);
-			$form->addItem($answer);
-			$answer->setRows(3);
-
-			$useForGrading = new ilCheckBoxInputGUI(
-				$this->plugin->txt("questions_use_for_grading"),
-				sprintf("question_%d_ufg", $i)
-			);
-			$form->addItem($useForGrading);
-
 			$question = new ilTextAreaInputGUI(
 				$this->plugin->txt("questions_question"),
 				sprintf("question_%d_question", $i)
@@ -1531,16 +1512,35 @@ class ilNolejActivityManagementGUI
 			);
 			$form->addItem($questionTypeLabel);
 
+			$enable = new ilCheckBoxInputGUI(
+				$this->plugin->txt("questions_enable"),
+				sprintf("question_%d_enable", $i)
+			);
+			$form->addItem($enable);
+
+			$answer = new ilTextAreaInputGUI(
+				$this->plugin->txt("questions_answer"),
+				sprintf("question_%d_answer", $i)
+			);
+			$answer->setRows(3);
+			$enable->addSubItem($answer);
+
+			$useForGrading = new ilCheckBoxInputGUI(
+				$this->plugin->txt("questions_use_for_grading"),
+				sprintf("question_%d_ufg", $i)
+			);
+			$enable->addSubItem($useForGrading);
+
 			$distractorsLength = count($questions[$i]->distractors);
 			$distractors = new ilHiddenInputGUI(sprintf("question_%d_distractors", $i));
 			$distractors->setValue($distractorsLength);
-			$form->addItem($distractors);
+			$enable->addSubItem($distractors);
 			for ($j = 0; $j < $distractorsLength; $j++) {
 				$distractor = new ilTextAreaInputGUI(
 					$j == 0 ? $this->plugin->txt("questions_distractors") : "",
 					sprintf("question_%d_distractor_%d", $i, $j)
 				);
-				$form->addItem($distractor);
+				$enable->addSubItem($distractor);
 				if ($a_use_post) {
 					$distractor->setValueByArray($_POST);
 				} else {
