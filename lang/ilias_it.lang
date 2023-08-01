@@ -37,6 +37,7 @@ activities_ivideo#:#Video interattivo
 activities_ivideo_questions#:#Definisce quante domande dovranno apparire in ogni set nel video interattivo. Ci sono 2 set: uno a metà del video, uno al termine
 activities_ivideo_summary#:#Definisce se il sommario deve essere aggiunto in coda al video interattivo
 activities_ko#:#La generazione delle attività è fallita: %s
+activities_not_yet_generated#:#Le attività per questo documento non sono ancora state generate.
 activities_practice#:#Flashcard concettuali
 activities_practice_flashcards#:#Definisce quante domande dovranno apparire nelle flashcard concettuali
 activities_practiceq#:#Flashcard contestuali
