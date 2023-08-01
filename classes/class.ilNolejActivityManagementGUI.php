@@ -565,6 +565,78 @@ class ilNolejActivityManagementGUI
 		return $form;
 	}
 
+	/** @return string */
+	protected function contentLimitsInfo()
+	{
+		$contentLimits = new ilInfoScreenGUI($this);
+
+		$contentLimits->addSection($this->plugin->txt("limit_content"));
+
+		$info = new ilInfoScreenGUI($this);
+		$info->hideFurtherSections(true);
+
+		$info->addSection("");
+		$info->addProperty("", "");
+		$info->addSection($this->plugin->txt("limit_audio"));
+		$info->addProperty(
+			$this->plugin->txt("limit_max_duration"),
+			sprintf($this->plugin->txt("limit_minutes"), 50)
+		);
+		$info->addProperty(
+			$this->plugin->txt("limit_min_characters"),
+			"500"
+		);
+		$info->addProperty(
+			$this->plugin->txt("limit_max_size"),
+			"500 MB"
+		);
+		$info->addProperty(
+			$this->plugin->txt("limit_type"),
+			implode(", ", self::TYPE_AUDIO)
+		);
+		$info->addSection($this->plugin->txt("limit_video"));
+		$info->addProperty(
+			$this->plugin->txt("limit_max_duration"),
+			sprintf($this->plugin->txt("limit_minutes"), 50)
+		);
+		$info->addProperty(
+			$this->plugin->txt("limit_min_characters"),
+			"500"
+		);
+		$info->addProperty(
+			$this->plugin->txt("limit_max_size"),
+			"500 MB"
+		);
+		$info->addProperty(
+			$this->plugin->txt("limit_type"),
+			implode(", ", self::TYPE_VIDEO)
+		);
+		$info->addSection($this->plugin->txt("limit_doc"));
+		$info->addProperty(
+			$this->plugin->txt("limit_max_pages"),
+			"50"
+		);
+		$info->addProperty(
+			$this->plugin->txt("limit_min_characters"),
+			"500"
+		);
+		$info->addProperty(
+			$this->plugin->txt("limit_max_size"),
+			"500 MB"
+		);
+		$info->addProperty(
+			$this->plugin->txt("limit_type"),
+			implode(", ", self::TYPE_DOC)
+		);
+
+		$contentLimits->addProperty(
+			$this->plugin->txt("limit_content"),
+			$info->getHTML()
+		);
+
+		return $contentLimits->getHTML();
+	}
+
 	public function creation()
 	{
 		global $tpl;
@@ -573,76 +645,11 @@ class ilNolejActivityManagementGUI
 		$form = $this->initCreationForm();
 		$js = $this->initIntLink();
 
-		// TODO: display info in a better way (maybe on the side)
-		if ($this->status == self::STATUS_CREATION) {
-			$contentLimits = new ilInfoScreenGUI($this);
-
-			$contentLimits->addSection($this->plugin->txt("limit_content"));
-
-			$info = new ilInfoScreenGUI($this);
-			$info->hideFurtherSections(true);
-
-			$info->addSection("");
-			$info->addProperty("", "");
-			$info->addSection($this->plugin->txt("limit_audio"));
-			$info->addProperty(
-				$this->plugin->txt("limit_max_duration"),
-				sprintf($this->plugin->txt("limit_minutes"), 50)
-			);
-			$info->addProperty(
-				$this->plugin->txt("limit_min_characters"),
-				"500"
-			);
-			$info->addProperty(
-				$this->plugin->txt("limit_max_size"),
-				"500 MB"
-			);
-			$info->addProperty(
-				$this->plugin->txt("limit_type"),
-				implode(", ", self::TYPE_AUDIO)
-			);
-			$info->addSection($this->plugin->txt("limit_video"));
-			$info->addProperty(
-				$this->plugin->txt("limit_max_duration"),
-				sprintf($this->plugin->txt("limit_minutes"), 50)
-			);
-			$info->addProperty(
-				$this->plugin->txt("limit_min_characters"),
-				"500"
-			);
-			$info->addProperty(
-				$this->plugin->txt("limit_max_size"),
-				"500 MB"
-			);
-			$info->addProperty(
-				$this->plugin->txt("limit_type"),
-				implode(", ", self::TYPE_VIDEO)
-			);
-			$info->addSection($this->plugin->txt("limit_doc"));
-			$info->addProperty(
-				$this->plugin->txt("limit_max_pages"),
-				"50"
-			);
-			$info->addProperty(
-				$this->plugin->txt("limit_min_characters"),
-				"500"
-			);
-			$info->addProperty(
-				$this->plugin->txt("limit_max_size"),
-				"500 MB"
-			);
-			$info->addProperty(
-				$this->plugin->txt("limit_type"),
-				implode(", ", self::TYPE_DOC)
-			);
-
-			$contentLimits->addProperty(
-				$this->plugin->txt("limit_content"),
-				$info->getHTML()
-			);
-		}
-
-		$tpl->setContent((isset($contentLimits) ? $contentLimits->getHTML() : "") . $form->getHTML() . $js);
+		$tpl->setContent(
+			($this->status == self::STATUS_CREATION ? $this->contentLimitsInfo() : "")
+			. $form->getHTML()
+			. $js
+		);
 	}
 
 	public function create()
