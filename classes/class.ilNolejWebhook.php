@@ -499,10 +499,12 @@ class ilNolejWebhook
 
 		$notification = new ilNotificationConfig("chat_invitation");
 		$notification->setTitleVar(
-			sprintf(
-				"%s_action_%s",
-				$lng->txt(ilNolejPlugin::PREFIX),
-				$action
+			$lng->txt(
+				sprintf(
+					"%s_action_%s",
+					ilNolejPlugin::PREFIX,
+					$action
+				)
 			)
 		);
 		$descriptionVar = sprintf(
