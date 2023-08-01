@@ -118,8 +118,7 @@ class ilNolejWebhook
 		$exchange = $db->fetchAssoc($result);
 
 		$now = strtotime("now");
-		$lang = ilObjUser::_lookupLanguage($exchange["user_id"]);
-		ilDatePresentation::setLanguage($lang);
+		$this->setUserLang($exchange["user_id"]);
 
 		$result = $db->manipulateF(
 			"UPDATE " . ilNolejPlugin::TABLE_TIC
@@ -227,8 +226,7 @@ class ilNolejWebhook
 		}
 
 		$now = strtotime("now");
-		$lang = ilObjUser::_lookupLanguage($document["user_id"]);
-		ilDatePresentation::setLanguage($lang);
+		$this->setUserLang($document["user_id"]);
 
 		$this->sendNotification(
 			$documentId,
@@ -328,8 +326,7 @@ class ilNolejWebhook
 		}
 
 		$now = strtotime("now");
-		$lang = ilObjUser::_lookupLanguage($document["user_id"]);
-		ilDatePresentation::setLanguage($lang);
+		$this->setUserLang($document["user_id"]);
 
 		$this->sendNotification(
 			$documentId,
@@ -409,8 +406,7 @@ class ilNolejWebhook
 
 		$document = $db->fetchAssoc($result);
 		$now = strtotime("now");
-		$lang = ilObjUser::_lookupLanguage($document["user_id"]);
-		ilDatePresentation::setLanguage($lang);
+		$this->setUserLang($document["user_id"]);
 
 		if (
 			$this->data["status"] != "\"ok\"" &&
@@ -514,7 +510,7 @@ class ilNolejWebhook
 		$bodyVar,
 		$vars = array()
 	) {
-		// Send Notification
+		/** Send Notification */
 		$ass = new NolejActivity($documentId, $userId, $action);
 		$ass->withStatus($status)
 			->withCode($code)
@@ -522,12 +518,8 @@ class ilNolejWebhook
 			->withConsumedCredit($credits)
 			->store();
 
-		// Send Email
-		$lang = ilObjUser::_lookupLanguage($userId);
-		$lng = new ilLanguage($lang);
-		$lng->loadLanguageModule(ilNolejPlugin::PREFIX);
-		ilDatePresentation::setUseRelativeDates(false);
-
+		/** Send Email */
+		$lng = $this->setUserLang($userId);
 		$notification = new ilNotificationConfig("chat_invitation");
 		$notification->setTitleVar(
 			$lng->txt(
@@ -548,5 +540,19 @@ class ilNolejWebhook
 		$notification->setValidForSeconds(0);
 		$notification->setHandlerParam('mail.sender', SYSTEM_USER_ID);
 		$notification->notifyByUsers([$userId]);
+	}
+
+	/** 
+	 * @param int $a_user_id
+	 * @return ilLanguage
+	 */
+	protected function setUserLang($a_user_id)
+	{
+		$lang = ilObjUser::_lookupLanguage($a_user_id);
+		$lng = new ilLanguage($lang);
+		$lng->loadLanguageModule(ilNolejPlugin::PREFIX);
+		ilDatePresentation::setUseRelativeDates(false);
+		ilDatePresentation::setLanguage($lng);
+		return $lng;
 	}
 }
