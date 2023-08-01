@@ -185,9 +185,11 @@ class ilNolejWebhook
 			[
 				"text",
 				"text",
+				"text",
 				"integer"
 			],
 			[
+				$documentId,
 				$documentId,
 				$documentId,
 				ilNolejActivityManagementGUI::STATUS_CREATION_PENDING
@@ -276,9 +278,11 @@ class ilNolejWebhook
 			[
 				"text",
 				"text",
+				"text",
 				"integer"
 			],
 			[
+				$documentId,
 				$documentId,
 				$documentId,
 				ilNolejActivityManagementGUI::STATUS_ANALISYS_PENDING
@@ -368,9 +372,11 @@ class ilNolejWebhook
 			[
 				"text",
 				"text",
+				"text",
 				"integer"
 			],
 			[
+				$documentId,
 				$documentId,
 				$documentId,
 				ilNolejActivityManagementGUI::STATUS_ACTIVITIES_PENDING
