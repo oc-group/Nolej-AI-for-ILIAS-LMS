@@ -970,7 +970,7 @@ class ilNolejActivityManagementGUI
 		$pathname,
 		$saveAs = null,
 		$forceDownload = false,
-		$withData = array(),
+		$withData = "",
 		$encode = false
 	) {
 		$filepath = $this->dataDir . "/" . $saveAs;
