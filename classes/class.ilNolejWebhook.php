@@ -2,7 +2,7 @@
 
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/class.ilNolejActivityManagementGUI.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
 
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
