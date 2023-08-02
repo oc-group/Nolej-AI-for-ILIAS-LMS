@@ -7,6 +7,7 @@ require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/
 include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
 
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
+require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
