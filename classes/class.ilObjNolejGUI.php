@@ -306,30 +306,33 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 */
 	public function getH5PHtml($id)
 	{
-		/** @var IContainer */
-		$h5p_container = ilH5PPlugin::getInstance()->getContainer();
-
-		/** @var IRepositoryFactory */
-		$repositories = $h5p_container->getRepositoryFactory();
-
-		$content = $repositories->content()->getContent((int) $id);
-
-		if ($content == null) {
-			ilUtil::sendFailure("err_h5p_content");
-			return;
-		}
-
-		$component = $h5p_container
-			->getComponentFactory()
-			->content($content)
-			->withLoadingMessage(
-				$this->plugin->txt("content_loading")
-			);
+		$h5pplugin = ilH5PPlugin::getInstance();
+		return $h5pplugin::PLUGIN_ID;
 		
-		return sprintf(
-			"<div style=\"margin-top: 25px;\">%s</div>",
-			$this->renderer->render($component)
-		);
+		// /** @var IContainer */
+		// $h5p_container = $h5pplugin->getContainer();
+
+		// /** @var IRepositoryFactory */
+		// $repositories = $h5p_container->getRepositoryFactory();
+
+		// $content = $repositories->content()->getContent((int) $id);
+
+		// if ($content == null) {
+		// 	ilUtil::sendFailure("err_h5p_content");
+		// 	return;
+		// }
+
+		// $component = $h5p_container
+		// 	->getComponentFactory()
+		// 	->content($content)
+		// 	->withLoadingMessage(
+		// 		$this->plugin->txt("content_loading")
+		// 	);
+		
+		// return sprintf(
+		// 	"<div style=\"margin-top: 25px;\">%s</div>",
+		// 	$this->renderer->render($component)
+		// );
 	}
 
 	/**
