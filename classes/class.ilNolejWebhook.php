@@ -4,6 +4,8 @@ require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.ph
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
 
+include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
+
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
