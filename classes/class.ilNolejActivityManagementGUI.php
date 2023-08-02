@@ -573,7 +573,7 @@ class ilNolejActivityManagementGUI
 		$contentLimits->addSection($this->plugin->txt("limit_content"));
 
 		$info = new ilInfoScreenGUI($this);
-		$info->hideFurtherSections(false);
+		$info->hideFurtherSections(true);
 
 		$info->addSection("");
 		$info->addProperty("", "");
