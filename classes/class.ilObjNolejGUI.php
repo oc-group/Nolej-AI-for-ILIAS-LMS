@@ -9,6 +9,9 @@ include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManageme
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
 
+use srag\Plugins\H5P\IContainer;
+use srag\Plugins\H5P\IRepositoryFactory;
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
