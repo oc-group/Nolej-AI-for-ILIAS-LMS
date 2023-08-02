@@ -284,12 +284,14 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			$this->tpl->setRightContent($toolbar->getHTML());
 		}
 
-		$h5pDir = $this->object->getDataDir() . "/h5p";
-		if (
-			$this->object->status != ilNolejActivityManagementGUI::STATUS_COMPLETED ||
-			!is_dir($h5pDir)
-		) {
+		if ($this->object->status != ilNolejActivityManagementGUI::STATUS_COMPLETED) {
 			ilUtil::sendInfo($this->plugin->txt("activities_not_yet_generated"));
+			return;
+		}
+
+		$h5pDir = $this->object->getDataDir() . "/h5p";
+		if (!is_dir($h5pDir)) {
+			ilUtil::sendInfo($this->plugin->txt("activities_not_downloaded"));
 			return;
 		}
 
