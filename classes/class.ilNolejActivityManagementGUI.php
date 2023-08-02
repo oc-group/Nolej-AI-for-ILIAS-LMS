@@ -2292,15 +2292,67 @@ class ilNolejActivityManagementGUI
 		$activities = json_decode($json);
 
 		foreach ($activities->activities as $activity) {
+			$path = sprintf("%s/%s.h5p", $h5pDir, $activity->activity_name);
+
 			// Download activity
 			file_put_contents(
-				sprintf("%s/%s.h5p", $h5pDir, $activity->activity_name),
+				$path,
 				file_get_contents($activity->url)
 			);
+
+			if ($activity->activity_name != "ibook") {
+				continue;
+			}
+
+			// $this->importH5P($path);
 		}
 
 		return true;
 	}
+
+	/**
+	 * "Import" an activity using h5p plugin. 
+	 * @param string path to the activity to import
+	 */
+	// public function importH5P($path)
+	// {
+	// 	$this->h5p_container = ilH5PPlugin::getInstance()->getContainer();
+    //     $this->repositories = $this->h5p_container->getRepositoryFactory();
+    //     $this->translator = $this->h5p_container->getTranslator();
+
+	// 	$processor = new ImportContentFormProcessor(
+    //         $this->h5p_container->getFileUploadCommunicator(),
+    //         $this->h5p_container->getKernelValidator(),
+    //         $this->h5p_container->getKernelStorage(),
+    //         $this->h5p_container->getKernel(),
+    //         $this->request,
+    //         $this->getImportContentForm(),
+    //         $this->object->getId(),
+    //         IContent::PARENT_TYPE_PAGE
+    //     );
+	// 	$this->runFormProcessor($processor);
+	// }
+
+	/**
+	 * Executes the given form processor and registers an additional post-processor,
+	 * which calles either $this->createElement() or $this->updateElement() depending
+	 * on the given content.
+	 */
+	// protected function runFormProcessor(IPostProcessorAware $form_processor): void
+	// {
+	// 	$post_processor = new ContentPostProcessor(
+	// 		ilH5PPageComponentPlugin::PLUGIN_ID,
+	// 		function (array $content_data): void {
+	// 			$data[ilH5PPageComponentPlugin::PROPERTY_CONTENT_ID] = $content_data['id'] ?? null;
+
+	// 			$this->createElement($data);
+	// 		}
+	// 	);
+
+	// 	$form_processor = $form_processor->withPostProcessor($post_processor);
+
+	// 	$success = $form_processor->processForm();
+	// }
 
 	/**
 	 * @param bool $hideInfo if false and the activities are in generation,

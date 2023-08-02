@@ -55,8 +55,9 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 */
 	protected function afterConstructor()
 	{
-		global $ilCtrl, $ilTabs, $tpl;
+		global $DIC, $ilCtrl, $ilTabs, $tpl;
 		$this->ctrl = $ilCtrl;
+		$this->renderer = $DIC->ui()->renderer();
 		$this->tabs = $ilTabs;
 		$this->tpl = $tpl;
 	}
@@ -293,6 +294,38 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		}
 
 		// Display activities
+		$this->tpl->setContent($this->getH5PHtml(30));
+	}
+
+	/**
+	 * @param int $id
+	 */
+	public function getH5PHtml($id)
+	{
+		/** @var IContainer */
+		$h5p_container = ilH5PPlugin::getInstance()->getContainer();
+
+		/** @var IRepositoryFactory */
+		$repositories = $h5p_container->getRepositoryFactory();
+
+		$content = $repositories->content()->getContent((int) $id);
+
+		if ($content == null) {
+			ilUtil::sendFailure("err_h5p_content");
+			return;
+		}
+
+		$component = $h5p_container
+			->getComponentFactory()
+			->content($content)
+			->withLoadingMessage(
+				$this->plugin->txt("content_loading")
+			);
+		
+		return sprintf(
+			"<div style=\"margin-top: 25px;\">%s</div>",
+			$this->renderer->render($component)
+		);
 	}
 
 	/**
