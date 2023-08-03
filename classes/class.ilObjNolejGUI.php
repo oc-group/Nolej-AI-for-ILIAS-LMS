@@ -313,32 +313,32 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	{
 		$h5pplugin = ilH5PPlugin::getInstance();
 
-		return print_r(get_class_methods($h5pplugin), true);
+		// return print_r(get_class_methods($h5pplugin), true);
 
-		// /** @var IContainer */
-		// $h5p_container = $h5pplugin->getContainer();
+		/** @var IContainer */
+		$h5p_container = $h5pplugin->getContainer();
 
-		// /** @var IRepositoryFactory */
-		// $repositories = $h5p_container->getRepositoryFactory();
+		/** @var IRepositoryFactory */
+		$repositories = $h5p_container->getRepositoryFactory();
 
-		// $content = $repositories->content()->getContent((int) $id);
+		$content = $repositories->content()->getContent((int) $id);
 
-		// if ($content == null) {
-		// 	ilUtil::sendFailure("err_h5p_content");
-		// 	return;
-		// }
+		if ($content == null) {
+			ilUtil::sendFailure("err_h5p_content");
+			return;
+		}
 
-		// $component = $h5p_container
-		// 	->getComponentFactory()
-		// 	->content($content)
-		// 	->withLoadingMessage(
-		// 		$this->plugin->txt("content_loading")
-		// 	);
+		$component = $h5p_container
+			->getComponentFactory()
+			->content($content)
+			->withLoadingMessage(
+				$this->plugin->txt("content_loading")
+			);
 		
-		// return sprintf(
-		// 	"<div style=\"margin-top: 25px;\">%s</div>",
-		// 	$this->renderer->render($component)
-		// );
+		return sprintf(
+			"<div style=\"margin-top: 25px;\">%s</div>",
+			$this->renderer->render($component)
+		);
 	}
 
 	/**
