@@ -9,8 +9,11 @@ include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManageme
 include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
 
-use srag\Plugins\H5P\IContainer;
-use srag\Plugins\H5P\IRepositoryFactory;
+use srag\DIC\H5P\DICTrait;
+use srag\Plugins\H5P\Content\Content;
+use srag\Plugins\H5P\Content\Editor\EditContentFormGUI;
+use srag\Plugins\H5P\Content\Editor\ImportContentFormGUI;
+use srag\Plugins\H5P\Utils\H5PTrait;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
@@ -25,6 +28,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 class ilObjNolejGUI extends ilObjectPluginGUI
 {
 	use Hasher;
+	use H5PTrait;
 
 	const LP_SESSION_ID = 'xnlj_lp_session_state';
 
@@ -313,32 +317,41 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	{
 		$h5pplugin = ilH5PPlugin::getInstance();
 
+		$h5pContent = self::h5p()->contents()->getContentById($id);
+
+        if ($h5pContent == null) {
+			ilUtil::sendFailure($this->plugin->txt("err_h5p_content"));
+			return "";
+		}
+
+		return self::h5p()->contents()->show()->getH5PContent($h5pContent, true, false);
+
 		// return print_r(get_class_methods($h5pplugin), true);
 
 		/** @var IContainer */
-		$h5p_container = $h5pplugin->getContainer();
+		// $h5p_container = $h5pplugin->getContainer();
 
-		/** @var IRepositoryFactory */
-		$repositories = $h5p_container->getRepositoryFactory();
+		// /** @var IRepositoryFactory */
+		// $repositories = $h5p_container->getRepositoryFactory();
 
-		$content = $repositories->content()->getContent((int) $id);
+		// $content = $repositories->content()->getContent((int) $id);
 
-		if ($content == null) {
-			ilUtil::sendFailure("err_h5p_content");
-			return;
-		}
+		// if ($content == null) {
+		// 	ilUtil::sendFailure("err_h5p_content");
+		// 	return;
+		// }
 
-		$component = $h5p_container
-			->getComponentFactory()
-			->content($content)
-			->withLoadingMessage(
-				$this->plugin->txt("content_loading")
-			);
-		
-		return sprintf(
-			"<div style=\"margin-top: 25px;\">%s</div>",
-			$this->renderer->render($component)
-		);
+		// $component = $h5p_container
+		// 	->getComponentFactory()
+		// 	->content($content)
+		// 	->withLoadingMessage(
+		// 		$this->plugin->txt("content_loading")
+		// 	);
+
+		// return sprintf(
+		// 	"<div style=\"margin-top: 25px;\">%s</div>",
+		// 	$this->renderer->render($component)
+		// );
 	}
 
 	/**
