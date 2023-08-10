@@ -236,7 +236,7 @@ class ilNolejWebhook
 			$this->data["code"],
 			$this->data["error_message"],
 			$this->data["consumedCredit"],
-			"transcription_" . $this->data["status"] . "_desc",
+			"action_transcription_" . $this->data["status"] . "_desc",
 			[
 				$document["title"],
 				ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
@@ -336,7 +336,7 @@ class ilNolejWebhook
 			$this->data["code"],
 			$this->data["error_message"],
 			$this->data["consumedCredit"],
-			"analysis_" . $this->data["status"] . "_desc",
+			"action_analysis_" . $this->data["status"] . "_desc",
 			[
 				$document["title"],
 				ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
