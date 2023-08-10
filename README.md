@@ -6,5 +6,5 @@ ILIAS integration plugin for Nolej.
 ```
 mkdir -p Customizing/global/plugins/Services/Repository/RepositoryObject
 cd Customizing/global/plugins/Services/Repository/RepositoryObject
-git clone https://github.com/oc-group/Nolej.git
+git clone https://github.com/oc-group/Nolej.git Nolej
 ```
