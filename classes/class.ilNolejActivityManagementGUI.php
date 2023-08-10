@@ -62,6 +62,9 @@ class ilNolejActivityManagementGUI
 	const TYPE_DOC = [
 		"pdf", "doc", "docx", "odt"
 	];
+	const TYPE_TEXT = [
+		"txt", "htm", "html"
+	];
 
 	const STATUS_CREATION = 0;
 	const STATUS_CREATION_PENDING = 1;
@@ -466,12 +469,14 @@ class ilNolejActivityManagementGUI
 			/* File upload */
 			$file = new ilFileInputGUI("", self::PROP_INPUT_FILE);
 			$file->setRequired(true);
-			$file->setSuffixes([
-				...self::TYPE_AUDIO,
-				...self::TYPE_VIDEO,
-				...self::TYPE_DOC,
-				"txt", "htm", "html" // Text
-			]);
+			$file->setSuffixes(
+				array_merge(
+					self::TYPE_AUDIO,
+					self::TYPE_VIDEO,
+					self::TYPE_DOC,
+					self::TYPE_TEXT
+				)
+			);
 			$mediaFile->addSubItem($file);
 
 			/**
