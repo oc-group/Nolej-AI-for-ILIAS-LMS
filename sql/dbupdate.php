@@ -3,17 +3,17 @@
 
 /* Config */
 $fields = array(
-	'keyword' => array(
-		'type' => 'text',
-		'length' => 100,
-		'fixed' => false,
-		'notnull' => true
+	"keyword" => array(
+		"type" => "text",
+		"length" => 100,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'value' => array(
-		'type' => 'text',
-		'length' => 200,
-		'fixed' => false,
-		'notnull' => true
+	"value" => array(
+		"type" => "text",
+		"length" => 200,
+		"fixed" => false,
+		"notnull" => true
 	)
 );
 
@@ -24,54 +24,54 @@ if(!$ilDB->tableExists("rep_robj_xnlj_config")) {
 
 /* Activity */
 $fields = array(
-	'document_id' => array(
-		'type' => 'text',
-		'length' => 50,
-		'fixed' => false,
-		'notnull' => true
+	"document_id" => array(
+		"type" => "text",
+		"length" => 50,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'user_id' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"user_id" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'action' => array(
-		'type' => 'text',
-		'length' => 30,
-		'fixed' => false,
-		'notnull' => true
+	"action" => array(
+		"type" => "text",
+		"length" => 30,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'tstamp' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"tstamp" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'status' => array(
-		'type' => 'text',
-		'length' => 10,
-		'fixed' => false,
-		'notnull' => false
+	"status" => array(
+		"type" => "text",
+		"length" => 10,
+		"fixed" => false,
+		"notnull" => false
 	),
-	'code' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"code" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'error_message' => array(
-		'type' => 'text',
-		'length' => 200,
-		'fixed' => false,
-		'notnull' => true
+	"error_message" => array(
+		"type" => "text",
+		"length" => 200,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'consumed_credit' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => false
+	"consumed_credit" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => false
 	),
-	'notified' => array(
-		'type' => 'text',
-		'length' => 1,
-		'notnull' => true
+	"notified" => array(
+		"type" => "text",
+		"length" => 1,
+		"notnull" => true
 	)
 );
 
@@ -82,44 +82,44 @@ if(!$ilDB->tableExists("rep_robj_xnlj_activity")) {
 
 /* TicTac */
 $fields = array(
-	'exchange_id' => array(
-		'type' => 'text',
-		'length' => 50,
-		'fixed' => false,
-		'notnull' => true
+	"exchange_id" => array(
+		"type" => "text",
+		"length" => 50,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'user_id' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"user_id" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'request_on' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"request_on" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'response_on' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => false
+	"response_on" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => false
 	),
-	'message' => array(
-		'type' => 'text',
-		'length' => 200,
-		'fixed' => false,
-		'notnull' => true
+	"message" => array(
+		"type" => "text",
+		"length" => 200,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'request_url' => array(
-		'type' => 'text',
-		'length' => 400,
-		'fixed' => false,
-		'notnull' => true
+	"request_url" => array(
+		"type" => "text",
+		"length" => 400,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'response_url' => array(
-		'type' => 'text',
-		'length' => 400,
-		'fixed' => false,
-		'notnull' => false
+	"response_url" => array(
+		"type" => "text",
+		"length" => 400,
+		"fixed" => false,
+		"notnull" => false
 	)
 );
 
@@ -130,13 +130,13 @@ if(!$ilDB->tableExists("rep_robj_xnlj_tic")) {
 
 /* Document data */
 $fields = array(
-	'document_id' => array(
-		'type' => 'text',
-		'length' => 50,
-		'fixed' => false,
-		'notnull' => true
+	"document_id" => array(
+		"type" => "text",
+		"length" => 50,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'status' => array(
+	"status" => array(
 		/**
 		 * 0 => idle,
 		 * 1 => transcripting,
@@ -146,48 +146,48 @@ $fields = array(
 		 * 5 => review,
 		 * 6 => review ready,
 		*/
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'title' => array(
-		'type' => 'text',
-		'length' => 250,
-		'fixed' => false,
-		'notnull' => false
+	"title" => array(
+		"type" => "text",
+		"length" => 250,
+		"fixed" => false,
+		"notnull" => false
 	),
-	'consumed_credit' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"consumed_credit" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'doc_url' => array(
-		'type' => 'text',
-		'length' => 200,
-		'fixed' => false,
-		'notnull' => true
+	"doc_url" => array(
+		"type" => "text",
+		"length" => 200,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'media_type' => array(
+	"media_type" => array(
 		/**
 		 * Available: web, audio, video, document, freetext, youtube.
 		 * Soon: slide.
 		 */
-		'type' => 'text',
-		'length' => 20,
-		'fixed' => false,
-		'notnull' => true
+		"type" => "text",
+		"length" => 20,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'automatic_mode' => array(
-		'type' => 'text',
-		'length' => 1,
-		'fixed' => false,
-		'notnull' => true
+	"automatic_mode" => array(
+		"type" => "text",
+		"length" => 1,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'language' => array(
-		'type' => 'text',
-		'length' => 5,
-		'fixed' => false,
-		'notnull' => true
+	"language" => array(
+		"type" => "text",
+		"length" => 5,
+		"fixed" => false,
+		"notnull" => true
 	)
 );
 
@@ -198,21 +198,21 @@ if(!$ilDB->tableExists("rep_robj_xnlj_doc")) {
 
 /* Object data */
 $fields = array(
-	'id' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"id" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'is_online' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"is_online" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'document_id' => array(
-		'type' => 'text',
-		'length' => 50,
-		'fixed' => false,
-		'notnull' => false
+	"document_id" => array(
+		"type" => "text",
+		"length" => 50,
+		"fixed" => false,
+		"notnull" => false
 	),
 );
 
@@ -223,30 +223,30 @@ if(!$ilDB->tableExists("rep_robj_xnlj_data")) {
 
 /* LP */
 $fields = array(
-	'document_id' => array(
-		'type' => 'text',
-		'length' => 50,
-		'fixed' => false,
-		'notnull' => true
+	"document_id" => array(
+		"type" => "text",
+		"length" => 50,
+		"fixed" => false,
+		"notnull" => true
 	),
-	'activity_id' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"activity_id" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'user_id' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"user_id" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'status' => array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => true
+	"status" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
 	),
-	'last_change' => array(
-		"type" => 'integer',
-		'length' => 4,
+	"last_change" => array(
+		"type" => "integer",
+		"length" => 4,
 		"notnull" => false
 	)
 );
@@ -254,6 +254,42 @@ $fields = array(
 if(!$ilDB->tableExists("rep_robj_xnlj_lp")) {
 	$ilDB->createTable("rep_robj_xnlj_lp", $fields);
 	$ilDB->addPrimaryKey("rep_robj_xnlj_lp", array("document_id", "activity_id", "user_id"));
+}
+
+?>
+
+#2
+<?php
+
+/* h5p activity */
+$fields = array(
+	"document_id" => array(
+		"type" => "text",
+		"length" => 50,
+		"fixed" => false,
+		"notnull" => true
+	),
+	"type" => array(
+		"type" => "text",
+		"length" => 250,
+		"fixed" => false,
+		"notnull" => false
+	),
+	"generated" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => false
+	),
+	"content_id" => array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true
+	)
+);
+
+if(!$ilDB->tableExists("rep_robj_xnlj_hfp")) {
+	$ilDB->createTable("rep_robj_xnlj_hfp", $fields);
+	$ilDB->addPrimaryKey("rep_robj_xnlj_hfp", array("document_id", "type", "generated"));
 }
 
 ?>

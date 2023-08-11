@@ -6,7 +6,7 @@ require_once("./Services/Tracking/classes/status/class.ilLPStatusPlugin.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
 include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
 
-include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
+require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
 
 use srag\DIC\H5P\DICTrait;
@@ -310,89 +310,19 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// 	$this->tpl->setContent("error store");
 		// 	return;
 		// }
-		$contentId = $this->importH5PContent($this->object->getDataDir() . "/h5p/ibook.h5p");
+		$contentId = $this->object->getContentIdOfType("ibook");
 
 		// Display activities
-		$this->tpl->setContent(is_int($contentId) ? $this->getH5PHtml($contentId) : "Error");
+		$this->tpl->setContent(($contentId != -1) ? $this->getH5PHtml($contentId) : "Error");
 	}
 
 	/**
-	 * @param string $filePath h5p to import
-	 * @return int|null
-	 */
-	public function importH5PContent($filePath)
-	{
-		self::h5p()
-			->contents()
-			->editor()
-			->storageFramework()
-			->saveFileTemporarily($filePath, true);
-
-		if (!self::h5p()->contents()->editor()->validatorCore()->isValidPackage()) {
-			return null;
-		}
-
-		$core = self::h5p()->contents()->core();
-
-		self::h5p()
-			->contents()
-			->editor()
-			->storageCore()
-			->savePackage([
-				"metadata" => [
-					"authors" => $core->mainJsonData["authors"],
-					"authorComments" => $core->mainJsonData["authorComments"],
-					"changes" => $core->mainJsonData["changes"],
-					"defaultLanguage" => $core->mainJsonData["defaultLanguage"],
-					"license" => $core->mainJsonData["license"],
-					"licenseExtras" => $core->mainJsonData["licenseExtras"],
-					"licenseVersion" => $core->mainJsonData["licenseVersion"],
-					"source" => $core->mainJsonData["source"],
-					"title" => ($core->mainJsonData["title"] ?: $this->object->title),
-					"yearFrom" => $core->mainJsonData["yearFrom"],
-					"yearTo" => $core->mainJsonData["yearTo"]
-				]
-			]);
-
-		self::h5p()
-			->contents()
-			->editor()
-			->storageFramework()
-			->removeTemporarilySavedFiles(
-				self::h5p()
-					->contents()
-					->framework()
-					->getUploadedH5pFolderPath()
-			);
-		
-		$contentId = intval(
-			self::h5p()
-				->contents()
-				->editor()
-				->storageCore()
-				->contentId
-		);
-
-		$h5p_content = self::h5p()
-			->contents()
-			->getContentById($contentId);
-
-		if ($h5p_content === null) {
-			return null;
-		}
-
-		return $contentId;
-	}
-
-	/**
-	 * @param int $id
+	 * @param int $contentId
 	 * @return string html
 	 */
-	public function getH5PHtml($id)
+	public function getH5PHtml($contentId)
 	{
-		$h5pplugin = ilH5PPlugin::getInstance();
-
-		$h5pContent = self::h5p()->contents()->getContentById($id);
+		$h5pContent = self::h5p()->contents()->getContentById($contentId);
 
         if ($h5pContent == null) {
 			ilUtil::sendFailure($this->plugin->txt("err_h5p_content"));
@@ -400,6 +330,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		}
 
 		return self::h5p()->contents()->show()->getH5PContent($h5pContent, true, false);
+
+		// $h5pplugin = ilH5PPlugin::getInstance();
 
 		// return print_r(get_class_methods($h5pplugin), true);
 
@@ -409,7 +341,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// /** @var IRepositoryFactory */
 		// $repositories = $h5p_container->getRepositoryFactory();
 
-		// $content = $repositories->content()->getContent((int) $id);
+		// $content = $repositories->content()->getContent((int) $contentId);
 
 		// if ($content == null) {
 		// 	ilUtil::sendFailure("err_h5p_content");

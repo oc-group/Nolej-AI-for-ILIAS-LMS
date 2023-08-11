@@ -3,6 +3,15 @@
 include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
 include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI.php");
 
+require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
+require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
+
+use srag\DIC\H5P\DICTrait;
+use srag\Plugins\H5P\Content\Content;
+use srag\Plugins\H5P\Content\Editor\EditContentFormGUI;
+use srag\Plugins\H5P\Content\Editor\ImportContentFormGUI;
+use srag\Plugins\H5P\Utils\H5PTrait;
+
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  * 
@@ -13,6 +22,8 @@ include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI
  */
 class ilNolejActivityManagementGUI
 {
+	use H5PTrait;
+
 	const CMD_CREATION = "creation";
 	const CMD_CREATE = "create";
 	const CMD_ANALYSIS = "analysis";
@@ -2305,14 +2316,91 @@ class ilNolejActivityManagementGUI
 				file_get_contents($activity->url)
 			);
 
-			if ($activity->activity_name != "ibook") {
-				continue;
-			}
+			// if ($activity->activity_name != "ibook") {
+			// 	continue;
+			// }
 
-			// $this->importH5P($path);
+			$this->importH5PContent($activity->activity_name);
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param string $h5pDir directory where are located h5p activities
+	 * @param string $type of h5p activity to import
+	 * @return void
+	 */
+	public function importH5PContent($h5pDir, $type)
+	{
+		$filePath = sprintf("%s/%s.h5p", $h5pDir, $type);
+		self::h5p()
+			->contents()
+			->editor()
+			->storageFramework()
+			->saveFileTemporarily($filePath, true);
+
+		if (!self::h5p()->contents()->editor()->validatorCore()->isValidPackage()) {
+			return;
+		}
+
+		$core = self::h5p()->contents()->core();
+
+		self::h5p()
+			->contents()
+			->editor()
+			->storageCore()
+			->savePackage([
+				"metadata" => [
+					"authors" => $core->mainJsonData["authors"],
+					"authorComments" => $core->mainJsonData["authorComments"],
+					"changes" => $core->mainJsonData["changes"],
+					"defaultLanguage" => $core->mainJsonData["defaultLanguage"],
+					"license" => $core->mainJsonData["license"],
+					"licenseExtras" => $core->mainJsonData["licenseExtras"],
+					"licenseVersion" => $core->mainJsonData["licenseVersion"],
+					"source" => $core->mainJsonData["source"],
+					"title" => ($core->mainJsonData["title"] ?: $this->object->title),
+					"yearFrom" => $core->mainJsonData["yearFrom"],
+					"yearTo" => $core->mainJsonData["yearTo"]
+				]
+			]);
+
+		self::h5p()
+			->contents()
+			->editor()
+			->storageFramework()
+			->removeTemporarilySavedFiles(
+				self::h5p()
+					->contents()
+					->framework()
+					->getUploadedH5pFolderPath()
+			);
+
+		$contentId = intval(
+			self::h5p()
+				->contents()
+				->editor()
+				->storageCore()
+				->contentId
+		);
+
+		$h5p_content = self::h5p()
+			->contents()
+			->getContentById($contentId);
+
+		if ($h5p_content === null) {
+			return;
+		}
+
+		$now = strtotime("now");
+		$this->db->manipulateF(
+			"INSERT INTO " . ilNolejPlugin::TABLE_H5P
+			. " (document_id, type, generated, content_id)"
+			. " VALUES (%s, %s, %s, %s);",
+			["text", "text", "integer", "integer"],
+			[$this->documentId, $type, $now, $contentId]
+		);
 	}
 
 	/**

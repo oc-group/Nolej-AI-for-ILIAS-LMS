@@ -24,6 +24,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	const TABLE_TIC = "rep_robj_xnlj_tic";
 	const TABLE_DOC = "rep_robj_xnlj_doc";
 	const TABLE_DATA = "rep_robj_xnlj_data";
+	const TABLE_H5P = "rep_robj_xnlj_hfp";
 	const TABLE_LP = "rep_robj_xnlj_lp";
 
 	/** @var self|null */
@@ -167,6 +168,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 			self::TABLE_TIC,
 			self::TABLE_DATA,
 			self::TABLE_DOC,
+			self::TABLE_H5P,
 			self::TABLE_LP
 		];
 

@@ -6,11 +6,22 @@ require_once("./Services/Tracking/interfaces/interface.ilLPStatusPlugin.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilObjNolejGUI.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejConfig.php");
 
+require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
+require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
+
+use srag\DIC\H5P\DICTrait;
+use srag\Plugins\H5P\Content\Content;
+use srag\Plugins\H5P\Content\Editor\EditContentFormGUI;
+use srag\Plugins\H5P\Content\Editor\ImportContentFormGUI;
+use srag\Plugins\H5P\Utils\H5PTrait;
+
 /**
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
 class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 {
+	use H5PTrait;
+
 	/** @var bool */
 	protected $online;
 
@@ -293,6 +304,27 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 		// }
 
 		// return $this->details = $result;
+	}
+
+	/**
+	 * @param string $type of h5p activity to get
+	 * @return int h5p content id
+	 */
+	public function getContentIdOfType($type)
+	{
+		$result = $this->db->queryF(
+			"SELECT content_id FROM " . ilNolejPlugin::TABLE_H5P
+			. " WHERE document_id = %s"
+			. " AND type = %s"
+			. " ORDER BY generated DESC"
+			. " LIMIT 1",
+			["text", "text"],
+			[$this->documentId, $type]
+		);
+		if ($row = $this->db->fetchAssoc($result)) {
+			return (int) $row["content_id"];
+		}
+		return -1;
 	}
 
 	/**
