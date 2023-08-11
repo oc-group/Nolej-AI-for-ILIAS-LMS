@@ -45,7 +45,7 @@ activities_practiceq_flashcards#:#Definisce quante domande dovranno apparire nel
 activities_selected#:#Attività da Nolej: %s dal modulo "%s".
 activities_settings#:#Rifinisci i dettagli prima di generare le attività
 activities_summary#:#Sommario
-activities_use_in_ibook#:#Utilizza nel libro interattivo
+activities_use_in_ibook#:#Mostra questa attività nel contenuto del modulo
 api_key#:#Chiave API
 api_key_info#:#La tua chiave API di Nolej.
 cmd_analyze#:#Avvia analisi
