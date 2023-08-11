@@ -258,7 +258,7 @@ if(!$ilDB->tableExists("rep_robj_xnlj_lp")) {
 
 ?>
 
-#2
+<#2>
 <?php
 
 /* h5p activity */
