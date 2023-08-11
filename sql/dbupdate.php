@@ -289,7 +289,7 @@ $fields = array(
 
 if(!$ilDB->tableExists("rep_robj_xnlj_hfp")) {
 	$ilDB->createTable("rep_robj_xnlj_hfp", $fields);
-	$ilDB->addPrimaryKey("rep_robj_xnlj_hfp", array("document_id", "type", "generated"));
+	$ilDB->addPrimaryKey("rep_robj_xnlj_hfp", array("content_id"));
 }
 
 ?>
