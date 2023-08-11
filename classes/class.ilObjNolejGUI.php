@@ -310,16 +310,15 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// 	$this->tpl->setContent("error store");
 		// 	return;
 		// }
-		$success = $this->importH5PContent($this->object->getDataDir() . "/h5p/ibook.h5p");
-		var_dump($success);
-		die();
+		$contentId = $this->importH5PContent($this->object->getDataDir() . "/h5p/ibook.h5p");
 
 		// Display activities
-		$this->tpl->setContent($this->getH5PHtml(30));
+		$this->tpl->setContent(is_int($contentId) ? $this->getH5PHtml($contentId) : "Error");
 	}
 
 	/**
 	 * @param string $filePath h5p to import
+	 * @return int|null
 	 */
 	public function importH5PContent($filePath)
 	{
@@ -365,24 +364,24 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 					->framework()
 					->getUploadedH5pFolderPath()
 			);
+		
+		$contentId = intval(
+			self::h5p()
+				->contents()
+				->editor()
+				->storageCore()
+				->contentId
+		);
 
 		$h5p_content = self::h5p()
 			->contents()
-			->getContentById(
-				intval(
-					self::h5p()
-						->contents()
-						->editor()
-						->storageCore()
-						->contentId
-				)
-			);
+			->getContentById($contentId);
 
 		if ($h5p_content === null) {
 			return null;
 		}
 
-		return $h5p_content;
+		return $contentId;
 	}
 
 	/**
