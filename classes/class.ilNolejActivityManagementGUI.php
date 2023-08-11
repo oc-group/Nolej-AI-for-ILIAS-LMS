@@ -2396,7 +2396,7 @@ class ilNolejActivityManagementGUI
 		$now = strtotime("now");
 		$this->db->manipulateF(
 			"INSERT INTO " . ilNolejPlugin::TABLE_H5P
-			. " (document_id, type, generated, content_id)"
+			. " (document_id, type, `generated`, content_id)"
 			. " VALUES (%s, %s, %s, %s);",
 			["text", "text", "integer", "integer"],
 			[$this->documentId, $type, $now, $contentId]
