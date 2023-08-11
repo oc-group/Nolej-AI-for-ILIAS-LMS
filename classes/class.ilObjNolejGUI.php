@@ -305,8 +305,84 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			return;
 		}
 
+		// $form = self::h5p()->contents()->editor()->factory()->newImportContentFormInstance($this, "CMD_IMPORT_CONTENT", "CMD_MANAGE_CONTENTS");
+		// if ($form->storeForm()) {
+		// 	$this->tpl->setContent("error store");
+		// 	return;
+		// }
+		$success = $this->importH5PContent($this->object->getDataDir() . "/ibook.h5p");
+		var_dump($success);
+		die();
+
 		// Display activities
 		$this->tpl->setContent($this->getH5PHtml(30));
+	}
+
+	/**
+	 * @param string $filePath h5p to import
+	 */
+	public function importH5PContent($filePath)
+	{
+		self::h5p()
+			->contents()
+			->editor()
+			->storageFramework()
+			->saveFileTemporarily($filePath, true);
+
+		if (!self::h5p()->contents()->editor()->validatorCore()->isValidPackage()) {
+			return null;
+		}
+
+		$core = self::h5p()->contents()->core();
+
+		self::h5p()
+			->contents()
+			->editor()
+			->storageCore()
+			->savePackage([
+				"metadata" => [
+					"authors" => $core->mainJsonData["authors"],
+					"authorComments" => $core->mainJsonData["authorComments"],
+					"changes" => $core->mainJsonData["changes"],
+					"defaultLanguage" => $core->mainJsonData["defaultLanguage"],
+					"license" => $core->mainJsonData["license"],
+					"licenseExtras" => $core->mainJsonData["licenseExtras"],
+					"licenseVersion" => $core->mainJsonData["licenseVersion"],
+					"source" => $core->mainJsonData["source"],
+					"title" => ($core->mainJsonData["title"] ?: $this->object->title),
+					"yearFrom" => $core->mainJsonData["yearFrom"],
+					"yearTo" => $core->mainJsonData["yearTo"]
+				]
+			]);
+
+		self::h5p()
+			->contents()
+			->editor()
+			->storageFramework()
+			->removeTemporarilySavedFiles(
+				self::h5p()
+					->contents()
+					->framework()
+					->getUploadedH5pFolderPath()
+			);
+
+		$h5p_content = self::h5p()
+			->contents()
+			->getContentById(
+				intval(
+					self::h5p()
+						->contents()
+						->editor()
+						->storageCore()
+						->contentId
+				)
+			);
+
+		if ($h5p_content === null) {
+			return null;
+		}
+
+		return $h5p_content;
 	}
 
 	/**
