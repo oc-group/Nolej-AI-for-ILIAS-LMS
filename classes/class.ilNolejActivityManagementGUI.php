@@ -2307,6 +2307,7 @@ class ilNolejActivityManagementGUI
 		}
 		$activities = json_decode($json);
 
+		$now = strtotime("now");
 		foreach ($activities->activities as $activity) {
 			$path = sprintf("%s/%s.h5p", $h5pDir, $activity->activity_name);
 
@@ -2320,7 +2321,7 @@ class ilNolejActivityManagementGUI
 			// 	continue;
 			// }
 
-			$this->importH5PContent($h5pDir, $activity->activity_name);
+			$this->importH5PContent($h5pDir, $activity->activity_name, $now);
 		}
 
 		return true;
@@ -2329,9 +2330,10 @@ class ilNolejActivityManagementGUI
 	/**
 	 * @param string $h5pDir directory where are located h5p activities
 	 * @param string $type of h5p activity to import
+	 * @param int $now
 	 * @return void
 	 */
-	public function importH5PContent($h5pDir, $type)
+	public function importH5PContent($h5pDir, $type, $now)
 	{
 		$filePath = sprintf("%s/%s.h5p", $h5pDir, $type);
 		self::h5p()
@@ -2393,7 +2395,6 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
-		$now = strtotime("now");
 		$this->db->manipulateF(
 			"INSERT INTO " . ilNolejPlugin::TABLE_H5P
 			. " (document_id, type, `generated`, content_id)"
