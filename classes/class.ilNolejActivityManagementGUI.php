@@ -2320,7 +2320,7 @@ class ilNolejActivityManagementGUI
 			// 	continue;
 			// }
 
-			$this->importH5PContent($activity->activity_name);
+			$this->importH5PContent($h5pDir, $activity->activity_name);
 		}
 
 		return true;
