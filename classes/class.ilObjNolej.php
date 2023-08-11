@@ -316,7 +316,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 			"SELECT content_id FROM " . ilNolejPlugin::TABLE_H5P
 			. " WHERE document_id = %s"
 			. " AND type = %s"
-			. " ORDER BY generated DESC"
+			. " ORDER BY `generated` DESC"
 			. " LIMIT 1",
 			["text", "text"],
 			[$this->documentId, $type]
