@@ -1907,7 +1907,7 @@ class ilNolejActivityManagementGUI
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->plugin->txt("activities_settings"));
 
-		$this->getNolejContent("settings", "settings.json");
+		$this->getNolejContent("settings", "settings.json", !$a_use_post);
 		$json = $this->readDocumentFile("settings.json");
 		if (!$json) {
 			ilUtil::sendFailure("err_settings_file");
