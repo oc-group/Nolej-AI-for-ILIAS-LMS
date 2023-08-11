@@ -42,6 +42,7 @@ activities_practice#:#Conceptual flashcards
 activities_practice_flashcards#:#Defines how many questions should appear in the conceptual flashcard activity
 activities_practiceq#:#Contextual flashcards
 activities_practiceq_flashcards#:#Defines how many questions should appear in the contextual flashcard activity
+activities_selected#:#Selected Nolej activity: %s from module "%s".
 activities_settings#:#Refine the details before generating the activities
 activities_summary#:#Summary
 activities_use_in_ibook#:#Use in interactive book
