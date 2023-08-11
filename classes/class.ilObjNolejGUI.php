@@ -320,12 +320,13 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 * @param int $contentId
 	 * @return string html
 	 */
-	public function getH5PHtml($contentId)
+	public static function getH5PHtml($contentId)
 	{
+		$plugin = ilNolejPlugin::getInstance();
 		$h5pContent = self::h5p()->contents()->getContentById($contentId);
 
         if ($h5pContent == null) {
-			ilUtil::sendFailure($this->plugin->txt("err_h5p_content"));
+			ilUtil::sendFailure($plugin->txt("err_h5p_content"));
 			return "";
 		}
 
