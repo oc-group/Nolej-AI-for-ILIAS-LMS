@@ -52,6 +52,8 @@ cmd_analyze#:#
 cmd_apply#:#
 cmd_back_to_content#:#
 cmd_back_to_modules#:#
+cmd_cancel#:#
+cmd_choose#:#
 cmd_create#:#
 cmd_details#:#
 cmd_edit#:#
@@ -120,6 +122,7 @@ lp_status_1#:#
 lp_status_2#:#
 lp_status_3#:#
 lp_status_info#:#
+module_select#:#
 modules#:#
 obj_xnlj#:#
 obj_xnlj_select#:#

@@ -52,6 +52,8 @@ cmd_analyze#:#Start analysis
 cmd_apply#:#Apply
 cmd_back_to_content#:#Nolej module
 cmd_back_to_modules#:#&laquo; Back to Nolej modules
+cmd_cancel#:#Cancel
+cmd_choose#:#Choose
 cmd_create#:#Create document
 cmd_details#:#Details
 cmd_edit#:#Edit
@@ -120,6 +122,7 @@ lp_status_1#:#In Progress
 lp_status_2#:#Completed
 lp_status_3#:#Failed
 lp_status_info#:#Attention, Setting the LP Status will set the LP status of the currently logged in user to the chosen status. THE STATUS OF EVERY OTHER USER WILL BE SET TO NOT ATTEMPTED! You will find this repository object by searching for its title, its description or the expression "Repoplugin".
+module_select#:#Select a Nolej Module
 modules#:#Nolej modules
 obj_xnlj#:#Nolej
 obj_xnlj_select#:#Select Nolej object
