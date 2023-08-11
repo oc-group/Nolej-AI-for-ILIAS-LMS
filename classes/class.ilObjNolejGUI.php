@@ -310,7 +310,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		// 	$this->tpl->setContent("error store");
 		// 	return;
 		// }
-		$success = $this->importH5PContent($this->object->getDataDir() . "/ibook.h5p");
+		$success = $this->importH5PContent($this->object->getDataDir() . "/h5p/ibook.h5p");
 		var_dump($success);
 		die();
 
