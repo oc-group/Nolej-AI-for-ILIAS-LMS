@@ -2362,7 +2362,7 @@ class ilNolejActivityManagementGUI
 					"licenseExtras" => $core->mainJsonData["licenseExtras"],
 					"licenseVersion" => $core->mainJsonData["licenseVersion"],
 					"source" => $core->mainJsonData["source"],
-					"title" => ($core->mainJsonData["title"] ?: $this->object->title),
+					"title" => "", // No title
 					"yearFrom" => $core->mainJsonData["yearFrom"],
 					"yearTo" => $core->mainJsonData["yearTo"]
 				]
