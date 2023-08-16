@@ -1076,6 +1076,7 @@ class ilNolejActivityManagementGUI
 			["integer", "text"],
 			[$newStatus, $this->documentId]
 		);
+		$this->statusCheck();
 	}
 
 	/**
