@@ -847,9 +847,10 @@ class ilNolejActivityManagementGUI
 
 		$this->db->manipulateF(
 			"INSERT INTO " . ilNolejPlugin::TABLE_DOC
-			. " (status, consumed_credit, doc_url, media_type, automatic_mode, language, document_id)"
-			. "VALUES (%s, %s, %s, %s, %s, %s, %s);",
+			. " (title, status, consumed_credit, doc_url, media_type, automatic_mode, language, document_id)"
+			. "VALUES (%s, %s, %s, %s, %s, %s, %s, %s);",
 			array(
+				"text",
 				"integer",
 				"integer",
 				"text",
@@ -859,6 +860,7 @@ class ilNolejActivityManagementGUI
 				"text"
 			),
 			array(
+				$this->gui_obj->object->getTitle(),
 				self::STATUS_CREATION_PENDING,
 				$decrementedCredit,
 				$apiUrl,
