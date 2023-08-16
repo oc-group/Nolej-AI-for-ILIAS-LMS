@@ -336,29 +336,17 @@ class ilNolejActivityManagementGUI
 			case self::TAB_REVIEW:
 			case self::TAB_ACTIVITIES:
 				$this->tabs->activateTab($active_tab);
-				$tpl->setTitle(
-					sprintf(
-						"%s: %s",
-						$this->plugin->txt("plugin_title"),
-						$this->plugin->txt($active_tab)
-					),
-					false
-				);
 				break;
 
 			case self::TAB_CREATION:
 			default:
 				$this->tabs->activateTab(self::TAB_CREATION);
-				$tpl->setTitle(
-					sprintf(
-						"%s: %s",
-						$this->plugin->txt("plugin_title"),
-						$this->plugin->txt(self::TAB_CREATION)
-					),
-					false
-				);
 		}
 
+		$tpl->setTitle(
+			$this->gui_obj->object->getTitle(),
+			false
+		);
 		$tpl->setDescription($this->plugin->txt("plugin_description"));
 	}
 
@@ -1263,15 +1251,6 @@ class ilNolejActivityManagementGUI
 			self::SUBTAB_CONCEPTS,
 			$this->plugin->txt(self::SUBTAB_CONCEPTS),
 			$this->ctrl->getLinkTarget($this, self::CMD_CONCEPTS)
-		);
-
-		$tpl->setTitle(
-			sprintf(
-				"%s: %s",
-				$this->plugin->txt("plugin_title"),
-				$this->plugin->txt(self::TAB_REVIEW)
-			),
-			false
 		);
 
 		if ($this->status == self::STATUS_REVISION) {
