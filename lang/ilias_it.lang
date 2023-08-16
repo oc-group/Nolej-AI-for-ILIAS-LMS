@@ -42,6 +42,7 @@ activities_practice#:#Flashcard concettuali
 activities_practice_flashcards#:#Definisce quante domande dovranno apparire nelle flashcard concettuali
 activities_practiceq#:#Flashcard contestuali
 activities_practiceq_flashcards#:#Definisce quante domande dovranno apparire nelle flashcard contestuali
+activities_select#:#Seleziona un'attività
 activities_selected#:#Attività da Nolej: %s dal modulo "%s".
 activities_settings#:#Rifinisci i dettagli prima di generare le attività
 activities_summary#:#Sommario
@@ -58,6 +59,7 @@ cmd_create#:#Crea documento
 cmd_details#:#Dettagli
 cmd_edit#:#Modifica
 cmd_generate#:#Genera attività
+cmd_insert#:#Inserisci
 cmd_review#:#Conferma revisione
 cmd_review_info#:#Se hai revisionato il sommario, tutte le domande e i concetti, puoi procedere con la creazione degli oggetti H5P.
 cmd_save#:#Salva

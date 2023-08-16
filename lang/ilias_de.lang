@@ -42,6 +42,7 @@ activities_practice#:#
 activities_practice_flashcards#:#
 activities_practiceq#:#
 activities_practiceq_flashcards#:#
+activities_select#:#
 activities_selected#:#
 activities_settings#:#
 activities_summary#:#
@@ -58,6 +59,7 @@ cmd_create#:#
 cmd_details#:#
 cmd_edit#:#
 cmd_generate#:#
+cmd_insert#:#
 cmd_review#:#
 cmd_review_info#:#
 cmd_save#:#
