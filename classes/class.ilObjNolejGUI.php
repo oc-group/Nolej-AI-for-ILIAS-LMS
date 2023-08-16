@@ -295,7 +295,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		}
 
 		if ($this->object->getDocumentStatus() != ilNolejActivityManagementGUI::STATUS_COMPLETED) {
-			ilUtil::sendInfo($this->plugin->txt("activities_not_yet_generated") . $this->object->getDocumentStatus());
+			ilUtil::sendInfo($this->plugin->txt("activities_not_yet_generated"));
 			return;
 		}
 
