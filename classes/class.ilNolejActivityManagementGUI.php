@@ -2301,6 +2301,7 @@ class ilNolejActivityManagementGUI
 		if (!$json) {
 			return false;
 		}
+		return $json;
 		$activities = json_decode($json);
 		$fails = [];
 
