@@ -1917,7 +1917,10 @@ class ilNolejActivityManagementGUI
 				case "ibook":
 					// ibook has to be always true
 					$activity->setChecked(true);
-					$activity->setDisabled(true);
+					// and disabled for user input
+					if (!$a_use_post) {
+						$activity->setDisabled(true);
+					}
 					break;
 
 				case "glossary":
