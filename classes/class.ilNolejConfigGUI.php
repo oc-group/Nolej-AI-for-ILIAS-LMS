@@ -179,11 +179,11 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			$this->ctrl->getLinkTarget($this, self::CMD_TIC)
 		);
 
-		$mediaselectorgui = new ilNolejMediaSelectorGUI($this);
-		$toolbar->addButton(
-			$this->plugin->txt("cmd_select"),
-			$this->ctrl->getLinkTarget($mediaselectorgui, self::CMD_INSERT)
-		);
+		// $mediaselectorgui = new ilNolejMediaSelectorGUI($this);
+		// $toolbar->addButton(
+		// 	$this->plugin->txt("cmd_select"),
+		// 	$this->ctrl->getLinkTarget($mediaselectorgui, self::CMD_INSERT)
+		// );
 
 		// $input = $mediaselectorgui->getInput();
 		// $form->addItem($input);
