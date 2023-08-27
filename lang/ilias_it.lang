@@ -95,6 +95,7 @@ err_concepts_save#:#Impossibile salvare il file dei concetti. Riprova, e se pers
 err_content_id#:#impossibile determinare l'id del contenuto
 err_credentials#:#Le credenziali non sono valide.
 err_invalid_package#:#non è un valido pacchetto h5p
+err_json_decode#:#impossibile decodificare il json
 err_questions_file#:#Impossibile caricare le domande. Per favore, riprova.
 err_questions_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 err_questions_save#:#Impossibile salvare il file delle domande. Riprova, e se persiste contatta un Amministratore.

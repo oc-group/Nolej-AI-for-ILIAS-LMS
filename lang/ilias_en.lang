@@ -95,6 +95,7 @@ err_concepts_save#:#Concepts file cannot be saved on disk. Try again, and if it 
 err_content_id#:#cannot determine content id
 err_credentials#:#Invalid/Wrong credentials.
 err_invalid_package#:#not a valid h5p package
+err_json_decode#:#cannot decode the json
 err_questions_file#:#Questions file cannot be retrieved. Please, try again.
 err_questions_put#:#Nolej returned an error, please check your data and try again.
 err_questions_save#:#Questions file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.

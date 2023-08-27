@@ -2299,9 +2299,8 @@ class ilNolejActivityManagementGUI
 			true
 		);
 		if (!$json) {
-			return false;
+			return $this->plugin->txt("err_json_decode");
 		}
-		return $json;
 		$activities = json_decode($json);
 		$fails = [];
 

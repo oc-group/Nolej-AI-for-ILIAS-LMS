@@ -466,7 +466,7 @@ class ilNolejWebhook
 				[$fails]
 			);
 
-			$this->die_message(200, "Activities received, but something went wrong while retrieving them: " . $fails . ".");
+			$this->die_message(200, "Activities received, but something went wrong while retrieving them.");
 			return;
 		}
 
