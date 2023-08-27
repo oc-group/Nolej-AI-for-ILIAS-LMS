@@ -2253,6 +2253,7 @@ class ilNolejActivityManagementGUI
 			"settings.json",
 			json_encode($settingsToSave)
 		);
+		die();
 		if (!$success) {
 			ilUtil::sendFailure($this->plugin->txt("err_settings_save"));
 			$this->activities();
