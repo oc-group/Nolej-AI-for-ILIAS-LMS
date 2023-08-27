@@ -1906,13 +1906,20 @@ class ilNolejActivityManagementGUI
 				$this->plugin->txt("activities_" . $availableActivities[$i]),
 				"activity_" . $availableActivities[$i]
 			);
+
 			if ($a_use_post) {
 				$activity->setValueByArray($_POST);
 			} else if (in_array($availableActivities[$i], $desiredActivities)) {
 				$activity->setChecked(true);
 			}
-			
+
 			switch($availableActivities[$i]) {
+				case "ibook":
+					// ibook has to be always true
+					$activity->setChecked(true);
+					$activity->setDisabled(true);
+					break;
+
 				case "glossary":
 					$ibook = new ilCheckBoxInputGUI(
 						$this->plugin->txt("activities_use_in_ibook"),
