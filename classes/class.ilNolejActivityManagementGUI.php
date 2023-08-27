@@ -2245,7 +2245,7 @@ class ilNolejActivityManagementGUI
 		}
 
 		// ibook must always be generated
-		if (in_array("ibook", $settingsToSave["desired_packages"])) {
+		if (!in_array("ibook", $settingsToSave["desired_packages"])) {
 			$settingsToSave["desired_packages"][] = "ibook";
 		}
 
@@ -2253,7 +2253,6 @@ class ilNolejActivityManagementGUI
 			"settings.json",
 			json_encode($settingsToSave)
 		);
-		die();
 		if (!$success) {
 			ilUtil::sendFailure($this->plugin->txt("err_settings_save"));
 			$this->activities();
