@@ -2269,7 +2269,7 @@ class ilNolejActivityManagementGUI
 		}
 
 		ilUtil::sendSuccess($this->plugin->txt("activities_generation_start"));
-		$this->activities(true);
+		$tpl->setContent($form->getHTML());
 	}
 
 	/**
