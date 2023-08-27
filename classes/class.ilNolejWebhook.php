@@ -453,7 +453,7 @@ class ilNolejWebhook
 		$activityManagement = new ilNolejActivityManagementGUI(null, $documentId);
 		$fails = $activityManagement->downloadActivities();
 		if (!empty($fails)) {
-			$this->log("Failed to download some activities: " . implode(", ", $fails) . ".");
+			$this->log("Failed to download some activities: " . $fails . ".");
 			$this->sendNotification(
 				$documentId,
 				$document["user_id"],

@@ -1915,7 +1915,7 @@ class ilNolejActivityManagementGUI
 
 			switch($availableActivities[$i]) {
 				case "ibook":
-					// ibook has to be always true
+					// ibook must always be generated
 					$activity->setChecked(true);
 					// and disabled for user input
 					$activity->setDisabled(true);
@@ -2244,7 +2244,7 @@ class ilNolejActivityManagementGUI
 			}
 		}
 
-		// ibook has to be always generated
+		// ibook must always be generated
 		if (in_array("ibook", $settingsToSave["desired_packages"])) {
 			$settingsToSave["desired_packages"][] = "ibook";
 		}
