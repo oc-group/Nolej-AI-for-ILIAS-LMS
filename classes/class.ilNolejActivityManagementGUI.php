@@ -2273,7 +2273,8 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
-	 * @return bool success.
+	 * Download and import H5P activities
+	 * @return string failed imports.
 	 */
 	public function downloadActivities()
 	{
@@ -2301,6 +2302,7 @@ class ilNolejActivityManagementGUI
 			return false;
 		}
 		$activities = json_decode($json);
+		$fails = [];
 
 		$now = strtotime("now");
 		foreach ($activities->activities as $activity) {
@@ -2316,17 +2318,20 @@ class ilNolejActivityManagementGUI
 			// 	continue;
 			// }
 
-			$this->importH5PContent($h5pDir, $activity->activity_name, $now);
+			$failReason = $this->importH5PContent($h5pDir, $activity->activity_name, $now);
+			if (!empty($failReason)) {
+				$fails[] = sprintf("%s (%s)", $activity->activity_name, $failReason);
+			}
 		}
 
-		return true;
+		return implode(", ", $fails);
 	}
 
 	/**
 	 * @param string $h5pDir directory where are located h5p activities
 	 * @param string $type of h5p activity to import
 	 * @param int $now
-	 * @return void
+	 * @return string fail reason. Empty string if succedeed.
 	 */
 	public function importH5PContent($h5pDir, $type, $now)
 	{
@@ -2338,7 +2343,7 @@ class ilNolejActivityManagementGUI
 			->saveFileTemporarily($filePath, true);
 
 		if (!self::h5p()->contents()->editor()->validatorCore()->isValidPackage()) {
-			return;
+			return $this->plugin->txt("err_invalid_package");
 		}
 
 		$core = self::h5p()->contents()->core();
@@ -2387,7 +2392,7 @@ class ilNolejActivityManagementGUI
 			->getContentById($contentId);
 
 		if ($h5p_content === null) {
-			return;
+			return $this->plugin->txt("err_content_id");
 		}
 
 		$this->db->manipulateF(
@@ -2397,6 +2402,8 @@ class ilNolejActivityManagementGUI
 			["text", "text", "integer", "integer"],
 			[$this->documentId, $type, $now, $contentId]
 		);
+
+		return "";
 	}
 
 	/**

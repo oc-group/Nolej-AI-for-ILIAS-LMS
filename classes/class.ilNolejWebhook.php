@@ -451,9 +451,9 @@ class ilNolejWebhook
 		}
 
 		$activityManagement = new ilNolejActivityManagementGUI(null, $documentId);
-		$success = $activityManagement->downloadActivities();
-		if (!$success) {
-			$this->log("Failed to download activities.");
+		$fails = $activityManagement->downloadActivities();
+		if (!empty($fails)) {
+			$this->log("Failed to download some activities: " . implode(", ", $fails) . ".");
 			$this->sendNotification(
 				$documentId,
 				$document["user_id"],
@@ -462,7 +462,8 @@ class ilNolejWebhook
 				$this->data["code"],
 				$this->data["error_message"],
 				$this->data["consumedCredit"],
-				"err_activities_get"
+				"err_activities_get",
+				[$fails]
 			);
 	
 			$this->die_message(200, "Activities received, but something went wrong while retrieving them.");

@@ -49,6 +49,7 @@ activities_summary#:#
 activities_use_in_ibook#:#
 api_key#:#
 api_key_info#:#
+cat_create_xnlj#:#
 cmd_analyze#:#
 cmd_apply#:#
 cmd_back_to_content#:#
@@ -91,7 +92,9 @@ err_api_key_missing#:#
 err_concepts_file#:#
 err_concepts_put#:#
 err_concepts_save#:#
+err_content_id#:#
 err_credentials#:#
+err_invalid_package#:#
 err_questions_file#:#
 err_questions_put#:#
 err_questions_save#:#

@@ -49,6 +49,7 @@ activities_summary#:#Sommario
 activities_use_in_ibook#:#Mostra questa attività nel contenuto del modulo
 api_key#:#Chiave API
 api_key_info#:#La tua chiave API di Nolej.
+cat_create_xnlj#:#Crea oggetto Nolej
 cmd_analyze#:#Avvia analisi
 cmd_apply#:#Applica
 cmd_back_to_content#:#Modulo Nolej
@@ -85,13 +86,15 @@ concepts_use_for_practice#:#Utilizza per le Carte concettuali
 configuration_title#:#Configura
 crs_create_xnlj#:#Crea oggetto Nolej
 err_access_denied#:#Non puoi accedere a questo corso.
-err_activities_get#:#Impossibile ottenere le attività generate. Riprova a generare nuovamente le attività.
+err_activities_get#:#Impossibile ottenere alcune delle attività generate: %s. Riprova a generare nuovamente le attività.
 err_analysis_not_ready#:#L'analisi non è ancora completa, attendi ancora un po' di tempo e torna qui per verificare.
 err_api_key_missing#:#Non hai indicato la tua chiave API! Vai nella configurazione del plugin e indica la tua chiave API per poter utilizzare il plugin di Nolej.
 err_concepts_file#:#Impossibile caricare i concetti. Per favore, riprova.
 err_concepts_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 err_concepts_save#:#Impossibile salvare il file dei concetti. Riprova, e se persiste contatta un Amministratore.
+err_content_id#:#impossibile determinare l'id del contenuto
 err_credentials#:#Le credenziali non sono valide.
+err_invalid_package#:#non è un valido pacchetto h5p
 err_questions_file#:#Impossibile caricare le domande. Per favore, riprova.
 err_questions_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 err_questions_save#:#Impossibile salvare il file delle domande. Riprova, e se persiste contatta un Amministratore.

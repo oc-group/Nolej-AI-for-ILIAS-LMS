@@ -49,6 +49,7 @@ activities_summary#:#Summary
 activities_use_in_ibook#:#Show this activity in the module Content
 api_key#:#API Key
 api_key_info#:#Your Nolej API Key.
+cat_create_xnlj#:#Create Nolej object
 cmd_analyze#:#Start analysis
 cmd_apply#:#Apply
 cmd_back_to_content#:#Nolej module
@@ -85,13 +86,15 @@ concepts_use_for_practice#:#Use for Concept cards
 configuration_title#:#Configure
 crs_create_xnlj#:#Create Nolej object
 err_access_denied#:#You cannot access this course.
-err_activities_get#:#Cannot retrieve the generated activities. Please, try again to generate the activities.
+err_activities_get#:#Cannot retrieve some of the generated activities: %s. Please, try again to generate the activities.
 err_analysis_not_ready#:#The analysis is not ready yet, please wait some time and check again.
 err_api_key_missing#:#API Key is missing! Save it and try again.
 err_concepts_file#:#Concepts file cannot be retrieved. Please, try again.
 err_concepts_put#:#Nolej returned an error, please check your data and try again.
 err_concepts_save#:#Concepts file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
+err_content_id#:#cannot determine content id
 err_credentials#:#Invalid/Wrong credentials.
+err_invalid_package#:#not a valid h5p package
 err_questions_file#:#Questions file cannot be retrieved. Please, try again.
 err_questions_put#:#Nolej returned an error, please check your data and try again.
 err_questions_save#:#Questions file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
