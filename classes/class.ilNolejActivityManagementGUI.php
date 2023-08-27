@@ -1898,7 +1898,6 @@ class ilNolejActivityManagementGUI
 
 		$settings = json_decode($json);
 		$availableActivities = $settings->avaible_packages ?? [];
-		$desiredActivities = $settings->desired_packages ?? [];
 		$settings = $settings->settings;
 
 		for ($i = 0, $len = count($availableActivities); $i < $len; $i++) {
@@ -1909,7 +1908,7 @@ class ilNolejActivityManagementGUI
 
 			if ($a_use_post) {
 				$activity->setValueByArray($_POST);
-			} else if (in_array($availableActivities[$i], $desiredActivities)) {
+			} else {
 				$activity->setChecked(true);
 			}
 
