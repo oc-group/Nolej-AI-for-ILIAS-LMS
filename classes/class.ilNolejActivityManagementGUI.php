@@ -1918,9 +1918,7 @@ class ilNolejActivityManagementGUI
 					// ibook has to be always true
 					$activity->setChecked(true);
 					// and disabled for user input
-					if (!$a_use_post) {
-						$activity->setDisabled(true);
-					}
+					$activity->setDisabled(true);
 					break;
 
 				case "glossary":
@@ -2244,6 +2242,11 @@ class ilNolejActivityManagementGUI
 					$settingsToSave["settings"]["IV_number_question_perset_current"] = $number;
 					break;
 			}
+		}
+
+		// ibook has to be always generated
+		if (in_array("ibook", $settingsToSave["desired_packages"])) {
+			$settingsToSave["desired_packages"][] = "ibook";
 		}
 
 		$success = $this->writeDocumentFile(
