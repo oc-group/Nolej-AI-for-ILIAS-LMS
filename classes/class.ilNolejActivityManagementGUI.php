@@ -668,18 +668,25 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
-	 * 
+	 * Generate a random and unique name for a file that
+	 * needs to be uploaded in the upload directory.
+	 * @param string $extension
+	 * @return string
 	 */
 	protected function getRandomFilename($extension)
 	{
 		$uploadDir = $this->getUploadDir();
+		$len = 5;
 		do {
-			$name = $this->generateRandomString() . "." . $extension;
-		} while (is_file($uploadDir . $name));
+			$filename = $this->generateRandomString($len) . "." . $extension;
+			$len++;
+		} while (is_file($uploadDir . $filename));
+		return $filename;
 	}
 
 	/**
 	 * https://stackoverflow.com/a/4356295
+	 * @param int $length
 	 * @return string
 	 */
 	protected function generateRandomString($length = 10) {
@@ -805,14 +812,20 @@ class ilNolejActivityManagementGUI
 
 				$file = $_FILES[self::PROP_INPUT_FILE];
 				if (!$file["tmp_name"]) {
+					// todo: show error
 					break;
 				}
 
 				$extension = pathinfo($file["name"], PATHINFO_EXTENSION);
-				$upload_filename = basename($file["tmp_name"]) . "." . $extension;
+				$upload_filename = $this->getRandomFilename($extension);
 				$upload_filepath = $upload_path . $upload_filename;
-				$success = ilUtil::moveUploadedFile($file["tmp_name"], $upload_filename, $upload_filepath);
+				$success = ilUtil::moveUploadedFile(
+					$file["tmp_name"],
+					$upload_filename,
+					$upload_filepath
+				);
 				if (!$success) {
+					// todo: show error
 					break;
 				}
 
@@ -837,13 +850,15 @@ class ilNolejActivityManagementGUI
 				 * Save as file in the plugin data dir
 				 * @todo generate signed url
 				 */
+				$upload_path = $this->getUploadDir();
+				$textInput = $form->getInput(self::PROP_M_TEXTAREA);
+				$upload_filename = $this->getRandomFilename("htm");
+				$upload_filepath = $upload_path . $upload_filename;
+				file_put_contents($upload_filepath, $textInput);
+
 				$apiUrl = "";
 				$apiFormat = "freetext";
 				$decrementedCredit = 1;
-
-				$upload_path = $this->getUploadDir();
-				$textInput = $form->getInput(self::PROP_M_TEXTAREA);
-				//
 
 				break;
 		}
