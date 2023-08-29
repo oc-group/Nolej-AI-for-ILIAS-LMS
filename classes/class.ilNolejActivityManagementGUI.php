@@ -676,7 +676,7 @@ class ilNolejActivityManagementGUI
 	protected function getRandomFilename($extension)
 	{
 		$uploadDir = $this->getUploadDir();
-		$len = 5;
+		$len = 7;
 		do {
 			$filename = $this->generateRandomString($len) . "." . $extension;
 			$len++;
@@ -859,8 +859,6 @@ class ilNolejActivityManagementGUI
 				$apiUrl = preg_replace("/^\.\//", ILIAS_HTTP_PATH . "/", $upload_filepath);
 				$apiFormat = "freetext";
 				$decrementedCredit = 1;
-				echo $apiUrl;
-				die();
 
 				break;
 		}
