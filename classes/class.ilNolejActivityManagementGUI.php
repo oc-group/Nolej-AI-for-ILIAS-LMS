@@ -816,6 +816,7 @@ class ilNolejActivityManagementGUI
 					break;
 				}
 
+				chmod($upload_filepath, 0770);
 				$upload_fileurl = preg_replace("/^\.\//", ILIAS_HTTP_PATH . "/", $upload_filepath);
 				if (in_array($extension, self::TYPE_DOC)) {
 					$apiFormat = self::PROP_M_DOC;
