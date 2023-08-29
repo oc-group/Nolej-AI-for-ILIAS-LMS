@@ -57,6 +57,7 @@ class ilNolejActivityManagementGUI
 	const PROP_M_VIDEO = "video";
 	const PROP_M_MOB = "mob";
 	const PROP_M_FILE = "file";
+	const PROP_M_DOC = "document";
 	const PROP_M_TEXT = "freetext";
 	const PROP_M_TEXTAREA = "textarea";
 	const PROP_INPUT_MOB = "input_mob";
@@ -482,8 +483,6 @@ class ilNolejActivityManagementGUI
 			 * Source: Text
 			 * Write an html text that need to be saved just like uploaded files
 			 * (with .html extension).
-			 * 
-			 * @todo use TinyMCE
 			 */
 			$mediaText = new ilRadioOption($this->plugin->txt("prop_" . self::PROP_M_TEXT), self::PROP_M_TEXT);
 			$mediaText->setInfo($this->plugin->txt("prop_" . self::PROP_M_TEXT . "_info"));
@@ -715,9 +714,9 @@ class ilNolejActivityManagementGUI
 
 			case self::PROP_M_MOB:
 				/**
-				 * @todo generate signed url
-				 * @todo detect media format
-				 * @todo decrement credit
+				 * Generate signed url
+				 * Detect media format
+				 * Decrement credit
 				 */
 				$mobInput = $form->getInput(self::PROP_INPUT_MOB);
 				$array = explode("|", $mobInput);
@@ -756,14 +755,44 @@ class ilNolejActivityManagementGUI
 
 			case self::PROP_M_FILE:
 				/**
-				 * @todo save file to plugin data dir
+				 * Save file to plugin data dir
 				 * @todo generate signed url
-				 * @todo detect media format
+				 * Detect media format
 				 * @todo decrement credit
 				 */
 				$apiUrl = "";
 				$apiFormat = "";
 				$decrementedCredit = 1;
+
+				$upload_path = $this->plugin->getPluginDataDir() . "uploads/";
+				if (!is_dir($upload_path)) {
+					mkdir($upload_path, 0777, true);
+				}
+
+				$file = $_FILES[self::PROP_INPUT_FILE];
+				if (!$file["tmp_name"]) {
+					break;
+				}
+
+				$upload_filepath = $upload_path . $file["name"];
+				$success = ilUtil::moveUploadedFile($file["tmp_name"], $file["name"], $upload_filepath);
+				if (!$success) {
+					break;
+				}
+
+				$extension = pathinfo($upload_filepath, PATHINFO_EXTENSION);
+				if (in_array($extension, self::TYPE_DOC)) {
+					$apiFormat = self::PROP_M_DOC;
+					$apiUrl = ILIAS_HTTP_PATH . "/" . $upload_filepath;
+				} else if (in_array($extension, self::TYPE_VIDEO)) {
+					$apiFormat = self::PROP_M_VIDEO;
+					$apiUrl = ILIAS_HTTP_PATH . "/" . $upload_filepath;
+				} else if (in_array($extension, self::TYPE_AUDIO)) {
+					$apiFormat = self::PROP_M_AUDIO;
+					$apiUrl = ILIAS_HTTP_PATH . "/" . $upload_filepath;
+				}
+				echo $apiFormat . " __ " . $apiUrl;
+				die();
 				break;
 
 			case self::PROP_M_TEXT:
@@ -774,6 +803,12 @@ class ilNolejActivityManagementGUI
 				$apiUrl = "";
 				$apiFormat = "freetext";
 				$decrementedCredit = 1;
+
+				$upload_path = $this->plugin->getPluginDataDir() . "uploads/";
+				if (!is_dir($upload_path)) {
+					mkdir($upload_path, 0777, true);
+				}
+
 				break;
 		}
 
