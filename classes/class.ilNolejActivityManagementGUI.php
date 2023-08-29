@@ -655,6 +655,43 @@ class ilNolejActivityManagementGUI
 		);
 	}
 
+	/**
+	 * @return string
+	 */
+	protected function getUploadDir()
+	{
+		$uploadDir = $this->plugin->getPluginDataDir() . "uploads/";
+		if (!is_dir($uploadDir)) {
+			mkdir($uploadDir, 0777, true);
+		}
+		return $uploadDir;
+	}
+
+	/**
+	 * 
+	 */
+	protected function getRandomFilename($extension)
+	{
+		$uploadDir = $this->getUploadDir();
+		do {
+			$name = $this->generateRandomString() . "." . $extension;
+		} while (is_file($uploadDir . $name));
+	}
+
+	/**
+	 * https://stackoverflow.com/a/4356295
+	 * @return string
+	 */
+	protected function generateRandomString($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
+
 	public function create()
 	{
 		global $DIC, $tpl;
@@ -758,16 +795,13 @@ class ilNolejActivityManagementGUI
 				 * Save file to plugin data dir
 				 * @todo generate signed url
 				 * Detect media format
-				 * @todo decrement credit
+				 * Decrement credit
 				 */
 				$apiUrl = "";
 				$apiFormat = "";
 				$decrementedCredit = 1;
 
-				$upload_path = $this->plugin->getPluginDataDir() . "uploads/";
-				if (!is_dir($upload_path)) {
-					mkdir($upload_path, 0777, true);
-				}
+				$upload_path = $this->getUploadDir();
 
 				$file = $_FILES[self::PROP_INPUT_FILE];
 				if (!$file["tmp_name"]) {
@@ -782,33 +816,33 @@ class ilNolejActivityManagementGUI
 					break;
 				}
 
+				$upload_fileurl = preg_replace("/^\.\//", ILIAS_HTTP_PATH . "/", $upload_filepath);
 				if (in_array($extension, self::TYPE_DOC)) {
 					$apiFormat = self::PROP_M_DOC;
-					$apiUrl = ILIAS_HTTP_PATH . "/" . $upload_filepath;
+					$apiUrl = $upload_filepath;
 				} else if (in_array($extension, self::TYPE_VIDEO)) {
 					$apiFormat = self::PROP_M_VIDEO;
-					$apiUrl = ILIAS_HTTP_PATH . "/" . $upload_filepath;
+					$apiUrl = $upload_fileurl;
 				} else if (in_array($extension, self::TYPE_AUDIO)) {
 					$apiFormat = self::PROP_M_AUDIO;
-					$apiUrl = ILIAS_HTTP_PATH . "/" . $upload_filepath;
+					$apiUrl = $upload_fileurl;
 				}
-				echo $apiFormat . " __ " . $apiUrl;
+				echo $upload_fileurl;
 				die();
 				break;
 
 			case self::PROP_M_TEXT:
 				/**
-				 * @todo save as file in the plugin data dir
+				 * Save as file in the plugin data dir
 				 * @todo generate signed url
 				 */
 				$apiUrl = "";
 				$apiFormat = "freetext";
 				$decrementedCredit = 1;
 
-				$upload_path = $this->plugin->getPluginDataDir() . "uploads/";
-				if (!is_dir($upload_path)) {
-					mkdir($upload_path, 0777, true);
-				}
+				$upload_path = $this->getUploadDir();
+				$textInput = $form->getInput(self::PROP_M_TEXTAREA);
+				//
 
 				break;
 		}
