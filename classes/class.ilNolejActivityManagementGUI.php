@@ -774,14 +774,14 @@ class ilNolejActivityManagementGUI
 					break;
 				}
 
-				$upload_filepath = $upload_path . $file["tmp_name"];
-				$success = ilUtil::moveUploadedFile($file["tmp_name"], $file["tmp_name"], $upload_filepath);
+				$extension = pathinfo($file["name"], PATHINFO_EXTENSION);
+				$upload_filename = $file["tmp_name"] . "." . $extension;
+				$upload_filepath = $upload_path . $upload_filename;
+				$success = ilUtil::moveUploadedFile($file["tmp_name"], $upload_filename, $upload_filepath);
 				if (!$success) {
 					break;
 				}
 
-				$extension = pathinfo($upload_filepath, PATHINFO_EXTENSION);
-				$basename = pathinfo($upload_filepath, PATHINFO_BASENAME);
 				if (in_array($extension, self::TYPE_DOC)) {
 					$apiFormat = self::PROP_M_DOC;
 					$apiUrl = ILIAS_HTTP_PATH . "/" . $upload_filepath;
