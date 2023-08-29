@@ -775,7 +775,7 @@ class ilNolejActivityManagementGUI
 				}
 
 				$extension = pathinfo($file["name"], PATHINFO_EXTENSION);
-				$upload_filename = $file["tmp_name"] . "." . $extension;
+				$upload_filename = basename($file["tmp_name"]) . "." . $extension;
 				$upload_filepath = $upload_path . $upload_filename;
 				$success = ilUtil::moveUploadedFile($file["tmp_name"], $upload_filename, $upload_filepath);
 				if (!$success) {
