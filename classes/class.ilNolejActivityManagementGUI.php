@@ -774,7 +774,7 @@ class ilNolejActivityManagementGUI
 					break;
 				}
 
-				$upload_filepath = $upload_path . $file["name"];
+				$upload_filepath = $upload_path . $file["tmp_name"];
 				$success = ilUtil::moveUploadedFile($file["tmp_name"], $file["name"], $upload_filepath);
 				if (!$success) {
 					break;
