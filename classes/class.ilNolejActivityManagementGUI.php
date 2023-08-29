@@ -842,7 +842,6 @@ class ilNolejActivityManagementGUI
 					$apiUrl = $upload_fileurl;
 				}
 				echo $upload_fileurl;
-				die();
 				break;
 
 			case self::PROP_M_TEXT:
@@ -855,10 +854,13 @@ class ilNolejActivityManagementGUI
 				$upload_filename = $this->getRandomFilename("htm");
 				$upload_filepath = $upload_path . $upload_filename;
 				file_put_contents($upload_filepath, $textInput);
+				chmod($upload_filepath, 0770);
 
-				$apiUrl = "";
+				$apiUrl = preg_replace("/^\.\//", ILIAS_HTTP_PATH . "/", $upload_filepath);
 				$apiFormat = "freetext";
 				$decrementedCredit = 1;
+				echo $apiUrl;
+				die();
 
 				break;
 		}
