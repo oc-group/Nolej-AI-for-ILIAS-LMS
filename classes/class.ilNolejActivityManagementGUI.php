@@ -775,12 +775,13 @@ class ilNolejActivityManagementGUI
 				}
 
 				$upload_filepath = $upload_path . $file["tmp_name"];
-				$success = ilUtil::moveUploadedFile($file["tmp_name"], $file["name"], $upload_filepath);
+				$success = ilUtil::moveUploadedFile($file["tmp_name"], $file["tmp_name"], $upload_filepath);
 				if (!$success) {
 					break;
 				}
 
 				$extension = pathinfo($upload_filepath, PATHINFO_EXTENSION);
+				$basename = pathinfo($upload_filepath, PATHINFO_BASENAME);
 				if (in_array($extension, self::TYPE_DOC)) {
 					$apiFormat = self::PROP_M_DOC;
 					$apiUrl = ILIAS_HTTP_PATH . "/" . $upload_filepath;
