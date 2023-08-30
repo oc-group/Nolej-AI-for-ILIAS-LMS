@@ -94,6 +94,7 @@ err_concepts_put#:#Nolej returned an error, please check your data and try again
 err_concepts_save#:#Concepts file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
 err_content_id#:#cannot determine content id
 err_credentials#:#Invalid/Wrong credentials.
+err_doc_response#:#An error accurred during the creation of Nolej module: %s.<br>Please try again or contact an administrator if this error persists.
 err_invalid_package#:#not a valid h5p package
 err_json_decode#:#cannot decode the json
 err_questions_file#:#Questions file cannot be retrieved. Please, try again.
