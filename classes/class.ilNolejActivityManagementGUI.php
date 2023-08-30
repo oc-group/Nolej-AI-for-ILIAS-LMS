@@ -841,7 +841,6 @@ class ilNolejActivityManagementGUI
 					$apiFormat = self::PROP_M_AUDIO;
 					$apiUrl = $upload_fileurl;
 				}
-				echo $upload_fileurl;
 				break;
 
 			case self::PROP_M_TEXT:
