@@ -905,10 +905,18 @@ class ilNolejActivityManagementGUI
 		);
 
 		if (!is_object($result) || !property_exists($result, "id") || !is_string($result->id)) {
+			$message = print_r($result, true);
+			if (property_exists($result, "errorMessage")) {
+				$message = sprintf(
+					"<details><summary>%s</summary><br>%s</details>",
+					$result->errorMessage,
+					print_r($result, true)
+				);
+			}
 			ilUtil::sendFailure(
 				sprintf(
 					$this->plugin->txt("err_doc_response"),
-					print_r($result, true)
+					$message
 				)
 			);
 			$form->setValuesByPost();
