@@ -908,7 +908,7 @@ class ilNolejActivityManagementGUI
 			$message = print_r($result, true);
 			if (property_exists($result, "errorMessage")) {
 				$message = sprintf(
-					"<details><summary>%s</summary><br>%s</details>",
+					"<details><summary>%s</summary><br><pre>%s</pre></details>",
 					$result->errorMessage,
 					print_r($result, true)
 				);

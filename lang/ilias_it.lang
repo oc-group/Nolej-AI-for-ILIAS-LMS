@@ -94,7 +94,7 @@ err_concepts_put#:#Nolej ha restituito un errore, per favore controlla i dati e 
 err_concepts_save#:#Impossibile salvare il file dei concetti. Riprova, e se persiste contatta un Amministratore.
 err_content_id#:#impossibile determinare l'id del contenuto
 err_credentials#:#Le credenziali non sono valide.
-err_doc_response#:#C'è stato un errore durante la creazione del modulo Nolej: %s.<br>Per favore riprova, oppure contatta un amministratore se l'errore persiste.
+err_doc_response#:#C'è stato un errore durante la creazione del modulo Nolej:<br>%s<br>Per favore riprova, oppure contatta un amministratore se l'errore persiste.
 err_invalid_package#:#non è un valido pacchetto h5p
 err_json_decode#:#impossibile decodificare il json
 err_questions_file#:#Impossibile caricare le domande. Per favore, riprova.
