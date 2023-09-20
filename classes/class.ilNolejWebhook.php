@@ -1,7 +1,6 @@
 <?php
 
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
 
 /**
