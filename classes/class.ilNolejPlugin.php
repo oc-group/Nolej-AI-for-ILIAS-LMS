@@ -45,13 +45,12 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	static $isAdmin = null;
 
 	/**
-	 * Constructor
+	 * Initialize plugin
 	 */
-	public function __construct()
+	public function init(): void
 	{
 		global $DIC;
 
-		parent::__construct();
 		$this->provider_collection = $this->getPluginProviderCollection(); // Fix overflow
 		// $this->provider_collection = new PluginProviderCollection();
 		// $this->provider_collection->setNotificationProvider(new NolejNotificationProvider($DIC, $this));
