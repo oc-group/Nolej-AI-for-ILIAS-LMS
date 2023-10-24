@@ -1,14 +1,24 @@
 <?php
-include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
-include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
-include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI.php");
-include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
 
 /**
- * Plugin configuration class
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
  */
 
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
+
+/**
+ * Plugin configuration GUI class
+ *
+ * @ilCtrl_isCalledBy ilNolejConfigGUI: ilObjComponentSettingsGUI
+ */
 class ilNolejConfigGUI extends ilPluginConfigGUI
 {
 	const CMD_CONFIGURE = "configure";
@@ -34,8 +44,8 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 	/** @var ilLanguage */
 	protected $lng;
 
-	/** @var ilNolejPlugin */
-	protected $plugin;
+	/** @var ilNolejConfig */
+	protected $config;
 
 	public function __construct()
 	{
@@ -45,10 +55,19 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$this->db = $DIC->database();
 		$this->lng = $DIC->language();
 
-		$this->plugin = ilNolejPlugin::getInstance();
+		$this->config = new ilNolejConfig();
 
 		$tpl->setTitleIcon(ilNolejPlugin::PLUGIN_DIR . "/templates/images/icon_xnlj.svg");
-		$tpl->setTitle($this->plugin->txt("plugin_title"), false);
+		$tpl->setTitle($this->txt("plugin_title"), false);
+	}
+
+	/**
+	 * @param string $key
+	 * @return string
+	 */
+	protected function txt(string $key): string
+	{
+		return $this->config->txt($key);
 	}
 
 	/**
@@ -92,7 +111,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
 		$this->tabs->addTab(
 			self::TAB_CONFIGURE,
-			$this->plugin->txt("tab_" . self::TAB_CONFIGURE),
+			$this->txt("tab_" . self::TAB_CONFIGURE),
 			$this->ctrl->getLinkTarget($this, self::CMD_CONFIGURE)
 		);
 
@@ -100,10 +119,10 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			case self::TAB_CONFIGURE:
 			default:
 				$this->tabs->activateTab(self::TAB_CONFIGURE);
-				$tpl->setTitle($this->plugin->txt("plugin_title") . ": " . $this->plugin->txt("tab_" . self::TAB_CONFIGURE), false);
+				$tpl->setTitle($this->txt("plugin_title") . ": " . $this->txt("tab_" . self::TAB_CONFIGURE), false);
 		}
 
-		$tpl->setDescription($this->plugin->txt("plugin_description"));
+		$tpl->setDescription($this->txt("plugin_description"));
 	}
 
 	/**
@@ -119,17 +138,17 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$form = new ilPropertyFormGUI();
 
 		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->plugin->txt("configuration_title"));
+		$section->setTitle($this->txt("configuration_title"));
 		$form->addItem($section);
 
-		$api_key = new ilTextInputGUI($this->plugin->txt("api_key"), "api_key");
+		$api_key = new ilTextInputGUI($this->txt("api_key"), "api_key");
 		$api_key->setMaxLength(100);
 		$api_key->setRequired(true);
-		$api_key->setInfo($this->plugin->txt("api_key_info"));
-		$api_key->setValue($this->plugin->getConfig("api_key", ""));
+		$api_key->setInfo($this->txt("api_key_info"));
+		$api_key->setValue($this->config->get("api_key", ""));
 		$form->addItem($api_key);
 
-		$form->addCommandButton(self::CMD_SAVE, $this->plugin->txt("cmd_save"));
+		$form->addCommandButton(self::CMD_SAVE, $this->txt("cmd_save"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		return $form;
@@ -146,7 +165,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
 		if ($form->checkInput()) {
 			$api_key = $form->getInput("api_key");
-			$this->plugin->saveConfig("api_key", $api_key);
+			$this->config->set("api_key", $api_key);
 			$this->ctrl->redirect($this, self::CMD_CONFIGURE);
 
 		} else {
@@ -175,13 +194,13 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		}
 
 		$toolbar->addButton(
-			$this->plugin->txt("cmd_tic"),
+			$this->txt("cmd_tic"),
 			$this->ctrl->getLinkTarget($this, self::CMD_TIC)
 		);
 
 		// $mediaselectorgui = new ilNolejMediaSelectorGUI($this);
 		// $toolbar->addButton(
-		// 	$this->plugin->txt("cmd_select"),
+		// 	$this->txt("cmd_select"),
 		// 	$this->ctrl->getLinkTarget($mediaselectorgui, self::CMD_INSERT)
 		// );
 
@@ -191,19 +210,27 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		$tpl->setContent($toolbar->getHTML() . $form->getHTML());
 	}
 
+	/**
+	 * Summary of insert
+	 * @return void
+	 */
 	public function insert()
 	{
 		$mediaselectorgui = new ilNolejMediaSelectorGUI($this);
 		$this->ctrl->forwardCommand($mediaselectorgui);
 	}
 
+	/**
+	 * Summary of tic
+	 * @return void
+	 */
 	public function tic()
 	{
 		global $DIC;
 
-		$api_key = $this->plugin->getConfig("api_key", "");
+		$api_key = $this->config->get("api_key", "");
 		if ($api_key == "") {
-			ilUtil::sendFailure($this->plugin->txt("err_api_key_missing"), true);
+			ilUtil::sendFailure($this->txt("err_api_key_missing"), true);
 			$this->configure();
 			return;
 		}
@@ -233,7 +260,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 		);
 
 		if (!is_object($result) || !property_exists($result, "exchangeId") || !is_string($result->exchangeId)) {
-			ilUtil::sendFailure($this->plugin->txt("err_tic_response") . " " . print_r($result, true), true);
+			ilUtil::sendFailure($this->txt("err_tic_response") . " " . print_r($result, true), true);
 			$this->configure();
 			return;
 		}
@@ -245,10 +272,14 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 			["text", "integer", "integer", "text", "text"],
 			[$result->exchangeId, $DIC->user()->getId(), $now, $message, $webhookUrl]
 		);
-		ilUtil::sendSuccess($this->plugin->txt("tic_sent"), true);
+		ilUtil::sendSuccess($this->txt("tic_sent"), true);
 		$this->configure();
 	}
 
+	/**
+	 * Summary of selectObjectReference
+	 * @return void
+	 */
 	public function selectObjectReference()
 	{
 		if (isset($_POST["id"])) {

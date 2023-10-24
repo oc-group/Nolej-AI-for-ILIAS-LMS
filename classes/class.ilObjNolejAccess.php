@@ -1,14 +1,21 @@
 <?php
 
-include_once("./Services/Repository/classes/class.ilObjectPluginAccess.php");
+/**
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
+ * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
+
+require_once("./Services/Repository/classes/class.ilObjectPluginAccess.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilObjNolej.php");
 require_once("./Services/Conditions/interfaces/interface.ilConditionHandling.php"); //bugfix mantis 24891
 
 /**
  * Please do not create instances of large application classes
  * Write small methods within this class to determine the status.
- *
- * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
 class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandling
 {

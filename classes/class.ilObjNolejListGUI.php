@@ -1,15 +1,22 @@
 <?php
 
+/**
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
+ * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
+
 include_once "./Services/Repository/classes/class.ilObjectPluginListGUI.php";
 
 /**
- * handles the presentation in container items (categories, courses, ...)
+ * Handles the presentation in container items (categories, courses, ...)
  * together with the corresponding ...Access class.
  *
  * PLEASE do not create instances of larger classes here. Use the
  * ...Access class to get DB data and keep it small.
- * 
- * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
 class ilObjNolejListGUI extends ilObjectPluginListGUI
 {
@@ -64,30 +71,22 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
 	 * "property" (string) => property name
 	 * "value" (string) => property value
 	 */
-	function getProperties()
+	function getProperties(): array
 	{
 		global $lng, $ilUser, $ilAccess;
 
 		$props = array();
 
 		$this->plugin->includeClass("class.ilObjNolejAccess.php");
-		$object = ilObjectFactory::getInstanceByObjId($this->obj_id, false);
+		// $object = ilObjectFactory::getInstanceByObjId($this->obj_id, false);
 
-		// if ($object->isBound()) {
-		// 	if (!ilObjNolejAccess::checkOnline($this->obj_id)) {
-		// 		$props[] = array(
-		// 			"alert" => true,
-		// 			"property" => $this->txt("prop_status"),
-		// 			"value" => $this->txt("prop_offline")
-		// 		);
-		// 	}
-		// } else {
-		// 	$props[] = array(
-		// 		"alert" => true,
-		// 		"property" => $this->txt("prop_status"),
-		// 		"value" => $this->txt("prop_not_bound")
-		// 	);
-		// }
+		if (!ilObjNolejAccess::checkOnline($this->obj_id)) {
+			$props[] = array(
+				"alert" => true,
+				"property" => $this->txt("prop_status"),
+				"value" => $this->txt("prop_offline")
+			);
+		}
 
 		return $props;
 	}

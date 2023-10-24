@@ -1,10 +1,21 @@
 <?php
 
+/**
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
+ * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
+
 require_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 require_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 require_once("./Services/Tracking/classes/status/class.ilLPStatusPlugin.php");
+
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
-include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
@@ -22,8 +33,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
  * @ilCtrl_Calls ilObjNolejGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjNolejGUI: ilNolejActivityManagementGUI
  * @ilCtrl_Calls ilObjNolejGUI: ilUIPluginRouterGUI
- *
- * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
 class ilObjNolejGUI extends ilObjectPluginGUI
 {
@@ -322,11 +331,10 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 */
 	public static function getH5PHtml($contentId)
 	{
-		$plugin = ilNolejPlugin::getInstance();
 		$h5pContent = self::h5p()->contents()->getContentById($contentId);
 
         if ($h5pContent == null) {
-			ilUtil::sendFailure($plugin->txt("err_h5p_content"));
+			ilUtil::sendFailure(ilNolejConfig::txt("err_h5p_content"));
 			return "";
 		}
 

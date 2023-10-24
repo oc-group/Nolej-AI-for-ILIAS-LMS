@@ -1,12 +1,21 @@
 <?php
 
 /**
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
  */
 
 require_once "./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/vendor/autoload.php";
 
-class ilNolejAPI {
+/**
+ * This class provides common methods to interact with Nolej REST API.
+ */
+class ilNolejAPI
+{
 	public const API_URL = "https://api-dev.nolej.io";
 
 	/** @var string */

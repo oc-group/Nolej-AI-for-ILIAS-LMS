@@ -1,23 +1,33 @@
 <?php
 
+/**
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
+ * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
+
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
 
 /**
- * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * This class takes care of the calls to the webhook.
  */
 
 class ilNolejWebhook
 {
-	/** @var ilNolejPlugin */
-	protected $plugin;
+	/** @var ilNolejConfig */
+	protected $config;
 
 	/** @var array */
 	protected $data;
 
 	public function __construct()
 	{
-		$this->plugin = ilNolejPlugin::getInstance();
+		$this->config = new ilNolejConfig();
 	}
 
 	/**
@@ -25,7 +35,7 @@ class ilNolejWebhook
 	 */
 	public function log($msg)
 	{
-		$this->plugin->logger->log($msg);
+		$this->config->logger->log($msg);
 	}
 
 	public function parse()

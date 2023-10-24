@@ -1,9 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
+ * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
 
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificationPrefRepository.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
@@ -12,9 +21,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginPro
 // use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
 /**
- * Class NolejNotificationProvider
- * 
- * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * This class provides the notifications in ILIAS
  */
 class NolejNotificationProvider extends AbstractNotificationPluginProvider
 {
@@ -29,7 +36,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 		$ui = $this->dic->ui();
 		$user = $this->dic->user();
 		$ctrl = $this->dic->ctrl();
-		$plugin = ilNolejPlugin::getInstance();
+		$config = new ilNolejConfig();
 
 		$noti_repo = new NolejNotificationPrefRepository($user);
 
@@ -55,13 +62,13 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 			->symbol()
 			->icon()
 			->custom(
-				$plugin->getImagePath("outlined/icon_xnlj.svg"),
-				$plugin->txt("plugin_title")
+				ilRepositoryObjectPlugin::_getImagePath("Services", "robj", "Nolej", "outlined/icon_xnlj.svg"),
+				$config->txt("plugin_title")
 			);
 
 		$group = $factory
 			->standardGroup($id('nolej_bucket_group'))
-			->withTitle($plugin->txt("plugin_title"))
+			->withTitle($config->txt("plugin_title"))
 			->withOpenedCallable(function () {
 				// Stuff we do, when the notification is opened
 			});
@@ -72,7 +79,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 			switch ($activity->getAction()) {
 				case "tac":
 				case "tic":
-					$title = $plugin->txt("action_" . ($activity->getAction() ?? ""));
+					$title = $config->txt("action_" . ($activity->getAction() ?? ""));
 					$description = "";
 					break;
 
@@ -84,7 +91,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
 						$documentTitle,
 						$link
 					);
-					$description = $plugin->txt("action_" . ($activity->getAction() ?? ""));
+					$description = $config->txt("action_" . ($activity->getAction() ?? ""));
 			}
 
 			// $title = $ui->renderer()->render($titleObj);

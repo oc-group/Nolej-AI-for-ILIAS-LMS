@@ -1,12 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
+ * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
 
 /**
  * Nolej notification repository
  * (using user preferences)
- *
- * @author Vincenzo Padula <vincenzo@oc-group.eu>
  */
 class NolejNotificationPrefRepository
 {

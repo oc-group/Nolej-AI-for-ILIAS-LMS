@@ -1,8 +1,18 @@
 <?php
 
 /**
- * Select media object
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
+
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+
+/**
+ * Select media object
  * 
  * @ilCtrl_isCalledBy ilNolejMediaSelectorGUI: ilNolejGUI, ilNolejConfigGUI
  * @ilCtrl_Calls ilNolejMediaSelectorGUI: ilObjMediaObjectGUI
@@ -56,8 +66,8 @@ class ilNolejMediaSelectorGUI
 	/** @var ilLanguage */
 	protected $lng;
 
-	/** @var ilNolejPlugin */
-	protected $plugin;
+	/** @var ilNolejConfig */
+	protected $config;
 
 	/**
 	 * @param ilNolejGUI|ilNolejConfigGUI $guiObj
@@ -83,17 +93,21 @@ class ilNolejMediaSelectorGUI
 		}
 		$this->ctrl->saveParameter($this, ["pool_view"]);
 
-		$this->plugin = ilNolejPlugin::getInstance();
+		$this->config = new ilNolejConfig();
+	}
+
+	/**
+	 * @param string $key
+	 * @return string
+	 */
+	protected function txt(string $key): string
+	{
+		return $this->config->txt($key);
 	}
 
 	public function getInput()
 	{
 		ilModalGUI::initJS();
-
-		// $modal = ilModalGUI::getInstance();
-		// $modal->setHeading($this->plugin->txt("exc_individual_deadline"));
-		// $modal->setId("ilExcIDl");
-		// $modal->setBody('<div id="ilExcIDlBody"></div>');
 
 		$link = $this->ctrl->getLinkTarget($this);
 
@@ -109,10 +123,10 @@ class ilNolejMediaSelectorGUI
 
 		$select = $f
 			->button()
-			->shy($this->plugin->txt("delete"), '')
+			->shy($this->txt("delete"), '')
 			->withOnClick($modal->getShowSignal());
 
-		$input = new ilCustomInputGUI($this->plugin->txt("media_select"));
+		$input = new ilCustomInputGUI($this->txt("media_select"));
 		$input->setHtml($number->render() . $r->render($modal) . $r->render($select));
 		return $input;
 	}
@@ -174,13 +188,13 @@ class ilNolejMediaSelectorGUI
 
 		// $this->tabs->addTab(
 		// 	self::TAB_NEW,
-		// 	$this->plugin->txt("tab_" . self::TAB_NEW),
+		// 	$this->txt("tab_" . self::TAB_NEW),
 		// 	$this->ctrl->getLinkTarget($this, self::CMD_INSERT_NEW)
 		// );
 
 		$this->tabs->addTab(
 			self::TAB_INSERT_FROM_POOL,
-			$this->plugin->txt("tab_" . self::TAB_INSERT_FROM_POOL),
+			$this->txt("tab_" . self::TAB_INSERT_FROM_POOL),
 			$this->ctrl->getLinkTarget($this, self::CMD_INSERT_FROM_POOL)
 		);
 
@@ -188,16 +202,16 @@ class ilNolejMediaSelectorGUI
 			case self::TAB_INSERT_FROM_POOL:
 			default:
 				$this->tabs->activateTab(self::TAB_INSERT_FROM_POOL);
-				$tpl->setTitle($this->plugin->txt("plugin_title") . ": " . $this->plugin->txt("tab_" . self::TAB_INSERT_FROM_POOL), false);
+				$tpl->setTitle($this->txt("plugin_title") . ": " . $this->txt("tab_" . self::TAB_INSERT_FROM_POOL), false);
 				break;
 
 			// case self::TAB_NEW:
 			// default:
 			// 	$this->tabs->activateTab(self::TAB_NEW);
-			// 	$tpl->setTitle($this->plugin->txt("plugin_title") . ": " . $this->plugin->txt("tab_" . self::TAB_NEW), false);
+			// 	$tpl->setTitle($this->txt("plugin_title") . ": " . $this->txt("tab_" . self::TAB_NEW), false);
 		}
 
-		$tpl->setDescription($this->plugin->txt("plugin_description"));
+		$tpl->setDescription($this->txt("plugin_description"));
 	}
 
 	// public function insert(
@@ -279,13 +293,13 @@ class ilNolejMediaSelectorGUI
 	// 	if ($a_change_obj_ref) {
 	// 		$this->ctrl->setParameter($this, "subCmd", self::CMD_CH_OBJ_REF);
 	// 		$form->setFormAction($this->ctrl->getFormAction($this));
-	// 		$form->addCommandButton("createNewObjectReference", $this->plugin->txt("save"));
+	// 		$form->addCommandButton("createNewObjectReference", $this->txt("save"));
 	// 	} else {
 	// 		$form->setFormAction($this->ctrl->getFormAction($this, "create_mob"));
-	// 		$form->addCommandButton("create_mob", $this->plugin->txt("save"));
+	// 		$form->addCommandButton("create_mob", $this->txt("save"));
 	// 	}
 
-	// 	$form->addCommandButton("cancelCreate", $this->plugin->txt("cancel"));
+	// 	$form->addCommandButton("cancelCreate", $this->txt("cancel"));
 	// 	$tpl->setContent($form->getHTML());
 	// }
 

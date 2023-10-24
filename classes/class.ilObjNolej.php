@@ -1,10 +1,20 @@
 <?php
 
+/**
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
+ * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
+
 include_once("./Services/Repository/classes/class.ilObjectPlugin.php");
 require_once("./Services/Tracking/interfaces/interface.ilLPStatusPlugin.php");
-// Services/Tracking/classes/status/class.ilLPStatusPlugin.php
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilObjNolejGUI.php");
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejConfig.php");
+
+require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilObjNolejGUI.php");
 
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
@@ -16,7 +26,7 @@ use srag\Plugins\H5P\Content\Editor\ImportContentFormGUI;
 use srag\Plugins\H5P\Utils\H5PTrait;
 
 /**
- * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * Repository plugin object class
  */
 class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 {
@@ -37,7 +47,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	function __construct($a_ref_id = 0)
 	{
 		parent::__construct($a_ref_id);
-		$this->config = ilNolejConfig::getInstance();
+		$this->config = new ilNolejConfig();
 	}
 
 	/**
@@ -263,7 +273,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 	 */
 	public function getDataDir()
 	{
-		return $this->plugin->getPluginDataDir() . $this->getDocumentId();
+		return $this->config->dataDir() . $this->getDocumentId();
 	}
 
 	public function hasWritePermission()
@@ -280,30 +290,6 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 
 	public function lookupDetails()
 	{
-		// if (!$this->isBound()) {
-		// 	return (object) [];
-		// }
-
-		// if ($this->details != null) {
-		// 	return $this->details;
-		// }
-
-		// $result = $this->config->api(array(
-		// 	"cmd" => "details",
-		// 	"id_partner" => $this->id_partner,
-		// 	"id_course" => $this->id_course
-		// ));
-
-		// switch ($result) {
-		// 	case "err_course_id":
-		// 	case "err_partner_id":
-		// 	case "err_maintenance":
-		// 	case "err_response":
-		// 		ilUtil::sendFailure($this->plugin->txt($result), true);
-		// 		return $this->details = (object) [];
-		// }
-
-		// return $this->details = $result;
 	}
 
 	/**

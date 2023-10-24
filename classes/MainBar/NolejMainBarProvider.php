@@ -1,15 +1,24 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
-// use ilNolejHandler;
+/**
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
+ * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
+
 // use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
+
 /**
- * Class NolejMainBarProvider
- *
- * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * This class provides a menu button to access Nolej modules
+ * @todo in future releases
  */
 class NolejMainBarProvider extends AbstractStaticPluginMainMenuProvider
 {

@@ -1,13 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificationPrefRepository.php");
-
 /**
- * Class NolejActivity
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
+
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificationPrefRepository.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+
+/**
+ * Set and retrieve user notification about Nolej
+ * activity generation progresses.
  */
 class NolejActivity
 {
@@ -50,8 +57,8 @@ class NolejActivity
 	/** @var int|null */
 	protected $refId = null;
 
-	/** @var ilNolejPlugin */
-	protected $plugin;
+	/** @var ilNolejConfig */
+	protected $config;
 
 	/**
 	 * @param string|null $a_doc_id
@@ -74,7 +81,7 @@ class NolejActivity
 			$this->read($a_doc_id, $a_user_id, $a_action);
 		}
 
-		$this->plugin = ilNolejPlugin::getInstance();
+		$this->config = new ilNolejConfig();
 	}
 
 	/**
@@ -135,6 +142,11 @@ class NolejActivity
 		return (int) $rec["maxts"];
 	}
 
+	/**
+	 * Get notifications for a user
+	 * @param mixed $a_user_id
+	 * @return array
+	 */
 	public static function getInstancesByUserId($a_user_id)
 	{
 		global $DIC;
@@ -321,6 +333,11 @@ class NolejActivity
 	// crud
 	//
 
+	/**
+	 * Create a notification object given its associative array
+	 * @param array $a_row
+	 * @return void
+	 */
 	protected function importDBRow(array $a_row)
 	{
 		$this->stored = true;
@@ -358,6 +375,10 @@ class NolejActivity
 		}
 	}
 
+	/**
+	 * Summary of getPropertiesForStorage
+	 * @return array
+	 */
 	protected function getPropertiesForStorage()
 	{
 		return array(
@@ -388,6 +409,10 @@ class NolejActivity
 		);
 	}
 
+	/**
+	 * Summary of store
+	 * @return void
+	 */
 	public function store()
 	{
 		$ilDB = $this->db;
@@ -397,7 +422,7 @@ class NolejActivity
 			!$this->getAction()
 		) {
 			ilUtil::sendFailure("Some value null", true);
-			$this->plugin->logger->log("Notification: some values are null: " . print_r([
+			$this->config->logger->log("Notification: some values are null: " . print_r([
 				"documentId" => $this->getDocumentId(),
 				"userId" => $this->getUserId(),
 				"action" => $this->getAction()
@@ -419,6 +444,10 @@ class NolejActivity
 		}
 	}
 
+	/**
+	 * Summary of delete
+	 * @return void
+	 */
 	public function delete()
 	{
 		$ilDB = $this->db;

@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * This file is part of Nolej Repository Object Plugin for ILIAS,
+ * developed by OC Open Consulting to integrate ILIAS with Nolej
+ * software by Neuronys.
+ *
+ * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * @copyright 2023 OC Open Consulting SB Srl
+ */
+
 include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
 
@@ -6,7 +16,7 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 
 /**
- * @author Vincenzo Padula <vincenzo@oc-group.eu>
+ * Plugin main class
  */
 class ilNolejPlugin extends ilRepositoryObjectPlugin
 {
@@ -27,20 +37,12 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	const TABLE_H5P = "rep_robj_xnlj_hfp";
 	const TABLE_LP = "rep_robj_xnlj_lp";
 
-	/** @var self|null */
-	protected static $instance = null;
-
 	/** @var PluginProviderCollection|null */
 	protected static $pluginProviderCollection = null;
 
-	/** @var array */
-	static $config = [];
 
 	/** @var bool|null */
 	static $isAdmin = null;
-
-	/** @var ilLogger */
-	public $logger;
 
 	/**
 	 * Constructor
@@ -53,20 +55,6 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		$this->provider_collection = $this->getPluginProviderCollection(); // Fix overflow
 		// $this->provider_collection = new PluginProviderCollection();
 		// $this->provider_collection->setNotificationProvider(new NolejNotificationProvider($DIC, $this));
-		$this->logger = ilLoggerFactory::getLogger(self::PREFIX);
-	}
-
-	/**
-	 * @return self
-	 */
-	public static function getInstance()
-	{
-		global $DIC;
-		if (self::$instance === null) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
 	}
 
 	/**
@@ -91,17 +79,6 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		}
 
 		return self::$pluginProviderCollection;
-	}
-
-	/**
-	 * Returns the directory where all Nolej
-	 * data is stored (transcriptions, activities, ...)
-	 * 
-	 * @return string
-	 */
-	public function getPluginDataDir()
-	{
-		return ilUtil::getWebspaceDir() . "/" . self::PLUGIN_ID . "/";
 	}
 
 	/**
@@ -215,7 +192,9 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		$tpl->setPermanentLink(self::PLUGIN_ID, $code);
 	}
 
-	/** @return string */
+	/** 
+	 * @return string
+	 */
 	public function getConfigurationLink()
 	{
 		global $DIC;
@@ -233,41 +212,4 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 		);
 	}
 
-	/**
-	 * @param string $keyword
-	 * @param string $defaultValue
-	 * @return string
-	 */
-	public function getConfig($keyword, $defaultValue = "")
-	{
-		if (isset(self::$config[$keyword])) {
-			return self::$config[$keyword];
-		}
-		$res = $this->db->queryF(
-			"SELECT `value` FROM " . self::TABLE_CONFIG . " WHERE keyword = %s;",
-			array("text"),
-			array($keyword)
-		);
-
-		if (!$res || $this->db->numRows($res) <= 0) {
-			return $defaultValue;
-		}
-
-		$record = $this->db->fetchAssoc($res);
-		self::$config[$keyword] = $record["value"];
-		return $record["value"];
-	}
-
-	/**
-	 * @param string $keyword
-	 * @param string $defaultValue
-	 */
-	public function saveConfig($keyword, $value)
-	{
-		$this->db->manipulateF(
-			"REPLACE INTO " . self::TABLE_CONFIG . " (keyword, value) VALUES (%s, %s);",
-			array("text", "text"),
-			array($keyword, $value)
-		);
-	}
 }
