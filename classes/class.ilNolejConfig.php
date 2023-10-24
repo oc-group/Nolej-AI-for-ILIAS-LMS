@@ -104,7 +104,7 @@ class ilNolejConfig
 	public static function txt(string $key): string
 	{
 		global $DIC;
-		return $DIC->language->txt(ilNolejPlugin::PREFIX . "_" . $key);
+		return $DIC->language()->txt(ilNolejPlugin::PREFIX . "_" . $key);
 	}
 
 	/**
