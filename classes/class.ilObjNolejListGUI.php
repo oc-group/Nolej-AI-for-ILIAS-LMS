@@ -73,8 +73,6 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
 	 */
 	function getProperties(): array
 	{
-		global $lng, $ilUser, $ilAccess;
-
 		$props = array();
 
 		$this->plugin->includeClass("class.ilObjNolejAccess.php");

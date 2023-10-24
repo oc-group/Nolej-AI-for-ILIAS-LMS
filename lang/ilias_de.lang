@@ -156,7 +156,9 @@ prop_language_info#:#
 prop_media_source#:#
 prop_mob#:#
 prop_mob_info#:#
+prop_offline#:#
 prop_online#:#
+prop_status#:#
 prop_textarea#:#
 prop_textarea_info#:#
 prop_title#:#

@@ -156,7 +156,9 @@ prop_language_info#:#The language of the media. This helps Nolej to better analy
 prop_media_source#:#Media source
 prop_mob#:#MediaPool
 prop_mob_info#:#Choose a media from a media pool.
+prop_offline#:#Offline
 prop_online#:#Online
+prop_status#:#Status
 prop_textarea#:#Text
 prop_textarea_info#:#Write here the text that you want to be analyzed by Nolej.
 prop_title#:#Title
