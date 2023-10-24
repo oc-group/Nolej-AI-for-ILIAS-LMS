@@ -144,7 +144,7 @@ class ilNolejConfig
 	 * @param string $id
 	 * @param string $value
 	 */
-	public function set(string $id, string $value)
+	public function set(string $id, string $value): void
 	{
 		global $DIC;
 
