@@ -47,11 +47,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
 	/**
 	 * Constructor
 	 */
-	public function __construct(
-		\ilDBInterface $db,
-        \ilComponentRepositoryWrite $component_repository,
-        string $id
-	)
+	public function __construct()
 	{
 		global $DIC;
 
