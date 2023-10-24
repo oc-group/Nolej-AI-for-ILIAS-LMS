@@ -49,7 +49,7 @@ class ilNolejConfig
 	 * @param string $str
 	 * @return bool|int
 	 */
-	public function checkInputString(string $str): bool | int
+	public function checkInputString(string $str)
 	{
 		return preg_match('/^[a-zA-Z0-9\-]{1,100}$/', $str);
 	}
