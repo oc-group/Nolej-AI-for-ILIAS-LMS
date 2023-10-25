@@ -1696,12 +1696,14 @@ class ilNolejActivityManagementGUI
 			$id->setValue($questions[$i]->id);
 			$form->addItem($id);
 
-			$question = new ilTextAreaInputGUI(
-				$this->txt("questions_question"),
-				sprintf("question_%d_question", $i)
-			);
-			$question->setRows(3);
-			$form->addItem($question);
+			if ($questions[$i]->question_type != "tf") {
+				$question = new ilTextAreaInputGUI(
+					$this->txt("questions_question"),
+					sprintf("question_%d_question", $i)
+				);
+				$question->setRows(3);
+				$form->addItem($question);
+			}
 
 			$questionType = new ilHiddenInputGUI(sprintf("question_%d_type", $i));
 			$questionType->setValue($questions[$i]->question_type);
@@ -1722,12 +1724,14 @@ class ilNolejActivityManagementGUI
 			);
 			$form->addItem($enable);
 
-			$answer = new ilTextAreaInputGUI(
-				$this->txt("questions_answer"),
-				sprintf("question_%d_answer", $i)
-			);
-			$answer->setRows(3);
-			$enable->addSubItem($answer);
+			if ($questions[$i]->question_type != "tf") {
+				$answer = new ilTextAreaInputGUI(
+					$this->txt("questions_answer"),
+					sprintf("question_%d_answer", $i)
+				);
+				$answer->setRows(3);
+				$enable->addSubItem($answer);
+			}
 
 			$distractorsLength = count($questions[$i]->distractors);
 			$distractors = new ilHiddenInputGUI(sprintf("question_%d_distractors", $i));
@@ -1780,7 +1784,7 @@ class ilNolejActivityManagementGUI
 				"",
 				$this->ctrl->getLinkTarget($this, self::CMD_QUESTIONS)
 			)
-				->withAvailability($step::AVAILABLE) // Always available
+				->withAvailability($step::AVAILABLE)
 				->withStatus($step::IN_PROGRESS)
 		];
 
@@ -1797,7 +1801,7 @@ class ilNolejActivityManagementGUI
 				$this->ctrl->getLinkTarget($this, self::CMD_QUESTIONS)
 				. "&question_type=" . $type
 			)
-			->withAvailability($step::AVAILABLE) // Always available
+			->withAvailability($step::AVAILABLE)
 			->withStatus($step::IN_PROGRESS);
 			if ($type == $questionTypeFilter) {
 				$selectedIndex = $i;
@@ -1851,11 +1855,19 @@ class ilNolejActivityManagementGUI
 			if (empty($id)) {
 				continue;
 			}
+
 			$enable = (bool) $form->getInput(sprintf("question_%d_enable", $i));
-			$answer = $form->getInput(sprintf("question_%d_answer", $i));
-			$useForGrading = (bool) $form->getInput(sprintf("question_%d_ufg", $i));
-			$question = $form->getInput(sprintf("question_%d_question", $i));
 			$questionType = $form->getInput(sprintf("question_%d_type", $i));
+
+			$answer = $questionType == "hoq"
+				? ""
+				: $form->getInput(sprintf("question_%d_answer", $i));
+
+			$question = $questionType == "tf"
+				? ""
+				: $form->getInput(sprintf("question_%d_question", $i));
+
+			$useForGrading = (bool) $form->getInput(sprintf("question_%d_ufg", $i));
 			$distractorsLength = $form->getInput(sprintf("question_%d_distractors", $i));
 			$distractors = [];
 			for ($j = 0; $j < $distractorsLength; $j++) {
@@ -1865,19 +1877,17 @@ class ilNolejActivityManagementGUI
 				}
 			}
 			$selectedDistractor = "";
-			if (!empty($id)) {
-				$questions[$i] = [
-					"id" => $id,
-					"explanation" => false,
-					"enable" => $enable,
-					"answer" => $answer,
-					"use_for_grading" => $useForGrading,
-					"question" => $question,
-					"question_type" => $questionType,
-					"distractors" => $distractors,
-					"selected_distractor" => $selectedDistractor
-				];
-			}
+			$questions[$i] = [
+				"id" => $id,
+				"explanation" => false,
+				"enable" => $enable,
+				"answer" => $answer,
+				"use_for_grading" => $useForGrading,
+				"question" => $question,
+				"question_type" => $questionType,
+				"distractors" => $distractors,
+				"selected_distractor" => $selectedDistractor
+			];
 		}
 
 		$success = $this->writeDocumentFile(
