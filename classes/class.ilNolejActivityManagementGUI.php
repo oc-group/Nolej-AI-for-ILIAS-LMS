@@ -1730,7 +1730,11 @@ class ilNolejActivityManagementGUI
 					sprintf("question_%d_answer", $i)
 				);
 				$answer->setRows(3);
-				$enable->addSubItem($answer);
+				if ($questions[$i]->question_type != "tf") {
+					$form->addItem($answer);
+				} else {
+					$enable->addSubItem($answer);
+				}
 			}
 
 			$distractorsLength = count($questions[$i]->distractors);
