@@ -460,7 +460,7 @@ class ilNolejActivityManagementGUI
 						->withStatus($step::NOT_STARTED)
 				];
 				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(3);
+					->withActive(2);
 				break;
 			case self::STATUS_REVISION_PENDING:
 				$this->defaultCmd = self::CMD_REVISION;
@@ -495,7 +495,7 @@ class ilNolejActivityManagementGUI
 						->withStatus($step::NOT_STARTED)
 				];
 				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(3);
+					->withActive(2);
 				break;
 			case self::STATUS_ACTIVITIES:
 				$this->defaultCmd = self::CMD_ACTIVITIES;
@@ -530,7 +530,7 @@ class ilNolejActivityManagementGUI
 						->withStatus($step::NOT_STARTED)
 				];
 				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(4);
+					->withActive(3);
 				break;
 			case self::STATUS_ACTIVITIES_PENDING:
 				$this->defaultCmd = self::CMD_ACTIVITIES;
@@ -565,7 +565,7 @@ class ilNolejActivityManagementGUI
 						->withStatus($step::IN_PROGRESS)
 				];
 				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(4);
+					->withActive(3);
 				break;
 			case self::STATUS_COMPLETED:
 				$this->defaultCmd = self::CMD_ACTIVITIES;
@@ -600,7 +600,7 @@ class ilNolejActivityManagementGUI
 						->withStatus($step::SUCCESSFULLY)
 				];
 				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(4);
+					->withActive(3);
 				break;
 		}
 
