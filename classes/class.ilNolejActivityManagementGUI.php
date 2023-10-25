@@ -1536,17 +1536,19 @@ class ilNolejActivityManagementGUI
 		/**
 		 * Summary -> abstract
 		 */
-		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->txt("summary_abstract"));
-		$form->addItem($section);
-		$txt = new ilTextAreaInputGUI("", "abstract");
-		if ($a_use_post) {
-			$txt->setValueByArray($_POST);
-		} else {
-			$txt->setValue($summary->abstract);
+		if (count($summary->summary) > 1) {
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($this->txt("summary_abstract"));
+			$form->addItem($section);
+			$txt = new ilTextAreaInputGUI("", "abstract");
+			if ($a_use_post) {
+				$txt->setValueByArray($_POST);
+			} else {
+				$txt->setValue($summary->abstract);
+			}
+			$txt->setRows(10);
+			$form->addItem($txt);
 		}
-		$txt->setRows(10);
-		$form->addItem($txt);
 
 		/**
 		 * Summary -> keypoints
@@ -1616,7 +1618,9 @@ class ilNolejActivityManagementGUI
 			}
 		}
 
-		$summary["abstract"] = $form->getInput("abstract");
+		$summary["abstract"] = $length > 1
+			? $form->getInput("abstract")
+			: "";
 
 		$length = $form->getInput("keypoints_count");
 		for ($i = 0; $i < $length; $i++) {
