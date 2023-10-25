@@ -1730,7 +1730,7 @@ class ilNolejActivityManagementGUI
 					sprintf("question_%d_answer", $i)
 				);
 				$answer->setRows(3);
-				if ($questions[$i]->question_type != "tf") {
+				if ($questions[$i]->question_type == "tf") {
 					$form->addItem($answer);
 				} else {
 					$enable->addSubItem($answer);
