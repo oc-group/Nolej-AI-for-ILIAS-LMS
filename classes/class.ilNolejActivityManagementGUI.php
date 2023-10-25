@@ -1724,7 +1724,7 @@ class ilNolejActivityManagementGUI
 			);
 			$form->addItem($enable);
 
-			if ($questions[$i]->question_type != "tf") {
+			if ($questions[$i]->question_type != "hoq") {
 				$answer = new ilTextAreaInputGUI(
 					$this->txt("questions_answer"),
 					sprintf("question_%d_answer", $i)
