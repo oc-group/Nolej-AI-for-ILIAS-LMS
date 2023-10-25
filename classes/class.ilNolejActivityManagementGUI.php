@@ -311,7 +311,7 @@ class ilNolejActivityManagementGUI
 		];
 		$revisionWf = $f->linear("", $revisionSteps);
 		$renderedRevisionWf = "";
-		if ($this->status == self::STATUS_REVISION || $this->status == self::STATUS_REVISION_PENDING) {
+		if ($this->status >= self::STATUS_REVISION) {
 			switch ($cmd) {
 				case self::CMD_REVIEW:
 				case self::CMD_REVISION:
