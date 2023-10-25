@@ -55,6 +55,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
 	const TAB_PROPERTIES = "properties";
 	const TAB_CONTENT = "content";
+	const TAB_ACTIVITY_MANAGEMENT = "activity_management";
 
 	const PROP_TITLE = "title";
 	const PROP_DESCRIPTION = "description";
@@ -102,6 +103,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		switch ($nextClass) {
 			case "ilnolejactivitymanagementgui":
 				$this->checkPermission("write");
+				$this->setTabs();
+				$this->tabs->activateTab(self::TAB_ACTIVITY_MANAGEMENT);
 				$activityManagement = new ilNolejActivityManagementGUI($this);
 				$this->ctrl->forwardCommand($activityManagement);
 				break;
@@ -170,11 +173,10 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	}
 
 	/**
-	 * @return bool
+	 * @return bool returns true iff the plugin supports import/export
 	 */
 	protected function supportsExport()
 	{
-		// Disable import / export for this type of object
 		return false;
 	}
 
@@ -183,23 +185,29 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	 */
 	protected function supportsCloning()
 	{
-		// Disable cloning for this type of object
 		return false;
 	}
 
 	/**
 	 * Set tabs
 	 */
-	function setTabs()
+	protected function setTabs()
 	{
-		global $ilCtrl;
-
 		// tab for the "show content" command
 		if ($this->object->hasReadPermission()) {
 			$this->tabs->addTab(
 				self::TAB_CONTENT,
 				$this->txt("tab_" . self::TAB_CONTENT),
-				$ilCtrl->getLinkTarget($this, self::CMD_CONTENT_SHOW)
+				$this->ctrl->getLinkTarget($this, self::CMD_CONTENT_SHOW)
+			);
+		}
+
+		if ($this->checkPermissionBool("write")) {
+			$activityManagement = new ilNolejActivityManagementGUI($this);
+			$this->tabs->addTab(
+				self::TAB_CONTENT,
+				$this->txt("tab_" . self::TAB_ACTIVITY_MANAGEMENT),
+				$this->ctrl->getLinkTarget($activityManagement, "")
 			);
 		}
 
@@ -211,12 +219,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 			$this->tabs->addTab(
 				self::TAB_PROPERTIES,
 				$this->txt("tab_" . self::TAB_PROPERTIES),
-				$ilCtrl->getLinkTarget($this, self::CMD_PROPERTIES_EDIT)
+				$this->ctrl->getLinkTarget($this, self::CMD_PROPERTIES_EDIT)
 			);
-
-			// if ($this->object->isBound()) {
-			// 	$this->tabs->addTab(self::TAB_LICENSES, $this->txt("tab_" . self::TAB_LICENSES), $ilCtrl->getLinkTarget($this, self::CMD_LICENSE_EDIT));
-			// }
 		}
 
 		// standard permission tab
@@ -292,16 +296,6 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 	protected function showContent() : void
 	{
 		$this->tabs->activateTab(self::TAB_CONTENT);
-
-		if ($this->checkPermissionBool("write")) {
-			$activityManagement = new ilNolejActivityManagementGUI($this);
-			$toolbar = new ilToolbarGUI();
-			$toolbar->addButton(
-				$this->plugin->txt("goto_activity_management"),
-				$this->ctrl->getLinkTarget($activityManagement, "")
-			);
-			$this->tpl->setRightContent($toolbar->getHTML());
-		}
 
 		if ($this->object->getDocumentStatus() != ilNolejActivityManagementGUI::STATUS_COMPLETED) {
 			ilUtil::sendInfo($this->plugin->txt("activities_not_yet_generated"));
