@@ -120,9 +120,6 @@ class ilNolejActivityManagementGUI
 	protected $defaultCmd;
 
 	/** @var string */
-	protected $wf = "";
-
-	/** @var string */
 	protected $documentId;
 
 	/** @var string */
@@ -221,14 +218,14 @@ class ilNolejActivityManagementGUI
 					case self::CMD_ACTIVITIES:
 					case self::CMD_GENERATE:
 						if ($this->gui_obj != null) {
-							$tpl->setLeftContent($this->wf);
+							$this->printWorkflow($cmd);
 							$this->$cmd();
 						}
 						break;
 
 					default:
-						$tpl->setLeftContent($this->wf);
 						$cmd = $this->defaultCmd;
+						$this->printWorkflow($cmd);
 						$this->$cmd();
 				}
 		}
@@ -237,17 +234,11 @@ class ilNolejActivityManagementGUI
 	}
 
 	/**
-	 * Return status icon and command
+	 * Get status and set default cmd
 	 * @return void
 	 */
 	protected function statusCheck()
 	{
-		global $DIC;
-		$f = $DIC->ui()->factory()->listing()->workflow();
-		$renderer = $DIC->ui()->renderer();
-
-		$step = $f->step('', '');
-
 		if ($this->gui_obj == null) {
 			$this->status = -1;
 			$this->defaultCmd = "";
@@ -255,356 +246,185 @@ class ilNolejActivityManagementGUI
 		}
 
 		$this->status = $this->gui_obj->object->getDocumentStatus();
-		$this->defaultCmd = self::CMD_CREATION;
 
-		$revisionAvailability = $this->status < self::STATUS_REVISION
-			? $step::NOT_AVAILABLE
-			: $step::AVAILABLE;
-		$revisionStatus = $this->status < self::STATUS_REVISION
-			? $step::NOT_STARTED
-			: $step::IN_PROGRESS;
+		switch ($this->status) {
+			case self::STATUS_CREATION:
+			case self::STATUS_CREATION_PENDING:
+				$this->defaultCmd = self::CMD_CREATION;
+				break;
+			case self::STATUS_ANALISYS:
+			case self::STATUS_ANALISYS_PENDING:
+				$this->defaultCmd = self::CMD_ANALYSIS;
+				break;
+			case self::STATUS_REVISION:
+			case self::STATUS_REVISION_PENDING:
+				$this->defaultCmd = self::CMD_REVISION;
+				break;
+			case self::STATUS_ACTIVITIES:
+			case self::STATUS_ACTIVITIES_PENDING:
+			case self::STATUS_COMPLETED:
+				$this->defaultCmd = self::CMD_ACTIVITIES;
+				break;
+		}
+	}
+
+	/**
+	 * Print the activity management workflow,
+	 * depending on current status and requested cmd.
+	 * @param string $cmd
+	 * @return void
+	 */
+	protected function printWorkflow($cmd)
+	{
+		global $DIC, $tpl;
+		$f = $DIC->ui()->factory()->listing()->workflow();
+		$renderer = $DIC->ui()->renderer();
+
+		if ($this->gui_obj == null) {
+			return;
+		}
+
+		$step = $f->step('', '');
+
 		$revisionSteps = [
 			$f->step(
 				$this->txt(self::SUBTAB_SUMMARY),
 				"",
 				$this->ctrl->getLinkTarget($this, self::CMD_SUMMARY)
 			)
-				->withAvailability($revisionAvailability)
-				->withStatus($revisionStatus),
+				->withAvailability($step::AVAILABLE)
+				->withStatus($step::IN_PROGRESS),
 			$f->step(
 				$this->txt(self::SUBTAB_CONCEPTS),
 				"",
 				$this->ctrl->getLinkTarget($this, self::CMD_CONCEPTS)
 			)
-				->withAvailability($revisionAvailability)
-				->withStatus($revisionStatus),
+				->withAvailability($step::AVAILABLE)
+				->withStatus($step::IN_PROGRESS),
 			$f->step(
 				$this->txt(self::SUBTAB_QUESTIONS),
 				"",
 				$this->ctrl->getLinkTarget($this, self::CMD_QUESTIONS)
 			)
-				->withAvailability($revisionAvailability)
-				->withStatus($revisionStatus)
+				->withAvailability($step::AVAILABLE)
+				->withStatus($step::IN_PROGRESS)
 		];
 		$revisionWf = $f->linear("", $revisionSteps);
+		$renderedRevisionWf = "";
+		if ($this->status == self::STATUS_REVISION || $this->status == self::STATUS_REVISION_PENDING) {
+			switch ($cmd) {
+				case self::CMD_REVIEW:
+				case self::CMD_REVISION:
+				case self::CMD_SUMMARY:
+				case self::CMD_SUMMARY_SAVE:
+					$renderedRevisionWf = $renderer->render($revisionWf->withActive(0));
+					break;
+				case self::CMD_CONCEPTS:
+				case self::CMD_CONCEPTS_SAVE:
+					$renderedRevisionWf = $renderer->render($revisionWf->withActive(1));
+					break;
+				case self::CMD_QUESTIONS:
+				case self::CMD_QUESTIONS_SAVE:
+					$renderedRevisionWf = $renderer->render($revisionWf->withActive(2));
+					break;
+			}
+		}
 
-		switch ($this->status) {
-			case self::STATUS_CREATION:
-				$steps = [
-					$f->step(
-						$this->txt(self::TAB_CREATION),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::NOT_STARTED),
-					$f->step(
-						$this->txt(self::TAB_ANALYSIS),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED),
-					$f->step(
-						$this->txt(self::TAB_REVIEW),
-						$renderer->render($revisionWf),
-						$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED),
-					$f->step(
-						$this->txt(self::TAB_ACTIVITIES),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED)
-				];
-				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(0);
+		$steps = [
+			$f->step(
+				$this->txt(self::TAB_CREATION),
+				"",
+				$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
+			)
+				->withAvailability($step::AVAILABLE) // Always available
+				->withStatus(
+					$this->status == self::STATUS_CREATION
+						? $step::NOT_STARTED
+						: $this->status == self::STATUS_CREATION_PENDING
+							? $step::IN_PROGRESS
+							: $step::SUCCESSFULLY
+				),
+			$f->step(
+				$this->txt(self::TAB_ANALYSIS),
+				"",
+				$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
+			)
+				->withAvailability(
+					$this->status < self::STATUS_ANALISYS
+					? $step::NOT_AVAILABLE
+					: $step::AVAILABLE
+				)
+				->withStatus(
+					$this->status <= self::STATUS_ANALISYS
+						? $step::NOT_STARTED
+						: $this->status == self::STATUS_ANALISYS_PENDING
+							? $step::IN_PROGRESS
+							: $step::SUCCESSFULLY
+				),
+			$f->step(
+				$this->txt(self::TAB_REVIEW),
+				$renderedRevisionWf,
+				$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
+			)
+				->withAvailability(
+					$this->status < self::STATUS_REVISION
+					? $step::NOT_AVAILABLE
+					: $step::AVAILABLE
+				)
+				->withStatus(
+					$this->status <= self::STATUS_REVISION
+						? $step::NOT_STARTED
+						: $this->status == self::STATUS_REVISION_PENDING
+							? $step::IN_PROGRESS
+							: $step::SUCCESSFULLY
+				),
+			$f->step(
+				$this->txt(self::TAB_ACTIVITIES),
+				"",
+				$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
+			)
+				->withAvailability(
+					$this->status < self::STATUS_ACTIVITIES
+					? $step::NOT_AVAILABLE
+					: $step::AVAILABLE
+				)
+				->withStatus(
+					$this->status <= self::STATUS_ACTIVITIES
+						? $step::NOT_STARTED
+						: $this->status == self::STATUS_ACTIVITIES_PENDING
+							? $step::IN_PROGRESS
+							: $step::SUCCESSFULLY
+				),
+		];
+		$wf = $f->linear($this->txt("tab_activity_management"), $steps);
+		$renderedWf = "";
+		
+		switch ($cmd) {
+			case self::CMD_CREATION:
+			case self::CMD_CREATE:
+				$renderedWf = $renderer->render($wf->withActive(0));
 				break;
-			case self::STATUS_CREATION_PENDING:
-				$steps = [
-					$f->step(
-						$this->txt(self::TAB_CREATION),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::IN_PROGRESS),
-					$f->step(
-						$this->txt(self::TAB_ANALYSIS),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED),
-					$f->step(
-						$this->txt(self::TAB_REVIEW),
-						$renderer->render($revisionWf),
-						$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED),
-					$f->step(
-						$this->txt(self::TAB_ACTIVITIES),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED)
-				];
-				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(0);
+			case self::CMD_ANALYSIS:
+			case self::CMD_ANALYZE:
+				$renderedWf = $renderer->render($wf->withActive(1));
 				break;
-			case self::STATUS_ANALISYS:
-				$this->defaultCmd = self::CMD_ANALYSIS;
-				$steps = [
-					$f->step(
-						$this->txt(self::TAB_CREATION),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_ANALYSIS),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::NOT_STARTED),
-					$f->step(
-						$this->txt(self::TAB_REVIEW),
-						$renderer->render($revisionWf),
-						$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED),
-					$f->step(
-						$this->txt(self::TAB_ACTIVITIES),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED)
-				];
-				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(1);
+			case self::CMD_REVISION:
+			case self::CMD_SUMMARY:
+			case self::CMD_SUMMARY_SAVE:
+			case self::CMD_QUESTIONS:
+			case self::CMD_QUESTIONS_SAVE:
+			case self::CMD_CONCEPTS:
+			case self::CMD_CONCEPTS_SAVE:
+			case self::CMD_REVIEW:
+				$renderedWf = $renderer->render($wf->withActive(2));
 				break;
-			case self::STATUS_ANALISYS_PENDING:
-				$this->defaultCmd = self::CMD_ANALYSIS;
-				$steps = [
-					$f->step(
-						$this->txt(self::TAB_CREATION),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_ANALYSIS),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::IN_PROGRESS),
-					$f->step(
-						$this->txt(self::TAB_REVIEW),
-						$renderer->render($revisionWf),
-						$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED),
-					$f->step(
-						$this->txt(self::TAB_ACTIVITIES),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED)
-				];
-				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(1);
-				break;
-			case self::STATUS_REVISION:
-				$this->defaultCmd = self::CMD_REVISION;
-				$steps = [
-					$f->step(
-						$this->txt(self::TAB_CREATION),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_ANALYSIS),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_REVIEW),
-						$renderer->render($revisionWf),
-						$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::NOT_STARTED),
-					$f->step(
-						$this->txt(self::TAB_ACTIVITIES),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED)
-				];
-				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(2);
-				break;
-			case self::STATUS_REVISION_PENDING:
-				$this->defaultCmd = self::CMD_REVISION;
-				$steps = [
-					$f->step(
-						$this->txt(self::TAB_CREATION),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_ANALYSIS),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_REVIEW),
-						$renderer->render($revisionWf),
-						$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::IN_PROGRESS),
-					$f->step(
-						$this->txt(self::TAB_ACTIVITIES),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
-					)
-						->withAvailability($step::NOT_AVAILABLE)
-						->withStatus($step::NOT_STARTED)
-				];
-				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(2);
-				break;
-			case self::STATUS_ACTIVITIES:
-				$this->defaultCmd = self::CMD_ACTIVITIES;
-				$steps = [
-					$f->step(
-						$this->txt(self::TAB_CREATION),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_ANALYSIS),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_REVIEW),
-						$renderer->render($revisionWf),
-						$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_ACTIVITIES),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::NOT_STARTED)
-				];
-				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(3);
-				break;
-			case self::STATUS_ACTIVITIES_PENDING:
-				$this->defaultCmd = self::CMD_ACTIVITIES;
-				$steps = [
-					$f->step(
-						$this->txt(self::TAB_CREATION),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_ANALYSIS),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_REVIEW),
-						$renderer->render($revisionWf),
-						$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_ACTIVITIES),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::IN_PROGRESS)
-				];
-				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(3);
-				break;
-			case self::STATUS_COMPLETED:
-				$this->defaultCmd = self::CMD_ACTIVITIES;
-				$steps = [
-					$f->step(
-						$this->txt(self::TAB_CREATION),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_CREATION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_ANALYSIS),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_REVIEW),
-						$renderer->render($revisionWf),
-						$this->ctrl->getLinkTarget($this, self::CMD_REVISION)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY),
-					$f->step(
-						$this->txt(self::TAB_ACTIVITIES),
-						"",
-						$this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
-					)
-						->withAvailability($step::AVAILABLE)
-						->withStatus($step::SUCCESSFULLY)
-				];
-				$wf = $f->linear($this->txt("tab_activity_management"), $steps)
-					->withActive(3);
+			case self::CMD_ACTIVITIES:
+			case self::CMD_GENERATE:
+				$renderedWf = $renderer->render($wf->withActive(3));
 				break;
 		}
 
-		$this->wf = $renderer->render($wf);
+		$tpl->setLeftContent($renderedWf);
 	}
 
 	/**
