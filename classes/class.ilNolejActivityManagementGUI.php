@@ -1761,7 +1761,7 @@ class ilNolejActivityManagementGUI
 	public function summary()
 	{
 		global $tpl;
-		$this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
+		// $this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
 		$form = $this->initSummaryForm();
 
 		$tpl->setContent($form->getHTML());
@@ -1773,7 +1773,7 @@ class ilNolejActivityManagementGUI
 		$form = $this->initSummaryForm(true);
 		if (!$form->checkInput()) {
 			// input not ok, then
-			$this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
+			// $this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
 			$tpl->setContent($form->getHTML());
 			return;
 		}
@@ -1934,7 +1934,7 @@ class ilNolejActivityManagementGUI
 	public function questions()
 	{
 		global $tpl;
-		$this->initRevisionSubTabs(self::SUBTAB_QUESTIONS);
+		// $this->initRevisionSubTabs(self::SUBTAB_QUESTIONS);
 		$form = $this->initQuestionsForm();
 
 		$tpl->setContent($form->getHTML());
@@ -1946,7 +1946,7 @@ class ilNolejActivityManagementGUI
 		$form = $this->initQuestionsForm(true);
 		if (!$form->checkInput()) {
 			// input not ok, then
-			$this->initRevisionSubTabs(self::SUBTAB_QUESTIONS);
+			// $this->initRevisionSubTabs(self::SUBTAB_QUESTIONS);
 			$tpl->setContent($form->getHTML());
 			return;
 		}
@@ -2151,7 +2151,7 @@ class ilNolejActivityManagementGUI
 	public function concepts()
 	{
 		global $tpl;
-		$this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
+		// $this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
 		$form = $this->initConceptsForm();
 
 		$tpl->setContent($form->getHTML());
@@ -2163,7 +2163,7 @@ class ilNolejActivityManagementGUI
 		$form = $this->initConceptsForm(true);
 		if (!$form->checkInput()) {
 			// input not ok, then
-			$this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
+			// $this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
 			$tpl->setContent($form->getHTML());
 			return;
 		}
