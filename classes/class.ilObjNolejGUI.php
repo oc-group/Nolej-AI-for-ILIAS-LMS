@@ -205,7 +205,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 		if ($this->checkPermissionBool("write")) {
 			$activityManagement = new ilNolejActivityManagementGUI($this);
 			$this->tabs->addTab(
-				self::TAB_CONTENT,
+				self::TAB_ACTIVITY_MANAGEMENT,
 				$this->txt("tab_" . self::TAB_ACTIVITY_MANAGEMENT),
 				$this->ctrl->getLinkTarget($activityManagement, "")
 			);
