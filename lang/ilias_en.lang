@@ -180,6 +180,7 @@ questions_question#:#Question
 questions_question_type#:#Type of question
 questions_saved#:#Questions have been updated.
 questions_selected_distractor#:#Selected distractor
+questions_type_all#:#All questions
 questions_type_ftb#:#Fill in the blanks
 questions_type_hoq#:#High order question
 questions_type_mcq#:#Multichoice question

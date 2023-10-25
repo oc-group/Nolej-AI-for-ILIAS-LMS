@@ -772,7 +772,8 @@ class ilNolejActivityManagementGUI
 	 * @param int $length
 	 * @return string
 	 */
-	protected function generateRandomString($length = 10) {
+	protected function generateRandomString($length = 10)
+	{
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$charactersLength = strlen($characters);
 		$randomString = '';
@@ -1654,6 +1655,8 @@ class ilNolejActivityManagementGUI
 	 */
 	protected function initQuestionsForm($a_use_post = false, $a_disabled = false)
 	{
+		global $DIC, $tpl;
+
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->txt("review_questions"));
 
@@ -1664,6 +1667,10 @@ class ilNolejActivityManagementGUI
 			return $form;
 		}
 
+		$questionTypeFilter = $_GET["question_type"] ?? "";
+		$questionTypes = [];
+		// $this->txt("questions_type_" . $questions[$i]->question_type)
+
 		$questions = json_decode($json);
 		$questions = $questions->questions;
 
@@ -1672,6 +1679,15 @@ class ilNolejActivityManagementGUI
 		$length_input->setValue($length);
 		$form->addItem($length_input);
 		for($i = 0; $i < $length; $i++) {
+			if (!isset($questionTypes[$questions[$i]->question_type])) {
+				$questionTypes[$questions[$i]->question_type] = 0;
+			}
+			$questionTypes[$questions[$i]->question_type] += 1;
+
+			if (!empty($questionTypeFilter) && $questionTypeFilter != $questions[$i]->question_type) {
+				continue;
+			}
+
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle(sprintf($this->txt("questions_n"), $i + 1));
 			$form->addItem($section);
@@ -1749,6 +1765,50 @@ class ilNolejActivityManagementGUI
 			}
 		}
 
+		$f = $DIC->ui()->factory()->listing()->workflow();
+		$renderer = $DIC->ui()->renderer();
+
+		$step = $f->step('', '');
+
+		$steps = [
+			$f->step(
+				sprintf(
+					"%s (%d)",
+					$this->txt("questions_type_all"),
+					$length
+				),
+				"",
+				$this->ctrl->getLinkTarget($this, self::CMD_QUESTIONS)
+			)
+				->withAvailability($step::AVAILABLE) // Always available
+				->withStatus($step::IN_PROGRESS)
+		];
+
+		$selectedIndex = 0;
+		$i = 1;
+		foreach ($questionTypes as $type => $count) {
+			$steps[] = $f->step(
+				sprintf(
+					"%s (%d)",
+					$this->txt("questions_type_" . $type),
+					$count
+				),
+				"",
+				$this->ctrl->getLinkTarget($this, self::CMD_QUESTIONS)
+				. "&question_type=" . $type
+			)
+			->withAvailability($step::AVAILABLE) // Always available
+			->withStatus($step::IN_PROGRESS);
+			if ($type == $questionTypeFilter) {
+				$selectedIndex = $i;
+			}
+			$i++;
+		}
+		$wf = $f->linear($this->txt("questions_question_type"), $steps);
+		$tpl->setRightContent(
+			$renderer->render($wf->withActive($selectedIndex))
+		);
+
 		$form->addCommandButton(self::CMD_QUESTIONS_SAVE, $this->txt("cmd_save"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -1775,11 +1835,22 @@ class ilNolejActivityManagementGUI
 			return;
 		}
 
-		$questions = [];
+		$this->getNolejContent("questions", "questions.json");
+		$json = $this->readDocumentFile("questions.json");
+		if (!$json) {
+			ilUtil::sendFailure("err_questions_file");
+			return $form;
+		}
+
+		$questions = json_decode($json);
+		$questions = $questions->questions;
 
 		$length = $form->getInput("questions_count");
 		for ($i = 0; $i < $length; $i++) {
 			$id = $form->getInput(sprintf("question_%d_id", $i));
+			if (empty($id)) {
+				continue;
+			}
 			$enable = (bool) $form->getInput(sprintf("question_%d_enable", $i));
 			$answer = $form->getInput(sprintf("question_%d_answer", $i));
 			$useForGrading = (bool) $form->getInput(sprintf("question_%d_ufg", $i));
@@ -1795,7 +1866,7 @@ class ilNolejActivityManagementGUI
 			}
 			$selectedDistractor = "";
 			if (!empty($id)) {
-				$questions[] = [
+				$questions[$i] = [
 					"id" => $id,
 					"explanation" => false,
 					"enable" => $enable,
