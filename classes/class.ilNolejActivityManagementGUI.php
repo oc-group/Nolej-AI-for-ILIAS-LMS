@@ -1758,14 +1758,22 @@ class ilNolejActivityManagementGUI
 
 			if ($a_use_post) {
 				$enable->setValueByArray($_POST);
-				$answer->setValueByArray($_POST);
+				if (isset($answer)) {
+					$answer->setValueByArray($_POST);
+				}
 				$useForGrading->setValueByArray($_POST);
-				$question->setValueByArray($_POST);
+				if (isset($question)) {
+					$question->setValueByArray($_POST);
+				}
 			} else {
 				$enable->setChecked($questions[$i]->enable);
-				$answer->setValue($questions[$i]->answer);
+				if (isset($answer)) {
+					$answer->setValue($questions[$i]->answer);
+				}
 				$useForGrading->setChecked($questions[$i]->use_for_grading);
-				$question->setValue($questions[$i]->question);
+				if (isset($question)) {
+					$question->setValue($questions[$i]->question);
+				}
 			}
 		}
 
