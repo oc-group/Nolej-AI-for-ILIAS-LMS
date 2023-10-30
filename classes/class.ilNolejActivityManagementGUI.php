@@ -286,7 +286,7 @@ class ilNolejActivityManagementGUI
             return;
         }
 
-        ilYuiUtil::initDom();
+        ilYuiUtil::initConnection();
         $tpl->addCss(ilNolejPlugin::PLUGIN_DIR . "/css/nolej.css");
         $tpl->addJavaScript(ilNolejPlugin::PLUGIN_DIR . "/js/nolej.js");
 
