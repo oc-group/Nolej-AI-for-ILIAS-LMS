@@ -1395,7 +1395,6 @@ class ilNolejActivityManagementGUI
         }
 
         $form = $this->initAnalysisForm();
-
         $tpl->setContent($form->getHTML());
     }
 
@@ -1476,6 +1475,27 @@ class ilNolejActivityManagementGUI
     public function revision()
     {
         $this->summary();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getReviewBox(): string
+    {
+        global $DIC;
+        $f = $DIC->ui()->factory();
+        $renderer = $DIC->ui()->renderer();
+
+        $buttons = [$f->button()->standard(
+            $this->txt("cmd_review"),
+            $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
+        )];
+
+        return $renderer->render(
+            $f->messageBox()
+                ->confirmation($this->txt("cmd_review_info"))
+                ->withButtons($buttons)
+        );
     }
 
     /**
@@ -1610,15 +1630,7 @@ class ilNolejActivityManagementGUI
         $tpl->setContent($form->getHTML());
 
         if ($this->status == self::STATUS_REVISION) {
-            $toolbar = new ilToolbarGUI();
-
-            $toolbar->addText($this->txt("cmd_review_info"));
-            $toolbar->addButton(
-                $this->txt("cmd_review"),
-                $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
-            );
-
-            $tpl->setRightContent($toolbar->getHTML());
+            $tpl->setRightContent($this->getReviewBox());
         }
     }
 
@@ -1867,22 +1879,9 @@ class ilNolejActivityManagementGUI
         }
         $wf = $f->linear($this->txt("questions_question_type"), $steps);
 
-        $toolbarHtml = "";
-        if ($this->status == self::STATUS_REVISION) {
-            $toolbar = new ilToolbarGUI();
-
-            $toolbar->addText($this->txt("cmd_review_info"));
-            $toolbar->addButton(
-                $this->txt("cmd_review"),
-                $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
-            );
-
-            $toolbarHtml = $toolbar->getHTML();
-        }
-
         $tpl->setRightContent(
             $renderer->render($wf->withActive($selectedIndex))
-            . $toolbarHtml
+            . ($this->status == self::STATUS_REVISION ? $this->getReviewBox() : "")
         );
 
         $form->addCommandButton(self::CMD_QUESTIONS_SAVE, $this->txt("cmd_save"));
@@ -2193,15 +2192,7 @@ class ilNolejActivityManagementGUI
         $tpl->setContent($form->getHTML());
 
         if ($this->status == self::STATUS_REVISION) {
-            $toolbar = new ilToolbarGUI();
-
-            $toolbar->addText($this->txt("cmd_review_info"));
-            $toolbar->addButton(
-                $this->txt("cmd_review"),
-                $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
-            );
-
-            $tpl->setRightContent($toolbar->getHTML());
+            $tpl->setRightContent($this->getReviewBox());
         }
     }
 
