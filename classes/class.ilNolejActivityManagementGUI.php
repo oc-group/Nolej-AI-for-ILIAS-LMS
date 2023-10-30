@@ -1470,41 +1470,11 @@ class ilNolejActivityManagementGUI
         $this->ctrl->redirect($this, self::CMD_REVISION);
     }
 
+    /**
+     * Alias of summary
+     */
     public function revision()
     {
-        global $DIC, $tpl;
-
-        $status = $this->status;
-
-        if ($status < self::STATUS_ANALISYS) {
-            $f = $DIC->ui()->factory();
-            $renderer = $DIC->ui()->renderer();
-            $tpl->setContent(
-                $renderer->render(
-                    $f->messageBox()->info($this->txt("err_transcription_not_ready"))
-                )
-            );
-            return;
-        }
-
-        if ($status < self::STATUS_REVISION) {
-            $f = $DIC->ui()->factory();
-            $renderer = $DIC->ui()->renderer();
-            $tpl->setContent(
-                $renderer->render(
-                    $f->messageBox()->info($this->txt("err_analysis_not_ready"))
-                )
-            );
-            return;
-        }
-
-        if (!file_exists($this->dataDir . "/transcription.htm")) {
-            $downloadSuccess = $this->downloadTranscription();
-            if (!$downloadSuccess) {
-                return;
-            }
-        }
-
         $this->summary();
     }
 
