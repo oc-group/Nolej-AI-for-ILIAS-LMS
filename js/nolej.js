@@ -6,7 +6,8 @@ function checkNolejUpdates(documentUrl) {
             {},
             function (o) {
                 if (o.responseText !== undefined && o.responseText == "reload") {
-                    location.reload();
+                    // location.reload(); // This may cause re-submit warning
+                    window.location = window.location.href;
                 }
             }
         );
