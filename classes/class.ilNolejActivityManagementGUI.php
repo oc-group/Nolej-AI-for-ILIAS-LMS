@@ -286,7 +286,7 @@ class ilNolejActivityManagementGUI
             return;
         }
 
-        ilYuiUtil::initConnection();
+        ilYuiUtil::initConnection($tpl);
         $tpl->addCss(ilNolejPlugin::PLUGIN_DIR . "/css/nolej.css");
         $tpl->addJavaScript(ilNolejPlugin::PLUGIN_DIR . "/js/nolej.js");
 
@@ -508,7 +508,7 @@ class ilNolejActivityManagementGUI
         $set = $this->db->queryF(
             "SELECT `action` FROM " . ilNolejPlugin::TABLE_ACTIVITY
             . " WHERE document_id = %s AND user_id = %s"
-            . " ORDER BY tstamp DESC",
+            . " ORDER BY tstamp DESC LIMIT 1",
             ["text", "integer"],
             [$_GET["document_id"], $DIC->user()->getId()]
         );
@@ -1110,96 +1110,6 @@ class ilNolejActivityManagementGUI
     }
 
     /**
-     * It returns an editable form if the transcription has
-     * to be validated, otherwise it returns a static info screen.
-     * 
-     * @return ilPropertyFormGUI|ilInfoScreenGUI
-     */
-    public function initAnalysisForm()
-    {
-        $status = $this->status;
-
-        /**
-         * Module title
-         * - $title: Title returned from transcription;
-         * - $objTitle: Current module title.
-         */
-        $title = $this->gui_obj->object->getDocumentTitle();
-        $objTitle = $this->gui_obj->object->getTitle();
-
-        if ($status == self::STATUS_ANALISYS) {
-            $form = new ilPropertyFormGUI();
-            $form->setTitle($this->txt("obj_xnlj"));
-
-            if ($title != "" && $title != $objTitle) {
-                $titleInput = new ilTextInputGUI(
-                    $this->txt("prop_" . self::PROP_TITLE),
-                    self::PROP_TITLE
-                );
-                $titleInput->setValue($title);
-            } else {
-                $titleInput = new ilNonEditableValueGUI(
-                    $this->txt("prop_" . self::PROP_TITLE),
-                    self::PROP_TITLE
-                );
-                $titleInput->setValue($objTitle);
-            }
-            $form->addItem($titleInput);
-
-            /**
-             * Transcription
-             */
-            $txt = new ilTextAreaInputGUI($this->txt("prop_transcription"), self::PROP_M_TEXT);
-            $txt->setRequired(true);
-            $txt->setRows(50);
-            $txt->setMaxNumOfChars(50000);
-            if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
-                $txt->setUseRte(true);
-                $txt->setRteTags([
-                    "h1", "h2", "h3", "p",
-                    "ul", "ol", "li",
-                    "br", "strong", "u", "i",
-                ]);
-                $txt->usePurifier(true);
-                $txt->setRTERootBlockElement("");
-                $txt->disableButtons([
-                    "charmap",
-                    "justifyright",
-                    "justifyleft",
-                    "justifycenter",
-                    "justifyfull",
-                    "alignleft",
-                    "aligncenter",
-                    "alignright",
-                    "alignjustify",
-                    "anchor",
-                    "pasteword"
-                ]);
-                // $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
-            }
-            $txt->setValue($this->readDocumentFile("transcription.htm"));
-            $form->addItem($txt);
-
-            $form->addCommandButton(self::CMD_ANALYZE, $this->txt("cmd_" . self::CMD_ANALYZE));
-            $form->setFormAction($this->ctrl->getFormAction($this));
-            return $form;
-        }
-
-        $info = new ilInfoScreenGUI($this);
-        $info->addSection($this->txt("obj_xnlj"));
-        $info->addProperty(
-            $this->txt("prop_" . self::PROP_TITLE),
-            "<h1>" . $objTitle . "</h1>"
-        );
-        $info->addProperty(
-            $this->txt("prop_transcription"),
-            $this->readDocumentFile("transcription.htm")
-        );
-        
-        return $info;
-    }
-
-    /**
      * Read a file of the current document, if exists.
      * 
      * @param string $filename the name of the file.
@@ -1370,14 +1280,110 @@ class ilNolejActivityManagementGUI
         return true;
     }
 
+    /**
+     * It returns an editable form if the transcription has
+     * to be validated, otherwise it returns a static info screen.
+     * 
+     * @return ilPropertyFormGUI|ilInfoScreenGUI
+     */
+    public function initAnalysisForm()
+    {
+        $status = $this->status;
+
+        /**
+         * Module title
+         * - $title: Title returned from transcription;
+         * - $objTitle: Current module title.
+         */
+        $title = $this->gui_obj->object->getDocumentTitle();
+        $objTitle = $this->gui_obj->object->getTitle();
+
+        if ($status == self::STATUS_ANALISYS) {
+            $form = new ilPropertyFormGUI();
+            $form->setTitle($this->txt("obj_xnlj"));
+
+            if ($title != "" && $title != $objTitle) {
+                $titleInput = new ilTextInputGUI(
+                    $this->txt("prop_" . self::PROP_TITLE),
+                    self::PROP_TITLE
+                );
+                $titleInput->setValue($title);
+            } else {
+                $titleInput = new ilNonEditableValueGUI(
+                    $this->txt("prop_" . self::PROP_TITLE),
+                    self::PROP_TITLE
+                );
+                $titleInput->setValue($objTitle);
+            }
+            $form->addItem($titleInput);
+
+            /**
+             * Transcription
+             */
+            $txt = new ilTextAreaInputGUI($this->txt("prop_transcription"), self::PROP_M_TEXT);
+            $txt->setRequired(true);
+            $txt->setRows(50);
+            $txt->setMaxNumOfChars(50000);
+            if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+                $txt->setUseRte(true);
+                $txt->setRteTags([
+                    "h1", "h2", "h3", "p",
+                    "ul", "ol", "li",
+                    "br", "strong", "u", "i",
+                ]);
+                $txt->usePurifier(true);
+                $txt->setRTERootBlockElement("");
+                $txt->disableButtons([
+                    "charmap",
+                    "justifyright",
+                    "justifyleft",
+                    "justifycenter",
+                    "justifyfull",
+                    "alignleft",
+                    "aligncenter",
+                    "alignright",
+                    "alignjustify",
+                    "anchor",
+                    "pasteword"
+                ]);
+                // $txt->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+            }
+            $txt->setValue($this->readDocumentFile("transcription.htm"));
+            $form->addItem($txt);
+
+            $form->addCommandButton(self::CMD_ANALYZE, $this->txt("cmd_" . self::CMD_ANALYZE));
+            $form->setFormAction($this->ctrl->getFormAction($this));
+            return $form;
+        }
+
+        $info = new ilInfoScreenGUI($this);
+        $info->addSection($this->txt("obj_xnlj"));
+        $info->addProperty(
+            $this->txt("prop_" . self::PROP_TITLE),
+            "<h1>" . $objTitle . "</h1>"
+        );
+        $info->addProperty(
+            $this->txt("prop_transcription"),
+            $this->readDocumentFile("transcription.htm")
+        );
+        
+        return $info;
+    }
+
     public function analysis()
     {
-        global $tpl;
+        global $DIC, $tpl;
 
         $status = $this->status;
 
         if ($status < self::STATUS_ANALISYS) {
-            ilUtil::sendInfo($this->txt("err_transcription_not_ready"));
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_transcription_not_ready"))
+                )
+            );
             return;
         }
 
