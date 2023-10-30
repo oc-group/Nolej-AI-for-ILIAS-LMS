@@ -335,7 +335,9 @@ class ilNolejActivityManagementGUI
         $steps = [
             $f->step(
                 $this->txt(self::TAB_CREATION),
-                "",
+                $this->status == self::STATUS_CREATION_PENDING
+                    ? $this->glyphicon("refresh gly-spin") . $this->txt("action_transcription")
+                    : "",
                 $this->ctrl->getLinkTarget($this, self::CMD_CREATION)
             )
                 ->withAvailability($step::AVAILABLE) // Always available
@@ -347,20 +349,10 @@ class ilNolejActivityManagementGUI
                             : $step::SUCCESSFULLY
                 ),
             $f->step(
-            $this->txt("action_transcription"),
-            $this->glyphicon("refresh gly-spin")
-            )
-                ->withAvailability($step::NOT_AVAILABLE) // Always not available
-                ->withStatus(
-                    $this->status == self::STATUS_CREATION
-                        ? $step::NOT_STARTED
-                        : $this->status == self::STATUS_CREATION_PENDING
-                            ? $step::IN_PROGRESS
-                            : $step::SUCCESSFULLY
-                ),
-            $f->step(
                 $this->txt(self::TAB_ANALYSIS),
-                "",
+                $this->status == self::STATUS_ANALISYS_PENDING
+                    ? $this->glyphicon("refresh gly-spin") . $this->txt("action_analysis")
+                    : "",
                 $this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
             )
                 ->withAvailability(
