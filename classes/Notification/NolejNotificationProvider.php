@@ -26,98 +26,98 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginPro
 class NolejNotificationProvider extends AbstractNotificationPluginProvider
 {
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getNotifications() : array
-	{
-		// // global $DIC;
-		$lng = $this->dic->language();
-		$ui = $this->dic->ui();
-		$user = $this->dic->user();
-		$ctrl = $this->dic->ctrl();
-		$config = new ilNolejConfig();
+    /**
+     * @inheritDoc
+     */
+    public function getNotifications() : array
+    {
+        // // global $DIC;
+        $lng = $this->dic->language();
+        $ui = $this->dic->ui();
+        $user = $this->dic->user();
+        $ctrl = $this->dic->ctrl();
+        $config = new ilNolejConfig();
 
-		$noti_repo = new NolejNotificationPrefRepository($user);
+        $noti_repo = new NolejNotificationPrefRepository($user);
 
-		// $lng->loadLanguageModule("badge");
+        // $lng->loadLanguageModule("badge");
 
-		$factory = $this->notification_factory;
-		$id = function (string $id) : IdentificationInterface {
+        $factory = $this->notification_factory;
+        $id = function (string $id) : IdentificationInterface {
             return $this->if->identifier($id);
         };
 
-		$new_activities = NolejActivity::getActivitiesForUser(
-			$user->getId(),
-			$noti_repo->getLastCheckedTimestamp()
-		);
+        $new_activities = NolejActivity::getActivitiesForUser(
+            $user->getId(),
+            $noti_repo->getLastCheckedTimestamp()
+        );
 
-		if (count($new_activities) == 0) {
-			return [];
-		}
+        if (count($new_activities) == 0) {
+            return [];
+        }
 
-		// Creating a Nolej Notification Item
-		$nolej_icon = $ui
-			->factory()
-			->symbol()
-			->icon()
-			->custom(
-				ilRepositoryObjectPlugin::_getImagePath("Services", "robj", "Nolej", "outlined/icon_xnlj.svg"),
-				$config->txt("plugin_title")
-			);
+        // Creating a Nolej Notification Item
+        $nolej_icon = $ui
+            ->factory()
+            ->symbol()
+            ->icon()
+            ->custom(
+                ilRepositoryObjectPlugin::_getImagePath("Services", "robj", "Nolej", "outlined/icon_xnlj.svg"),
+                $config->txt("plugin_title")
+            );
 
-		$group = $factory
-			->standardGroup($id('nolej_bucket_group'))
-			->withTitle($config->txt("plugin_title"))
-			->withOpenedCallable(function () {
-				// Stuff we do, when the notification is opened
-			});
+        $group = $factory
+            ->standardGroup($id('nolej_bucket_group'))
+            ->withTitle($config->txt("plugin_title"))
+            ->withOpenedCallable(function () {
+                // Stuff we do, when the notification is opened
+            });
 
-		for ($i = 0, $len = count($new_activities); $i < $len; $i++) {
-			$activity = $new_activities[$i];
+        for ($i = 0, $len = count($new_activities); $i < $len; $i++) {
+            $activity = $new_activities[$i];
 
-			switch ($activity->getAction()) {
-				case "tac":
-				case "tic":
-					$title = $config->txt("action_" . ($activity->getAction() ?? ""));
-					$description = "";
-					break;
+            switch ($activity->getAction()) {
+                case "tac":
+                case "tic":
+                    $title = $config->txt("action_" . ($activity->getAction() ?? ""));
+                    $description = "";
+                    break;
 
-				default:
-					$documentTitle = $activity->lookupDocumentTitle()
-						?? "nf-" . $activity->getAction();
-					$link = ILIAS_HTTP_PATH . "/goto.php?target=xnlj_" . $activity->lookupRefId();
-					$title = $ui->factory()->link()->standard(
-						$documentTitle,
-						$link
-					);
-					$description = $config->txt("action_" . ($activity->getAction() ?? ""));
-			}
+                default:
+                    $documentTitle = $activity->lookupDocumentTitle()
+                        ?? "nf-" . $activity->getAction();
+                    $link = ILIAS_HTTP_PATH . "/goto.php?target=xnlj_" . $activity->lookupRefId();
+                    $title = $ui->factory()->link()->standard(
+                        $documentTitle,
+                        $link
+                    );
+                    $description = $config->txt("action_" . ($activity->getAction() ?? ""));
+            }
 
-			// $title = $ui->renderer()->render($titleObj);
-			$ts = new ilDateTime($activity->getTimestamp(), IL_CAL_UNIX);
+            // $title = $ui->renderer()->render($titleObj);
+            $ts = new ilDateTime($activity->getTimestamp(), IL_CAL_UNIX);
 
-			$nolej_notification_item = $ui
-				->factory()
-				->item()
-				->notification($title, $nolej_icon)
-				->withDescription($description)
-				->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($ts)]);
+            $nolej_notification_item = $ui
+                ->factory()
+                ->item()
+                ->notification($title, $nolej_icon)
+                ->withDescription($description)
+                ->withProperties([$lng->txt("time") => ilDatePresentation::formatDate($ts)]);
 
-			$group->addNotification(
-				$factory
-					->standard($id('nolej_bucket_' . $i))
-					->withNotificationItem($nolej_notification_item)
-					->withClosedCallable(
-						function () use ($activity) {
-							// Stuff we do, when the notification is closed
-							$activity->delete();
-						}
-					)
-					->withNewAmount(1)
-			);
-		}
+            $group->addNotification(
+                $factory
+                    ->standard($id('nolej_bucket_' . $i))
+                    ->withNotificationItem($nolej_notification_item)
+                    ->withClosedCallable(
+                        function () use ($activity) {
+                            // Stuff we do, when the notification is closed
+                            $activity->delete();
+                        }
+                    )
+                    ->withNewAmount(1)
+            );
+        }
 
-		return [$group];
-	}
+        return [$group];
+    }
 }

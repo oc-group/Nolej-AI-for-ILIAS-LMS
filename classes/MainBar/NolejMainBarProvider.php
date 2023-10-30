@@ -23,37 +23,37 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 class NolejMainBarProvider extends AbstractStaticPluginMainMenuProvider
 {
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getStaticTopItems() : array
-	{
-		return [];
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getStaticTopItems() : array
+    {
+        return [];
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getStaticSubItems() : array
-	{
-		global $DIC;
-		$title = "Test Menu"; // $DIC->language()->txt("mm_badges");
-		$icon = $DIC->ui()->factory()->symbol()->icon()->standard("bdga", $title)->withIsOutlined(true);
+    /**
+     * @inheritDoc
+     */
+    public function getStaticSubItems() : array
+    {
+        global $DIC;
+        $title = "Test Menu"; // $DIC->language()->txt("mm_badges");
+        $icon = $DIC->ui()->factory()->symbol()->icon()->standard("bdga", $title)->withIsOutlined(true);
 
-		return [
-			$this->mainmenu
-				->link($this->if->identifier('mm_pd_badges'))
-				->withTitle($title)
-				->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToBadges")
-				->withPosition(40)
-				->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
-				->withSymbol($icon)
-				->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('component_not_active')}"))
-				->withAvailableCallable(
-					function () {
-						return true; // (bool) (ilBadgeHandler::getInstance()->isActive());
-					}
-				)
-		];
-	}
+        return [
+            $this->mainmenu
+                ->link($this->if->identifier('mm_pd_badges'))
+                ->withTitle($title)
+                ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToBadges")
+                ->withPosition(40)
+                ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
+                ->withSymbol($icon)
+                ->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('component_not_active')}"))
+                ->withAvailableCallable(
+                    function () {
+                        return true; // (bool) (ilBadgeHandler::getInstance()->isActive());
+                    }
+                )
+        ];
+    }
 }

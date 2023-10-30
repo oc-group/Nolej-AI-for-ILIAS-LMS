@@ -21,71 +21,71 @@ include_once "./Services/Repository/classes/class.ilObjectPluginListGUI.php";
 class ilObjNolejListGUI extends ilObjectPluginListGUI
 {
 
-	/**
-	 * Init type
-	 */
-	function initType()
-	{
-		$this->setType(ilNolejPlugin::PLUGIN_ID);
-	}
+    /**
+     * Init type
+     */
+    function initType()
+    {
+        $this->setType(ilNolejPlugin::PLUGIN_ID);
+    }
 
-	/**
-	 * Get name of gui class handling the commands
-	 * @return string
-	 */
-	function getGuiClass()
-	{
-		return "ilObjNolejGUI";
-	}
+    /**
+     * Get name of gui class handling the commands
+     * @return string
+     */
+    function getGuiClass()
+    {
+        return "ilObjNolejGUI";
+    }
 
-	/**
-	 * Get commands
-	 * @return array
-	 */
-	function initCommands()
-	{
-		// Cannot override init() method; adding here CSS to display the icon.
-		global $tpl;
-		// $tpl->addCss(ilNolejPlugin::CSS);
+    /**
+     * Get commands
+     * @return array
+     */
+    function initCommands()
+    {
+        // Cannot override init() method; adding here CSS to display the icon.
+        global $tpl;
+        // $tpl->addCss(ilNolejPlugin::CSS);
 
-		return array(
-			array(
-				"permission" => "read",
-				"cmd" => ilObjNolejGUI::CMD_CONTENT_SHOW,
-				"default" => true
-			),
-			array(
-				"permission" => "write",
-				"cmd" => ilObjNolejGUI::CMD_PROPERTIES_EDIT,
-				"txt" => $this->txt("cmd_edit"),
-				"default" => false
-			)
-		);
-	}
+        return array(
+            array(
+                "permission" => "read",
+                "cmd" => ilObjNolejGUI::CMD_CONTENT_SHOW,
+                "default" => true
+            ),
+            array(
+                "permission" => "write",
+                "cmd" => ilObjNolejGUI::CMD_PROPERTIES_EDIT,
+                "txt" => $this->txt("cmd_edit"),
+                "default" => false
+            )
+        );
+    }
 
-	/**
-	 * Get item properties
-	 *
-	 * @return array array of property arrays:
-	 * "alert" (boolean) => display as an alert property (usually in red)
-	 * "property" (string) => property name
-	 * "value" (string) => property value
-	 */
-	function getProperties(): array
-	{
-		$props = array();
+    /**
+     * Get item properties
+     *
+     * @return array array of property arrays:
+     * "alert" (boolean) => display as an alert property (usually in red)
+     * "property" (string) => property name
+     * "value" (string) => property value
+     */
+    function getProperties(): array
+    {
+        $props = array();
 
-		$this->plugin->includeClass("class.ilObjNolejAccess.php");
-		// $object = ilObjectFactory::getInstanceByObjId($this->obj_id, false);
+        $this->plugin->includeClass("class.ilObjNolejAccess.php");
+        // $object = ilObjectFactory::getInstanceByObjId($this->obj_id, false);
 
-		if (!ilObjNolejAccess::checkOnline($this->obj_id)) {
-			$props[] = array(
-				"alert" => true,
-				"property" => $this->txt("prop_status"),
-				"value" => $this->txt("prop_offline")
-			);
-		}
+        if (!ilObjNolejAccess::checkOnline($this->obj_id)) {
+            $props[] = array(
+                "alert" => true,
+                "property" => $this->txt("prop_status"),
+                "value" => $this->txt("prop_offline")
+            );
+        }
 
-		return $props;
-	}
+        return $props;
+    }
 }

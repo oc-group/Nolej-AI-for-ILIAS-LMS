@@ -15,40 +15,40 @@
  */
 class NolejNotificationPrefRepository
 {
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param ilObjUser|null $user
-	 */
-	public function __construct($user = null)
-	{
-		global $DIC;
+    /**
+     * Constructor
+     * 
+     * @param ilObjUser|null $user
+     */
+    public function __construct($user = null)
+    {
+        global $DIC;
 
-		$this->user = (is_null($user))
-			? $DIC->user()
-			: $user;
-	}
+        $this->user = (is_null($user))
+            ? $DIC->user()
+            : $user;
+    }
 
-	/**
-	 * Set last checked timestamp
-	 */
-	public function updateLastCheckedTimestamp()
-	{
-		$this->user->writePref("nolej_last_checked", time());
-	}
+    /**
+     * Set last checked timestamp
+     */
+    public function updateLastCheckedTimestamp()
+    {
+        $this->user->writePref("nolej_last_checked", time());
+    }
 
-	/**
-	 * Get last checked timestamp
-	 *
-	 * @return int
-	 */
-	public function getLastCheckedTimestamp()
-	{
-		return (int) $this->user->getPref("nolej_last_checked");
-	}
+    /**
+     * Get last checked timestamp
+     *
+     * @return int
+     */
+    public function getLastCheckedTimestamp()
+    {
+        return (int) $this->user->getPref("nolej_last_checked");
+    }
 }

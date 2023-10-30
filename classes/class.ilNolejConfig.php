@@ -10,162 +10,162 @@ declare(strict_types= 1);
  * @copyright 2023 OC Open Consulting SB Srl
  */
 
- /**
-  * This class provides common configuration methods.
-  */
+/**
+ * This class provides common configuration methods.
+*/
 class ilNolejConfig
 {
-	/** @var string|null */
-	private $registeredApiKey = null;
+    /** @var string|null */
+    private $registeredApiKey = null;
 
-	private $filters = null;
+    private $filters = null;
 
-	/** @var array */
-	static $config = [];
+    /** @var array */
+    static $config = [];
 
-	/** @var ilLogger */
-	public $logger;
+    /** @var ilLogger */
+    public $logger;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		$this->logger = ilLoggerFactory::getLogger(ilNolejPlugin::PREFIX);
-	}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->logger = ilLoggerFactory::getLogger(ilNolejPlugin::PREFIX);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getApiKey(): string
-	{
-		if ($this->registeredApiKey == null) {
-			$this->registeredApiKey = $this->get("api_key", "");
-		}
-		return $this->registeredApiKey;
-	}
+    /**
+     * @return string
+     */
+    public function getApiKey(): string
+    {
+        if ($this->registeredApiKey == null) {
+            $this->registeredApiKey = $this->get("api_key", "");
+        }
+        return $this->registeredApiKey;
+    }
 
-	/**
-	 * @param string $str
-	 * @return bool|int
-	 */
-	public function checkInputString(string $str)
-	{
-		return preg_match('/^[a-zA-Z0-9\-]{1,100}$/', $str);
-	}
+    /**
+     * @param string $str
+     * @return bool|int
+     */
+    public function checkInputString(string $str)
+    {
+        return preg_match('/^[a-zA-Z0-9\-]{1,100}$/', $str);
+    }
 
-	/**
-	 * @param string $id
-	 * @param string|null $default
-	 * @return string|null
-	 */
-	public function getParameter(string $id, ?string $default = null): ?string
-	{
-		if (isset($_GET[$id]) && $this->checkInputString($_GET[$id])) {
-			return $_GET[$id];
-		}
-		return $default;
-	}
+    /**
+     * @param string $id
+     * @param string|null $default
+     * @return string|null
+     */
+    public function getParameter(string $id, ?string $default = null): ?string
+    {
+        if (isset($_GET[$id]) && $this->checkInputString($_GET[$id])) {
+            return $_GET[$id];
+        }
+        return $default;
+    }
 
-	/**
-	 * @param string $id
-	 * @param int|null $default
-	 * @return int|null
-	 */
-	public function getParameterInteger(string $id, ?int $default = null): ?int
-	{
-		$par = $this->getParameter($id, false);
-		if ($par !== false && (is_int($par) || ctype_digit($par))) {
-			return (int) $par;
-		}
-		return $default;
-	}
+    /**
+     * @param string $id
+     * @param int|null $default
+     * @return int|null
+     */
+    public function getParameterInteger(string $id, ?int $default = null): ?int
+    {
+        $par = $this->getParameter($id, false);
+        if ($par !== false && (is_int($par) || ctype_digit($par))) {
+            return (int) $par;
+        }
+        return $default;
+    }
 
-	/**
-	 * @param string $id
-	 * @param int|null $default
-	 * @return int|null
-	 */
-	public function getParameterPositive(string $id, ?int $default = null): ?int
-	{
-		$par = $this->getParameterInteger($id, false);
-		if ($par !== false && $par > 0) {
-			return $par;
-		}
-		return $default;
-	}
+    /**
+     * @param string $id
+     * @param int|null $default
+     * @return int|null
+     */
+    public function getParameterPositive(string $id, ?int $default = null): ?int
+    {
+        $par = $this->getParameterInteger($id, false);
+        if ($par !== false && $par > 0) {
+            return $par;
+        }
+        return $default;
+    }
 
-	/**
-	 * Language handler
-	 *
-	 * @param string $key
-	 * @return string
-	 */
-	public static function txt(string $key): string
-	{
-		global $DIC;
-		return $DIC->language()->txt(ilNolejPlugin::PREFIX . "_" . $key);
-	}
+    /**
+     * Language handler
+     *
+     * @param string $key
+     * @return string
+     */
+    public static function txt(string $key): string
+    {
+        global $DIC;
+        return $DIC->language()->txt(ilNolejPlugin::PREFIX . "_" . $key);
+    }
 
-	/**
-	 * Get a configuration param from the database.
-	 *
-	 * @param string $id
-	 * @param ?string $default
-	 * @return ?string
-	 */
-	public function get(string $id, ?string $default = null): ?string
-	{
-		global $DIC;
+    /**
+     * Get a configuration param from the database.
+     *
+     * @param string $id
+     * @param ?string $default
+     * @return ?string
+     */
+    public function get(string $id, ?string $default = null): ?string
+    {
+        global $DIC;
 
-		if (isset(self::$config[$id])) {
-			return self::$config[$id];
-		}
+        if (isset(self::$config[$id])) {
+            return self::$config[$id];
+        }
 
-		$db = $DIC->database();
-		$res = $db->queryF(
-			"SELECT `value` FROM " . ilNolejPlugin::TABLE_CONFIG . " WHERE keyword = %s;",
-			array("text"),
-			array($id)
-		);
+        $db = $DIC->database();
+        $res = $db->queryF(
+            "SELECT `value` FROM " . ilNolejPlugin::TABLE_CONFIG . " WHERE keyword = %s;",
+            array("text"),
+            array($id)
+        );
 
-		if (!$res || $db->numRows($res) <= 0) {
-			return $default;
-		}
+        if (!$res || $db->numRows($res) <= 0) {
+            return $default;
+        }
 
-		$record = $db->fetchAssoc($res);
-		self::$config[$id] = $record["value"];
-		return $record["value"];
-	}
+        $record = $db->fetchAssoc($res);
+        self::$config[$id] = $record["value"];
+        return $record["value"];
+    }
 
-	/**
-	 * Store a configuration param to the database.
-	 *
-	 * @param string $id
-	 * @param string $value
-	 */
-	public function set(string $id, string $value): void
-	{
-		global $DIC;
+    /**
+     * Store a configuration param to the database.
+     *
+     * @param string $id
+     * @param string $value
+     */
+    public function set(string $id, string $value): void
+    {
+        global $DIC;
 
-		self::$config[$id] = $value;
+        self::$config[$id] = $value;
 
-		$db = $DIC->database();
-		$db->manipulateF(
-			"REPLACE INTO " . ilNolejPlugin::TABLE_CONFIG . " (keyword, value) VALUES (%s, %s);",
-			array("text", "text"),
-			array($id, $value)
-		);
-	}
+        $db = $DIC->database();
+        $db->manipulateF(
+            "REPLACE INTO " . ilNolejPlugin::TABLE_CONFIG . " (keyword, value) VALUES (%s, %s);",
+            array("text", "text"),
+            array($id, $value)
+        );
+    }
 
-	/**
-	 * Returns the directory where all Nolej
-	 * data is stored (transcriptions, activities, ...)
-	 *
-	 * @return string
-	 */
-	public static function dataDir(): string
-	{
-		return ilUtil::getWebspaceDir() . "/" . ilNolejPlugin::PLUGIN_ID . "/";
-	}
+    /**
+     * Returns the directory where all Nolej
+     * data is stored (transcriptions, activities, ...)
+     *
+     * @return string
+     */
+    public static function dataDir(): string
+    {
+        return ilUtil::getWebspaceDir() . "/" . ilNolejPlugin::PLUGIN_ID . "/";
+    }
 }

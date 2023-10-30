@@ -16,110 +16,110 @@ require_once "./Customizing/global/plugins/Services/Repository/RepositoryObject/
  */
 class ilNolejAPI
 {
-	public const API_URL = "https://api-dev.nolej.io";
+    public const API_URL = "https://api-dev.nolej.io";
 
-	/** @var string */
-	private $apikey;
+    /** @var string */
+    private $apikey;
 
-	/**
-	 * @param string $apikey
-	 */
-	public function __construct($apikey)
-	{
-		$this->apikey = $apikey;
-	}
+    /**
+     * @param string $apikey
+     */
+    public function __construct($apikey)
+    {
+        $this->apikey = $apikey;
+    }
 
-	/**
-	 * @param string $path
-	 * @param array $data
-	 * @param bool $decode
-	 */
-	public function post($path, $data = array(), $decode = true)
-	{
-		$data_json = json_encode($data);
-		$url = self::API_URL . $path;
+    /**
+     * @param string $path
+     * @param array $data
+     * @param bool $decode
+     */
+    public function post($path, $data = array(), $decode = true)
+    {
+        $data_json = json_encode($data);
+        $url = self::API_URL . $path;
 
-		$client = new GuzzleHttp\Client;
-		$response = $client->request("POST", $url, [
-			"headers" => [
-				"Authorization" => "X-API-KEY " . $this->apikey,
-				"User-Agent" => "ILIAS Plugin",
-				"Content-Type" => "application/json"
-			],
-			"body" => $data_json
-		]);
+        $client = new GuzzleHttp\Client;
+        $response = $client->request("POST", $url, [
+            "headers" => [
+                "Authorization" => "X-API-KEY " . $this->apikey,
+                "User-Agent" => "ILIAS Plugin",
+                "Content-Type" => "application/json"
+            ],
+            "body" => $data_json
+        ]);
 
-		if (!$decode) {
-			return $response->getBody();
-		}
+        if (!$decode) {
+            return $response->getBody();
+        }
 
-		$object = json_decode($response->getBody());
-		return $object !== null ? $object : $response->getBody();
-	}
+        $object = json_decode($response->getBody());
+        return $object !== null ? $object : $response->getBody();
+    }
 
-	/**
-	 * Put to Nolej server
-	 * @param string $path
-	 * @param mixed $data
-	 * @param bool $encode input's data
-	 * @param bool $decode output
-	 */
-	public function put($path, $data = array(), $encode = false, $decode = true)
-	{
-		$data_json = $encode ? json_encode($data) : $data;
-		$url = self::API_URL . $path;
+    /**
+     * Put to Nolej server
+     * @param string $path
+     * @param mixed $data
+     * @param bool $encode input's data
+     * @param bool $decode output
+     */
+    public function put($path, $data = array(), $encode = false, $decode = true)
+    {
+        $data_json = $encode ? json_encode($data) : $data;
+        $url = self::API_URL . $path;
 
-		$client = new GuzzleHttp\Client;
-		$response = $client->request("PUT", $url, [
-			"headers" => [
-				"Authorization" => "X-API-KEY " . $this->apikey,
-				"User-Agent" => "ILIAS Plugin",
-				"Content-Type" => "application/json"
-			],
-			"body" => $data_json
-		]);
+        $client = new GuzzleHttp\Client;
+        $response = $client->request("PUT", $url, [
+            "headers" => [
+                "Authorization" => "X-API-KEY " . $this->apikey,
+                "User-Agent" => "ILIAS Plugin",
+                "Content-Type" => "application/json"
+            ],
+            "body" => $data_json
+        ]);
 
-		if (!$decode) {
-			return $response->getBody();
-		}
+        if (!$decode) {
+            return $response->getBody();
+        }
 
-		$object = json_decode($response->getBody());
-		return $object !== null ? $object : $response->getBody();
-	}
+        $object = json_decode($response->getBody());
+        return $object !== null ? $object : $response->getBody();
+    }
 
-	/**
-	 * @param string $path
-	 * @param mixed $data
-	 * @param bool $encodeInput
-	 * @param bool $decodeOutput
-	 * 
-	 * @return object|string return the result given by Nolej. If
-	 * $decodeOutput is true, treat the result as json object and decode it.
-	 */
-	public function get(
-		$path,
-		$data = "",
-		$encodeInput = false,
-		$decodeOutput = true
-	) {
-		$url = self::API_URL . $path;
-		$encodedData = $encodeInput ? json_encode($data) : $data;
+    /**
+     * @param string $path
+     * @param mixed $data
+     * @param bool $encodeInput
+     * @param bool $decodeOutput
+     * 
+     * @return object|string return the result given by Nolej. If
+     * $decodeOutput is true, treat the result as json object and decode it.
+     */
+    public function get(
+        $path,
+        $data = "",
+        $encodeInput = false,
+        $decodeOutput = true
+    ) {
+        $url = self::API_URL . $path;
+        $encodedData = $encodeInput ? json_encode($data) : $data;
 
-		$client = new GuzzleHttp\Client;
-		$response = $client->request("GET", $url, [
-			"headers" => [
-				"Authorization" => "X-API-KEY " . $this->apikey,
-				"User-Agent" => "ILIAS Plugin",
-				"Content-Type" => "application/json"
-			],
-			"body" => $encodedData
-		]);
+        $client = new GuzzleHttp\Client;
+        $response = $client->request("GET", $url, [
+            "headers" => [
+                "Authorization" => "X-API-KEY " . $this->apikey,
+                "User-Agent" => "ILIAS Plugin",
+                "Content-Type" => "application/json"
+            ],
+            "body" => $encodedData
+        ]);
 
-		if (!$decodeOutput) {
-			return $response->getBody();
-		}
+        if (!$decodeOutput) {
+            return $response->getBody();
+        }
 
-		$object = json_decode($response->getBody());
-		return $object !== null ? $object : $response->getBody();
-	}
+        $object = json_decode($response->getBody());
+        return $object !== null ? $object : $response->getBody();
+    }
 }

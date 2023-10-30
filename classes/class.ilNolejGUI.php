@@ -18,190 +18,190 @@ require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/
  */
 class ilNolejGUI
 {
-	const CMD_SHOW_MODULES = "showModules";
-	const CMD_FILTER_APPLY = "applyFilter";
-	const CMD_FILTER_RESET = "resetFilter";
+    const CMD_SHOW_MODULES = "showModules";
+    const CMD_FILTER_APPLY = "applyFilter";
+    const CMD_FILTER_RESET = "resetFilter";
 
-	const TAB_MODULES = "modules";
+    const TAB_MODULES = "modules";
 
-	/** @var ilCtrl */
-	protected $ctrl;
+    /** @var ilCtrl */
+    protected $ctrl;
 
-	/** @var ilTabsGUI */
-	protected $tabs;
+    /** @var ilTabsGUI */
+    protected $tabs;
 
-	/** @var ilDBInterface */
-	protected $db;
+    /** @var ilDBInterface */
+    protected $db;
 
-	/** @var ilLanguage */
-	protected $lng;
+    /** @var ilLanguage */
+    protected $lng;
 
-	/** @var ilNolejConfig */
-	protected $config;
+    /** @var ilNolejConfig */
+    protected $config;
 
 
-	public function __construct()
-	{
-		global $DIC, $tpl;
-		$this->ctrl = $DIC->ctrl();
-		$this->tabs = $DIC->tabs();
-		$this->db = $DIC->database();
-		$this->lng = $DIC->language();
+    public function __construct()
+    {
+        global $DIC, $tpl;
+        $this->ctrl = $DIC->ctrl();
+        $this->tabs = $DIC->tabs();
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
 
-		$this->config = new ilNolejConfig();
-	}
+        $this->config = new ilNolejConfig();
+    }
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	protected function txt(string $key): string
-	{
-		return $this->config->txt($key);
-	}
+    /**
+     * @param string $key
+     * @return string
+     */
+    protected function txt(string $key): string
+    {
+        return $this->config->txt($key);
+    }
 
-	/**
-	 * Handles all commmands,
-	 * $cmd = functionName()
-	 */
-	public function executeCommand()
-	{
-		global $tpl;
-		$cmd = ($this->ctrl->getCmd()) ? $this->ctrl->getCmd() : self::CMD_SHOW_MODULES;
+    /**
+     * Handles all commmands,
+     * $cmd = functionName()
+     */
+    public function executeCommand()
+    {
+        global $tpl;
+        $cmd = ($this->ctrl->getCmd()) ? $this->ctrl->getCmd() : self::CMD_SHOW_MODULES;
 
-		$tpl->loadStandardTemplate();
-		$tpl->setTitleIcon(ilNolejPlugin::PLUGIN_DIR . "/templates/images/icon_xnlj.svg");
-		$tpl->setTitle($this->txt("plugin_title"), false);
+        $tpl->loadStandardTemplate();
+        $tpl->setTitleIcon(ilNolejPlugin::PLUGIN_DIR . "/templates/images/icon_xnlj.svg");
+        $tpl->setTitle($this->txt("plugin_title"), false);
 
-		switch ($cmd) {
-			// Need to have permission to access modules
-			case self::CMD_SHOW_MODULES:
-			case self::CMD_FILTER_APPLY:
-			case self::CMD_FILTER_RESET:
-				$this->$cmd();
-				break;
+        switch ($cmd) {
+            // Need to have permission to access modules
+            case self::CMD_SHOW_MODULES:
+            case self::CMD_FILTER_APPLY:
+            case self::CMD_FILTER_RESET:
+                $this->$cmd();
+                break;
 
-			default:
-				$this->showModules();
-		}
+            default:
+                $this->showModules();
+        }
 
-		$tpl->printToStdout();
+        $tpl->printToStdout();
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Init and activate tabs
-	 */
-	protected function initTabs($active_tab = null)
-	{
-		global $tpl;
+    /**
+     * Init and activate tabs
+     */
+    protected function initTabs($active_tab = null)
+    {
+        global $tpl;
 
-		$this->tabs->addTab(
-			self::TAB_MODULES,
-			$this->txt("tab_" . self::TAB_MODULES),
-			$this->ctrl->getLinkTarget($this, self::CMD_SHOW_MODULES)
-		);
+        $this->tabs->addTab(
+            self::TAB_MODULES,
+            $this->txt("tab_" . self::TAB_MODULES),
+            $this->ctrl->getLinkTarget($this, self::CMD_SHOW_MODULES)
+        );
 
-		switch ($active_tab) {
-			case self::TAB_MODULES:
-				$this->tabs->activateTab($active_tab);
-				$tpl->setTitle($this->txt("plugin_title") . ": " . $this->txt("tab_" . $active_tab), false);
-				break;
+        switch ($active_tab) {
+            case self::TAB_MODULES:
+                $this->tabs->activateTab($active_tab);
+                $tpl->setTitle($this->txt("plugin_title") . ": " . $this->txt("tab_" . $active_tab), false);
+                break;
 
-			default:
-				$this->tabs->activateTab(self::TAB_MODULES);
-				$tpl->setTitle($this->txt("plugin_title") . ": " . $this->txt("tab_" . self::TAB_MODULES), false);
-		}
+            default:
+                $this->tabs->activateTab(self::TAB_MODULES);
+                $tpl->setTitle($this->txt("plugin_title") . ": " . $this->txt("tab_" . self::TAB_MODULES), false);
+        }
 
-		$tpl->setDescription($this->txt("plugin_description"));
-	}
+        $tpl->setDescription($this->txt("plugin_description"));
+    }
 
-	protected function getPermalinkGUI($idPartner, $idCourse)
-	{
-		$tpl = new ilTemplate(
-			"tpl.permanent_link.html",
-			true,
-			true,
-			"Services/PermanentLink"
-		);
+    protected function getPermalinkGUI($idPartner, $idCourse)
+    {
+        $tpl = new ilTemplate(
+            "tpl.permanent_link.html",
+            true,
+            true,
+            "Services/PermanentLink"
+        );
 
-		include_once('./Services/Link/classes/class.ilLink.php');
-		$href = $this->config->getPermalink($idPartner, $idCourse);
+        include_once('./Services/Link/classes/class.ilLink.php');
+        $href = $this->config->getPermalink($idPartner, $idCourse);
 
-		$tpl->setVariable("LINK", $href);
-		$tpl->setVariable("ALIGN", "left");
+        $tpl->setVariable("LINK", $href);
+        $tpl->setVariable("ALIGN", "left");
 
-		return $tpl->get();
-	}
+        return $tpl->get();
+    }
 
-	/**
-	 * @return string
-	 */
-	public function buildIcon($id, $alt = "")
-	{
-		return '<img border="0" align="middle"'
-		. ' src="' . ilUtil::getImagePath($id . ".svg") . '"'
-		. ' alt="' . ($alt == "" ? "" : $this->lng->txt($alt)) . '" /> ';
-	}
+    /**
+     * @return string
+     */
+    public function buildIcon($id, $alt = "")
+    {
+        return '<img border="0" align="middle"'
+        . ' src="' . ilUtil::getImagePath($id . ".svg") . '"'
+        . ' alt="' . ($alt == "" ? "" : $this->lng->txt($alt)) . '" /> ';
+    }
 
-	public function showModules()
-	{
-		// TODO
-	}
+    public function showModules()
+    {
+        // TODO
+    }
 
-	/**
-	 * Apply filter
-	 */
-	public function applyFilter()
-	{
-		$this->config->applyFilter();
-		$this->showModules();
-	}
+    /**
+     * Apply filter
+     */
+    public function applyFilter()
+    {
+        $this->config->applyFilter();
+        $this->showModules();
+    }
 
-	/**
-	 * Reset filter
-	 */
-	public function resetFilter()
-	{
-		$this->config->resetFilter();
-		$this->showModules();
-	}
+    /**
+     * Reset filter
+     */
+    public function resetFilter()
+    {
+        $this->config->resetFilter();
+        $this->showModules();
+    }
 
-	public function addUserAutoComplete()
-	{
-		// include_once './Services/User/classes/class.ilUserAutoComplete.php';
-		// $auto = new ilUserAutoComplete();
-		// $auto->addUserAccessFilterCallable([$this, 'filterUserIdsByRbacOrPositionOfCurrentUser']);
-		// $auto->setSearchFields(array(
-		// 	'login',
-		// 	'firstname',
-		// 	'lastname',
-		// 	'email')); // , 'second_email'
-		// $auto->enableFieldSearchableCheck(false);
-		// $auto->setMoreLinkAvailable(true);
-		//
-		// if (($_REQUEST['fetchall'])) {
-		// 	$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-		// }
-		//
-		// echo $auto->getList($_REQUEST['term']);
-		// exit();
-	}
+    public function addUserAutoComplete()
+    {
+        // include_once './Services/User/classes/class.ilUserAutoComplete.php';
+        // $auto = new ilUserAutoComplete();
+        // $auto->addUserAccessFilterCallable([$this, 'filterUserIdsByRbacOrPositionOfCurrentUser']);
+        // $auto->setSearchFields(array(
+        // 	'login',
+        // 	'firstname',
+        // 	'lastname',
+        // 	'email')); // , 'second_email'
+        // $auto->enableFieldSearchableCheck(false);
+        // $auto->setMoreLinkAvailable(true);
+        //
+        // if (($_REQUEST['fetchall'])) {
+        // 	$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
+        // }
+        //
+        // echo $auto->getList($_REQUEST['term']);
+        // exit();
+    }
 
-	/**
-	 * @param int[] $user_ids
-	 */
-	public function filterUserIdsByRbacOrPositionOfCurrentUser($user_ids = [])
-	{
-		// global $DIC;
-		// $access = $DIC->access();
-		//
-		// return $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-		// 	'read_users',
-		// 	\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-		// 	USER_FOLDER_ID,
-		// 	$user_ids
-		// );
-	}
+    /**
+        * @param int[] $user_ids
+        */
+    public function filterUserIdsByRbacOrPositionOfCurrentUser($user_ids = [])
+    {
+        // global $DIC;
+        // $access = $DIC->access();
+        //
+        // return $access->filterUserIdsByRbacOrPositionOfCurrentUser(
+        // 	'read_users',
+        // 	\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+        // 	USER_FOLDER_ID,
+        // 	$user_ids
+        // );
+    }
 }
