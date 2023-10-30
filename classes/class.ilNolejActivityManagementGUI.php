@@ -1607,8 +1607,19 @@ class ilNolejActivityManagementGUI
         }
 
         $form = $this->initSummaryForm();
-
         $tpl->setContent($form->getHTML());
+
+        if ($this->status == self::STATUS_REVISION) {
+            $toolbar = new ilToolbarGUI();
+
+            $toolbar->addText($this->txt("cmd_review_info"));
+            $toolbar->addButton(
+                $this->txt("cmd_review"),
+                $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
+            );
+
+            $tpl->setRightContent($toolbar->getHTML());
+        }
     }
 
     public function saveSummary()
@@ -1855,8 +1866,23 @@ class ilNolejActivityManagementGUI
             $i++;
         }
         $wf = $f->linear($this->txt("questions_question_type"), $steps);
+
+        $toolbarHtml = "";
+        if ($this->status == self::STATUS_REVISION) {
+            $toolbar = new ilToolbarGUI();
+
+            $toolbar->addText($this->txt("cmd_review_info"));
+            $toolbar->addButton(
+                $this->txt("cmd_review"),
+                $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
+            );
+
+            $toolbarHtml = $toolbar->getHTML();
+        }
+
         $tpl->setRightContent(
             $renderer->render($wf->withActive($selectedIndex))
+            . $toolbarHtml
         );
 
         $form->addCommandButton(self::CMD_QUESTIONS_SAVE, $this->txt("cmd_save"));
@@ -1894,7 +1920,6 @@ class ilNolejActivityManagementGUI
         }
 
         $form = $this->initQuestionsForm();
-
         $tpl->setContent($form->getHTML());
     }
 
@@ -2165,8 +2190,19 @@ class ilNolejActivityManagementGUI
         }
 
         $form = $this->initConceptsForm();
-
         $tpl->setContent($form->getHTML());
+
+        if ($this->status == self::STATUS_REVISION) {
+            $toolbar = new ilToolbarGUI();
+
+            $toolbar->addText($this->txt("cmd_review_info"));
+            $toolbar->addButton(
+                $this->txt("cmd_review"),
+                $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
+            );
+
+            $tpl->setRightContent($toolbar->getHTML());
+        }
     }
 
     public function saveConcepts()
