@@ -345,6 +345,18 @@ class ilNolejActivityManagementGUI
 							: $step::SUCCESSFULLY
 				),
 			$f->step(
+			$this->txt("action_transcription"),
+			$this->glyphicon("refresh gly-spin")
+			)
+				->withAvailability($step::NOT_AVAILABLE) // Always not available
+				->withStatus(
+					$this->status == self::STATUS_CREATION
+						? $step::NOT_STARTED
+						: $this->status == self::STATUS_CREATION_PENDING
+							? $step::IN_PROGRESS
+							: $step::SUCCESSFULLY
+				),
+			$f->step(
 				$this->txt(self::TAB_ANALYSIS),
 				"",
 				$this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
