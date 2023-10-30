@@ -48,6 +48,7 @@ class ilNolejActivityManagementGUI
     const CMD_CONCEPTS_SAVE = "saveConcepts";
     const CMD_ACTIVITIES = "activities";
     const CMD_GENERATE = "generate";
+    const CMD_CHECK_UPDATES = "checkUpdates";
 
     const TAB_CREATION = "tab_creation";
     const TAB_ANALYSIS = "tab_analysis";
@@ -217,6 +218,7 @@ class ilNolejActivityManagementGUI
                     case self::CMD_REVIEW:
                     case self::CMD_ACTIVITIES:
                     case self::CMD_GENERATE:
+                    case self::CMD_CHECK_UPDATES:
                         if ($this->gui_obj != null) {
                             $this->printWorkflow($cmd);
                             $this->$cmd();
@@ -284,7 +286,8 @@ class ilNolejActivityManagementGUI
             return;
         }
 
-        $tpl->addCss(ilNolejPlugin::PLUGIN_DIR . "/templates/default/nolej.css");
+        $tpl->addCss(ilNolejPlugin::PLUGIN_DIR . "/css/nolej.css");
+        $tpl->addJavaScript(ilNolejPlugin::PLUGIN_DIR . "/js/nolej.js");
 
         $step = $f->step('', '');
 
@@ -336,8 +339,12 @@ class ilNolejActivityManagementGUI
             $f->step(
                 $this->txt(self::TAB_CREATION),
                 $this->status == self::STATUS_CREATION_PENDING
-                    ? $this->glyphicon("refresh gly-spin") . $this->txt("action_transcription")
-                    : "",
+                    ? sprintf(
+                        "%s %s <script>checkNolejUpdates(%s)</script>",
+                        $this->glyphicon("refresh gly-spin"),
+                        $this->txt("action_transcription"),
+                        $this->ctrl->getLinkTarget($this, self::CMD_CREATION)
+                    ) : "",
                 $this->ctrl->getLinkTarget($this, self::CMD_CREATION)
             )
                 ->withAvailability($step::AVAILABLE) // Always available
@@ -473,6 +480,42 @@ class ilNolejActivityManagementGUI
         $mob->setRequired(true);
         $mob->setParent($this);
         return $mob;
+    }
+
+    /**
+     * Check for document updates; called via ajax request.
+     * Requires in GET the document ID and the status to be checked.
+     *
+     * Prints "reload" if there is an update; prints nothing otherwise.
+     */
+    protected function checkUpdates(): void
+    {
+        global $DIC;
+
+        if (!isset($_GET["document_id"], $_GET["status"])) {
+            exit(0);
+        }
+
+        $set = $this->db->queryF(
+            "SELECT `action` FROM " . ilNolejPlugin::TABLE_ACTIVITY
+            . " WHERE document_id = %s AND user_id = %s"
+            . " ORDER BY tstamp DESC",
+            ["text", "integer"],
+            [$_GET["document_id"], $DIC->user()->getId()]
+        );
+        $row = $this->db->fetchAssoc($set);
+        if (!$row) {
+            exit(0);
+        }
+
+        if (
+            $row["action"] == ($_GET["status"] . "_ok") ||
+            $row["action"] == ($_GET["status"] . "_ko")
+        ) {
+            echo "reload";
+        }
+
+        exit(0);
     }
 
     /**
