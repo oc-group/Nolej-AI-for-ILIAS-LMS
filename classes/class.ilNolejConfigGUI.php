@@ -266,9 +266,9 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
         }
 
         $now = strtotime("now");
-        $sql = "INSERT INTO " . ilNolejPlugin::TABLE_TIC . " (exchange_id, user_id, request_on, message, request_url) VALUES (%s, %s, %s, %s, %s);";
         $DIC->database()->manipulateF(
-            $sql,
+            "INSERT INTO " . ilNolejPlugin::TABLE_TIC . " (exchange_id, user_id, request_on, message, request_url)"
+            . " VALUES (%s, %s, %s, %s, %s);",
             ["text", "integer", "integer", "text", "text"],
             [$result->exchangeId, $DIC->user()->getId(), $now, $message, $webhookUrl]
         );
