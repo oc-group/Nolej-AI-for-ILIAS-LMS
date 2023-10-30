@@ -1472,15 +1472,29 @@ class ilNolejActivityManagementGUI
 
     public function revision()
     {
+        global $DIC, $tpl;
+
         $status = $this->status;
 
         if ($status < self::STATUS_ANALISYS) {
-            ilUtil::sendInfo($this->txt("err_transcription_not_ready"));
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_transcription_not_ready"))
+                )
+            );
             return;
         }
 
         if ($status < self::STATUS_REVISION) {
-            ilUtil::sendInfo($this->txt("err_analysis_not_ready"));
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_analysis_not_ready"))
+                )
+            );
             return;
         }
 
@@ -1596,7 +1610,32 @@ class ilNolejActivityManagementGUI
 
     public function summary()
     {
-        global $tpl;
+        global $DIC, $tpl;
+
+        $status = $this->status;
+
+        if ($status < self::STATUS_ANALISYS) {
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_transcription_not_ready"))
+                )
+            );
+            return;
+        }
+
+        if ($status < self::STATUS_REVISION) {
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_analysis_not_ready"))
+                )
+            );
+            return;
+        }
+
         $form = $this->initSummaryForm();
 
         $tpl->setContent($form->getHTML());
@@ -1604,7 +1643,21 @@ class ilNolejActivityManagementGUI
 
     public function saveSummary()
     {
-        global $tpl;
+        global $DIC, $tpl;
+
+        $status = $this->status;
+
+        if ($status < self::STATUS_REVISION) {
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_analysis_not_ready"))
+                )
+            );
+            return;
+        }
+
         $form = $this->initSummaryForm(true);
         if (!$form->checkInput()) {
             // input not ok, then
@@ -1844,7 +1897,32 @@ class ilNolejActivityManagementGUI
 
     public function questions()
     {
-        global $tpl;
+        global $DIC, $tpl;
+
+        $status = $this->status;
+
+        if ($status < self::STATUS_ANALISYS) {
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_transcription_not_ready"))
+                )
+            );
+            return;
+        }
+
+        if ($status < self::STATUS_REVISION) {
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_analysis_not_ready"))
+                )
+            );
+            return;
+        }
+
         $form = $this->initQuestionsForm();
 
         $tpl->setContent($form->getHTML());
@@ -1852,7 +1930,21 @@ class ilNolejActivityManagementGUI
 
     public function saveQuestions()
     {
-        global $tpl;
+        global $DIC, $tpl;
+
+        $status = $this->status;
+
+        if ($status < self::STATUS_REVISION) {
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_analysis_not_ready"))
+                )
+            );
+            return;
+        }
+
         $form = $this->initQuestionsForm(true);
         if (!$form->checkInput()) {
             // input not ok, then
@@ -2076,7 +2168,32 @@ class ilNolejActivityManagementGUI
 
     public function concepts()
     {
-        global $tpl;
+        global $DIC, $tpl;
+
+        $status = $this->status;
+
+        if ($status < self::STATUS_ANALISYS) {
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_transcription_not_ready"))
+                )
+            );
+            return;
+        }
+
+        if ($status < self::STATUS_REVISION) {
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_analysis_not_ready"))
+                )
+            );
+            return;
+        }
+
         $form = $this->initConceptsForm();
 
         $tpl->setContent($form->getHTML());
@@ -2084,7 +2201,21 @@ class ilNolejActivityManagementGUI
 
     public function saveConcepts()
     {
-        global $tpl;
+        global $DIC, $tpl;
+
+        $status = $this->status;
+
+        if ($status < self::STATUS_REVISION) {
+            $f = $DIC->ui()->factory();
+            $renderer = $DIC->ui()->renderer();
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_analysis_not_ready"))
+                )
+            );
+            return;
+        }
+
         $form = $this->initConceptsForm(true);
         if (!$form->checkInput()) {
             // input not ok, then
