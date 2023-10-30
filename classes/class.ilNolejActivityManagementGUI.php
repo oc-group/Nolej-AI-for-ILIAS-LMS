@@ -121,6 +121,9 @@ class ilNolejActivityManagementGUI
     protected $defaultCmd;
 
     /** @var string */
+    protected $cmd;
+
+    /** @var string */
     protected $documentId;
 
     /** @var string */
@@ -219,6 +222,7 @@ class ilNolejActivityManagementGUI
                     case self::CMD_ACTIVITIES:
                     case self::CMD_GENERATE:
                     case self::CMD_CHECK_UPDATES:
+                        $this->cmd = $cmd;
                         if ($this->gui_obj != null) {
                             $this->printWorkflow($cmd);
                             $this->$cmd();
@@ -227,6 +231,7 @@ class ilNolejActivityManagementGUI
 
                     default:
                         $cmd = $this->defaultCmd;
+                        $this->cmd = $cmd;
                         $this->printWorkflow($cmd);
                         $this->$cmd();
                 }
@@ -1226,6 +1231,7 @@ class ilNolejActivityManagementGUI
             [$newStatus, $this->documentId]
         );
         $this->statusCheck();
+        $this->printWorkflow($this->cmd);
     }
 
     /**
@@ -2278,6 +2284,7 @@ class ilNolejActivityManagementGUI
 
     public function review()
     {
+        $this->cmd = self::CMD_ACTIVITIES;
         $this->updateDocumentStatus(self::STATUS_ACTIVITIES);
 
         // Go to activities
