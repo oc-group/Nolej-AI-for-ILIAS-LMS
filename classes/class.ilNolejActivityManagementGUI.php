@@ -1470,57 +1470,6 @@ class ilNolejActivityManagementGUI
         $this->ctrl->redirect($this, self::CMD_REVISION);
     }
 
-    /**
-     * Init and activate tabs
-     */
-    protected function initRevisionSubTabs($active_subtab = null)
-    {
-        global $tpl;
-
-        $this->tabs->addSubTab(
-            self::SUBTAB_SUMMARY,
-            $this->txt(self::SUBTAB_SUMMARY),
-            $this->ctrl->getLinkTarget($this, self::CMD_SUMMARY)
-        );
-
-        $this->tabs->addSubTab(
-            self::SUBTAB_QUESTIONS,
-            $this->txt(self::SUBTAB_QUESTIONS),
-            $this->ctrl->getLinkTarget($this, self::CMD_QUESTIONS)
-        );
-
-        $this->tabs->addSubTab(
-            self::SUBTAB_CONCEPTS,
-            $this->txt(self::SUBTAB_CONCEPTS),
-            $this->ctrl->getLinkTarget($this, self::CMD_CONCEPTS)
-        );
-
-        if ($this->status == self::STATUS_REVISION) {
-            $toolbar = new ilToolbarGUI();
-
-            $toolbar->addText($this->txt("cmd_review_info"));
-            $toolbar->addButton(
-                $this->txt("cmd_review"),
-                $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
-            );
-
-            $tpl->setRightContent($toolbar->getHTML());
-        }
-
-        switch ($active_subtab) {
-            case self::SUBTAB_QUESTIONS:
-            case self::SUBTAB_CONCEPTS:
-                $this->tabs->activateSubTab($active_subtab);
-                break;
-
-            case self::SUBTAB_SUMMARY:
-            default:
-                $this->tabs->activateSubTab(self::SUBTAB_SUMMARY);
-        }
-
-        // $tpl->setDescription($this->txt("plugin_description"));
-    }
-
     public function revision()
     {
         $status = $this->status;
@@ -1648,7 +1597,6 @@ class ilNolejActivityManagementGUI
     public function summary()
     {
         global $tpl;
-        // $this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
         $form = $this->initSummaryForm();
 
         $tpl->setContent($form->getHTML());
@@ -1660,7 +1608,6 @@ class ilNolejActivityManagementGUI
         $form = $this->initSummaryForm(true);
         if (!$form->checkInput()) {
             // input not ok, then
-            // $this->initRevisionSubTabs(self::SUBTAB_SUMMARY);
             $tpl->setContent($form->getHTML());
             return;
         }
@@ -1898,7 +1845,6 @@ class ilNolejActivityManagementGUI
     public function questions()
     {
         global $tpl;
-        // $this->initRevisionSubTabs(self::SUBTAB_QUESTIONS);
         $form = $this->initQuestionsForm();
 
         $tpl->setContent($form->getHTML());
@@ -1910,7 +1856,6 @@ class ilNolejActivityManagementGUI
         $form = $this->initQuestionsForm(true);
         if (!$form->checkInput()) {
             // input not ok, then
-            // $this->initRevisionSubTabs(self::SUBTAB_QUESTIONS);
             $tpl->setContent($form->getHTML());
             return;
         }
@@ -2132,7 +2077,6 @@ class ilNolejActivityManagementGUI
     public function concepts()
     {
         global $tpl;
-        // $this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
         $form = $this->initConceptsForm();
 
         $tpl->setContent($form->getHTML());
@@ -2144,7 +2088,6 @@ class ilNolejActivityManagementGUI
         $form = $this->initConceptsForm(true);
         if (!$form->checkInput()) {
             // input not ok, then
-            // $this->initRevisionSubTabs(self::SUBTAB_CONCEPTS);
             $tpl->setContent($form->getHTML());
             return;
         }
