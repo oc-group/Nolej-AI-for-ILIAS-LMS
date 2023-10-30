@@ -284,6 +284,8 @@ class ilNolejActivityManagementGUI
             return;
         }
 
+        $tpl->addCss(ilNolejPlugin::PLUGIN_DIR . "/templates/default/nolej.css");
+
         $step = $f->step('', '');
 
         $revisionSteps = [
