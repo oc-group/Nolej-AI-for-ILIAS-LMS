@@ -444,7 +444,7 @@ class ilNolejActivityManagementGUI
 	 */
 	protected function glyphicon($id)
 	{
-		return "<span class=\"glyphicon glyphicon-$id \" aria-hidden=\"true\"></span> ";
+		return "<span class=\"glyphicon glyphicon-" . $id . "\" aria-hidden=\"true\"></span> ";
 	}
 
 	/**
