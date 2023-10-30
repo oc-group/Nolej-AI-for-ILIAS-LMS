@@ -407,7 +407,15 @@ class ilNolejActivityManagementGUI
                 ),
             $f->step(
                 $this->txt(self::TAB_ACTIVITIES),
-                "",
+                $this->status == self::STATUS_ACTIVITIES_PENDING
+                    ? sprintf(
+                        "%s %s <script>checkNolejUpdates('%s')</script>",
+                        $this->glyphicon("refresh gly-spin"),
+                        $this->txt("action_activities"),
+                        $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
+                        . "&document_id=" . $this->documentId
+                        . "&status=activities"
+                    ) : "",
                 $this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
             )
                 ->withAvailability(
@@ -2865,26 +2873,46 @@ class ilNolejActivityManagementGUI
         */
     public function activities($hideInfo = false)
     {
-        global $tpl;
+        global $DIC, $tpl;
+
+        $f = $DIC->ui()->factory();
+        $renderer = $DIC->ui()->renderer();
         $status = $this->status;
 
         if ($status < self::STATUS_ANALISYS) {
-            ilUtil::sendInfo($this->txt("err_transcription_not_ready"));
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_transcription_not_ready"))
+                )
+            );
             return;
         }
 
         if ($status < self::STATUS_REVISION) {
-            ilUtil::sendInfo($this->txt("err_analysis_not_ready"));
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_analysis_not_ready"))
+                )
+            );
             return;
         }
 
         if ($status < self::STATUS_ACTIVITIES) {
-            ilUtil::sendInfo($this->txt("err_review_not_ready"));
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("err_review_not_ready"))
+                )
+            );
             return;
         }
 
         if (!$hideInfo && $status == self::STATUS_ACTIVITIES_PENDING) {
-            ilUtil::sendInfo($this->txt("activities_generation_start"));
+            $tpl->setContent(
+                $renderer->render(
+                    $f->messageBox()->info($this->txt("activities_generation_start"))
+                )
+            );
+            return;
         }
 
         $form = $this->initActivitiesForm();
