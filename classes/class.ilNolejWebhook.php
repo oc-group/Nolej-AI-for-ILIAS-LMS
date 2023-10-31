@@ -177,6 +177,37 @@ class ilNolejWebhook
     {
         global $DIC;
 
+        if (!isset($this->data["documentID"])) {
+            $this->die_message(400, "documentID not valid.");
+        }
+        if (!isset($this->data["status"])) {
+            $this->die_message(400, "status not valid.");
+        }
+        if (!isset($this->data["code"])) {
+            $this->die_message(400, "code not valid.");
+        }
+        if (!isset($this->data["error_message"])) {
+            $this->die_message(400, "error_message not valid.");
+        }
+        if (!isset($this->data["consumedCredit"])) {
+            $this->die_message(400, "consumedCredit not valid.");
+        }
+        if (!is_string($this->data["documentID"])) {
+            $this->die_message(400, "documentID not is_string.");
+        }
+        if (!is_string($this->data["status"])) {
+            $this->die_message(400, "status not is_string.");
+        }
+        if (!is_string($this->data["code"])) {
+            $this->die_message(400, "code not is_string.");
+        }
+        if (!is_integer($this->data["error_message"])) {
+            $this->die_message(400, "error_message not is_int.");
+        }
+        if (!is_integer($this->data["consumedCredit"])) {
+            $this->die_message(400, "consumedCredit not is_int.");
+        }
+
         if (
             !isset(
                 $this->data["documentID"],
