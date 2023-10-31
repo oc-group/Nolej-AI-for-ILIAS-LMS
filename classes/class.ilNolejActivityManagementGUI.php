@@ -2647,7 +2647,7 @@ class ilNolejActivityManagementGUI
 
     public function generate()
     {
-        global $tpl;
+        global $DIC, $tpl;
         $form = $this->initActivitiesForm(true);
         if (!$form->checkInput()) {
             // input not ok, then
@@ -2768,6 +2768,13 @@ class ilNolejActivityManagementGUI
             $this->activities();
             return;
         }
+
+        $ass = new NolejActivity($this->documentId, $DIC->user()->getId(), "activities");
+        $ass->withStatus("ok")
+            ->withCode(0)
+            ->withErrorMessage("")
+            ->withConsumedCredit(0)
+            ->store();
 
         ilUtil::sendSuccess($this->txt("activities_generation_start"));
         $tpl->setContent($form->getHTML());
