@@ -2842,6 +2842,24 @@ class ilNolejActivityManagementGUI
     }
 
     /**
+     * Get the obj_id from the document_id
+     * @param int $documentId
+     * @return int
+     */
+    public function getObjIdFromDocumentId($documentId) {
+        $result = $this->db->queryF(
+            "SELECT id FROM " . ilNolejPlugin::TABLE_DATA
+            . " WHERE document_id = %s",
+            ["integer"],
+            [$documentId]
+        );
+        if ($row = $this->db->fetchAssoc($result)) {
+            return $row["id"];
+        }
+        return -1;
+    }
+
+    /**
      * @param string $h5pDir directory where are located h5p activities
      * @param string $type of h5p activity to import
      * @param int $time
@@ -2893,7 +2911,7 @@ class ilNolejActivityManagementGUI
                 "title" => $h5p_kernel->mainJsonData["title"] ?? $this->txt("activities_" . $type),
                 "yearFrom" => $h5p_kernel->mainJsonData["yearFrom"],
                 "yearTo" => $h5p_kernel->mainJsonData["yearTo"],
-                "obj_id" => $this->gui_obj->object->getId(),
+                "obj_id" => $this->getObjIdFromDocumentId($this->documentId),
                 "parent_type" => ilNolejPlugin::PLUGIN_ID,
                 "in_workspace" => false
             ]
