@@ -45,7 +45,7 @@ require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
  */
 class ilNolejActivityManagementGUI
 {
-    use H5PTrait;
+    // use H5PTrait;
 
     const CMD_CREATION = "creation";
     const CMD_CREATE = "create";
