@@ -16,21 +16,11 @@ require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilObjNolejGUI.php");
 
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
-
-use srag\DIC\H5P\DICTrait;
-use srag\Plugins\H5P\Content\Content;
-use srag\Plugins\H5P\Content\Editor\EditContentFormGUI;
-use srag\Plugins\H5P\Content\Editor\ImportContentFormGUI;
-use srag\Plugins\H5P\Utils\H5PTrait;
-
 /**
  * Repository plugin object class
  */
 class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 {
-    use H5PTrait;
 
     /** @var bool */
     protected $online;
