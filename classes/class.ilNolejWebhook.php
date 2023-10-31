@@ -83,6 +83,15 @@ class ilNolejWebhook
                 $this->checkActivities();
                 break;
 
+            case "work in progress":
+                $this->log("Received work in progress.");
+                global $DIC;
+                if (!$DIC->user()->isAnonymous()) {
+                    ilUtil::sendInfo(ilNolejConfig::txt("work_in_progress"));
+                    return;
+                }
+                break;
+
             default:
                 $this->log("Received invalid action: " . var_export($data, true));
         }

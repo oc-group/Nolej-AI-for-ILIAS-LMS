@@ -215,6 +215,7 @@ tac_received#:#TAC received!
 tac_received_info#:#TAC with exchange ID %s has been received on %s.
 tic_sent#:#TIC sent.
 update_successful#:#Update Successful
+work_in_progress#:#Nolej AI is working for you. Please wait a bit more.
 xnlj_add#:#Create
 xnlj_delete#:#Delete: User can move or delete Nolej objects
 xnlj_edit_permission#:#Change Permissions: User can change permission settings
