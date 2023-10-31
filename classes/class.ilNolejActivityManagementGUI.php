@@ -2853,11 +2853,13 @@ class ilNolejActivityManagementGUI
         $filePath = substr($filePath, 1);
         $absolutePath = ILIAS_ABSOLUTE_PATH . $filePath;
 
+        $logger = ilLoggerFactory::getLogger(ilNolejPlugin::PREFIX);
         if (is_file($absolutePath)) {
-            die("is file");
+            $logger->log("is file");
         } else {
-            die("is not file");
+            $logger->log("is not file");
         }
+        die();
 
         /** @var IContainer */
         $h5p_container = ilH5PPlugin::getInstance()->getContainer();
