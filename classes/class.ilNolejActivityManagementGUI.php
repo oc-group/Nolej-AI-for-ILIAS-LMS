@@ -13,14 +13,27 @@ require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
-
-use srag\DIC\H5P\DICTrait;
-use srag\Plugins\H5P\Content\Content;
-use srag\Plugins\H5P\Content\Editor\EditContentFormGUI;
-use srag\Plugins\H5P\Content\Editor\ImportContentFormGUI;
-use srag\Plugins\H5P\Utils\H5PTrait;
+// use srag\Plugins\H5P\Content\Form\ImportContentFormProcessor;
+// use srag\Plugins\H5P\Content\Form\ImportContentFormBuilder;
+// use srag\Plugins\H5P\Content\Form\EditContentFormBuilder;
+// use srag\Plugins\H5P\Content\Form\EditContentFormProcessor;
+// use srag\Plugins\H5P\Content\ContentEditorHelper;
+// use srag\Plugins\H5P\Content\ContentEditorData;
+// use srag\Plugins\H5P\Content\IContent;
+// use srag\Plugins\H5P\Content\Form\ContentPostProcessor;
+// use srag\Plugins\H5P\Content\Form\IPostProcessorAware;
+// use srag\Plugins\H5P\Form\IFormBuilder;
+// use srag\Plugins\H5P\ArrayBasedRequestWrapper;
+// use srag\Plugins\H5P\IRepositoryFactory;
+// use srag\Plugins\H5P\IRequestParameters;
+// use srag\Plugins\H5P\TemplateHelper;
+// use srag\Plugins\H5P\RequestHelper;
+// use srag\Plugins\H5P\ITranslator;
+// use srag\Plugins\H5P\IContainer;
+// use Psr\Http\Message\ServerRequestInterface;
+// use ILIAS\UI\Component\Input\Container\Form\Form;
+// use ILIAS\UI\Factory as ComponentFactory;
+// use srag\Plugins\H5P\Settings\IGeneralSettings;
 
 /**
  * GUI to manage every step of the Nolej module creation.
@@ -99,6 +112,8 @@ class ilNolejActivityManagementGUI
     const STATUS_ACTIVITIES_PENDING = 7;
     const STATUS_COMPLETED = 8;
 
+    const H5P_MAIN_AUTOLOAD = "./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php";
+
     /** @var ilCtrl */
     protected $ctrl;
 
@@ -159,6 +174,19 @@ class ilNolejActivityManagementGUI
             false
         );
         $tpl->setDescription($this->txt("plugin_description"));
+
+        if (!file_exists(self::H5P_MAIN_AUTOLOAD)) {
+            throw new LogicException("You cannot use this plugin without installing the H5P plugin first.");
+        }
+
+        if (!$this->isH5PPluginLoaded()) {
+            require_once(self::H5P_MAIN_AUTOLOAD);
+        }
+    }
+
+    private function isH5PPluginLoaded(): bool
+    {
+        return class_exists('ilH5PPlugin');
     }
 
     /**
@@ -2753,74 +2781,88 @@ class ilNolejActivityManagementGUI
     public function importH5PContent($h5pDir, $type, $now)
     {
         $filePath = sprintf("%s/%s.h5p", $h5pDir, $type);
-        self::h5p()
-            ->contents()
-            ->editor()
-            ->storageFramework()
-            ->saveFileTemporarily($filePath, true);
 
-        if (!self::h5p()->contents()->editor()->validatorCore()->isValidPackage()) {
-            return $this->txt("err_invalid_package");
-        }
+        // if (function_exists('curl_file_create')) { // php 5.5+
+        // $cFile = curl_file_create($file_name_with_full_path);
+        // } else { // 
+        // $cFile = '@' . realpath($file_name_with_full_path);
+        // }
+        // $post = array('extra_info' => '123456','file_contents'=> $cFile);
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL,$target_url);
+        // curl_setopt($ch, CURLOPT_POST,1);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        // $result=curl_exec ($ch);
+        // curl_close ($ch);
+        
+        // self::h5p()
+        //     ->contents()
+        //     ->editor()
+        //     ->storageFramework()
+        //     ->saveFileTemporarily($filePath, true);
 
-        $core = self::h5p()->contents()->core();
+        // if (!self::h5p()->contents()->editor()->validatorCore()->isValidPackage()) {
+        //     return $this->txt("err_invalid_package");
+        // }
 
-        self::h5p()
-            ->contents()
-            ->editor()
-            ->storageCore()
-            ->savePackage([
-                "metadata" => [
-                    "authors" => $core->mainJsonData["authors"],
-                    "authorComments" => $core->mainJsonData["authorComments"],
-                    "changes" => $core->mainJsonData["changes"],
-                    "defaultLanguage" => $core->mainJsonData["defaultLanguage"],
-                    "license" => $core->mainJsonData["license"],
-                    "licenseExtras" => $core->mainJsonData["licenseExtras"],
-                    "licenseVersion" => $core->mainJsonData["licenseVersion"],
-                    "source" => $core->mainJsonData["source"],
-                    "title" => $type == "ibook" ? $core->mainJsonData["title"] : "", // No title
-                    "yearFrom" => $core->mainJsonData["yearFrom"],
-                    "yearTo" => $core->mainJsonData["yearTo"]
-                ]
-            ]);
+        // $core = self::h5p()->contents()->core();
 
-        self::h5p()
-            ->contents()
-            ->editor()
-            ->storageFramework()
-            ->removeTemporarilySavedFiles(
-                self::h5p()
-                    ->contents()
-                    ->framework()
-                    ->getUploadedH5pFolderPath()
-            );
+        // self::h5p()
+        //     ->contents()
+        //     ->editor()
+        //     ->storageCore()
+        //     ->savePackage([
+        //         "metadata" => [
+        //             "authors" => $core->mainJsonData["authors"],
+        //             "authorComments" => $core->mainJsonData["authorComments"],
+        //             "changes" => $core->mainJsonData["changes"],
+        //             "defaultLanguage" => $core->mainJsonData["defaultLanguage"],
+        //             "license" => $core->mainJsonData["license"],
+        //             "licenseExtras" => $core->mainJsonData["licenseExtras"],
+        //             "licenseVersion" => $core->mainJsonData["licenseVersion"],
+        //             "source" => $core->mainJsonData["source"],
+        //             "title" => $type == "ibook" ? $core->mainJsonData["title"] : "", // No title
+        //             "yearFrom" => $core->mainJsonData["yearFrom"],
+        //             "yearTo" => $core->mainJsonData["yearTo"]
+        //         ]
+        //     ]);
 
-        $contentId = intval(
-            self::h5p()
-                ->contents()
-                ->editor()
-                ->storageCore()
-                ->contentId
-        );
+        // self::h5p()
+        //     ->contents()
+        //     ->editor()
+        //     ->storageFramework()
+        //     ->removeTemporarilySavedFiles(
+        //         self::h5p()
+        //             ->contents()
+        //             ->framework()
+        //             ->getUploadedH5pFolderPath()
+        //     );
 
-        $h5p_content = self::h5p()
-            ->contents()
-            ->getContentById($contentId);
+        // $contentId = intval(
+        //     self::h5p()
+        //         ->contents()
+        //         ->editor()
+        //         ->storageCore()
+        //         ->contentId
+        // );
 
-        if ($h5p_content === null) {
-            return $this->txt("err_content_id");
-        }
+        // $h5p_content = self::h5p()
+        //     ->contents()
+        //     ->getContentById($contentId);
 
-        $this->db->manipulateF(
-            "INSERT INTO " . ilNolejPlugin::TABLE_H5P
-            . " (document_id, type, `generated`, content_id)"
-            . " VALUES (%s, %s, %s, %s);",
-            ["text", "text", "integer", "integer"],
-            [$this->documentId, $type, $now, $contentId]
-        );
+        // if ($h5p_content === null) {
+        //     return $this->txt("err_content_id");
+        // }
 
-        return "";
+        // $this->db->manipulateF(
+        //     "INSERT INTO " . ilNolejPlugin::TABLE_H5P
+        //     . " (document_id, type, `generated`, content_id)"
+        //     . " VALUES (%s, %s, %s, %s);",
+        //     ["text", "text", "integer", "integer"],
+        //     [$this->documentId, $type, $now, $contentId]
+        // );
+
+        // return "";
     }
 
     /**

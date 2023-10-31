@@ -13,18 +13,15 @@ require_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 require_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 require_once("./Services/Tracking/classes/status/class.ilLPStatusPlugin.php");
 
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+// require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
+// require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
+// require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php");
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php");
-
-use srag\DIC\H5P\DICTrait;
-use srag\Plugins\H5P\Content\Content;
-use srag\Plugins\H5P\Content\Editor\EditContentFormGUI;
-use srag\Plugins\H5P\Content\Editor\ImportContentFormGUI;
-use srag\Plugins\H5P\Utils\H5PTrait;
+// use srag\DIC\H5P\DICTrait;
+// use srag\Plugins\H5P\Content\Content;
+// use srag\Plugins\H5P\Content\Editor\EditContentFormGUI;
+// use srag\Plugins\H5P\Content\Editor\ImportContentFormGUI;
+// use srag\Plugins\H5P\Utils\H5PTrait;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
@@ -37,7 +34,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 class ilObjNolejGUI extends ilObjectPluginGUI
 {
     use Hasher;
-    use H5PTrait;
 
     const LP_SESSION_ID = 'xnlj_lp_session_state';
 
@@ -172,24 +168,24 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * @return bool returns true iff the plugin supports import/export
-        */
+     * @return bool returns true iff the plugin supports import/export
+     */
     protected function supportsExport()
     {
         return false;
     }
 
     /**
-        * @return bool returns true iff this plugin object supports cloning
-        */
+     * @return bool returns true iff this plugin object supports cloning
+     */
     protected function supportsCloning()
     {
         return false;
     }
 
     /**
-        * Set tabs
-        */
+     * Set tabs
+     */
     protected function setTabs()
     {
         // tab for the "show content" command
@@ -228,8 +224,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * Edit Properties. This commands uses the form class to display an input form.
-        */
+     * Edit Properties. This commands uses the form class to display an input form.
+     */
     protected function editProperties()
     {
         $form = $this->initPropertiesForm();
@@ -238,8 +234,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * @return ilPropertyFormGUI
-        */
+     * @return ilPropertyFormGUI
+     */
     protected function initPropertiesForm() : ilPropertyFormGUI
     {
         $this->tabs->activateTab(self::TAB_PROPERTIES);
@@ -264,8 +260,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * @param $form ilPropertyFormGUI
-        */
+     * @param $form ilPropertyFormGUI
+     */
     protected function addValuesToForm(&$form) : void
     {
         $form->setValuesByArray(array(
@@ -277,8 +273,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        *
-        */
+     * Save
+     */
     protected function saveProperties() : void
     {
         $form = $this->initPropertiesForm();
@@ -315,7 +311,10 @@ class ilObjNolejGUI extends ilObjectPluginGUI
         $contentId = $this->object->getContentIdOfType("ibook");
 
         // Display activities
-        $this->tpl->setContent(($contentId != -1) ? $this->getH5PHtml($contentId) : "Error");
+        $this->tpl->setContent(($contentId != -1)
+            ? $this->getH5PHtml($contentId)
+            : "Error"
+        );
     }
 
     /**
@@ -324,48 +323,59 @@ class ilObjNolejGUI extends ilObjectPluginGUI
         */
     public static function getH5PHtml($contentId)
     {
-        $h5pContent = self::h5p()->contents()->getContentById($contentId);
+        global $DIC;
 
-        if ($h5pContent == null) {
-            ilUtil::sendFailure(ilNolejConfig::txt("err_h5p_content"));
-            return "";
-        }
+        $renderer = $DIC->ui()->renderer();
+        $factory = $DIC->ui()->factory();
 
-        return self::h5p()->contents()->show()->getH5PContent($h5pContent, true, false);
+        /** ILIAS 6 ? */
+        // $h5pContent = self::h5p()->contents()->getContentById($contentId);
 
-        // $h5pplugin = ilH5PPlugin::getInstance();
-
-        // return print_r(get_class_methods($h5pplugin), true);
-
-        /** @var IContainer */
-        // $h5p_container = $h5pplugin->getContainer();
-
-        // /** @var IRepositoryFactory */
-        // $repositories = $h5p_container->getRepositoryFactory();
-
-        // $content = $repositories->content()->getContent((int) $contentId);
-
-        // if ($content == null) {
-        // 	ilUtil::sendFailure("err_h5p_content");
-        // 	return;
+        // if ($h5pContent == null) {
+        //     ilUtil::sendFailure(ilNolejConfig::txt("err_h5p_content"));
+        //     return "";
         // }
 
-        // $component = $h5p_container
-        // 	->getComponentFactory()
-        // 	->content($content)
-        // 	->withLoadingMessage(
-        // 		$this->plugin->txt("content_loading")
-        // 	);
+        // return self::h5p()->contents()->show()->getH5PContent($h5pContent, true, false);
 
-        // return sprintf(
-        // 	"<div style=\"margin-top: 25px;\">%s</div>",
-        // 	$this->renderer->render($component)
-        // );
+        if (
+            !class_exists("ilH5PPlugin") ||
+            !method_exists("ilH5PPlugin", "getInstance")
+        ) {
+            $error = $factory
+                ->messageBox()
+                ->failure(ilNolejConfig::txt("err_h5p_plugin"));
+            return $renderer->render($error);
+        }
+
+        /** @var IContainer */
+        $h5p_container = ilH5PPlugin::getInstance()->getContainer();
+
+        /** @var IRepositoryFactory */
+        $repositories = $h5p_container->getRepositoryFactory();
+
+        $content = $repositories->content()->getContent((int) $contentId);
+
+        $component = (null === $content)
+            ? $factory
+                ->messageBox()
+                ->failure(ilNolejConfig::txt("err_h5p_content"))
+            : $h5p_container
+                ->getComponentFactory()
+                ->content($content)
+                ->withLoadingMessage(
+                    ilNolejConfig::txt("content_loading")
+                );
+
+        return sprintf(
+        	"<div style=\"margin-top: 25px;\">%s</div>",
+        	$renderer->render($component)
+        );
     }
 
     /**
-        * @return string
-        */
+     * @return string
+     */
     public function buildIcon($id, $alt = "")
     {
         return sprintf(
@@ -376,9 +386,9 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * Add items to info screen
-        * @param ilInfoScreenGUI $info
-        */
+     * Add items to info screen
+     * @param ilInfoScreenGUI $info
+     */
     public function addInfoItems($info)
     {
         global $tpl;
@@ -399,30 +409,19 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * @param $object ilObjNolej
-        * @param $form ilPropertyFormGUI
-        */
+     * @param $object ilObjNolej
+     * @param $form ilPropertyFormGUI
+     */
     private function fillObject($object, $form)
     {
         $object->setTitle($form->getInput(self::PROP_TITLE));
         $object->setDescription($form->getInput(self::PROP_DESCRIPTION));
         $object->setOnline($form->getInput(self::PROP_ONLINE));
-        // $object->bind($form->getInput(self::PROP_STATUS));
     }
 
-    // public function getIdPartner()
-    // {
-    // 	return $this->object->getIdPartner();
-    // }
-
-    // public function getIdCourse()
-    // {
-    // 	return $this->object->getIdCourse();
-    // }
-
     /**
-        * Apply filter
-        */
+     * Apply filter
+     */
     public function applyFilter()
     {
         // $table = new ilObjNolejLicenseTableGUI($this, self::CMD_LICENSE_EDIT);
@@ -432,8 +431,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * Reset filter
-        */
+     * Reset filter
+     */
     public function resetFilter()
     {
         // $table = new ilObjNolejLicenseTableGUI($this, self::CMD_LICENSE_EDIT);
@@ -465,8 +464,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * @param int[] $user_ids
-        */
+     * @param int[] $user_ids
+     */
     public function filterUserIdsByRbacOrPositionOfCurrentUser($user_ids)
     {
         global $DIC;
@@ -481,8 +480,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * We need this method if we can't access the tabs otherwise...
-        */
+     * We need this method if we can't access the tabs otherwise...
+     */
     private function activateTab()
     {
         $next_class = $this->ctrl->getCmdClass();
@@ -497,9 +496,9 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * Goto redirection
-        * @param array $a_target
-        */
+     * Goto redirection
+     * @param array $a_target
+     */
     public static function _goto($a_target)
     {
         global $DIC;
