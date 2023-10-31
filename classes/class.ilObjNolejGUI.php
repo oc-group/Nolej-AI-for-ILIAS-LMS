@@ -13,9 +13,9 @@ require_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 require_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 require_once("./Services/Tracking/classes/status/class.ilLPStatusPlugin.php");
 
-// require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
-// require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
-// require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
 // use srag\DIC\H5P\DICTrait;
 // use srag\Plugins\H5P\Content\Content;
