@@ -2867,7 +2867,7 @@ class ilNolejActivityManagementGUI
         /** @var IRepositoryFactory */
         $repositories = $h5p_container->getRepositoryFactory();
 
-        $file = $h5p_storage::saveFileTemporarily(
+        $file = ilH5PEditorStorage::saveFileTemporarily(
             $filePath,
             true
         );
@@ -2897,7 +2897,7 @@ class ilNolejActivityManagementGUI
             ]
         ]);
 
-        $h5p_storage::removeTemporarilySavedFiles($file_upload_communicator->getUploadPath());
+        ilH5PEditorStorage::removeTemporarilySavedFiles($file_upload_communicator->getUploadPath());
 
         // self::h5p()
         //     ->contents()
