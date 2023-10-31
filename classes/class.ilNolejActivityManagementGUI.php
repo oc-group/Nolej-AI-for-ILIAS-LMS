@@ -37,7 +37,7 @@ require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
 /**
  * GUI to manage every step of the Nolej module creation.
- * 
+ *
  * @ilCtrl_isCalledBy ilNolejActivityManagementGUI: ilObjNolejGUI
  * @ilCtrl_Calls ilNolejActivityManagementGUI: ilformpropertydispatchgui, ilinternallinkgui
  * @ilCtrl_Calls ilNolejActivityManagementGUI: ilpropertyformgui, ilinternallinkgui
@@ -89,18 +89,10 @@ class ilNolejActivityManagementGUI
     const PROP_LANG = "language";
     const PROP_AUTOMATIC = "automatic";
 
-    const TYPE_AUDIO = [
-        "mp3", "was", "opus", "ogg", "oga", "m4a"
-    ];
-    const TYPE_VIDEO = [
-        "m4v", "mp4", "ogv", "avi", "webm"
-    ];
-    const TYPE_DOC = [
-        "pdf", "doc", "docx", "odt"
-    ];
-    const TYPE_TEXT = [
-        "txt", "htm", "html"
-    ];
+    const TYPE_AUDIO = ["mp3", "was", "opus", "ogg", "oga", "m4a"];
+    const TYPE_VIDEO = ["m4v", "mp4", "ogv", "avi", "webm"];
+    const TYPE_DOC = ["pdf", "doc", "docx", "odt"];
+    const TYPE_TEXT = ["txt", "htm", "html"];
 
     const STATUS_CREATION = 0;
     const STATUS_CREATION_PENDING = 1;
@@ -448,7 +440,7 @@ class ilNolejActivityManagementGUI
         ];
         $wf = $f->linear($this->txt("tab_activity_management"), $steps);
         $renderedWf = "";
-        
+
         switch ($cmd) {
             case self::CMD_CREATION:
             case self::CMD_CREATE:
@@ -487,7 +479,7 @@ class ilNolejActivityManagementGUI
 
     /**
      * Initialize internal link selector
-     * 
+     *
      * @return string js code that needs to be printed after the form
     */
     protected function initIntLink()
@@ -705,7 +697,7 @@ class ilNolejActivityManagementGUI
              * Automatic mode: skip to the h5p generation,
              * just check audio/video transcription.
              * Currently disabled.
-             * 
+             *
              * @todo enable option when all the other steps are done.
              */
             $automaticMode = new ilCheckboxInputGUI($this->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
@@ -1139,7 +1131,7 @@ class ilNolejActivityManagementGUI
 
     /**
      * Read a file of the current document, if exists.
-     * 
+     *
      * @param string $filename the name of the file.
      * @return string|false return the content if the file exists,
      *   false otherwise.
@@ -1151,13 +1143,13 @@ class ilNolejActivityManagementGUI
 
     /**
      * Get and save the content of a Nolej file
-     * 
+     *
      * @param string $pathname the "id" of Nolej file
      * @param string|null $saveAs the name of the file to be saved as
      * @param bool $forceDownload if false check if the file already exists
      * @param mixed $withData
      * @param bool $encode input's data
-     * 
+     *
      * @return bool|string return true on success, false on failure. If $saveAs
      * is null, then the content is returned as string.
      */
@@ -1195,10 +1187,10 @@ class ilNolejActivityManagementGUI
 
     /**
      * Put the content of a file to Nolej
-     * 
+     *
      * @param string $pathname the "id" of Nolej file
      * @param string $filename the name of the file on disk
-     * 
+     *
      * @return bool true on success, false on failure
      */
     public function putNolejContent($pathname, $filename)
@@ -1221,10 +1213,10 @@ class ilNolejActivityManagementGUI
     /**
      * Write a file of the current document, and create the
      * parent directory if it doesn't exists.
-     * 
+     *
      * @param string $filename the name of the file.
      * @param string $content the content of the file.
-     * 
+     *
      * @return bool returns true on success, false on failure.
      */
     public function writeDocumentFile($filename, $content)
@@ -1241,7 +1233,7 @@ class ilNolejActivityManagementGUI
 
     /**
      * Update the status of the document
-     * 
+     *
      * @param int $newStatus
      * @return void
      */
@@ -1259,7 +1251,7 @@ class ilNolejActivityManagementGUI
 
     /**
      * Download the transctiption of the analyzed media
-     * 
+     *
      * @return bool
      */
     protected function downloadTranscription()
@@ -1312,7 +1304,7 @@ class ilNolejActivityManagementGUI
     /**
      * It returns an editable form if the transcription has
      * to be validated, otherwise it returns a static info screen.
-     * 
+     *
      * @return ilPropertyFormGUI|ilInfoScreenGUI
      */
     public function initAnalysisForm()
@@ -1395,7 +1387,7 @@ class ilNolejActivityManagementGUI
             $this->txt("prop_transcription"),
             $this->readDocumentFile("transcription.htm")
         );
-        
+
         return $info;
     }
 
@@ -1530,7 +1522,7 @@ class ilNolejActivityManagementGUI
     /**
      * @param bool $a_use_post Set value from POST, if false load summary file
      * @param bool $a_disabled Set all inputs disabled
-     * 
+     *
      * @return ilPropertyFormGUI
      */
     protected function initSummaryForm($a_use_post = false, $a_disabled = false)
@@ -1569,7 +1561,7 @@ class ilNolejActivityManagementGUI
             );
             $txt->setRows(6);
             $form->addItem($txt);
-            
+
             if ($a_use_post) {
                 $txt->setValueByArray($_POST);
                 $title->setValueByArray($_POST);
@@ -1577,7 +1569,7 @@ class ilNolejActivityManagementGUI
                 $txt->setValue($summary->summary[$i]->text);
                 $title->setValue($summary->summary[$i]->title);
             }
-            
+
         }
 
         /**
@@ -1736,7 +1728,7 @@ class ilNolejActivityManagementGUI
     /**
      * @param bool $a_use_post Set value from POST, if false load questions file
      * @param bool $a_disabled Set all inputs disabled
-     * 
+     *
      * @return ilPropertyFormGUI
      */
     protected function initQuestionsForm($a_use_post = false, $a_disabled = false)
@@ -2048,7 +2040,7 @@ class ilNolejActivityManagementGUI
     /**
      * @param bool $a_use_post Set value from POST, if false load concepts file
      * @param bool $a_disabled Set all inputs disabled
-     * 
+     *
      * @return ilPropertyFormGUI
      */
     protected function initConceptsForm($a_use_post = false, $a_disabled = false)
@@ -2317,7 +2309,7 @@ class ilNolejActivityManagementGUI
     /**
      * @param bool $a_use_post Set value from POST, if false load activities file
      * @param bool $a_disabled Set all inputs disabled
-     * 
+     *
      * @return ilPropertyFormGUI
      */
     protected function initActivitiesForm($a_use_post = false, $a_disabled = false)
@@ -2771,7 +2763,7 @@ class ilNolejActivityManagementGUI
 
         // if (function_exists('curl_file_create')) { // php 5.5+
         // $cFile = curl_file_create($file_name_with_full_path);
-        // } else { // 
+        // } else { //
         // $cFile = '@' . realpath($file_name_with_full_path);
         // }
         // $post = array('extra_info' => '123456','file_contents'=> $cFile);
@@ -2781,7 +2773,7 @@ class ilNolejActivityManagementGUI
         // curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         // $result=curl_exec ($ch);
         // curl_close ($ch);
-        
+
         // self::h5p()
         //     ->contents()
         //     ->editor()
@@ -2853,7 +2845,7 @@ class ilNolejActivityManagementGUI
     }
 
     /**
-     * "Import" an activity using h5p plugin. 
+     * "Import" an activity using h5p plugin.
      * @param string path to the activity to import
      */
     // public function importH5P($path)
@@ -2876,10 +2868,10 @@ class ilNolejActivityManagementGUI
     // }
 
     /**
-        * Executes the given form processor and registers an additional post-processor,
-        * which calles either $this->createElement() or $this->updateElement() depending
-        * on the given content.
-        */
+     * Executes the given form processor and registers an additional post-processor,
+     * which calles either $this->createElement() or $this->updateElement() depending
+     * on the given content.
+     */
     // protected function runFormProcessor(IPostProcessorAware $form_processor): void
     // {
     // 	$post_processor = new ContentPostProcessor(

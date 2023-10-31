@@ -497,18 +497,18 @@ class ilNolejWebhook
     }
 
     /**
-        * Send notification to user
-        * 
-        * @param string $documentId
-        * @param int $userId
-        * @param string $action used as language key for title
-        * @param string $status
-        * @param int $code
-        * @param string $errorMessage
-        * @param int $credits
-        * @param string $bodyVar language variable to use in mail body
-        * @param string[] $vars parameters to use in $bodyVar's sprintf
-        */
+     * Send notification to user
+     *
+     * @param string $documentId
+     * @param int $userId
+     * @param string $action used as language key for title
+     * @param string $status
+     * @param int $code
+     * @param string $errorMessage
+     * @param int $credits
+     * @param string $bodyVar language variable to use in mail body
+     * @param string[] $vars parameters to use in $bodyVar's sprintf
+     */
     public function sendNotification(
         $documentId,
         $userId,
@@ -552,10 +552,10 @@ class ilNolejWebhook
         $notification->notifyByUsers([$userId]);
     }
 
-    /** 
-        * @param int $a_user_id
-        * @return ilLanguage
-        */
+    /**
+     * @param int $a_user_id
+     * @return ilLanguage
+     */
     protected function setUserLang($a_user_id)
     {
         $lang = ilObjUser::_lookupLanguage($a_user_id);

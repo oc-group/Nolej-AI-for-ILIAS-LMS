@@ -31,10 +31,10 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
     /** @var ilCtrl */
     protected $ctrl;
-    
+
     /** @var string */
     protected $cmd;
-    
+
     /** @var ilTabsGUI */
     protected $tabs;
 
@@ -176,8 +176,8 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
     }
 
     /**
-        * Configuration screen
-        */
+     * Configuration screen
+     */
     public function configure(
         $a_mob_id = null
     ) {
@@ -211,9 +211,9 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
     }
 
     /**
-        * Summary of insert
-        * @return void
-        */
+     * Summary of insert
+     * @return void
+     */
     public function insert()
     {
         $mediaselectorgui = new ilNolejMediaSelectorGUI($this);
@@ -221,9 +221,9 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
     }
 
     /**
-        * Summary of tic
-        * @return void
-        */
+     * Summary of tic
+     * @return void
+     */
     public function tic()
     {
         global $DIC;
@@ -277,9 +277,9 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
     }
 
     /**
-        * Summary of selectObjectReference
-        * @return void
-        */
+     * Summary of selectObjectReference
+     * @return void
+     */
     public function selectObjectReference()
     {
         if (isset($_POST["id"])) {

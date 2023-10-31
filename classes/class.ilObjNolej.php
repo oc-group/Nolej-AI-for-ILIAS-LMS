@@ -500,9 +500,9 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     }
 
     /**
-        * Get all user ids with LP status failed
-        * @return array
-        */
+     * Get all user ids with LP status failed
+     * @return array
+     */
     public function getLPFailed()
     {
         // Nolej modules do not have a "fail" condition (yet)
@@ -510,9 +510,9 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     }
 
     /**
-        * Get all user ids with LP status in progress
-        * @return array
-        */
+     * Get all user ids with LP status in progress
+     * @return array
+     */
     public function getLPInProgress()
     {
         // global $ilDB;
@@ -543,10 +543,10 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     }
 
     /**
-        * Get current status for given user
-        * @param int $a_user_id
-        * @return int
-        */
+     * Get current status for given user
+     * @param int $a_user_id
+     * @return int
+     */
     public function getLPStatusForUser($a_user_id)
     {
         // global $ilDB;
@@ -583,10 +583,10 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     }
 
     /**
-        * Get current percentage for given user
-        * @param int $a_user_id
-        * @return int
-        */
+     * Get current percentage for given user
+     * @param int $a_user_id
+     * @return int
+     */
     public function getPercentageForUser($a_user_id)
     {
         // global $ilDB;
@@ -618,7 +618,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     public function updateStatus($idPage)
     {
         // TODO
-        
+
         // global $ilUser, $ilDB;
 
         // $user_id = $ilUser->getId();

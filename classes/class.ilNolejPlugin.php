@@ -191,7 +191,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
         $tpl->setPermanentLink(self::PLUGIN_ID, $code);
     }
 
-    /** 
+    /**
      * @return string
      */
     public function getConfigurationLink()

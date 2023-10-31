@@ -13,7 +13,7 @@ require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/
 
 /**
  * Plugin GUI class
- * 
+ *
  * @ilCtrl_isCalledBy ilNolejGUI: ilUIPluginRouterGUI
  */
 class ilNolejGUI
@@ -190,8 +190,8 @@ class ilNolejGUI
     }
 
     /**
-        * @param int[] $user_ids
-        */
+     * @param int[] $user_ids
+     */
     public function filterUserIdsByRbacOrPositionOfCurrentUser($user_ids = [])
     {
         // global $DIC;

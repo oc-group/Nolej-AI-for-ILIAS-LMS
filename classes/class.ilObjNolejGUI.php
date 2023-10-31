@@ -113,7 +113,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
                         $this->checkPermission("write");
                         $this->$cmd();
                         break;
-        
+
                     // Need a bound course
                     case self::CMD_FILTER_APPLY:
                     case self::CMD_FILTER_RESET:
@@ -125,7 +125,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
                         // }
                         $this->showContent();
                         break;
-        
+
                     // Need read permission
                     case self::CMD_CONTENT_SHOW:
                     case self::CMD_STATUS_COMPLETED:

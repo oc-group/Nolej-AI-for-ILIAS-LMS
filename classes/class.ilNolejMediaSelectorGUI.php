@@ -13,7 +13,7 @@ require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
 /**
  * Select media object
- * 
+ *
  * @ilCtrl_isCalledBy ilNolejMediaSelectorGUI: ilNolejGUI, ilNolejConfigGUI
  * @ilCtrl_Calls ilNolejMediaSelectorGUI: ilObjMediaObjectGUI
  */
@@ -35,7 +35,7 @@ class ilNolejMediaSelectorGUI
 
     /** @var ilNolejGUI|ilNolejConfigGUI */
     protected $guiObj;
-    
+
     /** @var ilCtrl */
     protected $ctrl;
 

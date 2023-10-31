@@ -22,7 +22,7 @@ class NolejNotificationPrefRepository
 
     /**
      * Constructor
-     * 
+     *
      * @param ilObjUser|null $user
      */
     public function __construct($user = null)

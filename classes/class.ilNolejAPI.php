@@ -92,7 +92,7 @@ class ilNolejAPI
      * @param mixed $data
      * @param bool $encodeInput
      * @param bool $decodeOutput
-     * 
+     *
      * @return object|string return the result given by Nolej. If
      * $decodeOutput is true, treat the result as json object and decode it.
      */
