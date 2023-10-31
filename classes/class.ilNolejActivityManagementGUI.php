@@ -315,11 +315,13 @@ class ilNolejActivityManagementGUI
             sprintf("/documents/%s/lastwebhook", $this->documentId),
             "",
             false,
-            true
+            false
         );
 
+        $data = json_decode($result, true);
+
         $webhook = new ilNolejWebhook();
-        $webhook->parse($result);
+        $webhook->parse($data);
         $this->ctrl->redirect($this, $this->defaultCmd);
     }
 
