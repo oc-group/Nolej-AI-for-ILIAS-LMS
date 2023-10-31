@@ -2850,6 +2850,8 @@ class ilNolejActivityManagementGUI
     public function importH5PContent($h5pDir, $type, $time)
     {
         $filePath = sprintf("%s/%s.h5p", $h5pDir, $type);
+        $filePath = substr($filePath, 1);
+        $absolutePath = ILIAS_ABSOLUTE_PATH . $filePath;
 
         /** @var IContainer */
         $h5p_container = ilH5PPlugin::getInstance()->getContainer();
@@ -2858,13 +2860,13 @@ class ilNolejActivityManagementGUI
         $h5p_kernel = $h5p_container->getKernel();
 
         $file = ilH5PEditorStorage::saveFileTemporarily(
-            $filePath,
+            $absolutePath,
             true
         );
 
         /** @var FileUploadCommunicator */
         $file_upload_communicator = $h5p_container->getFileUploadCommunicator();
-        $file_upload_communicator->setUploadPath($filePath);
+        $file_upload_communicator->setUploadPath($absolutePath);
 
         /** @var H5PStorage */
         $h5p_storage = $h5p_container->getKernelStorage();
