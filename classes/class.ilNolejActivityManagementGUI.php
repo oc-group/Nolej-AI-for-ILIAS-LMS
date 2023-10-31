@@ -2857,20 +2857,20 @@ class ilNolejActivityManagementGUI
         /** @var H5PCore */
         $h5p_kernel = $h5p_container->getKernel();
 
+        $file = ilH5PEditorStorage::saveFileTemporarily(
+            $filePath,
+            true
+        );
+
         /** @var FileUploadCommunicator */
         $file_upload_communicator = $h5p_container->getFileUploadCommunicator();
-        $file_upload_communicator->setUploadPath($h5pDir);
+        $file_upload_communicator->setUploadPath($filePath);
 
         /** @var H5PStorage */
         $h5p_storage = $h5p_container->getKernelStorage();
 
         /** @var IRepositoryFactory */
         $repositories = $h5p_container->getRepositoryFactory();
-
-        $file = ilH5PEditorStorage::saveFileTemporarily(
-            $filePath,
-            true
-        );
 
         /** @var H5PValidator */
         $h5p_validator = $h5p_container->getKernelValidator();
