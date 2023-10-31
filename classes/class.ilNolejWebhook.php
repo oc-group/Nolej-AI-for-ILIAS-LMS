@@ -59,7 +59,7 @@ class ilNolejWebhook
             !is_string($data["action"])
         ) {
             $this->die_message(400, "Request not valid.");
-            $this->log("Received invalid request: " . print_r($data, true));
+            $this->log("Received invalid request: " . var_export($data, true));
         }
 
         $this->data = $data;
@@ -69,22 +69,22 @@ class ilNolejWebhook
                 break;
 
             case "transcription":
-                $this->log("Received request: " . print_r($data, true));
+                $this->log("Received transcription request: " . var_export($data, true));
                 $this->checkTranscription();
                 break;
 
             case "analysis":
-                $this->log("Received request: " . print_r($data, true));
+                $this->log("Received analysis request: " . var_export($data, true));
                 $this->checkAnalysis();
                 break;
 
             case "activities":
-                $this->log("Received request: " . print_r($data, true));
+                $this->log("Received activities request: " . var_export($data, true));
                 $this->checkActivities();
                 break;
 
             default:
-                $this->log("Received invalid action: " . print_r($data, true));
+                $this->log("Received invalid action: " . var_export($data, true));
         }
     }
 
@@ -198,11 +198,11 @@ class ilNolejWebhook
         if (!is_string($this->data["status"])) {
             $this->die_message(400, "status not is_string.");
         }
-        if (!is_string($this->data["code"])) {
-            $this->die_message(400, "code not is_string.");
+        if (!is_integer($this->data["code"])) {
+            $this->die_message(400, "code not is_integer.");
         }
-        if (!is_integer($this->data["error_message"])) {
-            $this->die_message(400, "error_message not is_int.");
+        if (!is_string($this->data["error_message"])) {
+            $this->die_message(400, "error_message not is_string.");
         }
         if (!is_integer($this->data["consumedCredit"])) {
             $this->die_message(400, "consumedCredit not is_int.");
