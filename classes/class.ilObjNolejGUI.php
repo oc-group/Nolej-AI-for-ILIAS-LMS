@@ -318,9 +318,9 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     }
 
     /**
-        * @param int $contentId
-        * @return string html
-        */
+     * @param int $contentId
+     * @return string html
+     */
     public static function getH5PHtml($contentId)
     {
         global $DIC;
@@ -338,8 +338,9 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
         // return self::h5p()->contents()->show()->getH5PContent($h5pContent, true, false);
 
+        ilNolejConfig::includeH5P();
+
         if (
-            !class_exists("ilH5PPlugin") ||
             !method_exists("ilH5PPlugin", "getInstance")
         ) {
             $error = $factory

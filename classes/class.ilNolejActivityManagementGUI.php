@@ -112,8 +112,6 @@ class ilNolejActivityManagementGUI
     const STATUS_ACTIVITIES_PENDING = 7;
     const STATUS_COMPLETED = 8;
 
-    const H5P_MAIN_AUTOLOAD = "./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php";
-
     /** @var ilCtrl */
     protected $ctrl;
 
@@ -175,18 +173,7 @@ class ilNolejActivityManagementGUI
         );
         $tpl->setDescription($this->txt("plugin_description"));
 
-        if (!file_exists(self::H5P_MAIN_AUTOLOAD)) {
-            throw new LogicException("You cannot use this plugin without installing the H5P plugin first.");
-        }
-
-        if (!$this->isH5PPluginLoaded()) {
-            require_once(self::H5P_MAIN_AUTOLOAD);
-        }
-    }
-
-    private function isH5PPluginLoaded(): bool
-    {
-        return class_exists('ilH5PPlugin');
+        ilNolejConfig::includeH5P();
     }
 
     /**

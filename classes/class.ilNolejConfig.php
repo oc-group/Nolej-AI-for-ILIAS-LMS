@@ -26,6 +26,9 @@ class ilNolejConfig
     /** @var ilLogger */
     public $logger;
 
+    const H5P_MAIN_AUTOLOAD = "./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/vendor/autoload.php";
+    const H5P_MAIN_PLUGIN = "./Customizing/global/plugins/Services/Repository/RepositoryObject/H5P/classes/class.ilH5PPlugin.php";
+
     /**
      * Constructor
      */
@@ -167,5 +170,29 @@ class ilNolejConfig
     public static function dataDir(): string
     {
         return ilUtil::getWebspaceDir() . "/" . ilNolejPlugin::PLUGIN_ID . "/";
+    }
+
+    /**
+     * Include H5P plugin or
+     * @throws LogicException if it is not installed
+     */
+    public static function includeH5P(): void
+    {
+        if (
+            !file_exists(self::H5P_MAIN_AUTOLOAD) ||
+            !file_exists(self::H5P_MAIN_PLUGIN)
+        ) {
+            throw new LogicException("You cannot use this plugin without installing the H5P plugin first.");
+        }
+
+        if (!self::isH5PPluginLoaded()) {
+            require_once(self::H5P_MAIN_AUTOLOAD);
+            require_once(self::H5P_MAIN_PLUGIN);
+        }
+    }
+
+    public static function isH5PPluginLoaded(): bool
+    {
+        return class_exists('ilH5PPlugin');
     }
 }
