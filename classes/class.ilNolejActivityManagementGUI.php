@@ -2875,10 +2875,10 @@ class ilNolejActivityManagementGUI
         $repositories = $h5p_container->getRepositoryFactory();
 
         /** @var H5PValidator */
-        $h5p_validator = $h5p_container->getKernelValidator();
-        if (!$h5p_validator->isValidPackage()) {
-            return $this->txt("err_h5p_package");
-        }
+        // $h5p_validator = $h5p_container->getKernelValidator();
+        // if (!$h5p_validator->isValidPackage()) {
+        //     return $this->txt("err_h5p_package");
+        // }
 
         $h5p_storage->savePackage([
             "metadata" => [
