@@ -67,6 +67,8 @@ cmd_save#:#
 cmd_select#:#
 cmd_tic#:#
 cmd_update#:#
+cmd_webhook_call#:#
+cmd_webhook_call_info#:#
 concepts_definition#:#
 concepts_enable#:#
 concepts_game_cw#:#

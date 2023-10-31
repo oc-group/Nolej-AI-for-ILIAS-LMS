@@ -10,6 +10,7 @@
  */
 
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
+require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejWebhook.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
@@ -62,6 +63,7 @@ class ilNolejActivityManagementGUI
     const CMD_ACTIVITIES = "activities";
     const CMD_GENERATE = "generate";
     const CMD_CHECK_UPDATES = "checkUpdates";
+    const CMD_WEBHOOK_CALL = "webhookCall";
 
     const TAB_CREATION = "tab_creation";
     const TAB_ANALYSIS = "tab_analysis";
@@ -229,6 +231,7 @@ class ilNolejActivityManagementGUI
                     case self::CMD_ACTIVITIES:
                     case self::CMD_GENERATE:
                     case self::CMD_CHECK_UPDATES:
+                    case self::CMD_WEBHOOK_CALL:
                         $this->cmd = $cmd;
                         if ($this->gui_obj != null) {
                             $this->printWorkflow($cmd);
@@ -283,6 +286,67 @@ class ilNolejActivityManagementGUI
     }
 
     /**
+     * Call last webhook and update status
+     */
+    protected function webhookCall(): void
+    {
+        global $tpl;
+
+        $api_key = $this->config->get("api_key", "");
+        if ($api_key == "") {
+            ilUtil::sendFailure($this->txt("err_api_key_missing"));
+            return;
+        }
+
+        $pendingStatuses = [
+            self::STATUS_CREATION_PENDING,
+            self::STATUS_ANALISYS_PENDING,
+            self::STATUS_REVISION_PENDING,
+            self::STATUS_ACTIVITIES_PENDING
+        ];
+
+        if (!in_array($this->status, $pendingStatuses)) {
+            return;
+        }
+
+        $api = new ilNolejAPI($api_key);
+
+        $result = $api->get(
+            sprintf("/documents/%s/lastwebhook", $this->documentId),
+            "",
+            false,
+            true
+        );
+
+        $webhook = new ilNolejWebhook();
+        $webhook->parse($result);
+        $this->ctrl->redirect($this, $this->defaultCmd);
+    }
+
+    /**
+     * Print a caller to the last webhook
+     */
+    protected function printWebhookCallBox(): void
+    {
+        global $DIC, $tpl;
+        $f = $DIC->ui()->factory();
+        $renderer = $DIC->ui()->renderer();
+
+        $buttons = [$f->button()->standard(
+            $this->txt("cmd_webhook_call"),
+            $this->ctrl->getLinkTarget($this, self::CMD_WEBHOOK_CALL)
+        )];
+
+        $tpl->setRightContent(
+            $renderer->render(
+                $f->messageBox()
+                    ->confirmation($this->txt("cmd_webhook_call_info"))
+                    ->withButtons($buttons)
+            )
+        );
+    }
+
+    /**
      * Print the activity management workflow,
      * depending on current status and requested cmd.
      * @param string $cmd
@@ -296,6 +360,17 @@ class ilNolejActivityManagementGUI
 
         if ($this->gui_obj == null) {
             return;
+        }
+
+        $pendingStatuses = [
+            self::STATUS_CREATION_PENDING,
+            self::STATUS_ANALISYS_PENDING,
+            self::STATUS_REVISION_PENDING,
+            self::STATUS_ACTIVITIES_PENDING
+        ];
+
+        if (in_array($this->status, $pendingStatuses)) {
+            $this->printWebhookCallBox();
         }
 
         ilYuiUtil::initConnection($tpl);

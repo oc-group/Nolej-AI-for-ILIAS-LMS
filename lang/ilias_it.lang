@@ -67,6 +67,8 @@ cmd_save#:#Salva
 cmd_select#:#Seleziona un oggetto dal mediapool
 cmd_tic#:#Invia TIC
 cmd_update#:#Aggiorna
+cmd_webhook_call#:#Controlla lo stato effettivo
+cmd_webhook_call_info#:#Se attendi da molto l'esito dell'operazione, puoi provare a sincronizzare lo stato con il server di Nolej. È possibile infatti, seppur raro, che la risposta si sia persa per strada...
 concepts_definition#:#Definizione
 concepts_enable#:#Concetto abilitato
 concepts_game_cw#:#Cruciverba

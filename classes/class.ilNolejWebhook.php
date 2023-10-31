@@ -25,6 +25,9 @@ class ilNolejWebhook
     /** @var array */
     protected $data;
 
+    /** @var bool */
+    protected $shouldDie = false;
+
     public function __construct()
     {
         $this->config = new ilNolejConfig();
@@ -38,10 +41,17 @@ class ilNolejWebhook
         $this->config->logger->log($msg);
     }
 
-    public function parse()
+    /**
+     * Parse the request from POST content if
+     * @param mixed $data is not null
+     */
+    public function parse($data = null)
     {
-        header("Content-type: application/json; charset=UTF-8");
-        $data = json_decode(file_get_contents("php://input"), true);
+        if ($data == null) {
+            header("Content-type: application/json; charset=UTF-8");
+            $data = json_decode(file_get_contents("php://input"), true);
+            $this->shouldDie = true;
+        }
 
         if (
             !is_array($data) ||
@@ -76,7 +86,6 @@ class ilNolejWebhook
             default:
                 $this->log("Received invalid action: " . print_r($data, true));
         }
-        exit;
     }
 
     /**
@@ -88,11 +97,18 @@ class ilNolejWebhook
         $code = 400,
         $message = ""
     ) {
-        http_response_code($code);
         if (!empty($message)) {
             $this->log("Replied to Nolej with message: " . $message);
-            echo json_encode(["message" => $message]);
+            if ($this->shouldDie) {
+                echo json_encode(["message" => $message]);
+            }
         }
+
+        if (!$this->shouldDie) {
+            return false;
+        }
+
+        http_response_code($code);
         exit;
     }
 

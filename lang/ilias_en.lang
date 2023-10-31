@@ -67,6 +67,8 @@ cmd_save#:#Save
 cmd_select#:#Select media from mediapool
 cmd_tic#:#Send TIC
 cmd_update#:#Update
+cmd_webhook_call#:#Check actual status
+cmd_webhook_call_info#:#If you have been waiting a long time for the outcome of the operation, you can try to synchronize the status with the Nolej server. In fact, it is possible, albeit rare, that the answer was lost along the way...
 concepts_definition#:#Definition
 concepts_enable#:#Concept enabled
 concepts_game_cw#:#Crossword
