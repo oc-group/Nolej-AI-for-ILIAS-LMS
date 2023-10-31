@@ -340,9 +340,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
         ilNolejConfig::includeH5P();
 
-        if (
-            !method_exists("ilH5PPlugin", "getInstance")
-        ) {
+        if (!method_exists("ilH5PPlugin", "getInstance")) {
             $error = $factory
                 ->messageBox()
                 ->failure(ilNolejConfig::txt("err_h5p_plugin"));

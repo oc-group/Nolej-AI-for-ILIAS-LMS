@@ -2812,6 +2812,12 @@ class ilNolejActivityManagementGUI
         $activities = json_decode($json);
         $fails = [];
 
+        ilNolejConfig::includeH5P();
+
+        if (!method_exists("ilH5PPlugin", "getInstance")) {
+            return ilNolejConfig::txt("err_h5p_plugin");
+        }
+
         $now = strtotime("now");
         foreach ($activities->activities as $activity) {
             $path = sprintf("%s/%s.h5p", $h5pDir, $activity->activity_name);
@@ -2838,25 +2844,60 @@ class ilNolejActivityManagementGUI
     /**
      * @param string $h5pDir directory where are located h5p activities
      * @param string $type of h5p activity to import
-     * @param int $now
+     * @param int $time
      * @return string fail reason. Empty string if succedeed.
      */
-    public function importH5PContent($h5pDir, $type, $now)
+    public function importH5PContent($h5pDir, $type, $time)
     {
         $filePath = sprintf("%s/%s.h5p", $h5pDir, $type);
 
-        // if (function_exists('curl_file_create')) { // php 5.5+
-        // $cFile = curl_file_create($file_name_with_full_path);
-        // } else { //
-        // $cFile = '@' . realpath($file_name_with_full_path);
-        // }
-        // $post = array('extra_info' => '123456','file_contents'=> $cFile);
-        // $ch = curl_init();
-        // curl_setopt($ch, CURLOPT_URL,$target_url);
-        // curl_setopt($ch, CURLOPT_POST,1);
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        // $result=curl_exec ($ch);
-        // curl_close ($ch);
+        /** @var IContainer */
+        $h5p_container = ilH5PPlugin::getInstance()->getContainer();
+
+        /** @var H5PCore */
+        $h5p_kernel = $h5p_container->getKernel();
+
+        /** @var FileUploadCommunicator */
+        $file_upload_communicator = $h5p_container->getFileUploadCommunicator();
+        $file_upload_communicator->setUploadPath($filePath);
+
+        /** @var H5PStorage */
+        $h5p_storage = $h5p_container->getKernelStorage();
+
+        /** @var IRepositoryFactory */
+        $repositories = $h5p_container->getRepositoryFactory();
+
+        $file = $h5p_storage::saveFileTemporarily(
+            $filePath,
+            true
+        );
+
+        /** @var H5PValidator */
+        $h5p_validator = $h5p_container->getKernelValidator();
+        if (!$h5p_validator->isValidPackage()) {
+            return $this->txt("err_h5p_package");
+        }
+
+        $h5p_storage->savePackage([
+            "metadata" => [
+                "authors" => $h5p_kernel->mainJsonData["authors"],
+                "authorComments" => $h5p_kernel->mainJsonData["authorComments"],
+                "changes" => $h5p_kernel->mainJsonData["changes"],
+                "defaultLanguage" => $h5p_kernel->mainJsonData["defaultLanguage"],
+                "license" => $h5p_kernel->mainJsonData["license"],
+                "licenseExtras" => $h5p_kernel->mainJsonData["licenseExtras"],
+                "licenseVersion" => $h5p_kernel->mainJsonData["licenseVersion"],
+                "source" => $h5p_kernel->mainJsonData["source"],
+                "title" => $h5p_kernel->mainJsonData["title"] ?? $this->txt("activities_" . $type),
+                "yearFrom" => $h5p_kernel->mainJsonData["yearFrom"],
+                "yearTo" => $h5p_kernel->mainJsonData["yearTo"],
+                "obj_id" => $this->gui_obj->object->getId(),
+                "parent_type" => ilNolejPlugin::PLUGIN_ID,
+                "in_workspace" => false
+            ]
+        ]);
+
+        $h5p_storage::removeTemporarilySavedFiles($file_upload_communicator->getUploadPath());
 
         // self::h5p()
         //     ->contents()
@@ -2913,69 +2954,27 @@ class ilNolejActivityManagementGUI
         //     ->contents()
         //     ->getContentById($contentId);
 
-        // if ($h5p_content === null) {
-        //     return $this->txt("err_content_id");
-        // }
+        $contentId = $h5p_storage->contentId;
 
-        // $this->db->manipulateF(
-        //     "INSERT INTO " . ilNolejPlugin::TABLE_H5P
-        //     . " (document_id, type, `generated`, content_id)"
-        //     . " VALUES (%s, %s, %s, %s);",
-        //     ["text", "text", "integer", "integer"],
-        //     [$this->documentId, $type, $now, $contentId]
-        // );
+        if ($contentId == null || $contentId < 1) {
+            return $this->txt("err_content_id");
+        }
 
-        // return "";
+        $this->db->manipulateF(
+            "INSERT INTO " . ilNolejPlugin::TABLE_H5P
+            . " (document_id, type, `generated`, content_id)"
+            . " VALUES (%s, %s, %s, %s);",
+            ["text", "text", "integer", "integer"],
+            [$this->documentId, $type, $time, $contentId]
+        );
+
+        return "";
     }
 
     /**
-     * "Import" an activity using h5p plugin.
-     * @param string path to the activity to import
+     * @param bool $hideInfo if false and the activities are in generation,
+     * show an info box with the appropriate message.
      */
-    // public function importH5P($path)
-    // {
-    // 	$this->h5p_container = ilH5PPlugin::getInstance()->getContainer();
-    //     $this->repositories = $this->h5p_container->getRepositoryFactory();
-    //     $this->translator = $this->h5p_container->getTranslator();
-
-    // 	$processor = new ImportContentFormProcessor(
-    //         $this->h5p_container->getFileUploadCommunicator(),
-    //         $this->h5p_container->getKernelValidator(),
-    //         $this->h5p_container->getKernelStorage(),
-    //         $this->h5p_container->getKernel(),
-    //         $this->request,
-    //         $this->getImportContentForm(),
-    //         $this->object->getId(),
-    //         IContent::PARENT_TYPE_PAGE
-    //     );
-    // 	$this->runFormProcessor($processor);
-    // }
-
-    /**
-     * Executes the given form processor and registers an additional post-processor,
-     * which calles either $this->createElement() or $this->updateElement() depending
-     * on the given content.
-     */
-    // protected function runFormProcessor(IPostProcessorAware $form_processor): void
-    // {
-    // 	$post_processor = new ContentPostProcessor(
-    // 		ilH5PPageComponentPlugin::PLUGIN_ID,
-    // 		function (array $content_data): void {
-    // 			$data[ilH5PPageComponentPlugin::PROPERTY_CONTENT_ID] = $content_data['id'] ?? null;
-
-    // 			$this->createElement($data);
-    // 		}
-    // 	);
-
-    // 	$form_processor = $form_processor->withPostProcessor($post_processor);
-
-    // 	$success = $form_processor->processForm();
-    // }
-
-    /**
-        * @param bool $hideInfo if false and the activities are in generation,
-        * show an info box with the appropriate message.
-        */
     public function activities($hideInfo = false)
     {
         global $DIC, $tpl;
