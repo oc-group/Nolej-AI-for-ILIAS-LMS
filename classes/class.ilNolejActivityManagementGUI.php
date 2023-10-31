@@ -2859,7 +2859,7 @@ class ilNolejActivityManagementGUI
 
         /** @var FileUploadCommunicator */
         $file_upload_communicator = $h5p_container->getFileUploadCommunicator();
-        $file_upload_communicator->setUploadPath($filePath);
+        $file_upload_communicator->setUploadPath($h5pDir);
 
         /** @var H5PStorage */
         $h5p_storage = $h5p_container->getKernelStorage();
