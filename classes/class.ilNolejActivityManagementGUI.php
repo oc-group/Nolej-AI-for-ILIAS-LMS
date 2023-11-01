@@ -1069,16 +1069,13 @@ class ilNolejActivityManagementGUI
 
                 chmod($upload_filepath, 0775);
                 $upload_fileurl = preg_replace("/^\.\//", ILIAS_HTTP_PATH . "/", $upload_filepath);
-                die($upload_fileurl);
+                $apiUrl = $upload_fileurl;
                 if (in_array($extension, self::TYPE_DOC)) {
                     $apiFormat = self::PROP_M_DOC;
-                    $apiUrl = $upload_filepath;
                 } else if (in_array($extension, self::TYPE_VIDEO)) {
                     $apiFormat = self::PROP_M_VIDEO;
-                    $apiUrl = $upload_fileurl;
                 } else if (in_array($extension, self::TYPE_AUDIO)) {
                     $apiFormat = self::PROP_M_AUDIO;
-                    $apiUrl = $upload_fileurl;
                 }
                 break;
 
