@@ -11,13 +11,13 @@
 
 require_once("./Services/Repository/classes/class.ilObjectPluginAccess.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilObjNolej.php");
-require_once("./Services/Conditions/interfaces/interface.ilConditionHandling.php"); //bugfix mantis 24891
+// require_once("./Services/Conditions/interfaces/interface.ilConditionHandling.php"); //bugfix mantis 24891
 
 /**
  * Please do not create instances of large application classes
  * Write small methods within this class to determine the status.
  */
-class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandling
+class ilObjNolejAccess extends ilObjectPluginAccess
 {
 
     /**
