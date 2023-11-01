@@ -363,7 +363,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
                 ->getComponentFactory()
                 ->content($content)
                 ->withLoadingMessage(
-                    ilNolejConfig::txt("content_loading")
+                    ilNolejActivityManagementGUI::glyphicon("refresh gly-spin")
+                    . ilNolejConfig::txt("content_loading")
                 );
 
         return sprintf(

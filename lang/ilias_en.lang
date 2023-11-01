@@ -86,6 +86,7 @@ concepts_use_for_ftw#:#Use for Find the word
 concepts_use_for_gaming#:#Use for gaming
 concepts_use_for_practice#:#Use for Concept cards
 configuration_title#:#Configure
+content_loading#:#Content is loading...
 crs_create_xnlj#:#Create Nolej object
 err_access_denied#:#You cannot access this course.
 err_activities_get#:#Cannot retrieve some of the generated activities: %s. Please, try again to generate the activities.
@@ -97,7 +98,8 @@ err_concepts_save#:#Concepts file cannot be saved on disk. Try again, and if it 
 err_content_id#:#cannot determine content id
 err_credentials#:#Invalid/Wrong credentials.
 err_doc_response#:#An error accurred during the creation of Nolej module:<br>%s<br>Please try again or contact an administrator if this error persists.
-err_invalid_package#:#not a valid h5p package
+err_h5p_content#:#Sorry, this activity cannot be loaded. Please contact an administrator.
+err_h5p_package#:#not a valid h5p package
 err_json_decode#:#cannot decode the json
 err_questions_file#:#Questions file cannot be retrieved. Please, try again.
 err_questions_put#:#Nolej returned an error, please check your data and try again.

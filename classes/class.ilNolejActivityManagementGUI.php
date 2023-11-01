@@ -431,7 +431,7 @@ class ilNolejActivityManagementGUI
                 $this->status == self::STATUS_CREATION_PENDING
                     ? sprintf(
                         "%s %s <script>checkNolejUpdates('%s')</script>",
-                        $this->glyphicon("refresh gly-spin"),
+                        self::glyphicon("refresh gly-spin"),
                         $this->txt("action_transcription"),
                         $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
                         . "&document_id=" . $this->documentId
@@ -452,7 +452,7 @@ class ilNolejActivityManagementGUI
                 $this->status == self::STATUS_ANALISYS_PENDING
                     ? sprintf(
                         "%s %s <script>checkNolejUpdates('%s')</script>",
-                        $this->glyphicon("refresh gly-spin"),
+                        self::glyphicon("refresh gly-spin"),
                         $this->txt("action_analysis"),
                         $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
                         . "&document_id=" . $this->documentId
@@ -494,7 +494,7 @@ class ilNolejActivityManagementGUI
                 $this->status == self::STATUS_ACTIVITIES_PENDING
                     ? sprintf(
                         "%s %s <script>checkNolejUpdates('%s')</script>",
-                        $this->glyphicon("refresh gly-spin"),
+                        self::glyphicon("refresh gly-spin"),
                         $this->txt("action_activities"),
                         $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
                         . "&document_id=" . $this->documentId
@@ -549,7 +549,7 @@ class ilNolejActivityManagementGUI
     /**
      * @param string $id
      */
-    protected function glyphicon($id)
+    public static function glyphicon($id)
     {
         return "<span class=\"glyphicon glyphicon-" . $id . "\" aria-hidden=\"true\"></span> ";
     }
@@ -2931,7 +2931,7 @@ class ilNolejActivityManagementGUI
         //     ->saveFileTemporarily($filePath, true);
 
         // if (!self::h5p()->contents()->editor()->validatorCore()->isValidPackage()) {
-        //     return $this->txt("err_invalid_package");
+        //     return $this->txt("err_h5p_package");
         // }
 
         // $core = self::h5p()->contents()->core();

@@ -86,6 +86,7 @@ concepts_use_for_ftw#:#
 concepts_use_for_gaming#:#
 concepts_use_for_practice#:#
 configuration_title#:#
+content_loading#:#
 crs_create_xnlj#:#
 err_access_denied#:#
 err_activities_get#:#
@@ -97,7 +98,8 @@ err_concepts_save#:#
 err_content_id#:#
 err_credentials#:#
 err_doc_response#:#
-err_invalid_package#:#
+err_h5p_content#:#
+err_h5p_package#:#
 err_json_decode#:#
 err_questions_file#:#
 err_questions_put#:#
