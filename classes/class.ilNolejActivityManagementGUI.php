@@ -2869,10 +2869,7 @@ class ilNolejActivityManagementGUI
         $filePath = substr($filePath, 1);
         $absolutePath = ILIAS_ABSOLUTE_PATH . $filePath;
 
-        // $h5p_data = [
-        //     "title" => $this->txt("activities_" . $type),
-        //     "path" => $absolutePath
-        // ];
+        $this->config->logger->log("Importing H5P activity " . $type . " of document " . $this->documentId);
 
         /** @var IContainer */
         $h5p_container = ilH5PPlugin::getInstance()->getContainer();
@@ -2898,6 +2895,7 @@ class ilNolejActivityManagementGUI
         /** @var H5PValidator */
         $h5p_validator = $h5p_container->getKernelValidator();
         if (!$h5p_validator->isValidPackage()) {
+            $this->config->logger->log("Import validation failed " . $type . " of document " . $this->documentId);
             return $this->txt("err_h5p_package");
         }
 
@@ -2980,6 +2978,7 @@ class ilNolejActivityManagementGUI
         $contentId = $h5p_storage->contentId;
 
         if ($contentId == null || $contentId < 1) {
+            $this->config->logger->log("Import failed " . $type . " of document " . $this->documentId);
             return $this->txt("err_content_id");
         }
 
@@ -2991,6 +2990,7 @@ class ilNolejActivityManagementGUI
             [$this->documentId, $type, $time, $contentId]
         );
 
+        $this->config->logger->log("Import completed " . $type . " of document " . $this->documentId);
         return "";
     }
 
