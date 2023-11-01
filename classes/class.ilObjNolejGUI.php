@@ -66,6 +66,9 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /** @var ilTemplate */
     public $tpl;
 
+    /** @var string */
+    protected $selectedType = "";
+
     /**
      * Initialisation
      */
@@ -236,7 +239,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function initPropertiesForm() : ilPropertyFormGUI
+    protected function initPropertiesForm(): ilPropertyFormGUI
     {
         $this->tabs->activateTab(self::TAB_PROPERTIES);
 
@@ -262,7 +265,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /**
      * @param $form ilPropertyFormGUI
      */
-    protected function addValuesToForm(&$form) : void
+    protected function addValuesToForm(&$form): void
     {
         $form->setValuesByArray(array(
             self::PROP_TITLE => $this->object->getTitle(),
@@ -275,7 +278,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /**
      * Save
      */
-    protected function saveProperties() : void
+    protected function saveProperties(): void
     {
         $form = $this->initPropertiesForm();
         $form->setValuesByPost();
@@ -288,7 +291,54 @@ class ilObjNolejGUI extends ilObjectPluginGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showContent() : void
+    protected function printContentMenu(): void
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $f = $DIC->ui()->factory()->listing()->workflow();
+        $renderer = $this->renderer;
+
+        $result = $db->queryF(
+            "SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
+            . " WHERE document_id = %s"
+            . " AND `generated` = ("
+            . " SELECT MAX(`generated`) FROM " . ilNolejPlugin::TABLE_ACTIVITY
+            . " WHERE document_id = %s"
+            . ") ORDER BY (type = 'ibook') ASC, type ASC;",
+            ["text", "text"],
+            [$this->object->getDocumentId(), $this->object->getDocumentId()]
+        );
+
+        $step = $f->step('', '');
+        $steps = [];
+        $indexes = [];
+
+        $i = 0;
+        while ($row = $db->fetchAssoc($result)) {
+            if ($i == 0) {
+                $this->selectedType = $row["type"];
+            }
+            $steps[] = $f->step(
+                $this->txt("activities_" . $row["type"]),
+                "",
+                $this->ctrl->getLinkTarget($this, self::CMD_CONTENT_SHOW)
+                . "&type=" . $row["type"]
+            )
+                ->withAvailability($step::AVAILABLE)
+                ->withStatus($step::IN_PROGRESS);
+            $indexes[$row["type"]] = $i++;
+        }
+
+        $wf = $f->linear($this->txt("tab_activities"), $steps);
+        if (isset($_GET["type"]) && array_key_exists($_GET["type"], $indexes)) {
+            $this->selectedType = $_GET["type"];
+            $wf = $wf->withActive($indexes[$_GET["type"]]);
+        }
+        $this->tpl->setLeftContent($renderer->render($wf));
+    }
+
+    protected function showContent(): void
     {
         $this->tabs->activateTab(self::TAB_CONTENT);
 
@@ -303,12 +353,18 @@ class ilObjNolejGUI extends ilObjectPluginGUI
             return;
         }
 
+        $this->printContentMenu();
+        if (empty($this->selectedType)) {
+            ilUtil::sendInfo($this->plugin->txt("activities_not_downloaded"));
+            return;
+        }
+
         // $form = self::h5p()->contents()->editor()->factory()->newImportContentFormInstance($this, "CMD_IMPORT_CONTENT", "CMD_MANAGE_CONTENTS");
         // if ($form->storeForm()) {
         // 	$this->tpl->setContent("error store");
         // 	return;
         // }
-        $contentId = $this->object->getContentIdOfType("ibook");
+        $contentId = $this->object->getContentIdOfType($this->selectedType);
 
         // Display activities
         $this->tpl->setContent(($contentId != -1)
