@@ -2884,6 +2884,9 @@ class ilNolejActivityManagementGUI
 
         /** @var FileUploadCommunicator */
         $file_upload_communicator = $h5p_container->getFileUploadCommunicator();
+        $logger = ilLoggerFactory::getLogger(ilNolejPlugin::PREFIX);
+        $logger->log($file_upload_communicator->getUploadPath());
+
         $file_upload_communicator->setUploadPath($absolutePath);
 
         /** @var H5PStorage */
