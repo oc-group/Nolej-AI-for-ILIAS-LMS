@@ -305,7 +305,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
             . " AND `generated` = ("
             . " SELECT MAX(`generated`) FROM " . ilNolejPlugin::TABLE_H5P
             . " WHERE document_id = %s"
-            . ") ORDER BY (type = 'ibook') ASC, type ASC;",
+            . ") ORDER BY (type = 'ibook') DESC, type ASC;",
             ["text", "text"],
             [$this->object->getDocumentId(), $this->object->getDocumentId()]
         );
