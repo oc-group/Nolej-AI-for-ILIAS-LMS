@@ -44,21 +44,11 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
      */
     function initCommands()
     {
-        // Cannot override init() method; adding here CSS to display the icon.
-        global $tpl;
-        // $tpl->addCss(ilNolejPlugin::CSS);
-
         return array(
             array(
                 "permission" => "read",
                 "cmd" => ilObjNolejGUI::CMD_CONTENT_SHOW,
                 "default" => true
-            ),
-            array(
-                "permission" => "write",
-                "cmd" => ilObjNolejGUI::CMD_PROPERTIES_EDIT,
-                "txt" => $this->txt("cmd_edit"),
-                "default" => false
             )
         );
     }
@@ -78,7 +68,7 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
         $this->plugin->includeClass("class.ilObjNolejAccess.php");
         // $object = ilObjectFactory::getInstanceByObjId($this->obj_id, false);
 
-        if (!ilObjNolejAccess::checkOnline($this->obj_id)) {
+        if (ilObjNolejAccess::_isOffline($this->obj_id)) {
             $props[] = array(
                 "alert" => true,
                 "property" => $this->txt("prop_status"),
