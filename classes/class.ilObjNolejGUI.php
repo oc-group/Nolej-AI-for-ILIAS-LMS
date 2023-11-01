@@ -300,10 +300,10 @@ class ilObjNolejGUI extends ilObjectPluginGUI
         $renderer = $this->renderer;
 
         $result = $db->queryF(
-            "SELECT * FROM " . ilNolejPlugin::TABLE_ACTIVITY
+            "SELECT * FROM " . ilNolejPlugin::TABLE_H5P
             . " WHERE document_id = %s"
             . " AND `generated` = ("
-            . " SELECT MAX(`generated`) FROM " . ilNolejPlugin::TABLE_ACTIVITY
+            . " SELECT MAX(`generated`) FROM " . ilNolejPlugin::TABLE_H5P
             . " WHERE document_id = %s"
             . ") ORDER BY (type = 'ibook') ASC, type ASC;",
             ["text", "text"],
