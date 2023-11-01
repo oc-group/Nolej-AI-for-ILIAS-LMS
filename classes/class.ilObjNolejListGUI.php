@@ -44,6 +44,25 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
      */
     function initCommands()
     {
+        $this->commands_enabled = true;
+        $this->copy_enabled = false;
+        $this->description_enabled = true;
+        $this->notice_properties_enabled = true;
+        $this->properties_enabled = true;
+        $this->comments_enabled = false;
+        $this->comments_settings_enabled = false;
+        $this->expand_enabled = false;
+        $this->info_screen_enabled = false;
+        $this->notes_enabled = false;
+        $this->preconditions_enabled = false;
+        $this->rating_enabled = false;
+        $this->rating_categories_enabled = false;
+        $this->repository_transfer_enabled = false;
+        $this->search_fragment_enabled = false;
+        $this->static_link_enabled = false;
+        $this->tags_enabled = false;
+        $this->timings_enabled = false;
+
         return array(
             array(
                 "permission" => "read",
