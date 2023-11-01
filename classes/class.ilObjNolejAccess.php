@@ -81,7 +81,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
             array($a_obj_id)
         );
         $rec	= $ilDB->fetchAssoc($set);
-        return (boolean) $rec["is_online"];
+        return !((boolean) $rec["is_online"]);
     }
 
     /**
