@@ -40,6 +40,10 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
             $a_user_id = $this->user->getId();
         }
 
+        if ($a_permission == "") {
+            return false;
+        }
+
         if ("visible" === $a_permission || "read" === $a_permission) {
             // if the current user can edit the given object it should also be visible.
             if ($this->access->checkAccessOfUser($a_user_id, "write", "", $a_ref_id)) {
