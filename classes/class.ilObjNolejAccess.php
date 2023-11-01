@@ -46,7 +46,15 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
             case "read":
                 if (
                     !ilObjNolejAccess::checkOnline($a_obj_id) &&
-                    !$ilAccess->checkAccessOfUser($a_user_id, "write", "", $a_ref_id)
+                    !$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id)
+                ) {
+                    return false;
+                }
+                break;
+
+            case "write":
+                if (
+                    !$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id)
                 ) {
                     return false;
                 }
