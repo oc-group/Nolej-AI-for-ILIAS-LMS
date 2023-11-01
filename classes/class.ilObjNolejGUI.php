@@ -359,14 +359,10 @@ class ilObjNolejGUI extends ilObjectPluginGUI
             return;
         }
 
-        // $form = self::h5p()->contents()->editor()->factory()->newImportContentFormInstance($this, "CMD_IMPORT_CONTENT", "CMD_MANAGE_CONTENTS");
-        // if ($form->storeForm()) {
-        // 	$this->tpl->setContent("error store");
-        // 	return;
-        // }
         $contentId = $this->object->getContentIdOfType($this->selectedType);
 
         // Display activities
+        $this->tpl->addCss(ilNolejPlugin::PLUGIN_DIR . "/css/nolej.css");
         $this->tpl->setContent(($contentId != -1)
             ? $this->getH5PHtml($contentId)
             : "Error"
