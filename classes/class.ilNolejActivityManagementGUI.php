@@ -1589,7 +1589,7 @@ class ilNolejActivityManagementGUI
 
         return $renderer->render(
             $f->messageBox()
-                ->confirmation($this->txt("cmd_review_info"))
+                ->info($this->txt("cmd_review_info"))
                 ->withButtons($buttons)
         );
     }
