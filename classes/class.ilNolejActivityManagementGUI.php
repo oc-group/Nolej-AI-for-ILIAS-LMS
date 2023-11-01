@@ -2871,6 +2871,11 @@ class ilNolejActivityManagementGUI
         $filePath = substr($filePath, 1);
         $absolutePath = ILIAS_ABSOLUTE_PATH . $filePath;
 
+        // $h5p_data = [
+        //     "title" => $this->txt("activities_" . $type),
+        //     "path" => $absolutePath
+        // ];
+
         /** @var IContainer */
         $h5p_container = ilH5PPlugin::getInstance()->getContainer();
 
@@ -2884,10 +2889,7 @@ class ilNolejActivityManagementGUI
 
         /** @var FileUploadCommunicator */
         $file_upload_communicator = $h5p_container->getFileUploadCommunicator();
-        $logger = ilLoggerFactory::getLogger(ilNolejPlugin::PREFIX);
-        $logger->log($file_upload_communicator->getUploadPath());
-
-        $file_upload_communicator->setUploadPath($absolutePath);
+        $file_upload_communicator->setUploadPath($file->dir . "/" . $file->fileName);
 
         /** @var H5PStorage */
         $h5p_storage = $h5p_container->getKernelStorage();
@@ -2896,10 +2898,10 @@ class ilNolejActivityManagementGUI
         $repositories = $h5p_container->getRepositoryFactory();
 
         /** @var H5PValidator */
-        // $h5p_validator = $h5p_container->getKernelValidator();
-        // if (!$h5p_validator->isValidPackage()) {
-        //     return $this->txt("err_h5p_package");
-        // }
+        $h5p_validator = $h5p_container->getKernelValidator();
+        if (!$h5p_validator->isValidPackage()) {
+            return $this->txt("err_h5p_package");
+        }
 
         $h5p_storage->savePackage([
             "metadata" => [
