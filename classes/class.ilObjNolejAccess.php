@@ -34,48 +34,47 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
      * @param int $a_user_id user id (default is current user)
      * @return bool true, if everything is ok
      */
-    function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = 0)
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = 0)
     {
-        global $ilUser, $ilAccess;
-
-        if ($a_user_id == 0) {
-            $a_user_id = $ilUser->getId();
+        if ($a_user_id == 0 || $a_user_id == null) {
+            $a_user_id = $this->user->getId();
         }
 
-        switch ($a_permission) {
-            case "read":
-                if (
-                    !ilObjNolejAccess::checkOnline($a_obj_id) &&
-                    !$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id)
-                ) {
-                    return false;
-                }
-                break;
+        if ("visible" === $a_permission || "read" === $a_permission) {
+            // if the current user can edit the given object it should also be visible.
+            if ($this->access->checkAccessOfUser($a_user_id, "write", "", $a_ref_id)) {
+                return true;
+            }
 
-            case "write":
-                if (
-                    !$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id)
-                ) {
-                    return false;
-                }
-                break;
+            if (!self::_isOffline($a_obj_id)) {
+                return $this->access->checkAccessOfUser($a_user_id, $a_permission, "", $a_ref_id);
+            }
+
+            return false;
         }
 
-        return true;
+        if ("delete" === $a_permission) {
+            return (
+                $this->access->checkAccessOfUser($a_user_id, "delete", "", $a_ref_id) ||
+                $this->access->checkAccessOfUser($a_user_id, "write", "", $a_ref_id)
+            );
+        }
+
+        return (bool) $this->access->checkAccessOfUser($a_user_id, $a_permission, "", $a_ref_id);
     }
 
     /**
      * @param $a_id int
      * @return bool
      */
-    static function checkOnline($a_id)
+    public static function _isOffline($a_obj_id): bool
     {
         global $ilDB;
 
         $set = $ilDB->queryF(
             "SELECT is_online FROM " . ilNolejPlugin::TABLE_DATA . " WHERE id = %s;",
             array("integer"),
-            array($a_id)
+            array($a_obj_id)
         );
         $rec	= $ilDB->fetchAssoc($set);
         return (boolean) $rec["is_online"];
@@ -127,8 +126,6 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
         if (
             $target == "webhook" ||
             $target == "modules" ||
-            $target == "orders" ||
-            $target == "cart" ||
             preg_match('/course_([a-zA-Z0-9\-]{1,100})_([1-9][0-9]*)/', $a_target, $matches) ||
             preg_match('/order_([1-9][0-9]*)/', $a_target, $matches)
         ) {
@@ -136,5 +133,45 @@ class ilObjNolejAccess extends ilObjectPluginAccess implements ilConditionHandli
         }
 
         return parent::_checkGoto($a_target);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
+    {
+        $module = $ilWACPath->getModuleIdentifier();
+
+        var_dump(
+            [
+                "module" => $module,
+                "path" => $ilWACPath->getPath(),
+                "modulePath" => $ilWACPath->getModulePath()
+            ]
+        );
+        die();
+
+        // if ("cachedassets" === $module || "libraries" === $module || "editor" === $module) {
+        //     return true;
+        // }
+
+        // if ("content" !== $module) {
+        //     return false;
+        // }
+
+        // $content_id = (int) substr($ilWACPath->getPath(), strlen($ilWACPath->getModulePath() . "content/"));
+        // $content = $this->content_repository->getContent($content_id);
+
+        // if (null === $content) {
+        //     return false;
+        // }
+
+        // return $this->h5p_access_handler->checkAccess(
+        //     $content->getObjId(),
+        //     false,
+        //     $content->getParentType(),
+        //     $content->isInWorkspace(),
+        //     "read"
+        // );
     }
 }
