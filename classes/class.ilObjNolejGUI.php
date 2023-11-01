@@ -362,7 +362,6 @@ class ilObjNolejGUI extends ilObjectPluginGUI
         $contentId = $this->object->getContentIdOfType($this->selectedType);
 
         // Display activities
-        $this->tpl->addCss(ilNolejPlugin::PLUGIN_DIR . "/css/nolej.css");
         $this->tpl->setContent(($contentId != -1)
             ? $this->getH5PHtml($contentId)
             : "Error"
@@ -375,7 +374,9 @@ class ilObjNolejGUI extends ilObjectPluginGUI
      */
     public static function getH5PHtml($contentId)
     {
-        global $DIC;
+        global $DIC, $tpl;
+
+        $tpl->addCss(ilNolejPlugin::PLUGIN_DIR . "/css/nolej.css");
 
         $renderer = $DIC->ui()->renderer();
         $factory = $DIC->ui()->factory();
