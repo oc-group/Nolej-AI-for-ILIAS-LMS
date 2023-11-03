@@ -14,6 +14,8 @@ require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejWebhook.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI.php");
 require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
+include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+
 // use srag\Plugins\H5P\Content\Form\ImportContentFormProcessor;
 // use srag\Plugins\H5P\Content\Form\ImportContentFormBuilder;
 // use srag\Plugins\H5P\Content\Form\EditContentFormBuilder;
