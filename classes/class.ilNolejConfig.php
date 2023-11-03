@@ -166,10 +166,14 @@ class ilNolejConfig
      * data is stored (transcriptions, activities, ...)
      *
      * @return string
+     * 
+     * @todo Replace use of this method with th filesystem service
+     * @see \ILIAS\DI\Container::filesystem()
+     * @see Filesystems::web()
      */
     public static function dataDir(): string
     {
-        return ilUtil::getWebspaceDir() . "/" . ilNolejPlugin::PLUGIN_ID . "/";
+        return "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/" . ilNolejPlugin::PLUGIN_ID . "/";
     }
 
     /**
