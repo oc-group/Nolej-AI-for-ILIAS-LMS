@@ -86,8 +86,6 @@ class ilNolejGUI
         }
 
         $tpl->printToStdout();
-
-        return true;
     }
 
     /**
