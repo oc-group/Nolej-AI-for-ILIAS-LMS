@@ -2674,7 +2674,7 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(0, true);
                     $number->setMaxValue($settings->Practice_number_flashcard_max, true);
                     if ($a_use_post) {
-                        $ibook->setValueByArray($_POST);
+                        $ibook->setValueByArray((array) $_POST);
                         $number->setValueByArray($_POST);
                     } else {
                         $ibook->setChecked($settings->Practice_include_IB);
@@ -2698,7 +2698,7 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(0, true);
                     $number->setMaxValue($settings->PracticeQ_number_flashcard_max, true);
                     if ($a_use_post) {
-                        $ibook->setValueByArray($_POST);
+                        $ibook->setValueByArray((array) $_POST);
                         $number->setValueByArray($_POST);
                     } else {
                         $ibook->setChecked($settings->PracticeQ_include_IB);
@@ -2722,7 +2722,7 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(0, true);
                     $number->setMaxValue($settings->Grade_number_question_max, true);
                     if ($a_use_post) {
-                        $ibook->setValueByArray($_POST);
+                        $ibook->setValueByArray((array) $_POST);
                         $number->setValueByArray($_POST);
                     } else {
                         $ibook->setChecked($settings->Grade_include_IB);
@@ -2746,7 +2746,7 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(0, true);
                     $number->setMaxValue($settings->GradeQ_number_question_max, true);
                     if ($a_use_post) {
-                        $ibook->setValueByArray($_POST);
+                        $ibook->setValueByArray((array) $_POST);
                         $number->setValueByArray($_POST);
                     } else {
                         $ibook->setChecked($settings->GradeQ_include_IB);
