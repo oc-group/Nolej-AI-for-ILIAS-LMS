@@ -792,16 +792,16 @@ class ilNolejActivityManagementGUI
             $title = new ilNonEditableValueGUI($this->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
             $title->setValue($this->gui_obj->object->getTitle());
             $form->addItem($title);
-            
+
             $mediaSource = new ilNonEditableValueGUI($this->txt("prop_" . self::PROP_MEDIA_SRC), self::PROP_MEDIA_SRC);
             $mediaSource->setValue($this->gui_obj->object->getDocumentSource());
             $mediaSource->setInfo($this->txt("prop_" . $this->gui_obj->object->getDocumentMediaType()));
             $form->addItem($mediaSource);
-            
+
             $language = new ilNonEditableValueGUI($this->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
             $language->setValue($this->lng->txt("meta_l_" . $this->gui_obj->object->getDocumentLang()));
             $form->addItem($language);
-            
+
             $automaticMode = new ilCheckboxInputGUI($this->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
             $automaticMode->setChecked($this->gui_obj->object->getDocumentAutomaticMode());
             $automaticMode->setDisabled(true);
