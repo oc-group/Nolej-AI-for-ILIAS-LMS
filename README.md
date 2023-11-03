@@ -37,3 +37,9 @@ git clone https://github.com/oc-group/Nolej.git Nolej
    1. Go into `Administration` -> `System Settings and Maintenance` -> `General Settings`
    2. Enable `Anonymous Access`
    3. Save
+
+4. Enable TinyMCE Editor
+   1. Go into `Administration` -> `Layout and Navigation` -> `Editing`
+   2. Select tab `TinyMCE Editor` -> `General Settings`
+   3. Activate the checkbox
+   4. Save
