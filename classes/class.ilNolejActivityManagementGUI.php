@@ -858,6 +858,7 @@ class ilNolejActivityManagementGUI
             $txt = new ilTextAreaInputGUI("", self::PROP_M_TEXTAREA);
             $txt->setRows(50);
             $txt->setMaxNumOfChars(50000);
+            $txt->usePurifier(false);
             if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
                 $txt->setUseRte(true);
                 $txt->setRteTags([
@@ -865,7 +866,6 @@ class ilNolejActivityManagementGUI
                     "ul", "ol", "li",
                     "br", "strong", "u", "i",
                 ]);
-                $txt->usePurifier(true);
                 $txt->setRTERootBlockElement("");
                 $txt->disableButtons([
                     "charmap",
@@ -1554,6 +1554,7 @@ class ilNolejActivityManagementGUI
             $txt->setRequired(true);
             $txt->setRows(50);
             $txt->setMaxNumOfChars(50000);
+            $txt->usePurifier(false);
             if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
                 $txt->setUseRte(true);
                 $txt->setRteTags([
@@ -1561,7 +1562,6 @@ class ilNolejActivityManagementGUI
                     "ul", "ol", "li",
                     "br", "strong", "u", "i",
                 ]);
-                $txt->usePurifier(true);
                 $txt->setRTERootBlockElement("");
                 $txt->disableButtons([
                     "charmap",
@@ -1770,6 +1770,7 @@ class ilNolejActivityManagementGUI
                 $this->txt("prop_" . self::PROP_M_TEXT),
                 sprintf("summary_%d_text", $i)
             );
+            $txt->usePurifier(false);
             $txt->setRows(6);
             $form->addItem($txt);
 
@@ -1791,6 +1792,7 @@ class ilNolejActivityManagementGUI
             $section->setTitle($this->txt("summary_abstract"));
             $form->addItem($section);
             $txt = new ilTextAreaInputGUI("", "abstract");
+            $txt->usePurifier(false);
             if ($a_use_post) {
                 $txt->setValueByArray($_POST);
             } else {
@@ -1815,6 +1817,7 @@ class ilNolejActivityManagementGUI
                 "",
                 sprintf("keypoints_%d", $i)
             );
+            $txt->usePurifier(false);
             if ($a_use_post) {
                 $txt->setValueByArray($_POST);
             } else {
@@ -1992,6 +1995,7 @@ class ilNolejActivityManagementGUI
                     $this->txt("questions_question"),
                     sprintf("question_%d_question", $i)
                 );
+                $question->usePurifier(false);
                 $question->setRows(3);
                 $form->addItem($question);
             } else {
@@ -2022,6 +2026,7 @@ class ilNolejActivityManagementGUI
                     $this->txt("questions_answer"),
                     sprintf("question_%d_answer", $i)
                 );
+                $answer->usePurifier(false);
                 $answer->setRows(3);
                 if ($questions[$i]->question_type == "tf") {
                     $form->addItem($answer);
@@ -2041,6 +2046,7 @@ class ilNolejActivityManagementGUI
                     $j == 0 ? $this->txt("questions_distractors") : "",
                     sprintf("question_%d_distractor_%d", $i, $j)
                 );
+                $distractor->usePurifier(false);
                 $enable->addSubItem($distractor);
                 if ($a_use_post) {
                     $distractor->setValueByArray($_POST);
@@ -2307,6 +2313,7 @@ class ilNolejActivityManagementGUI
                 $this->txt("concepts_definition"),
                 sprintf("concept_%d_definition", $i)
             );
+            $definition->usePurifier(false);
             $definition->setRows(4);
             $enable->addSubItem($definition);
 
