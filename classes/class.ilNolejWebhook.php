@@ -569,8 +569,8 @@ class ilNolejWebhook
 
         if (class_exists("ilNotificationConfig")) {
             $notification = new ilNotificationConfig("chat_invitation");
-        } else if (class_exists("ILIAS\Notifications\Model\ilNotificationParameter\ilNotificationConfig")) {
-            $notification = new ILIAS\Notifications\Model\ilNotificationParameter\ilNotificationConfig("chat_invitation");
+        } else if (class_exists("\ILIAS\Notifications\Model\ilNotificationParameter\ilNotificationConfig")) {
+            $notification = new \ILIAS\Notifications\Model\ilNotificationParameter\ilNotificationConfig("chat_invitation");
         } else {
             $this->log("Warning: Notification cannot be sent!");
             return;
