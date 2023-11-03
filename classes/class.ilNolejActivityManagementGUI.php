@@ -626,7 +626,6 @@ class ilNolejActivityManagementGUI
         string $a_type,
         string $a_frame
     ): string {
-        $lng = $this->lng;
         $link_str = "";
         $t_arr = explode("_", $a_target);
 
@@ -635,7 +634,7 @@ class ilNolejActivityManagementGUI
             $mob = new ilObjMediaObject($mobId);
             $link_str = sprintf(
                 "%s: %s [%s]",
-                $lng->txt("mob"),
+                $this->txt("prop_" . self::PROP_M_MOB . "_info"),
                 $mob->getTitle(),
                 $mobId
             );
