@@ -633,7 +633,7 @@ class ilNolejActivityManagementGUI
             $mob = new ilObjMediaObject($mobId);
             $link_str = sprintf(
                 "%s: %s [%s]",
-                $this->txt("prop_" . self::PROP_M_MOB . "_info"),
+                $this->lng->txt("mob"),
                 $mob->getTitle(),
                 $mobId
             );
