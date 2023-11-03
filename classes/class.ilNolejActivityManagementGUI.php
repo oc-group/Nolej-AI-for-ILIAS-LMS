@@ -1858,6 +1858,8 @@ class ilNolejActivityManagementGUI
                 );
                 $question->setRows(3);
                 $form->addItem($question);
+            } else {
+                $question = null;
             }
 
             $questionType = new ilHiddenInputGUI(sprintf("question_%d_type", $i));
@@ -1890,6 +1892,8 @@ class ilNolejActivityManagementGUI
                 } else {
                     $enable->addSubItem($answer);
                 }
+            } else {
+                $answer = null;
             }
 
             $distractorsLength = count($questions[$i]->distractors);
