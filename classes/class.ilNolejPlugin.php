@@ -9,9 +9,6 @@
  * @copyright 2023 OC Open Consulting SB Srl
  */
 
-require_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
-
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 
