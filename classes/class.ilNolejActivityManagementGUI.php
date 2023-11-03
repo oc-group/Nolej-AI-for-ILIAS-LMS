@@ -160,6 +160,8 @@ class ilNolejActivityManagementGUI
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->request = $DIC->http()->request();
+
+        $this->lng->loadLanguageModule(ilNolejPlugin::PREFIX);
         $this->config = new ilNolejConfig();
 
         $this->gui_obj = $gui_obj;
@@ -2970,12 +2972,6 @@ class ilNolejActivityManagementGUI
         }
         $activities = json_decode($json);
         $fails = [];
-
-        ilNolejConfig::includeH5P();
-
-        if (!method_exists("ilH5PPlugin", "getInstance")) {
-            return ilNolejConfig::txt("err_h5p_plugin");
-        }
 
         $now = strtotime("now");
         foreach ($activities->activities as $activity) {
