@@ -9,7 +9,6 @@
  * @copyright 2023 OC Open Consulting SB Srl
  */
 
-require_once("./Services/Repository/classes/class.ilObjectPluginAccess.php");
 require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilObjNolej.php");
 // require_once("./Services/Conditions/interfaces/interface.ilConditionHandling.php"); //bugfix mantis 24891
 
@@ -31,7 +30,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess
      * @param string $a_permission permission
      * @param int $a_ref_id reference id
      * @param int $a_obj_id object id
-     * @param int $a_user_id user id (default is current user)
+     * @param ?int $a_user_id user id (default is current user)
      * @return bool true, if everything is ok
      */
     public function _checkAccess(
@@ -39,9 +38,9 @@ class ilObjNolejAccess extends ilObjectPluginAccess
         string $a_permission,
         int $a_ref_id,
         int $a_obj_id,
-        int $a_user_id = 0
+        ?int $a_user_id = NULL
     ): bool {
-        if ($a_user_id == 0 || $a_user_id == null) {
+        if ($a_user_id == null) {
             $a_user_id = $this->user->getId();
         }
 
