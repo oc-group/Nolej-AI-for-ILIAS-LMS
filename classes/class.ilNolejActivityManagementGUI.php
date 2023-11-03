@@ -2064,11 +2064,11 @@ class ilNolejActivityManagementGUI
             $enable->addSubItem($useForGrading);
 
             if ($a_use_post) {
-                $enable->setValueByArray($_POST);
+                $enable->setValueByArray((array) $_POST);
                 if (isset($answer)) {
                     $answer->setValueByArray($_POST);
                 }
-                $useForGrading->setValueByArray($_POST);
+                $useForGrading->setValueByArray((array) $_POST);
                 if (isset($question)) {
                     $question->setValueByArray($_POST);
                 }
@@ -2383,13 +2383,13 @@ class ilNolejActivityManagementGUI
             $enable->addSubItem($games);
 
             if ($a_use_post) {
-                $enable->setValueByArray($_POST);
-                $useForCW->setValueByArray($_POST);
-                $useForDTW->setValueByArray($_POST);
-                $useForFTW->setValueByArray($_POST);
-                $useForGaming->setValueByArray($_POST);
-                $useForPractice->setValueByArray($_POST);
-                $useForAssessment->setValueByArray($_POST);
+                $enable->setValueByArray((array) $_POST);
+                $useForCW->setValueByArray((array) $_POST);
+                $useForDTW->setValueByArray((array) $_POST);
+                $useForFTW->setValueByArray((array) $_POST);
+                $useForGaming->setValueByArray((array) $_POST);
+                $useForPractice->setValueByArray((array) $_POST);
+                $useForAssessment->setValueByArray((array) $_POST);
                 $definition->setValueByArray($_POST);
             } else {
                 $enable->setChecked($concepts[$i]->enable);
@@ -2565,7 +2565,7 @@ class ilNolejActivityManagementGUI
             );
 
             if ($a_use_post) {
-                $activity->setValueByArray($_POST);
+                $activity->setValueByArray((array) $_POST);
             } else {
                 $activity->setChecked(true);
             }
@@ -2584,7 +2584,7 @@ class ilNolejActivityManagementGUI
                         "Glossary_include_IB"
                     );
                     if ($a_use_post) {
-                        $ibook->setValueByArray($_POST);
+                        $ibook->setValueByArray((array) $_POST);
                     } else {
                         $ibook->setChecked($settings->Glossary_include_IB);
                     }
@@ -2597,7 +2597,7 @@ class ilNolejActivityManagementGUI
                         "Summary_include_IB"
                     );
                     if ($a_use_post) {
-                        $ibook->setValueByArray($_POST);
+                        $ibook->setValueByArray((array) $_POST);
                     } else {
                         $ibook->setChecked($settings->Summary_include_IB);
                     }
