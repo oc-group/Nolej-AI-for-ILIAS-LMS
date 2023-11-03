@@ -1822,7 +1822,6 @@ class ilNolejActivityManagementGUI
 
         $questionTypeFilter = $_GET["question_type"] ?? "";
         $questionTypes = [];
-        // $this->txt("questions_type_" . $questions[$i]->question_type)
 
         $questions = json_decode($json);
         $questions = $questions->questions;
@@ -1832,11 +1831,14 @@ class ilNolejActivityManagementGUI
         $length_input->setValue($length);
         $form->addItem($length_input);
         for($i = 0; $i < $length; $i++) {
+
+            // Counter
             if (!isset($questionTypes[$questions[$i]->question_type])) {
                 $questionTypes[$questions[$i]->question_type] = 0;
             }
             $questionTypes[$questions[$i]->question_type] += 1;
 
+            // Filter
             if (!empty($questionTypeFilter) && $questionTypeFilter != $questions[$i]->question_type) {
                 continue;
             }
@@ -1929,7 +1931,7 @@ class ilNolejActivityManagementGUI
                 }
                 $useForGrading->setChecked($questions[$i]->use_for_grading);
                 if (isset($question)) {
-                    $question->setValue($questions[$i]->question);
+                    $question->setValue($questions[$i]->question ?? "-");
                 }
             }
         }
