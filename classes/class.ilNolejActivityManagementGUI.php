@@ -1935,7 +1935,7 @@ class ilNolejActivityManagementGUI
                 }
                 $useForGrading->setChecked($questions[$i]->use_for_grading);
                 if (isset($question)) {
-                    $question->setValue($questions[$i]->question ?? "-");
+                    $question->setValue($questions[$i]->question);
                 }
             }
         }
