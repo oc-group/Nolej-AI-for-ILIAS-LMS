@@ -579,14 +579,12 @@ class ilNolejActivityManagementGUI
             $this->set("il_type", "");
             $this->set("il_target", "");
             $this->set("il_targetframe", "");
-            $this->set("il_obj_id", "");
             return;
         }
 
         $this->set("il_type", $_GET["linktype"]);
         $this->set("il_target", $_GET["linktarget"]);
         $this->set("il_targetframe", $_GET["linktargetframe"]);
-        $this->set("il_obj_id", substr($_GET["linktarget"], 8));
         $this->creation();
     }
 
@@ -619,12 +617,13 @@ class ilNolejActivityManagementGUI
         $t_arr = explode("_", $a_target);
 
         if ($a_type == "MediaObject") {
-            $mob = new ilObjMediaObject($t_arr[count($t_arr) - 1]);
+            $mobId = $t_arr[count($t_arr) - 1];
+            $mob = new ilObjMediaObject($mobId);
             $link_str = sprintf(
                 "%s: %s [%s]",
                 $lng->txt("mob"),
                 $mob->getTitle(),
-                $t_arr[count($t_arr) - 1]
+                $mobId
             );
         }
 
@@ -1087,7 +1086,8 @@ class ilNolejActivityManagementGUI
                  * Decrement credit
                  */
                 $mobInput = $this->getInternalLink();
-                $objId = $mobInput["target"];
+                $t_arr = explode("_", $mobInput["target"]);
+                $objId = $t_arr[count($t_arr) - 1];
                 $path = ilObjMediaObject::_lookupItemPath($objId);
                 $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
                 switch ($extension) {
