@@ -16,7 +16,6 @@ require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManageme
 /**
  * This class takes care of the calls to the webhook.
  */
-
 class ilNolejWebhook
 {
     /** @var ilNolejConfig */
@@ -567,7 +566,16 @@ class ilNolejWebhook
 
         /** Send Email */
         $lng = $this->setUserLang($userId);
-        $notification = new ilNotificationConfig("chat_invitation");
+
+        if (class_exists("ilNotificationConfig")) {
+            $notification = new ilNotificationConfig("chat_invitation");
+        } else if (class_exists("ILIAS\Notifications\Model\ilNotificationParameter\ilNotificationConfig")) {
+            $notification = new ILIAS\Notifications\Model\ilNotificationParameter\ilNotificationConfig("chat_invitation");
+        } else {
+            $this->log("Warning: Notification cannot be sent!");
+            return;
+        }
+
         $notification->setTitleVar(
             $lng->txt(
                 sprintf(
