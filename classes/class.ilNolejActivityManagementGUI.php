@@ -49,6 +49,7 @@ class ilNolejActivityManagementGUI
     // use H5PTrait;
 
     const CMD_CREATION = "creation";
+    const CMD_SET_INT_LINK = "setInternalLink";
     const CMD_CREATE = "create";
     const CMD_ANALYSIS = "analysis";
     const CMD_ANALYZE = "analyze";
@@ -203,7 +204,7 @@ class ilNolejActivityManagementGUI
                 $link_gui->setSetLinkTargetScript(
                     $this->ctrl->getLinkTarget(
                         $this,
-                        "setInternalLink"
+                        self::CMD_SET_INT_LINK
                     )
                 );
                 $this->ctrl->forwardCommand($link_gui);
@@ -213,6 +214,7 @@ class ilNolejActivityManagementGUI
                 switch ($cmd) {
                     // Need to have permission to access modules
                     case self::CMD_CREATION:
+                    case self::CMD_SET_INT_LINK:
                     case self::CMD_CREATE:
                     case self::CMD_ANALYSIS:
                     case self::CMD_ANALYZE:
