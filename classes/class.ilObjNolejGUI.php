@@ -72,7 +72,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /**
      * Initialisation
      */
-    protected function afterConstructor()
+    protected function afterConstructor(): void
     {
         global $DIC, $ilCtrl, $ilTabs, $tpl;
         $this->ctrl = $ilCtrl;
@@ -85,7 +85,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
      * Get type.
      * @return string
      */
-    final function getType()
+    final function getType(): string
     {
         return ilNolejPlugin::PLUGIN_ID;
     }
@@ -149,7 +149,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
      * After object has been created -> jump to this command
      * @return string
      */
-    function getAfterCreationCmd()
+    function getAfterCreationCmd(): string
     {
         return self::CMD_PROPERTIES_EDIT;
     }
@@ -158,12 +158,12 @@ class ilObjNolejGUI extends ilObjectPluginGUI
      * Get standard command
      * @return string
      */
-    function getStandardCmd()
+    function getStandardCmd(): string
     {
         return self::CMD_CONTENT_SHOW;
     }
 
-    public function afterSave(ilObject $a_new_object)
+    public function afterSave(ilObject $a_new_object): void
     {
         $parent_data = $this->tree->getParentNodeData($a_new_object->getRefId());
         $a_new_object->setPermissions($parent_data["ref_id"]);
@@ -173,7 +173,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /**
      * @return bool returns true iff the plugin supports import/export
      */
-    protected function supportsExport()
+    protected function supportsExport(): bool
     {
         return false;
     }
@@ -181,7 +181,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /**
      * @return bool returns true iff this plugin object supports cloning
      */
-    protected function supportsCloning()
+    protected function supportsCloning(): bool
     {
         return false;
     }
@@ -189,7 +189,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /**
      * Set tabs
      */
-    protected function setTabs()
+    protected function setTabs(): void
     {
         // tab for the "show content" command
         if ($this->object->hasReadPermission()) {
@@ -229,7 +229,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /**
      * Edit Properties. This commands uses the form class to display an input form.
      */
-    protected function editProperties()
+    protected function editProperties(): void
     {
         $form = $this->initPropertiesForm();
         $this->addValuesToForm($form);
@@ -381,7 +381,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
      * @param int $contentId
      * @return string html
      */
-    public static function getH5PHtml($contentId)
+    public static function getH5PHtml($contentId): string
     {
         global $DIC, $tpl;
 
@@ -438,7 +438,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /**
      * @return string
      */
-    public function buildIcon($id, $alt = "")
+    public function buildIcon($id, $alt = ""): string
     {
         return sprintf(
             '<img border="0" align="middle" src="%s" alt="%s" /> ',
@@ -451,7 +451,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
      * Add items to info screen
      * @param ilInfoScreenGUI $info
      */
-    public function addInfoItems($info)
+    public function addInfoItems($info): void
     {
         global $tpl;
 
