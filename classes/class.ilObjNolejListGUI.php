@@ -9,8 +9,6 @@
  * @copyright 2023 OC Open Consulting SB Srl
  */
 
-include_once "./Services/Repository/classes/class.ilObjectPluginListGUI.php";
-
 /**
  * Handles the presentation in container items (categories, courses, ...)
  * together with the corresponding ...Access class.
