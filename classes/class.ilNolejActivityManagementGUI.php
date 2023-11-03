@@ -2883,9 +2883,9 @@ class ilNolejActivityManagementGUI
         if (method_exists("ilH5PPlugin", "getInstance")) {
             $h5p_plugin = ilH5PPlugin::getInstance();
         } else {
-            /** @var ilComponentFactory $component_factory */
+            /** @var ilComponentFactory */
             $component_factory = $DIC['component.factory'];
-            /** @var ilH5PPlugin $plugin */
+            /** @var ilH5PPlugin */
             $h5p_plugin = $component_factory->getPlugin(ilH5PPlugin::PLUGIN_ID);
         }
 
