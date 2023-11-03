@@ -2913,7 +2913,7 @@ class ilNolejActivityManagementGUI
                 "yearFrom" => $h5p_kernel->mainJsonData["yearFrom"],
                 "yearTo" => $h5p_kernel->mainJsonData["yearTo"],
                 "obj_id" => $this->getObjIdFromDocumentId($this->documentId),
-                "parent_type" => ilNolejPlugin::PLUGIN_ID,
+                "parent_type" => "unknown", // instead of ilNolejPlugin::PLUGIN_ID, so that read permission is granted
                 "in_workspace" => false
             ]
         ]);
