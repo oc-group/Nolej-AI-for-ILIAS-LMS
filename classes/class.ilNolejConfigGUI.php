@@ -82,7 +82,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
             switch ($next_class) {
                 case "ilnolejmediaselectorgui":
                     $mediaselectorgui = new ilNolejMediaSelectorGUI($this);
-                    return $this->ctrl->forwardCommand($mediaselectorgui);
+                    $this->ctrl->forwardCommand($mediaselectorgui);
             }
         }
 
