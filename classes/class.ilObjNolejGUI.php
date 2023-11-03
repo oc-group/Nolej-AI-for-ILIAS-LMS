@@ -544,7 +544,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /**
      * We need this method if we can't access the tabs otherwise...
      */
-    private function activateTab()
+    private function activateTab(): void
     {
         $next_class = $this->ctrl->getCmdClass();
 
@@ -561,7 +561,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
      * Goto redirection
      * @param array $a_target
      */
-    public static function _goto($a_target)
+    public static function _goto(array $a_target): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
