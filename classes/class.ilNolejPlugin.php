@@ -79,7 +79,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
      * Must correspond to the plugin subdirectory
      * @return string
      */
-    public function getPluginName()
+    public function getPluginName(): string
     {
         return self::PLUGIN_NAME;
     }
@@ -94,11 +94,11 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
         return $par_types;
     }
 
-    protected function afterActivation()
+    protected function afterActivation(): void
     {
     }
 
-    protected function uninstallCustom()
+    protected function uninstallCustom(): void
     {
         $tables = [
             self::TABLE_CONFIG,
@@ -121,7 +121,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
      * @inheritdoc
      * @return bool
      */
-    public function allowCopy()
+    public function allowCopy(): bool
     {
         return false;
     }
