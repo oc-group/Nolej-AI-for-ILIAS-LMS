@@ -195,7 +195,6 @@ class ilNolejActivityManagementGUI
 
         switch ($next_class) {
             case "ilinternallinkgui":
-                $this->config->logger->log("called ilinternallinkgui.");
                 $this->lng->loadLanguageModule("content");
                 require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $link_gui = new ilInternalLinkGUI("Media_Media", 0);
