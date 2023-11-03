@@ -63,8 +63,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     /** @var ilTabsGUI */
     protected ilTabsGUI $tabs;
 
-    /** @var ilTemplate */
-    public ilTemplate $tpl;
+    /** @var ilGlobalTemplateInterface */
+    public ilGlobalTemplateInterface $tpl;
 
     /** @var string */
     protected string $selectedType = "";
