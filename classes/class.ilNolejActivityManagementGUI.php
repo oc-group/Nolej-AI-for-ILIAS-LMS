@@ -671,7 +671,10 @@ class ilNolejActivityManagementGUI
      */
     public function initCreationForm()
     {
-        global $ilUser, $tpl;
+        global $DIC, $ilUser, $tpl;
+
+        $renderer = $DIC->ui()->renderer();
+        $f = $DIC->ui()->factory();
 
         $this->lng->loadLanguageModule("meta");
 
@@ -759,18 +762,25 @@ class ilNolejActivityManagementGUI
             $mob = new ilNonEditableValueGUI("", "", true);
             $link_str = "";
             $int_link = $this->getInternalLink();
+            $preview = "";
             if ($int_link["target"] != "") {
                 $link_str = $this->getIntLinkString(
                     $int_link["target"],
                     $int_link["type"],
                     $int_link["target_frame"]
                 );
+                $t_arr = explode("_", $int_link["target"]);
+                $mobId = $t_arr[count($t_arr) - 1];
+                $path = ilObjMediaObject::_lookupItemPath($mobId);
+                $video = $f->player()->video($path);
+                $preview = $renderer->render($video);
                 $mediaSource->setValue(self::PROP_M_MOB);
             }
             $this->lng->loadLanguageModule("content");
             $mob->setValue(
                 sprintf(
-                    "%s <a id='iosEditInternalLinkTrigger' href='#'>[%s]</a>",
+                    "%s<br>%s <a id='iosEditInternalLinkTrigger' href='#'>[%s]</a>",
+                    $preview,
                     $link_str,
                     $this->lng->txt("cont_get_link")
                 )
