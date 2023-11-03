@@ -117,15 +117,11 @@ class ilObjNolejGUI extends ilObjectPluginGUI
                         $this->$cmd();
                         break;
 
-                    // Need a bound course
                     case self::CMD_FILTER_APPLY:
                     case self::CMD_FILTER_RESET:
                     case self::CMD_FILTER_USER:
+                        // Not yet used
                         $this->checkPermission("write");
-                        // if ($this->object->isBound()) {
-                        // 	$this->$cmd();
-                        // 	break;
-                        // }
                         $this->showContent();
                         break;
 

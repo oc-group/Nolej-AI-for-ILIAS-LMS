@@ -154,7 +154,7 @@ class ilNolejActivityManagementGUI
 
         $this->gui_obj = $gui_obj;
         $this->documentId = $gui_obj != null
-            ? $this->gui_obj->object->getDocumentId()
+            ? $this->gui_obj->getObject()->getDocumentId()
             : $documentId;
         $this->dataDir = $this->config->dataDir() . $this->documentId;
         $this->statusCheck();
@@ -162,7 +162,7 @@ class ilNolejActivityManagementGUI
         $tpl->setTitle(
             $this->gui_obj == null
                 ? $this->txt("plugin_title")
-                : $this->gui_obj->object->getTitle(),
+                : $this->gui_obj->getObject()->getTitle(),
             false
         );
         $tpl->setDescription($this->txt("plugin_description"));
@@ -260,7 +260,7 @@ class ilNolejActivityManagementGUI
             return;
         }
 
-        $this->status = $this->gui_obj->object->getDocumentStatus();
+        $this->status = $this->gui_obj->getObject()->getDocumentStatus();
 
         switch ($this->status) {
             case self::STATUS_CREATION:
@@ -644,7 +644,7 @@ class ilNolejActivityManagementGUI
              */
             $title = new ilTextInputGUI($this->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
             $title->setInfo($this->txt("prop_" . self::PROP_TITLE . "_info"));
-            $title->setValue($this->gui_obj->object->getTitle());
+            $title->setValue($this->gui_obj->getObject()->getTitle());
             $title->setMaxLength(250);
             $form->addItem($title);
 
@@ -788,20 +788,20 @@ class ilNolejActivityManagementGUI
         } else {
 
             $title = new ilNonEditableValueGUI($this->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
-            $title->setValue($this->gui_obj->object->getTitle());
+            $title->setValue($this->gui_obj->getObject()->getTitle());
             $form->addItem($title);
 
             $mediaSource = new ilNonEditableValueGUI($this->txt("prop_" . self::PROP_MEDIA_SRC), self::PROP_MEDIA_SRC);
-            $mediaSource->setValue($this->gui_obj->object->getDocumentSource());
-            $mediaSource->setInfo($this->txt("prop_" . $this->gui_obj->object->getDocumentMediaType()));
+            $mediaSource->setValue($this->gui_obj->getObject()->getDocumentSource());
+            $mediaSource->setInfo($this->txt("prop_" . $this->gui_obj->getObject()->getDocumentMediaType()));
             $form->addItem($mediaSource);
 
             $language = new ilNonEditableValueGUI($this->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
-            $language->setValue($this->lng->txt("meta_l_" . $this->gui_obj->object->getDocumentLang()));
+            $language->setValue($this->lng->txt("meta_l_" . $this->gui_obj->getObject()->getDocumentLang()));
             $form->addItem($language);
 
             $automaticMode = new ilCheckboxInputGUI($this->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
-            $automaticMode->setChecked($this->gui_obj->object->getDocumentAutomaticMode());
+            $automaticMode->setChecked($this->gui_obj->getObject()->getDocumentAutomaticMode());
             $automaticMode->setDisabled(true);
             $form->addItem($automaticMode);
         }
@@ -1118,9 +1118,9 @@ class ilNolejActivityManagementGUI
         $apiAutomaticMode = (bool) $form->getInput(self::PROP_AUTOMATIC);
 
         // Update object title if it differs from the current one.
-        if ($apiTitle != "" && $apiTitle != $this->gui_obj->object->getTitle()) {
-            $this->gui_obj->object->setTitle($apiTitle);
-            $this->gui_obj->object->update();
+        if ($apiTitle != "" && $apiTitle != $this->gui_obj->getObject()->getTitle()) {
+            $this->gui_obj->getObject()->setTitle($apiTitle);
+            $this->gui_obj->getObject()->update();
         }
 
         $api = new ilNolejAPI($api_key);
@@ -1166,7 +1166,7 @@ class ilNolejActivityManagementGUI
             "UPDATE " . ilNolejPlugin::TABLE_DATA . " SET"
             . " document_id = %s WHERE id = %s;",
             array("text", "integer"),
-            array($result->id, $this->gui_obj->object->getId())
+            array($result->id, $this->gui_obj->getObject()->getId())
         );
 
         $this->db->manipulateF(
@@ -1184,7 +1184,7 @@ class ilNolejActivityManagementGUI
                 "text"
             ),
             array(
-                $this->gui_obj->object->getTitle(),
+                $this->gui_obj->getObject()->getTitle(),
                 self::STATUS_CREATION_PENDING,
                 $decrementedCredit,
                 $apiUrl,
@@ -1393,8 +1393,8 @@ class ilNolejActivityManagementGUI
          * - $title: Title returned from transcription;
          * - $objTitle: Current module title.
          */
-        $title = $this->gui_obj->object->getDocumentTitle();
-        $objTitle = $this->gui_obj->object->getTitle();
+        $title = $this->gui_obj->getObject()->getDocumentTitle();
+        $objTitle = $this->gui_obj->getObject()->getTitle();
 
         if ($status == self::STATUS_ANALISYS) {
             $form = new ilPropertyFormGUI();
@@ -1517,17 +1517,17 @@ class ilNolejActivityManagementGUI
             return;
         }
 
-        $apiAutomaticMode = $this->gui_obj->object->getDocumentAutomaticMode();
+        $apiAutomaticMode = $this->gui_obj->getObject()->getDocumentAutomaticMode();
         $api = new ilNolejAPI($api_key);
 
         /**
          * May update title
          */
         $title = $form->getInput(self::PROP_TITLE);
-        $objTitle = $this->gui_obj->object->getTitle();
+        $objTitle = $this->gui_obj->getObject()->getTitle();
         if ($title != "" && $title != $objTitle) {
-            $this->gui_obj->object->setTitle($title);
-            $this->gui_obj->object->update();
+            $this->gui_obj->getObject()->setTitle($title);
+            $this->gui_obj->getObject()->update();
         }
 
         $url = ILIAS_HTTP_PATH . substr(ilWACSignedPath::signFile($this->dataDir . "/transcription.htm"), 1);
