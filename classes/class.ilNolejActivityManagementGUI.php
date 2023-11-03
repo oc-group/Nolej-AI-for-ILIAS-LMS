@@ -820,7 +820,7 @@ class ilNolejActivityManagementGUI
                     "%s<br>%s <a id='iosEditInternalLinkTrigger' href='#'>[%s]</a>",
                     $preview,
                     $link_str,
-                    $this->lng->txt("cont_get_link")
+                    $this->txt("prop_" . self::PROP_M_MOB . "_info")
                 )
             );
             $mediaMob->addSubItem($mob);
