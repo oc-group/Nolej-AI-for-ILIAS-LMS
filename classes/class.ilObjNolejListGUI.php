@@ -82,9 +82,6 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
     {
         $props = array();
 
-        $this->plugin->includeClass("class.ilObjNolejAccess.php");
-        // $object = ilObjectFactory::getInstanceByObjId($this->obj_id, false);
-
         if (ilObjNolejAccess::_isOffline($this->obj_id)) {
             $props[] = array(
                 "alert" => true,
