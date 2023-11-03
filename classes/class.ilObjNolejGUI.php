@@ -94,7 +94,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
      * Handles all commmands of this class, centralizes permission checks
      * @param string $cmd
      */
-    function performCommand($cmd)
+    public function performCommand(string $cmd)
     {
         global $DIC;
 

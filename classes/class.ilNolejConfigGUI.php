@@ -74,7 +74,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
      * Handles all commmands,
      * $cmd = functionName()
      */
-    public function performCommand($cmd)
+    public function performCommand(string $cmd)
     {
         $next_class = $this->ctrl->getNextClass($this);
 
