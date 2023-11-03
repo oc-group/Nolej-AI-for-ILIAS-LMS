@@ -2873,14 +2873,24 @@ class ilNolejActivityManagementGUI
      */
     public function importH5PContent($h5pDir, $type, $time)
     {
+        global $DIC;
         $filePath = sprintf("%s/%s.h5p", $h5pDir, $type);
         $filePath = substr($filePath, 1);
         $absolutePath = ILIAS_ABSOLUTE_PATH . $filePath;
 
         $this->config->logger->log("Importing H5P activity " . $type . " of document " . $this->documentId);
 
+        if (method_exists("ilH5PPlugin", "getInstance")) {
+            $h5p_plugin = ilH5PPlugin::getInstance();
+        } else {
+            /** @var ilComponentFactory $component_factory */
+            $component_factory = $DIC['component.factory'];
+            /** @var ilH5PPlugin $plugin */
+            $h5p_plugin = $component_factory->getPlugin(ilH5PPlugin::PLUGIN_ID);
+        }
+
         /** @var IContainer */
-        $h5p_container = ilH5PPlugin::getInstance()->getContainer();
+        $h5p_container = $h5p_plugin->getContainer();
 
         /** @var H5PCore */
         $h5p_kernel = $h5p_container->getKernel();

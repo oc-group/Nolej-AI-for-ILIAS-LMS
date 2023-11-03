@@ -402,15 +402,17 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
         ilNolejConfig::includeH5P();
 
-        if (!method_exists("ilH5PPlugin", "getInstance")) {
-            $error = $factory
-                ->messageBox()
-                ->failure(ilNolejConfig::txt("err_h5p_plugin"));
-            return $renderer->render($error);
+        if (method_exists("ilH5PPlugin", "getInstance")) {
+            $h5p_plugin = ilH5PPlugin::getInstance();
+        } else {
+            /** @var ilComponentFactory $component_factory */
+            $component_factory = $DIC['component.factory'];
+            /** @var ilH5PPlugin $plugin */
+            $h5p_plugin = $component_factory->getPlugin(ilH5PPlugin::PLUGIN_ID);
         }
 
         /** @var IContainer */
-        $h5p_container = ilH5PPlugin::getInstance()->getContainer();
+        $h5p_container = $h5p_plugin->getContainer();
 
         /** @var IRepositoryFactory */
         $repositories = $h5p_container->getRepositoryFactory();
