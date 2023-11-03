@@ -599,6 +599,11 @@ class ilNolejActivityManagementGUI
             substr($_GET["linktarget"], 0, 8) != "il__mob_" ||
             $_GET["linktargetframe"] != "Media"
         ) {
+            $this->config->logger->log("Failed check: " . var_export([
+                "linktype" => $_GET["linktype"],
+                "linktarget_sub" => substr($_GET["linktarget"], 0, 8),
+                "linktargetframe" => $_GET["linktargetframe"]
+            ], true));
             return;
         }
 
