@@ -55,6 +55,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
 
+        $this->lng->loadLanguageModule(ilNolejPlugin::PREFIX);
         $this->config = new ilNolejConfig();
 
         $tpl->setTitleIcon(ilNolejPlugin::PLUGIN_DIR . "/templates/images/icon_xnlj.svg");
