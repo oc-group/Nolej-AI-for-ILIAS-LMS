@@ -592,7 +592,8 @@ class ilNolejActivityManagementGUI
         \ilSession::set(ilNolejPlugin::PLUGIN_ID . "_" . $key, $val);
     }
 
-    public function setInternalLink(): void {
+    public function setInternalLink(): void
+    {
         if (
             $_GET["linktype"] != "MediaObject" ||
             substr($_GET["linktarget"], 0, 8) != "il__mob_" ||
@@ -997,7 +998,7 @@ class ilNolejActivityManagementGUI
 
         $tpl->setContent(
             ($this->status == self::STATUS_CREATION ? $this->contentLimitsInfo() : "")
-            . $form->getHTML()
+            . (empty($this->formTpl) ? $form->getHTML() : $this->formTpl)
             . $js
         );
     }
@@ -1052,20 +1053,21 @@ class ilNolejActivityManagementGUI
         global $DIC, $tpl;
 
         $form = $this->initCreationForm();
+        $formHtml = empty($this->formTpl) ? $form->getHTML() : $this->formTpl;
         $js = $this->initIntLink();
 
         $api_key = $this->config->get("api_key", "");
         if ($api_key == "") {
             $tpl->setOnScreenMessage("failure", $this->txt("err_api_key_missing"));
             $form->setValuesByPost();
-            $tpl->setContent($form->getHTML() . $js);
+            $tpl->setContent($formHtml . $js);
             return;
         }
 
         if (!$form->checkInput()) {
             // input not ok, then
             $form->setValuesByPost();
-            $tpl->setContent($form->getHTML() . $js);
+            $tpl->setContent($formHtml . $js);
             return;
         }
 
@@ -1206,14 +1208,14 @@ class ilNolejActivityManagementGUI
         if (!$apiUrl || $apiUrl == "") {
             $tpl->setOnScreenMessage("failure", $this->txt("err_media_url_empty"), true);
             $form->setValuesByPost();
-            $tpl->setContent($form->getHTML() . $js);
+            $tpl->setContent($formHtml . $js);
             return;
         }
 
         if (!$apiFormat || $apiFormat == "") {
             $tpl->setOnScreenMessage("failure", $this->txt("err_media_format_unknown"), true);
             $form->setValuesByPost();
-            $tpl->setContent($form->getHTML() . $js);
+            $tpl->setContent($formHtml . $js);
             return;
         }
 
@@ -1262,7 +1264,7 @@ class ilNolejActivityManagementGUI
                 )
             );
             $form->setValuesByPost();
-            $tpl->setContent($form->getHTML() . $js);
+            $tpl->setContent($formHtml . $js);
             return;
         }
 
