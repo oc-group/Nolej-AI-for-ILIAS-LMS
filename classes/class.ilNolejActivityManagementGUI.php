@@ -139,7 +139,11 @@ class ilNolejActivityManagementGUI
     /** @var string */
     protected string $dataDir = "";
 
+    /** @var string */
     protected string $formTpl = "";
+
+    /** @var request */
+    protected $request;
 
     /** @var ilNolejConfig */
     protected $config;
@@ -155,6 +159,7 @@ class ilNolejActivityManagementGUI
         $this->tabs = $DIC->tabs();
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
+        $this->request = $DIC->http()->request();
         $this->config = new ilNolejConfig();
 
         $this->gui_obj = $gui_obj;
@@ -1777,8 +1782,8 @@ class ilNolejActivityManagementGUI
             $form->addItem($txt);
 
             if ($a_use_post) {
-                $txt->setValueByArray((array) $_POST);
-                $title->setValueByArray((array) $_POST);
+                $txt->setValueByArray($this->request->getParsedBody());
+                $title->setValueByArray($this->request->getParsedBody());
             } else {
                 $txt->setValue($summary->summary[$i]->text);
                 $title->setValue($summary->summary[$i]->title);
@@ -1796,7 +1801,7 @@ class ilNolejActivityManagementGUI
             $txt = new ilTextAreaInputGUI("", "abstract");
             $txt->usePurifier(false);
             if ($a_use_post) {
-                $txt->setValueByArray((array) $_POST);
+                $txt->setValueByArray($this->request->getParsedBody());
             } else {
                 $txt->setValue($summary->abstract);
             }
@@ -1821,7 +1826,7 @@ class ilNolejActivityManagementGUI
             );
             $txt->usePurifier(false);
             if ($a_use_post) {
-                $txt->setValueByArray((array) $_POST);
+                $txt->setValueByArray($this->request->getParsedBody());
             } else {
                 $txt->setValue($summary->keypoints[$i]);
             }
@@ -2051,7 +2056,7 @@ class ilNolejActivityManagementGUI
                 $distractor->usePurifier(false);
                 $enable->addSubItem($distractor);
                 if ($a_use_post) {
-                    $distractor->setValueByArray((array) $_POST);
+                    $distractor->setValueByArray($this->request->getParsedBody());
                 } else {
                     $distractor->setValue($questions[$i]->distractors[$j]);
                 }
@@ -2064,13 +2069,13 @@ class ilNolejActivityManagementGUI
             $enable->addSubItem($useForGrading);
 
             if ($a_use_post) {
-                $enable->setValueByArray((array) $_POST);
+                $enable->setValueByArray($this->request->getParsedBody());
                 if (isset($answer)) {
-                    $answer->setValueByArray((array) $_POST);
+                    $answer->setValueByArray($this->request->getParsedBody());
                 }
-                $useForGrading->setValueByArray((array) $_POST);
+                $useForGrading->setValueByArray($this->request->getParsedBody());
                 if (isset($question)) {
-                    $question->setValueByArray((array) $_POST);
+                    $question->setValueByArray($this->request->getParsedBody());
                 }
             } else {
                 $enable->setChecked($questions[$i]->enable);
@@ -2383,14 +2388,14 @@ class ilNolejActivityManagementGUI
             $enable->addSubItem($games);
 
             if ($a_use_post) {
-                $enable->setValueByArray((array) $_POST);
-                $useForCW->setValueByArray((array) $_POST);
-                $useForDTW->setValueByArray((array) $_POST);
-                $useForFTW->setValueByArray((array) $_POST);
-                $useForGaming->setValueByArray((array) $_POST);
-                $useForPractice->setValueByArray((array) $_POST);
-                $useForAssessment->setValueByArray((array) $_POST);
-                $definition->setValueByArray((array) $_POST);
+                $enable->setValueByArray($this->request->getParsedBody());
+                $useForCW->setValueByArray($this->request->getParsedBody());
+                $useForDTW->setValueByArray($this->request->getParsedBody());
+                $useForFTW->setValueByArray($this->request->getParsedBody());
+                $useForGaming->setValueByArray($this->request->getParsedBody());
+                $useForPractice->setValueByArray($this->request->getParsedBody());
+                $useForAssessment->setValueByArray($this->request->getParsedBody());
+                $definition->setValueByArray($this->request->getParsedBody());
             } else {
                 $enable->setChecked($concepts[$i]->enable);
                 $useForCW->setChecked($concepts[$i]->use_for_cw);
@@ -2565,7 +2570,7 @@ class ilNolejActivityManagementGUI
             );
 
             if ($a_use_post) {
-                $activity->setValueByArray((array) $_POST);
+                $activity->setValueByArray($this->request->getParsedBody());
             } else {
                 $activity->setChecked(true);
             }
@@ -2584,7 +2589,7 @@ class ilNolejActivityManagementGUI
                         "Glossary_include_IB"
                     );
                     if ($a_use_post) {
-                        $ibook->setValueByArray((array) $_POST);
+                        $ibook->setValueByArray($this->request->getParsedBody());
                     } else {
                         $ibook->setChecked($settings->Glossary_include_IB);
                     }
@@ -2597,7 +2602,7 @@ class ilNolejActivityManagementGUI
                         "Summary_include_IB"
                     );
                     if ($a_use_post) {
-                        $ibook->setValueByArray((array) $_POST);
+                        $ibook->setValueByArray($this->request->getParsedBody());
                     } else {
                         $ibook->setChecked($settings->Summary_include_IB);
                     }
@@ -2613,7 +2618,7 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(3, true);
                     $number->setMaxValue($settings->FTW_number_word_max, true);
                     if ($a_use_post) {
-                        $number->setValueByArray((array) $_POST);
+                        $number->setValueByArray($this->request->getParsedBody());
                     } else {
                         $number->setValue($settings->FTW_number_word_current);
                     }
@@ -2634,8 +2639,8 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(3, true);
                     $number->setMaxValue($settings->DTW_number_word_max, true);
                     if ($a_use_post) {
-                        $ibook->setValueByArray((array) $_POST);
-                        $number->setValueByArray((array) $_POST);
+                        $ibook->setValueByArray($this->request->getParsedBody());
+                        $number->setValueByArray($this->request->getParsedBody());
                     } else {
                         $ibook->setChecked($settings->DTW_include_IB);
                         $number->setValue($settings->DTW_number_word_current);
@@ -2653,7 +2658,7 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(3, true);
                     $number->setMaxValue($settings->CW_number_word_max, true);
                     if ($a_use_post) {
-                        $number->setValueByArray((array) $_POST);
+                        $number->setValueByArray($this->request->getParsedBody());
                     } else {
                         $number->setValue($settings->CW_number_word_current);
                     }
@@ -2674,8 +2679,8 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(0, true);
                     $number->setMaxValue($settings->Practice_number_flashcard_max, true);
                     if ($a_use_post) {
-                        $ibook->setValueByArray((array) $_POST);
-                        $number->setValueByArray((array) $_POST);
+                        $ibook->setValueByArray($this->request->getParsedBody());
+                        $number->setValueByArray($this->request->getParsedBody());
                     } else {
                         $ibook->setChecked($settings->Practice_include_IB);
                         $number->setValue($settings->Practice_number_flashcard_current);
@@ -2698,8 +2703,8 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(0, true);
                     $number->setMaxValue($settings->PracticeQ_number_flashcard_max, true);
                     if ($a_use_post) {
-                        $ibook->setValueByArray((array) $_POST);
-                        $number->setValueByArray((array) $_POST);
+                        $ibook->setValueByArray($this->request->getParsedBody());
+                        $number->setValueByArray($this->request->getParsedBody());
                     } else {
                         $ibook->setChecked($settings->PracticeQ_include_IB);
                         $number->setValue($settings->PracticeQ_number_flashcard_current);
@@ -2722,8 +2727,8 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(0, true);
                     $number->setMaxValue($settings->Grade_number_question_max, true);
                     if ($a_use_post) {
-                        $ibook->setValueByArray((array) $_POST);
-                        $number->setValueByArray((array) $_POST);
+                        $ibook->setValueByArray($this->request->getParsedBody());
+                        $number->setValueByArray($this->request->getParsedBody());
                     } else {
                         $ibook->setChecked($settings->Grade_include_IB);
                         $number->setValue($settings->Grade_number_question_current);
@@ -2746,8 +2751,8 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(0, true);
                     $number->setMaxValue($settings->GradeQ_number_question_max, true);
                     if ($a_use_post) {
-                        $ibook->setValueByArray((array) $_POST);
-                        $number->setValueByArray((array) $_POST);
+                        $ibook->setValueByArray($this->request->getParsedBody());
+                        $number->setValueByArray($this->request->getParsedBody());
                     } else {
                         $ibook->setChecked($settings->GradeQ_include_IB);
                         $number->setValue($settings->GradeQ_number_question_current);
@@ -2765,7 +2770,7 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(0, true);
                     $number->setMaxValue($settings->Flashcards_number_flashcard_max, true);
                     if ($a_use_post) {
-                        $number->setValueByArray((array) $_POST);
+                        $number->setValueByArray($this->request->getParsedBody());
                     } else {
                         $number->setValue($settings->Flashcards_number_flashcard_current);
                     }
@@ -2781,7 +2786,7 @@ class ilNolejActivityManagementGUI
                     $number->setMinValue(0, true);
                     $number->setMaxValue($settings->IV_number_question_perset_max, true);
                     if ($a_use_post) {
-                        $number->setValueByArray((array) $_POST);
+                        $number->setValueByArray($this->request->getParsedBody());
                     } else {
                         $number->setValue($settings->IV_number_question_perset_current);
                     }
