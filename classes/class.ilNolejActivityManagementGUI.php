@@ -574,15 +574,15 @@ class ilNolejActivityManagementGUI
     /**
      * Form's input to get a media element
      */
-    protected function linkInputGUI()
+    protected function linkInputGUI() // ?ilFormPropertyGUI $parentForm
     {
         $mob = new ilLinkInputGUI("", self::PROP_INPUT_MOB);
         $mob->setAllowedLinkTypes(ilLinkInputGUI::INT);
         $mob->setInternalLinkDefault("Media_Media", 0);
-        $mob->setFilterWhiteList(true);
+        // $mob->setFilterWhiteList(true);
         $mob->setInternalLinkFilterTypes(["Media_Media"]);
         $mob->setRequired(true);
-        // $mob->setParent($this);
+        // $mob->setParent($parentForm);
         return $mob;
     }
 
