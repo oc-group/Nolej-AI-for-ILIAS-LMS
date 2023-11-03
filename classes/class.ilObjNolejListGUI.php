@@ -24,7 +24,7 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
     /**
      * Init type
      */
-    function initType()
+    public function initType(): void
     {
         $this->setType(ilNolejPlugin::PLUGIN_ID);
     }
@@ -33,7 +33,7 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
      * Get name of gui class handling the commands
      * @return string
      */
-    function getGuiClass()
+    function getGuiClass(): string
     {
         return "ilObjNolejGUI";
     }
@@ -42,7 +42,7 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
      * Get commands
      * @return array
      */
-    function initCommands()
+    function initCommands(): array
     {
         $this->commands_enabled = true;
         $this->copy_enabled = false;

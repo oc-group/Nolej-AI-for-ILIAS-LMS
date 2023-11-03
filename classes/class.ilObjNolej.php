@@ -22,10 +22,10 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 {
 
     /** @var bool */
-    protected $online;
+    protected bool $online = false;
 
     /** @var string */
-    protected $documentId;
+    protected string $documentId = "";
 
     /**
      * Constructor
@@ -42,7 +42,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     /**
      * Get type.
      */
-    final function initType()
+    final function initType(): void
     {
         $this->setType(ilNolejPlugin::PLUGIN_ID);
     }
@@ -50,7 +50,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     /**
      * Create object
      */
-    function doCreate()
+    function doCreate(): void
     {
         global $ilDB;
 
@@ -64,7 +64,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     /**
      * Read data from db
      */
-    function doRead()
+    function doRead(): void
     {
         global $ilDB;
 
@@ -82,7 +82,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     /**
      * Update data
      */
-    function doUpdate()
+    function doUpdate(): void
     {
         global $ilDB;
 
@@ -96,7 +96,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     /**
      * Delete data from db
      */
-    function doDelete()
+    function doDelete(): void
     {
         global $ilDB;
 
@@ -111,7 +111,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * Set online
      * @param boolean online
      */
-    function setOnline($a_val)
+    function setOnline(bool $a_val): void
     {
         $this->online = $a_val;
     }
@@ -120,7 +120,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * Set document_id
      * @param string documentId
      */
-    function setDocumentId($a_val)
+    function setDocumentId(string $a_val): void
     {
         $this->documentId = $a_val;
     }
@@ -129,7 +129,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * Get online
      * @return boolean online
      */
-    function isOnline()
+    function isOnline(): bool
     {
         return $this->online;
     }
@@ -138,13 +138,15 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * Get document_id
      * @return string documentId
      */
-    function getDocumentId()
+    function getDocumentId(): string
     {
         return $this->documentId;
     }
 
-    /** @return int */
-    function getDocumentStatus()
+    /**
+     * @return int
+     */
+    function getDocumentStatus(): int
     {
         global $ilDB;
 
@@ -162,8 +164,10 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
         return (int) $row["status"];
     }
 
-    /** @return string */
-    function getDocumentSource()
+    /**
+     * @return string
+     */
+    function getDocumentSource(): string
     {
         global $ilDB;
 
@@ -181,8 +185,10 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
         return $row["doc_url"];
     }
 
-    /** @return string */
-    function getDocumentMediaType()
+    /**
+     * @return string
+     */
+    function getDocumentMediaType(): string
     {
         global $ilDB;
 
@@ -200,8 +206,10 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
         return $row["media_type"];
     }
 
-    /** @return string */
-    function getDocumentLang()
+    /**
+     * @return string
+     */
+    function getDocumentLang(): string
     {
         global $ilDB;
 
@@ -219,8 +227,10 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
         return $row["language"];
     }
 
-    /** @return string */
-    function getDocumentTitle()
+    /**
+     * @return string
+     */
+    function getDocumentTitle(): string
     {
         global $ilDB;
 
@@ -238,8 +248,10 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
         return $row["title"];
     }
 
-    /** @return bool */
-    function getDocumentAutomaticMode()
+    /**
+     * @return bool
+     */
+    function getDocumentAutomaticMode(): bool
     {
         global $ilDB;
 
@@ -260,24 +272,24 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     /**
      * @return string
      */
-    public function getDataDir()
+    public function getDataDir(): string
     {
         return $this->config->dataDir() . $this->getDocumentId();
     }
 
-    public function hasWritePermission()
+    public function hasWritePermission(): bool
     {
         global $ilAccess;
         return $ilAccess->checkAccess("write", "", $this->getRefId());
     }
 
-    public function hasReadPermission()
+    public function hasReadPermission(): bool
     {
         global $ilAccess;
         return $ilAccess->checkAccess("read", "", $this->getRefId());
     }
 
-    public function lookupDetails()
+    public function lookupDetails(): void
     {
     }
 
@@ -285,7 +297,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * @param string $type of h5p activity to get
      * @return int h5p content id
      */
-    public function getContentIdOfType($type)
+    public function getContentIdOfType(string $type): int
     {
         $result = $this->db->queryF(
             "SELECT content_id FROM " . ilNolejPlugin::TABLE_H5P
@@ -303,97 +315,9 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     }
 
     /**
-     * @return int
-     */
-    public function getFirstActivity()
-    {
-        // global $ilDB;
-
-        // $result = $ilDB->queryF(
-        // 	"SELECT id_page FROM " . ilNolejPlugin::TABLE_LP . " WHERE id_partner = %s AND id_course = %s ORDER BY id_page ASC LIMIT 1;",
-        // 	array("text", "integer"),
-        // 	array($this->id_partner, $this->id_course)
-        // );
-
-        // if (!$result || $ilDB->numRows($result) != 1) {
-        // 	return 0;
-        // }
-
-        // $rec = $ilDB->fetchAssoc($result);
-        // return $rec["id_page"];
-
-        // TODO
-        return 0;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLastVisitedActivity()
-    {
-        // global $ilDB, $ilUser;
-
-        // $result = $ilDB->queryF(
-        // 	"SELECT id_page FROM " . ilNolejPlugin::TABLE_LP . " WHERE id_partner = %s AND id_course = %s AND user_id = %s ORDER BY last_change DESC, id_page ASC LIMIT 1;",
-        // 	array("text", "integer", "integer"),
-        // 	array($this->id_partner, $this->id_course, $ilUser->getId())
-        // );
-
-        // if (!$result || $ilDB->numRows($result) != 1) {
-        // 	return 0;
-        // }
-
-        // $rec = $ilDB->fetchAssoc($result);
-        // return $rec["id_page"];
-
-        // TODO
-        return 0;
-    }
-
-    // public function lookupPagesStatus()
-    // {
-    // 	global $ilDB, $ilUser;
-
-    // 	if ($this->pagesStatus != null) {
-    // 		return $this->pagesStatus;
-    // 	}
-
-    // 	$result = $ilDB->queryF(
-    // 		"SELECT id_page, status FROM " . ilNolejPlugin::TABLE_LP . " WHERE id_partner = %s AND id_course = %s AND user_id = %s;",
-    // 		array("text", "integer", "integer"),
-    // 		array($this->id_partner, $this->id_course, $ilUser->getId())
-    // 	);
-
-    // 	if (!$result) {
-    // 		return false;
-    // 	}
-
-    // 	$pagesStatus = [];
-    // 	while ($row = $ilDB->fetchAssoc($result)) {
-    // 		$pagesStatus[$row["id_page"]] = $row["status"];
-    // 	}
-
-    // 	return $this->pagesStatus = $pagesStatus;
-    // }
-
-    // public function getPageStatus($idPage)
-    // {
-    // 	$pagesStatus = $this->lookupPagesStatus();
-    // 	if (!$pagesStatus) {
-    // 		return 0;
-    // 	}
-
-    // 	if (!isset($pagesStatus[$idPage])) {
-    // 		return 0;
-    // 	}
-
-    // 	return $pagesStatus[$idPage];
-    // }
-
-    /**
      * @param array $user_ids
      */
-    public function resetLPOfUsers($user_ids)
+    public function resetLPOfUsers(array $user_ids): void
     {
         for ($i = 0, $n = count($user_ids); $i < $n; $i++) {
             self::resetLPOfUser($user_ids[$i]);
@@ -403,7 +327,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     /**
      * @param int $user_id
      */
-    public function resetLPOfUser($user_id)
+    public function resetLPOfUser(int $user_id): void
     {
         // TODO
 
@@ -428,7 +352,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
         // }
     }
 
-    public function resetLP()
+    public function resetLP(): void
     {
         global $ilUser;
         self::resetLPOfUser($ilUser->getId());
@@ -438,7 +362,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     * Get all user ids with LP status completed
     * @return array
     */
-    public function getLPCompleted()
+    public function getLPCompleted(): array
     {
         global $ilDB;
 
@@ -470,7 +394,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * Get all user ids with LP status not attempted
      * @return array
      */
-    public function getLPNotAttempted()
+    public function getLPNotAttempted(): array
     {
         // global $ilDB;
 
@@ -502,7 +426,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * Get all user ids with LP status failed
      * @return array
      */
-    public function getLPFailed()
+    public function getLPFailed(): array
     {
         // Nolej modules do not have a "fail" condition (yet)
         return [];
@@ -512,7 +436,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * Get all user ids with LP status in progress
      * @return array
      */
-    public function getLPInProgress()
+    public function getLPInProgress(): array
     {
         // global $ilDB;
 
@@ -546,7 +470,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * @param int $a_user_id
      * @return int
      */
-    public function getLPStatusForUser($a_user_id)
+    public function getLPStatusForUser(int $a_user_id): int
     {
         // global $ilDB;
 
@@ -586,7 +510,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * @param int $a_user_id
      * @return int
      */
-    public function getPercentageForUser($a_user_id)
+    public function getPercentageForUser(int $a_user_id): int
     {
         // global $ilDB;
 
@@ -614,36 +538,4 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
         return 0;
     }
 
-    public function updateStatus($idPage)
-    {
-        // TODO
-
-        // global $ilUser, $ilDB;
-
-        // $user_id = $ilUser->getId();
-        // $old_status = $this->getLPStatusForUser($user_id);
-
-        // // Set page status as completed after the first visit (2 = completed)
-        // $res = $ilDB->manipulateF(
-        // 	"REPLACE INTO " . ilNolejPlugin::TABLE_LP
-        // 	. " (user_id, id_partner, id_course, id_page, status, last_change)"
-        // 	. " VALUES (%s, %s, %s, %s, 2, %s);",
-        // 	array("integer", "text", "integer", "integer", "integer"),
-        // 	array($user_id, $this->getIdPartner(), $this->getIdCourse(), $idPage, strtotime("now"))
-        // );
-
-        // ilLearningProgress::_tracProgress(
-        // 	$user_id,
-        // 	$this->getId(),
-        // 	$this->getRefId(),
-        // 	ilNolejPlugin::PLUGIN_ID
-        // );
-
-        // require_once "Services/Tracking/classes/class.ilChangeEvent.php";
-        // ilChangeEvent::_recordReadEvent($this->getType(), $this->getRefId(), $this->getId(), $user_id);
-
-        // $new_status = $this->getLPStatusForUser($user_id);
-        // $percentage = $this->getPercentageForUser($user_id);
-        // ilLPStatus::writeStatus($this->getId(), $user_id, $new_status, $percentage, $a_force_per = false, $old_status);
-    }
 }
