@@ -1111,12 +1111,8 @@ class ilNolejActivityManagementGUI
                  * Detect media format
                  * Decrement credit
                  */
-                $mobInput = $form->getInput(self::PROP_INPUT_MOB);
-                $array = explode("|", $mobInput);
-                if (!$array) {
-                    break;
-                }
-                $objId = $array[1];
+                $mobInput = $this->getInternalLink();
+                $objId = $mobInput["target"];
                 $path = ilObjMediaObject::_lookupItemPath($objId);
                 $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
                 switch ($extension) {
