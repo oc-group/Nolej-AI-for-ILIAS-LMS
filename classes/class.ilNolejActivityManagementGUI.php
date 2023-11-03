@@ -588,7 +588,7 @@ class ilNolejActivityManagementGUI
         $this->set("il_target", $_GET["linktarget"]);
         $this->set("il_targetframe", $_GET["linktargetframe"]);
         $this->set("il_obj_id", substr($_GET["linktarget"], 8));
-        $this->config->logger->log(substr($_GET["linktarget"], 8));
+        $this->config->logger->log("linktarget: " . substr($_GET["linktarget"], 8));
         $this->creation();
     }
 
