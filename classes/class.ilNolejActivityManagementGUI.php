@@ -576,11 +576,10 @@ class ilNolejActivityManagementGUI
             substr($_GET["linktarget"], 0, 8) != "il__mob_" ||
             $_GET["linktargetframe"] != "Media"
         ) {
-            $this->config->logger->log("Failed check: " . var_export([
-                "linktype" => $_GET["linktype"],
-                "linktarget_sub" => substr($_GET["linktarget"], 0, 8),
-                "linktargetframe" => $_GET["linktargetframe"]
-            ], true));
+            $this->set("il_type", "");
+            $this->set("il_target", "");
+            $this->set("il_targetframe", "");
+            $this->set("il_obj_id", "");
             return;
         }
 
@@ -588,7 +587,6 @@ class ilNolejActivityManagementGUI
         $this->set("il_target", $_GET["linktarget"]);
         $this->set("il_targetframe", $_GET["linktargetframe"]);
         $this->set("il_obj_id", substr($_GET["linktarget"], 8));
-        $this->config->logger->log("linktarget: " . substr($_GET["linktarget"], 8));
         $this->creation();
     }
 
@@ -601,7 +599,7 @@ class ilNolejActivityManagementGUI
             "type" => (string) $this->get("il_type"),
             "target" => (string) $this->get("il_target"),
             "target_frame" => (string) $this->get("il_targetframe"),
-            "anchor" => (string) $this->get("il_anchor")
+            "obj_id" => (string) $this->get("il_obj_id")
         ];
     }
 
@@ -617,22 +615,16 @@ class ilNolejActivityManagementGUI
         string $a_frame
     ): string {
         $lng = $this->lng;
-        $frame_str = "";
         $link_str = "";
         $t_arr = explode("_", $a_target);
-
-        if ($a_frame != "") {
-            $frame_str = " (" . $a_frame . " Frame)";
-        }
 
         if ($a_type == "MediaObject") {
             $mob = new ilObjMediaObject($t_arr[count($t_arr) - 1]);
             $link_str = sprintf(
-                "%s: %s [%s] %s",
+                "%s: %s [%s]",
                 $lng->txt("mob"),
                 $mob->getTitle(),
-                $t_arr[count($t_arr) - 1],
-                $frame_str
+                $t_arr[count($t_arr) - 1]
             );
         }
 
@@ -774,12 +766,15 @@ class ilNolejActivityManagementGUI
                     $int_link["type"],
                     $int_link["target_frame"]
                 );
+                $mediaSource->setValue(self::PROP_M_MOB);
             }
+            $this->lng->loadLanguageModule("content");
             $mob->setValue(
-                $link_str .
-                    '&nbsp;<a id="iosEditInternalLinkTrigger" href="#">' .
-                    "[" . $this->lng->txt("cont_get_link") . "]" .
-                    '</a>'
+                sprintf(
+                    "%s <a id='iosEditInternalLinkTrigger' href='#'>[%s]</a>",
+                    $link_str,
+                    $this->lng->txt("cont_get_link")
+                )
             );
             $mediaMob->addSubItem($mob);
 
