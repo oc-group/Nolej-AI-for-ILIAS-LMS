@@ -193,14 +193,8 @@ class ilNolejActivityManagementGUI
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
-            case "ilformpropertydispatchgui":
-                $mob = $this->linkInputGUI();
-                $form_gui = new ilFormPropertyDispatchGUI();
-                $form_gui->setItem($mob);
-                $this->ctrl->forwardCommand($form_gui);
-                break;
-
             case "ilinternallinkgui":
+                $this->config->logger->log("called ilinternallinkgui.");
                 $this->lng->loadLanguageModule("content");
                 require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $link_gui = new ilInternalLinkGUI("Media_Media", 0);
