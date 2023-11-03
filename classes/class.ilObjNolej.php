@@ -74,8 +74,8 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
             array($this->getId())
         );
         while ($row = $ilDB->fetchAssoc($set)) {
-            $this->setOnline($row["is_online"]);
-            $this->setDocumentId($row["document_id"]);
+            $this->setOnline($row["is_online"] ?? false);
+            $this->setDocumentId($row["document_id"] ?? "");
         }
     }
 
