@@ -631,7 +631,7 @@ class ilNolejActivityManagementGUI
     {
         global $ilUser, $tpl;
 
-        // $tpl->addJavaScript('./node_modules/tinymce/tinymce.js');
+        $this->lng->loadLanguageModule("meta");
 
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->txt("obj_xnlj"));
@@ -763,9 +763,10 @@ class ilNolejActivityManagementGUI
             $language = new ilSelectInputGUI($this->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
             $language->setInfo($this->txt("prop_" . self::PROP_LANG . "_info"));
             $language->setOptions([
-                "en" => "English",
-                // "fr" => "French", // Soon
-                // "it" => "Italian" // Soon
+                "en" => $this->lng->txt("meta_l_en"),
+                "fr" => $this->lng->txt("meta_l_fr"),
+                "it" => $this->lng->txt("meta_l_it"),
+                "de" => $this->lng->txt("meta_l_de")
             ]);
             $language->setRequired(true);
             $form->addItem($language);
@@ -791,13 +792,16 @@ class ilNolejActivityManagementGUI
             $title = new ilNonEditableValueGUI($this->txt("prop_" . self::PROP_TITLE), self::PROP_TITLE);
             $title->setValue($this->gui_obj->object->getTitle());
             $form->addItem($title);
+            
             $mediaSource = new ilNonEditableValueGUI($this->txt("prop_" . self::PROP_MEDIA_SRC), self::PROP_MEDIA_SRC);
             $mediaSource->setValue($this->gui_obj->object->getDocumentSource());
             $mediaSource->setInfo($this->txt("prop_" . $this->gui_obj->object->getDocumentMediaType()));
             $form->addItem($mediaSource);
+            
             $language = new ilNonEditableValueGUI($this->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
-            $language->setValue($this->gui_obj->object->getDocumentLang());
+            $language->setValue($this->lng->txt("meta_l_" . $this->gui_obj->object->getDocumentLang()));
             $form->addItem($language);
+            
             $automaticMode = new ilCheckboxInputGUI($this->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
             $automaticMode->setChecked($this->gui_obj->object->getDocumentAutomaticMode());
             $automaticMode->setDisabled(true);
