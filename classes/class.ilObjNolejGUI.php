@@ -340,6 +340,11 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
     protected function showContent(): void
     {
+        global $DIC;
+
+        $renderer = $DIC->ui()->renderer();
+        $factory = $DIC->ui()->factory();
+
         $this->tabs->activateTab(self::TAB_CONTENT);
 
         if ($this->object->getDocumentStatus() != ilNolejActivityManagementGUI::STATUS_COMPLETED) {
@@ -364,7 +369,11 @@ class ilObjNolejGUI extends ilObjectPluginGUI
         // Display activities
         $this->tpl->setContent(($contentId != -1)
             ? $this->getH5PHtml($contentId)
-            : "Error"
+            : $renderer->render(
+                $factory
+                    ->messageBox()
+                    ->failure(ilNolejConfig::txt("err_h5p_content"))
+            )
         );
     }
 
