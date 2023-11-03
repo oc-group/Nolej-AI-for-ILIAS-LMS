@@ -569,6 +569,14 @@ class ilNolejActivityManagementGUI
         \ilSession::set(ilNolejPlugin::PLUGIN_ID . "_" . $key, $val);
     }
 
+    /**
+     * @param mixed $val
+     */
+    protected function clear(string $key): void
+    {
+        \ilSession::clear(ilNolejPlugin::PLUGIN_ID . "_" . $key);
+    }
+
     public function setInternalLink(): void
     {
         if (
@@ -576,9 +584,7 @@ class ilNolejActivityManagementGUI
             substr($_GET["linktarget"], 0, 8) != "il__mob_" ||
             $_GET["linktargetframe"] != "Media"
         ) {
-            $this->set("il_type", "");
-            $this->set("il_target", "");
-            $this->set("il_targetframe", "");
+            $this->clearInternalLink();
             return;
         }
 
@@ -599,6 +605,14 @@ class ilNolejActivityManagementGUI
             "target_frame" => (string) $this->get("il_targetframe"),
             "obj_id" => (string) $this->get("il_obj_id")
         ];
+    }
+
+    public function clearInternalLink(): void
+    {
+        $this->clear("il_type");
+        $this->clear("il_target");
+        $this->clear("il_targetframe");
+        $this->clear("il_obj_id");
     }
 
     /**
@@ -625,6 +639,8 @@ class ilNolejActivityManagementGUI
                 $mob->getTitle(),
                 $mobId
             );
+        } else {
+            $this->clearInternalLink();
         }
 
         return $link_str;
@@ -772,8 +788,32 @@ class ilNolejActivityManagementGUI
                 $t_arr = explode("_", $int_link["target"]);
                 $mobId = $t_arr[count($t_arr) - 1];
                 $path = ilObjMediaObject::_lookupItemPath($mobId);
-                $video = $f->player()->video($path);
-                $preview = $renderer->render($video);
+                $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+                switch ($extension) {
+                    case "mp3":
+                    case "was":
+                    case "opus":
+                    case "ogg":
+                    case "oga":
+                    case "m4a":
+                        $audio = $f->player()->audio($path);
+                        $preview = $renderer->render($audio);
+                        break;
+
+                    case "m4v":
+                    case "mp4":
+                    case "ogv":
+                    case "avi":
+                    case "webm":
+                        $video = $f->player()->video($path);
+                        $preview = $renderer->render($video);
+                        break;
+
+                    default:
+                        $this->clearInternalLink();
+                        $link_str = "";
+                }
+
                 $mediaSource->setValue(self::PROP_M_MOB);
             }
             $this->lng->loadLanguageModule("content");
@@ -1215,6 +1255,8 @@ class ilNolejActivityManagementGUI
 
         $api = new ilNolejAPI($api_key);
         $webhookUrl = ILIAS_HTTP_PATH . "/goto.php?target=xnlj_webhook";
+
+        $this->clearInternalLink();
 
         $result = $api->post(
             "/documents",
