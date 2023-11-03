@@ -58,16 +58,16 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     const PROP_ONLINE = "online";
 
     /** @var ilCtrl */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
 
     /** @var ilTabsGUI */
-    protected $tabs;
+    protected ilTabsGUI $tabs;
 
     /** @var ilTemplate */
-    public $tpl;
+    public ilTemplate $tpl;
 
     /** @var string */
-    protected $selectedType = "";
+    protected string $selectedType = "";
 
     /**
      * Initialisation

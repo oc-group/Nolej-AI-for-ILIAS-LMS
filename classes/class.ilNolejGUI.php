@@ -25,16 +25,16 @@ class ilNolejGUI
     const TAB_MODULES = "modules";
 
     /** @var ilCtrl */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
 
     /** @var ilTabsGUI */
-    protected $tabs;
+    protected ilTabsGUI $tabs;
 
     /** @var ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
 
     /** @var ilLanguage */
-    protected $lng;
+    protected ilLanguage $lng;
 
     /** @var ilNolejConfig */
     protected $config;
@@ -64,7 +64,7 @@ class ilNolejGUI
      * Handles all commmands,
      * $cmd = functionName()
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         global $tpl;
         $cmd = ($this->ctrl->getCmd()) ? $this->ctrl->getCmd() : self::CMD_SHOW_MODULES;

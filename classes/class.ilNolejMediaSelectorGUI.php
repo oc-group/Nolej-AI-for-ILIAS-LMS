@@ -37,34 +37,34 @@ class ilNolejMediaSelectorGUI
     protected $guiObj;
 
     /** @var ilCtrl */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
 
     /** @var string */
-    protected $cmd;
+    protected string $cmd;
 
     /** @var string */
-    protected $subCmd;
+    protected string $subCmd;
 
     /** @var string */
-    protected $pool_view = "";
+    protected string $pool_view = "";
 
     /** @var ilTabsGUI */
-    protected $tabs;
+    protected ilTabsGUI $tabs;
 
     /** @var ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
 
     /** @var ilAccessHandler */
-    protected $access;
+    protected ilAccessHandler $access;
 
     /** @var \ILIAS\DI\UIServices */
-    protected $ui;
+    protected \ILIAS\DI\UIServices $ui;
 
     /** @var ilToolbarGUI */
-    protected $toolbar;
+    protected ilToolbarGUI $toolbar;
 
     /** @var ilLanguage */
-    protected $lng;
+    protected ilLanguage $lng;
 
     /** @var ilNolejConfig */
     protected $config;
@@ -135,7 +135,7 @@ class ilNolejMediaSelectorGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         global $tpl;
 

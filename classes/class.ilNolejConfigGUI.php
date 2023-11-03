@@ -30,19 +30,19 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
     const TAB_CONFIGURE = "configuration";
 
     /** @var ilCtrl */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
 
     /** @var string */
     protected $cmd;
 
     /** @var ilTabsGUI */
-    protected $tabs;
+    protected ilTabsGUI $tabs;
 
     /** @var ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
 
     /** @var ilLanguage */
-    protected $lng;
+    protected ilLanguage $lng;
 
     /** @var ilNolejConfig */
     protected $config;
