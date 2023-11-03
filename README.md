@@ -26,3 +26,11 @@ From the ILIAS directory, run:
 ```sh
 composer install --no-dev
 ```
+
+### Configure the API Key
+
+1. Go into `Administration` -> `Extending ILIAS` -> `Plugins`
+2. Look for the plugin "Nolej"
+3. Click on `Actions` -> `Configure`
+4. Write your Nolej API Key
+
