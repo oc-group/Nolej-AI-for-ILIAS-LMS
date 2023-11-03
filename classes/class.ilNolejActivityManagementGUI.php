@@ -592,22 +592,20 @@ class ilNolejActivityManagementGUI
         \ilSession::set(ilNolejPlugin::PLUGIN_ID . "_" . $key, $val);
     }
 
-    /**
-     * @param string $type
-     * @param string $target
-     * @param string $target_frame
-     * @param string $anchor
-     */
-    public function setInternalLink(
-        string $type,
-        string $target,
-        string $target_frame,
-        string $anchor
-    ): void {
-        $this->set("il_type", $type);
-        $this->set("il_target", $target);
-        $this->set("il_targetframe", $target_frame);
-        $this->set("il_anchor", $anchor);
+    public function setInternalLink(): void {
+        if (
+            $_GET["linktype"] != "MediaObject" ||
+            substr($_GET["linktarget"], 0, 8) != "il__mob_" ||
+            $_GET["linktargetframe"] != "Media"
+        ) {
+            return;
+        }
+
+        $this->set("il_type", $_GET["linktype"]);
+        $this->set("il_target", $_GET["linktarget"]);
+        $this->set("il_targetframe", $_GET["linktargetframe"]);
+        $this->set("il_obj_id", substr($_GET["linktarget"], 8));
+        $this->config->logger->log(substr($_GET["linktarget"], 8));
     }
 
     /**
