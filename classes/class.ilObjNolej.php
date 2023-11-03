@@ -50,7 +50,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     /**
      * Create object
      */
-    function doCreate(): void
+    function doCreate(bool $clone_mode = false): void
     {
         global $ilDB;
 
