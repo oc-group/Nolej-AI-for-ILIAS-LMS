@@ -98,8 +98,6 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
             default:
                 $this->configure();
         }
-
-        return true;
     }
 
     /**
