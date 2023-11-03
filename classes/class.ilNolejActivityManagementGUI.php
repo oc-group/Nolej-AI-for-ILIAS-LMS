@@ -292,7 +292,7 @@ class ilNolejActivityManagementGUI
 
         $api_key = $this->config->get("api_key", "");
         if ($api_key == "") {
-            ilUtil::sendFailure($this->txt("err_api_key_missing"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_api_key_missing"));
             return;
         }
 
@@ -949,7 +949,7 @@ class ilNolejActivityManagementGUI
 
         $api_key = $this->config->get("api_key", "");
         if ($api_key == "") {
-            ilUtil::sendFailure($this->txt("err_api_key_missing"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_api_key_missing"));
             $form->setValuesByPost();
             $tpl->setContent($form->getHTML() . $js);
             return;
@@ -1101,14 +1101,14 @@ class ilNolejActivityManagementGUI
         }
 
         if (!$apiUrl || $apiUrl == "") {
-            ilUtil::sendFailure($this->txt("err_media_url_empty"), true);
+            $tpl->setOnScreenMessage("failure", $this->txt("err_media_url_empty"), true);
             $form->setValuesByPost();
             $tpl->setContent($form->getHTML() . $js);
             return;
         }
 
         if (!$apiFormat || $apiFormat == "") {
-            ilUtil::sendFailure($this->txt("err_media_format_unknown"), true);
+            $tpl->setOnScreenMessage("failure", $this->txt("err_media_format_unknown"), true);
             $form->setValuesByPost();
             $tpl->setContent($form->getHTML() . $js);
             return;
@@ -1151,7 +1151,8 @@ class ilNolejActivityManagementGUI
                     print_r($result, true)
                 );
             }
-            ilUtil::sendFailure(
+            $tpl->setOnScreenMessage(
+                "failure",
                 sprintf(
                     $this->txt("err_doc_response"),
                     $message
@@ -1202,7 +1203,7 @@ class ilNolejActivityManagementGUI
             ->withConsumedCredit($decrementedCredit)
             ->store();
 
-        ilUtil::sendSuccess($this->txt("action_transcription"), true);
+        $tpl->setOnScreenMessage("success", $this->txt("action_transcription"), true);
         $this->ctrl->redirect($this, self::CMD_ANALYSIS);
     }
 
@@ -1333,11 +1334,12 @@ class ilNolejActivityManagementGUI
      */
     protected function downloadTranscription()
     {
+        global $tpl;
         $status = $this->status;
 
         if ($status < self::STATUS_ANALISYS) {
             // Transctiption is not ready!
-            ilUtil::sendFailure($this->txt("err_transcription_not_ready"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_transcription_not_ready"));
             return false;
         }
 
@@ -1355,7 +1357,7 @@ class ilNolejActivityManagementGUI
             !property_exists($result, "result") ||
             !is_string($result->result)
         ) {
-            ilUtil::sendFailure($this->txt("err_transcription_get") . sprintf($result));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_transcription_get") . sprintf($result));
             return false;
         }
 
@@ -1371,7 +1373,7 @@ class ilNolejActivityManagementGUI
             file_get_contents($result->result)
         );
         if (!$success) {
-            ilUtil::sendFailure($this->txt("err_transcription_download") . sprintf($result));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_transcription_download") . print_r($result, true));
             return false;
         }
 
@@ -1504,7 +1506,7 @@ class ilNolejActivityManagementGUI
 
         $api_key = $this->config->get("api_key", "");
         if ($api_key == "") {
-            ilUtil::sendFailure($this->txt("err_api_key_missing"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_api_key_missing"));
             $form->setValuesByPost();
             $tpl->setContent($form->getHTML());
             return;
@@ -1550,7 +1552,7 @@ class ilNolejActivityManagementGUI
                 $result->result == "ok"
             )
         ) {
-            ilUtil::sendFailure("An error occurred: " . print_r($result, true));
+            $tpl->setOnScreenMessage("failure", "An error occurred: " . print_r($result, true));
             return;
         }
 
@@ -1563,7 +1565,7 @@ class ilNolejActivityManagementGUI
             ->withConsumedCredit(0)
             ->store();
 
-        ilUtil::sendSuccess($this->txt("action_analysis"), true);
+        $tpl->setOnScreenMessage("success", $this->txt("action_analysis"), true);
         $this->ctrl->redirect($this, self::CMD_REVISION);
     }
 
@@ -1604,12 +1606,14 @@ class ilNolejActivityManagementGUI
      */
     protected function initSummaryForm($a_use_post = false, $a_disabled = false)
     {
+        global $tpl;
+
         $form = new ilPropertyFormGUI();
 
         $this->getNolejContent("summary", "summary.json");
         $json = $this->readDocumentFile("summary.json");
         if (!$json) {
-            ilUtil::sendFailure("err_summary_file");
+            $tpl->setOnScreenMessage("failure", $this->txt("err_summary_file"));
             return $form;
         }
 
@@ -1788,16 +1792,16 @@ class ilNolejActivityManagementGUI
 
         $success = $this->writeDocumentFile("summary.json", json_encode($summary));
         if (!$success) {
-            ilUtil::sendFailure($this->txt("err_summary_save"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_summary_save"));
             $this->summary();
             return;
         }
 
         $success = $this->putNolejContent("summary", "summary.json");
         if (!$success) {
-            ilUtil::sendFailure($this->txt("err_summary_put"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_summary_put"));
         } else {
-            ilUtil::sendSuccess($this->txt("summary_saved"));
+            $tpl->setOnScreenMessage("success", $this->txt("summary_saved"));
         }
         $this->summary();
     }
@@ -1818,7 +1822,7 @@ class ilNolejActivityManagementGUI
         $this->getNolejContent("questions", "questions.json");
         $json = $this->readDocumentFile("questions.json");
         if (!$json) {
-            ilUtil::sendFailure("err_questions_file");
+            $tpl->setOnScreenMessage("failure", $this->txt("err_questions_file"));
             return $form;
         }
 
@@ -2053,7 +2057,7 @@ class ilNolejActivityManagementGUI
         $this->getNolejContent("questions", "questions.json");
         $json = $this->readDocumentFile("questions.json");
         if (!$json) {
-            ilUtil::sendFailure("err_questions_file");
+            $tpl->setOnScreenMessage("failure", $this->txt("err_questions_file"));
             return $form;
         }
 
@@ -2106,16 +2110,16 @@ class ilNolejActivityManagementGUI
             json_encode(["questions" => $questions])
         );
         if (!$success) {
-            ilUtil::sendFailure($this->txt("err_questions_save"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_questions_save"));
             $this->questions();
             return;
         }
 
         $success = $this->putNolejContent("questions", "questions.json");
         if (!$success) {
-            ilUtil::sendFailure($this->txt("err_questions_put"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_questions_put"));
         } else {
-            ilUtil::sendSuccess($this->txt("questions_saved"));
+            $tpl->setOnScreenMessage("success", $this->txt("questions_saved"));
         }
         $this->questions();
     }
@@ -2128,13 +2132,15 @@ class ilNolejActivityManagementGUI
      */
     protected function initConceptsForm($a_use_post = false, $a_disabled = false)
     {
+        global $tpl;
+
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->txt("review_concepts"));
 
         $this->getNolejContent("concepts", "concepts.json");
         $json = $this->readDocumentFile("concepts.json");
         if (!$json) {
-            ilUtil::sendFailure("err_concepts_file");
+            $tpl->setOnScreenMessage("failure", $this->txt("err_concepts_file"));
             return $form;
         }
 
@@ -2366,16 +2372,16 @@ class ilNolejActivityManagementGUI
             json_encode(["concepts" => $concepts])
         );
         if (!$success) {
-            ilUtil::sendFailure($this->txt("err_concepts_save"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_concepts_save"));
             $this->concepts();
             return;
         }
 
         $success = $this->putNolejContent("concepts", "concepts.json");
         if (!$success) {
-            ilUtil::sendFailure($this->txt("err_concepts_put"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_concepts_put"));
         } else {
-            ilUtil::sendSuccess($this->txt("concepts_saved"));
+            $tpl->setOnScreenMessage("success", $this->txt("concepts_saved"));
         }
         $this->concepts();
     }
@@ -2397,13 +2403,15 @@ class ilNolejActivityManagementGUI
      */
     protected function initActivitiesForm($a_use_post = false, $a_disabled = false)
     {
+        global $tpl;
+
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->txt("activities_settings"));
 
         $this->getNolejContent("settings", "settings.json", !$a_use_post);
         $json = $this->readDocumentFile("settings.json");
         if (!$json) {
-            ilUtil::sendFailure("err_settings_file");
+            $tpl->setOnScreenMessage("failure", $this->txt("err_settings_file"));
             return $form;
         }
 
@@ -2654,6 +2662,7 @@ class ilNolejActivityManagementGUI
     public function generate()
     {
         global $DIC, $tpl;
+
         $form = $this->initActivitiesForm(true);
         if (!$form->checkInput()) {
             // input not ok, then
@@ -2663,7 +2672,7 @@ class ilNolejActivityManagementGUI
 
         $json = $this->readDocumentFile("settings.json");
         if (!$json) {
-            ilUtil::sendFailure("err_settings_file");
+            $tpl->setOnScreenMessage("failure", $this->txt("err_settings_file"));
             return $form;
         }
         $settings = json_decode($json, true);
@@ -2761,7 +2770,7 @@ class ilNolejActivityManagementGUI
             json_encode($settingsToSave)
         );
         if (!$success) {
-            ilUtil::sendFailure($this->txt("err_settings_save"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_settings_save"));
             $this->activities();
             return;
         }
@@ -2770,7 +2779,7 @@ class ilNolejActivityManagementGUI
 
         $success = $this->putNolejContent("settings", "settings.json");
         if (!$success) {
-            ilUtil::sendFailure($this->txt("err_settings_put"));
+            $tpl->setOnScreenMessage("failure", $this->txt("err_settings_put"));
             $this->activities();
             return;
         }
@@ -2782,7 +2791,7 @@ class ilNolejActivityManagementGUI
             ->withConsumedCredit(0)
             ->store();
 
-        ilUtil::sendSuccess($this->txt("activities_generation_start"));
+        $tpl->setOnScreenMessage("success", $this->txt("activities_generation_start"));
         $tpl->setContent($form->getHTML());
     }
 

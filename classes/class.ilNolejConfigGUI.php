@@ -228,7 +228,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
         $api_key = $this->config->get("api_key", "");
         if ($api_key == "") {
-            ilUtil::sendFailure($this->txt("err_api_key_missing"), true);
+            $this->tpl->setOnScreenMessage("failure", $this->txt("err_api_key_missing"), true);
             $this->configure();
             return;
         }
@@ -257,8 +257,12 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
             true
         );
 
-        if (!is_object($result) || !property_exists($result, "exchangeId") || !is_string($result->exchangeId)) {
-            ilUtil::sendFailure($this->txt("err_tic_response") . " " . print_r($result, true), true);
+        if (
+            !is_object($result) ||
+            !property_exists($result, "exchangeId") ||
+            !is_string($result->exchangeId)
+        ) {
+            $this->tpl->setOnScreenMessage("failure", $this->txt("err_tic_response") . " " . print_r($result, true), true);
             $this->configure();
             return;
         }
@@ -270,7 +274,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
             ["text", "integer", "integer", "text", "text"],
             [$result->exchangeId, $DIC->user()->getId(), $now, $message, $webhookUrl]
         );
-        ilUtil::sendSuccess($this->txt("tic_sent"), true);
+        $this->tpl->setOnScreenMessage("success", $this->txt("tic_sent"), true);
         $this->configure();
     }
 

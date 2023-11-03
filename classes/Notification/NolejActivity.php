@@ -408,13 +408,14 @@ class NolejActivity
      */
     public function store()
     {
+        global $tpl;
         $ilDB = $this->db;
 
         if (!$this->getDocumentId() ||
             !$this->getUserId() ||
             !$this->getAction()
         ) {
-            ilUtil::sendFailure("Some value null", true);
+            $tpl->setOnScreenMessage("failure", "Some value null", true);
             $this->config->logger->log("Notification: some values are null: " . print_r([
                 "documentId" => $this->getDocumentId(),
                 "userId" => $this->getUserId(),

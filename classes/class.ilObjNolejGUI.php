@@ -281,7 +281,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
         if($form->checkInput()) {
             $this->fillObject($this->object, $form);
             $this->object->update();
-            ilUtil::sendSuccess($this->plugin->txt("update_successful"), true);
+            $this->tpl->setOnScreenMessage("success", $this->plugin->txt("update_successful"), true);
             $this->ctrl->redirect($this, self::CMD_PROPERTIES_EDIT);
         }
         $this->tpl->setContent($form->getHTML());
@@ -344,19 +344,19 @@ class ilObjNolejGUI extends ilObjectPluginGUI
         $this->tabs->activateTab(self::TAB_CONTENT);
 
         if ($this->object->getDocumentStatus() != ilNolejActivityManagementGUI::STATUS_COMPLETED) {
-            ilUtil::sendInfo($this->plugin->txt("activities_not_yet_generated"));
+            $this->tpl->setOnScreenMessage("info", $this->plugin->txt("activities_not_yet_generated"));
             return;
         }
 
         $h5pDir = $this->object->getDataDir() . "/h5p";
         if (!is_dir($h5pDir)) {
-            ilUtil::sendInfo($this->plugin->txt("activities_not_downloaded"));
+            $this->tpl->setOnScreenMessage("info", $this->plugin->txt("activities_not_downloaded"));
             return;
         }
 
         $this->printContentMenu();
         if (empty($this->selectedType)) {
-            ilUtil::sendInfo($this->plugin->txt("activities_not_downloaded"));
+            $this->tpl->setOnScreenMessage("info", $this->plugin->txt("activities_not_downloaded"));
             return;
         }
 

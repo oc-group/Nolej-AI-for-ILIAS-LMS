@@ -85,9 +85,9 @@ class ilNolejWebhook
 
             case "work in progress":
                 $this->log("Received work in progress.");
-                global $DIC;
+                global $DIC, $tpl;
                 if (!$DIC->user()->isAnonymous()) {
-                    ilUtil::sendInfo(ilNolejConfig::txt("work_in_progress"));
+                    $tpl->setOnScreenMessage("info", ilNolejConfig::txt("work_in_progress"));
                     return;
                 }
                 break;
