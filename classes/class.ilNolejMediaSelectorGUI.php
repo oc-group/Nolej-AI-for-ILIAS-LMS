@@ -175,8 +175,6 @@ class ilNolejMediaSelectorGUI
                         $this->insertFromPool();
                 }
         }
-
-        return true;
     }
 
     /**
