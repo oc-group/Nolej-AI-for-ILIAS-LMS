@@ -122,19 +122,21 @@ class ilNolejActivityManagementGUI
     protected $gui_obj;
 
     /** @var int */
-    protected $status = 0;
+    protected int $status = 0;
 
     /** @var string */
-    protected $defaultCmd;
+    protected string $defaultCmd = "";
 
     /** @var string */
-    protected $cmd;
+    protected string $cmd = "";
 
     /** @var string */
-    protected $documentId;
+    protected string $documentId = "";
 
     /** @var string */
-    protected $dataDir;
+    protected string $dataDir = "";
+
+    protected string $formTpl = "";
 
     /** @var ilNolejConfig */
     protected $config;
@@ -572,18 +574,87 @@ class ilNolejActivityManagementGUI
     }
 
     /**
-     * Form's input to get a media element
+     * @return mixed|null
      */
-    protected function linkInputGUI() // ?ilFormPropertyGUI $parentForm
+    protected function get(string $key)
     {
-        $mob = new ilLinkInputGUI("", self::PROP_INPUT_MOB);
-        $mob->setAllowedLinkTypes(ilLinkInputGUI::INT);
-        $mob->setInternalLinkDefault("Media_Media", 0);
-        // $mob->setFilterWhiteList(true);
-        $mob->setInternalLinkFilterTypes(["Media_Media"]);
-        $mob->setRequired(true);
-        // $mob->setParent($parentForm);
-        return $mob;
+        if (\ilSession::has(ilNolejPlugin::PLUGIN_ID . "_" . $key)) {
+            return \ilSession::get(ilNolejPlugin::PLUGIN_ID . "_" . $key);
+        }
+        return null;
+    }
+
+    /**
+     * @param mixed $val
+     */
+    protected function set(string $key, $val): void
+    {
+        \ilSession::set(ilNolejPlugin::PLUGIN_ID . "_" . $key, $val);
+    }
+
+    /**
+     * @param string $type
+     * @param string $target
+     * @param string $target_frame
+     * @param string $anchor
+     */
+    public function setInternalLink(
+        string $type,
+        string $target,
+        string $target_frame,
+        string $anchor
+    ): void {
+        $this->set("il_type", $type);
+        $this->set("il_target", $target);
+        $this->set("il_targetframe", $target_frame);
+        $this->set("il_anchor", $anchor);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getInternalLink(): array
+    {
+        return [
+            "type" => (string) $this->get("il_type"),
+            "target" => (string) $this->get("il_target"),
+            "target_frame" => (string) $this->get("il_targetframe"),
+            "anchor" => (string) $this->get("il_anchor")
+        ];
+    }
+
+    /**
+     * Get text name of internal link
+     * @param string $a_target target object link id
+     * @param string $a_type type
+     * @param string $a_frame target frame
+     */
+    public function getIntLinkString(
+        string $a_target,
+        string $a_type,
+        string $a_frame
+    ): string {
+        $lng = $this->lng;
+        $frame_str = "";
+        $link_str = "";
+        $t_arr = explode("_", $a_target);
+
+        if ($a_frame != "") {
+            $frame_str = " (" . $a_frame . " Frame)";
+        }
+
+        if ($a_type == "MediaObject") {
+            $mob = new ilObjMediaObject($t_arr[count($t_arr) - 1]);
+            $link_str = sprintf(
+                "%s: %s [%s] %s",
+                $lng->txt("mob"),
+                $mob->getTitle(),
+                $t_arr[count($t_arr) - 1],
+                $frame_str
+            );
+        }
+
+        return $link_str;
     }
 
     /**
@@ -633,10 +704,30 @@ class ilNolejActivityManagementGUI
 
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->txt("obj_xnlj"));
+        $form->setOpenTag(false);
+        $form->setCloseTag(false);
 
         $status = $this->status;
 
         if ($status == self::STATUS_CREATION) {
+
+            $formTpl = new ilTemplate("tpl.creation_form.html", true, true, ilNolejPlugin::PLUGIN_DIR);
+            $formTpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+            $formTpl->setCurrentBlock("int_link_prep");
+            $formTpl->setVariable(
+                "INT_LINK_PREP",
+                ilInternalLinkGUI::getInitHTML(
+                    $this->ctrl->getLinkTargetByClass(
+                        "ilinternallinkgui",
+                        "",
+                        false,
+                        true,
+                        false
+                    )
+                )
+            );
+            $formTpl->parseCurrentBlock();
 
             /**
              * Module title
@@ -692,7 +783,22 @@ class ilNolejActivityManagementGUI
             $mediaMob->setInfo($this->txt("prop_" . self::PROP_M_MOB . "_info"));
             $mediaSource->addOption($mediaMob);
             /* Mob ID */
-            $mob = $this->linkInputGUI();
+            $mob = new ilNonEditableValueGUI("", "", true);
+            $link_str = "";
+            $int_link = $this->getInternalLink();
+            if ($int_link["target"] != "") {
+                $link_str = $this->getIntLinkString(
+                    $int_link["target"],
+                    $int_link["type"],
+                    $int_link["target_frame"]
+                );
+            }
+            $mob->setValue(
+                $link_str .
+                    '&nbsp;<a id="iosEditInternalLinkTrigger" href="#">' .
+                    "[" . $this->lng->txt("cont_get_link") . "]" .
+                    '</a>'
+            );
             $mediaMob->addSubItem($mob);
 
             /**
@@ -783,7 +889,10 @@ class ilNolejActivityManagementGUI
             $form->addItem($automaticMode);
 
             $form->addCommandButton(self::CMD_CREATE, $this->txt("cmd_" . self::CMD_CREATE));
-            $form->setFormAction($this->ctrl->getFormAction($this));
+            // $form->setFormAction($this->ctrl->getFormAction($this));
+
+            $formTpl->setVariable("FORM", $form->getHTML());
+            $this->formTpl = $formTpl->get();
 
         } else {
 
