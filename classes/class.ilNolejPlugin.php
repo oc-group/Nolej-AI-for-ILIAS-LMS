@@ -88,7 +88,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
      * Returns a list of all repository object types which can be a parent of this type.
      * @return array
      */
-    public function getParentTypes()
+    public function getParentTypes(): array
     {
         $par_types = array("root", "cat", "crs", "grp", "fold", "lso", "prg");
         return $par_types;
