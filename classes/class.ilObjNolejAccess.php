@@ -34,8 +34,13 @@ class ilObjNolejAccess extends ilObjectPluginAccess
      * @param int $a_user_id user id (default is current user)
      * @return bool true, if everything is ok
      */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = 0)
-    {
+    public function _checkAccess(
+        string $a_cmd,
+        string $a_permission,
+        int $a_ref_id,
+        int $a_obj_id,
+        int $a_user_id = 0
+    ): bool {
         if ($a_user_id == 0 || $a_user_id == null) {
             $a_user_id = $this->user->getId();
         }
@@ -68,10 +73,10 @@ class ilObjNolejAccess extends ilObjectPluginAccess
     }
 
     /**
-     * @param $a_id int
+     * @param int $a_obj_id
      * @return bool
      */
-    public static function _isOffline($a_obj_id): bool
+    public static function _isOffline(int $a_obj_id): bool
     {
         global $ilDB;
 
@@ -88,7 +93,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess
      * Returns an array with valid operators for the specific object type
      * @return array
      */
-    public static function getConditionOperators()
+    public static function getConditionOperators(): array
     {
         include_once './Services/Conditions/classes/class.ilConditionHandler.php'; //bugfix mantis 24891
         return array(
@@ -100,8 +105,9 @@ class ilObjNolejAccess extends ilObjectPluginAccess
     /**
      * Goto redirection
      * @param string $a_target
+     * @return bool
      */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $a_target): bool
     {
         include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
         $target = substr($a_target, strlen(ilNolejPlugin::PLUGIN_ID) + 1); // Remove plugin ID
