@@ -165,7 +165,7 @@ class ilNolejWebhook
 
         $this->sendNotification(
             $exchangeId,
-            $exchange["user_id"],
+            (int) $exchange["user_id"],
             "tac",
             "ok",
             0,
@@ -267,7 +267,7 @@ class ilNolejWebhook
 
         $this->sendNotification(
             $documentId,
-            $document["user_id"],
+            (int) $document["user_id"],
             "transcription_" . $this->data["status"],
             $this->data["status"],
             $this->data["code"],
@@ -371,7 +371,7 @@ class ilNolejWebhook
 
         $this->sendNotification(
             $documentId,
-            $document["user_id"],
+            (int) $document["user_id"],
             "analysis_" . $this->data["status"],
             $this->data["status"],
             $this->data["code"],
@@ -460,7 +460,7 @@ class ilNolejWebhook
             $this->log("Result: ko");
             $this->sendNotification(
                 $documentId,
-                $document["user_id"],
+                (int) $document["user_id"],
                 "activities_ko",
                 $this->data["status"],
                 $this->data["code"],
@@ -501,7 +501,7 @@ class ilNolejWebhook
             $this->log("Failed to download some activities: " . $fails . ".");
             $this->sendNotification(
                 $documentId,
-                $document["user_id"],
+                (int) $document["user_id"],
                 "activities_ko",
                 $this->data["status"],
                 $this->data["code"],
@@ -517,7 +517,7 @@ class ilNolejWebhook
 
         $this->sendNotification(
             $documentId,
-            $document["user_id"],
+            (int) $document["user_id"],
             "activities_ok",
             $this->data["status"],
             $this->data["code"],
