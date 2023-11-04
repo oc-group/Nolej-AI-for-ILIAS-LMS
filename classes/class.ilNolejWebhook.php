@@ -589,6 +589,7 @@ class ilNolejWebhook
             $lng->txt(ilNolejPlugin::PREFIX . "_" . $bodyVar),
             ...$vars
         );
+        $notification->setIconPath(ilNolejPlugin::PLUGIN_DIR ."/templates/images/icon_xnlj.svg");
         $notification->setShortDescriptionVar($descriptionVar);
         $notification->setLongDescriptionVar($descriptionVar);
         $notification->setAutoDisable(false);
