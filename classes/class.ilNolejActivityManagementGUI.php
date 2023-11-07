@@ -2801,6 +2801,13 @@ class ilNolejActivityManagementGUI
         global $DIC, $tpl;
 
         $form = $this->initActivitiesForm(true);
+
+        if ($this->status == self::STATUS_CREATION_PENDING) {
+            $tpl->setOnScreenMessage("info", $this->txt("activities_generation_start"));
+            $tpl->setContent($form->getHTML());
+            return;
+        }
+
         if (!$form->checkInput()) {
             // input not ok, then
             $tpl->setContent($form->getHTML());
