@@ -369,14 +369,22 @@ class ilNolejActivityManagementGUI
         }
 
         $pendingStatuses = [
-            self::STATUS_CREATION_PENDING,
-            self::STATUS_ANALISYS_PENDING,
-            self::STATUS_REVISION_PENDING,
-            self::STATUS_ACTIVITIES_PENDING
+            self::STATUS_CREATION_PENDING => "transcription",
+            self::STATUS_ANALISYS_PENDING => "analysis",
+            self::STATUS_REVISION_PENDING => "",
+            self::STATUS_ACTIVITIES_PENDING => "activities"
         ];
 
-        if (in_array($this->status, $pendingStatuses)) {
+        if (array_key_exists($this->status, $pendingStatuses)) {
             $this->printWebhookCallBox();
+            $tpl->addOnLoadCode(
+                sprintf(
+                    "checkNolejUpdates('%s')",
+                    $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
+                        . "&document_id=" . $this->documentId
+                        . "&status=" . $pendingStatuses[$this->status]
+                )
+            );
         }
 
         ilYuiUtil::initConnection($tpl);
@@ -433,14 +441,8 @@ class ilNolejActivityManagementGUI
             $f->step(
                 $this->txt(self::TAB_CREATION),
                 $this->status == self::STATUS_CREATION_PENDING
-                    ? sprintf(
-                        "%s %s <script>checkNolejUpdates('%s')</script>",
-                        self::glyphicon("refresh gly-spin"),
-                        $this->txt("action_transcription"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
-                        . "&document_id=" . $this->documentId
-                        . "&status=transcription"
-                    ) : "",
+                    ? self::glyphicon("refresh gly-spin") . $this->txt("action_transcription")
+                    : "",
                 $this->ctrl->getLinkTarget($this, self::CMD_CREATION)
             )
                 ->withAvailability($step::AVAILABLE) // Always available
@@ -454,14 +456,8 @@ class ilNolejActivityManagementGUI
             $f->step(
                 $this->txt(self::TAB_ANALYSIS),
                 $this->status == self::STATUS_ANALISYS_PENDING
-                    ? sprintf(
-                        "%s %s <script>checkNolejUpdates('%s')</script>",
-                        self::glyphicon("refresh gly-spin"),
-                        $this->txt("action_analysis"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
-                        . "&document_id=" . $this->documentId
-                        . "&status=analysis"
-                    ) : "",
+                    ? self::glyphicon("refresh gly-spin") . $this->txt("action_analysis")
+                    : "",
                 $this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
             )
                 ->withAvailability(
@@ -496,14 +492,8 @@ class ilNolejActivityManagementGUI
             $f->step(
                 $this->txt(self::TAB_ACTIVITIES),
                 $this->status == self::STATUS_ACTIVITIES_PENDING
-                    ? sprintf(
-                        "%s %s <script>checkNolejUpdates('%s')</script>",
-                        self::glyphicon("refresh gly-spin"),
-                        $this->txt("action_activities"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
-                        . "&document_id=" . $this->documentId
-                        . "&status=activities"
-                    ) : "",
+                    ? self::glyphicon("refresh gly-spin") . $this->txt("action_activities")
+                    : "",
                 $this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
             )
                 ->withAvailability(
