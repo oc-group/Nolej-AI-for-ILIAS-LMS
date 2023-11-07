@@ -369,24 +369,6 @@ class ilNolejActivityManagementGUI
             return;
         }
 
-        $pendingStatuses = [
-            self::STATUS_CREATION_PENDING => "transcription",
-            self::STATUS_ANALISYS_PENDING => "analysis",
-            self::STATUS_REVISION_PENDING => "",
-            self::STATUS_ACTIVITIES_PENDING => "activities"
-        ];
-
-        if (array_key_exists($this->status, $pendingStatuses)) {
-            $tpl->addOnLoadCode(
-                sprintf(
-                    "checkNolejUpdates('%s')",
-                    $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
-                        . "&document_id=" . $this->documentId
-                        . "&status=" . $pendingStatuses[$this->status]
-                )
-            );
-        }
-
         ilYuiUtil::initConnection($tpl);
         $tpl->addCss(ilNolejPlugin::PLUGIN_DIR . "/css/nolej.css");
         $tpl->addJavaScript(ilNolejPlugin::PLUGIN_DIR . "/js/nolej.js");
@@ -537,7 +519,22 @@ class ilNolejActivityManagementGUI
                 break;
         }
 
+        $pendingStatuses = [
+            self::STATUS_CREATION_PENDING => "transcription",
+            self::STATUS_ANALISYS_PENDING => "analysis",
+            self::STATUS_REVISION_PENDING => "",
+            self::STATUS_ACTIVITIES_PENDING => "activities"
+        ];
+
         if (array_key_exists($this->status, $pendingStatuses)) {
+            $tpl->addOnLoadCode(
+                sprintf(
+                    "checkNolejUpdates('%s')",
+                    $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
+                        . "&document_id=" . $this->documentId
+                        . "&status=" . $pendingStatuses[$this->status]
+                )
+            );
             $tpl->setLeftContent($renderedWf . $this->getWebhookCallBox());
         } else {
             $tpl->setLeftContent($renderedWf);
