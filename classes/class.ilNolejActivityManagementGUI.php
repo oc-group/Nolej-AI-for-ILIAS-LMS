@@ -310,6 +310,9 @@ class ilNolejActivityManagementGUI
         ];
 
         if (!in_array($this->status, $pendingStatuses)) {
+            $cmd = $this->defaultCmd;
+            $this->printWorkflow($cmd);
+            $this->$cmd();
             return;
         }
 
