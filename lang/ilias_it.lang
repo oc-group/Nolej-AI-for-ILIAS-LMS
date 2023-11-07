@@ -67,7 +67,7 @@ cmd_save#:#Salva
 cmd_select#:#Seleziona un oggetto dal mediapool
 cmd_tic#:#Invia TIC
 cmd_update#:#Aggiorna
-cmd_webhook_call#:#Controlla lo stato effettivo
+cmd_webhook_call#:#Controlla lo stato attuale
 cmd_webhook_call_info#:#Se attendi da molto l'esito dell'operazione, puoi provare a sincronizzare lo stato con il server di Nolej. È possibile infatti, seppur raro, che la risposta si sia persa per strada...
 concepts_definition#:#Definizione
 concepts_enable#:#Concetto abilitato
@@ -101,6 +101,7 @@ err_doc_response#:#C'è stato un errore durante la creazione del modulo Nolej:<b
 err_h5p_content#:#Non è stato possibile caricare l'attività. Per favore, contatta un amministratore.
 err_h5p_package#:#non è un valido pacchetto h5p
 err_json_decode#:#impossibile decodificare il json
+err_h5p_plugin#:#La versione del plugin H5P installata non è supportata. Per favore, aggiorna il plugin o contatta un amministratore.
 err_questions_file#:#Impossibile caricare le domande. Per favore, riprova.
 err_questions_put#:#Nolej ha restituito un errore, per favore controlla i dati e riprova.
 err_questions_save#:#Impossibile salvare il file delle domande. Riprova, e se persiste contatta un Amministratore.

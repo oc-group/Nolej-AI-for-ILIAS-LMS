@@ -101,6 +101,7 @@ err_doc_response#:#
 err_h5p_content#:#
 err_h5p_package#:#
 err_json_decode#:#
+err_h5p_plugin#:#
 err_questions_file#:#
 err_questions_put#:#
 err_questions_save#:#

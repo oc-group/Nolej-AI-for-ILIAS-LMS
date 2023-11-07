@@ -67,7 +67,7 @@ cmd_save#:#Save
 cmd_select#:#Select media from mediapool
 cmd_tic#:#Send TIC
 cmd_update#:#Update
-cmd_webhook_call#:#Check actual status
+cmd_webhook_call#:#Check current status
 cmd_webhook_call_info#:#If you have been waiting a long time for the outcome of the operation, you can try to synchronize the status with the Nolej server. In fact, it is possible, albeit rare, that the answer was lost along the way...
 concepts_definition#:#Definition
 concepts_enable#:#Concept enabled
@@ -101,6 +101,7 @@ err_doc_response#:#An error accurred during the creation of Nolej module:<br>%s<
 err_h5p_content#:#Sorry, this activity cannot be loaded. Please contact an administrator.
 err_h5p_package#:#not a valid h5p package
 err_json_decode#:#cannot decode the json
+err_h5p_plugin#:#Sorry, your version of H5P plugin is not supported. Please update it or contact an administrator.
 err_questions_file#:#Questions file cannot be retrieved. Please, try again.
 err_questions_put#:#Nolej returned an error, please check your data and try again.
 err_questions_save#:#Questions file cannot be saved on disk. Try again, and if it persists ask an Administrator for help.
