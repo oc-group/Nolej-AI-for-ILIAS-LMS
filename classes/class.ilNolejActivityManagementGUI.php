@@ -335,7 +335,7 @@ class ilNolejActivityManagementGUI
     /**
      * Print a caller to the last webhook
      */
-    protected function printWebhookCallBox(): void
+    protected function getWebhookCallBox(): string
     {
         global $DIC, $tpl;
         $f = $DIC->ui()->factory();
@@ -346,12 +346,10 @@ class ilNolejActivityManagementGUI
             $this->ctrl->getLinkTarget($this, self::CMD_WEBHOOK_CALL)
         )];
 
-        $tpl->setRightContent(
-            $renderer->render(
-                $f->messageBox()
-                    ->confirmation($this->txt("cmd_webhook_call_info"))
-                    ->withButtons($buttons)
-            )
+        return $renderer->render(
+            $f->messageBox()
+                ->confirmation($this->txt("cmd_webhook_call_info"))
+                ->withButtons($buttons)
         );
     }
 
@@ -379,7 +377,6 @@ class ilNolejActivityManagementGUI
         ];
 
         if (array_key_exists($this->status, $pendingStatuses)) {
-            $this->printWebhookCallBox();
             $tpl->addOnLoadCode(
                 sprintf(
                     "checkNolejUpdates('%s')",
@@ -540,7 +537,11 @@ class ilNolejActivityManagementGUI
                 break;
         }
 
-        $tpl->setLeftContent($renderedWf);
+        if (array_key_exists($this->status, $pendingStatuses)) {
+            $tpl->setLeftContent($renderedWf . $this->getWebhookCallBox());
+        } else {
+            $tpl->setLeftContent($renderedWf);
+        }
     }
 
     /**
