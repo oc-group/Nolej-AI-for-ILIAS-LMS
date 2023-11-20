@@ -1187,14 +1187,30 @@ class ilNolejActivityManagementGUI
                 $extension = pathinfo($file["name"], PATHINFO_EXTENSION);
                 $upload_filename = $this->getRandomFilename($extension);
                 $upload_filepath = $upload_path . $upload_filename;
-                $success = ilUtil::moveUploadedFile(
-                    $file["tmp_name"],
-                    $upload_filename,
-                    $upload_filepath
-                );
+                if (class_exists("ilFileUtils") && method_exists("ilFileUtils", "moveUploadedFile")) {
+                    $success = ilFileUtils::moveUploadedFile(
+                        $file["tmp_name"],
+                        $upload_filename,
+                        $upload_filepath
+                    );
+                } else if (method_exists("ilUtil", "moveUploadedFile")) {
+                    $success = ilUtil::moveUploadedFile(
+                        $file["tmp_name"],
+                        $upload_filename,
+                        $upload_filepath
+                    );
+                } else {
+                    $this->config->logger->log("Method moveUploadedFile cannot be found.");
+                    $tpl->setOnScreenMessage("failure", $this->txt("err_file_upload"), true);
+                    $form->setValuesByPost();
+                    $tpl->setContent($formHtml);
+                    return;
+                }
                 if (!$success) {
-                    // todo: show error
-                    break;
+                    $tpl->setOnScreenMessage("failure", $this->txt("err_file_upload"), true);
+                    $form->setValuesByPost();
+                    $tpl->setContent($formHtml);
+                    return;
                 }
 
                 chmod($upload_filepath, 0775);
