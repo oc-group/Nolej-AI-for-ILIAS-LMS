@@ -1188,6 +1188,7 @@ class ilNolejActivityManagementGUI
                 $upload_filename = $this->getRandomFilename($extension);
                 $upload_filepath = $upload_path . $upload_filename;
                 if (class_exists("ilFileUtils") && method_exists("ilFileUtils", "moveUploadedFile")) {
+                    // Since ILIAS 8
                     $success = ilFileUtils::moveUploadedFile(
                         $file["tmp_name"],
                         $upload_filename,
