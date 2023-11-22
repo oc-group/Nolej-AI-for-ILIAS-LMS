@@ -451,9 +451,10 @@ class ilNolejActivityManagementGUI
                 ->withStatus(
                     $this->status <= self::STATUS_ANALISYS
                         ? $step::NOT_STARTED
-                        : $this->status == self::STATUS_ANALISYS_PENDING
+                        : ($this->status == self::STATUS_ANALISYS_PENDING
                             ? $step::IN_PROGRESS
                             : $step::SUCCESSFULLY
+                        )
                 ),
             $f->step(
                 $this->txt(self::TAB_REVIEW),
@@ -468,9 +469,10 @@ class ilNolejActivityManagementGUI
                 ->withStatus(
                     $this->status <= self::STATUS_REVISION
                         ? $step::NOT_STARTED
-                        : $this->status == self::STATUS_REVISION_PENDING
+                        : ($this->status == self::STATUS_REVISION_PENDING
                             ? $step::IN_PROGRESS
                             : $step::SUCCESSFULLY
+                        )
                 ),
             $f->step(
                 $this->txt(self::TAB_ACTIVITIES),
@@ -487,9 +489,10 @@ class ilNolejActivityManagementGUI
                 ->withStatus(
                     $this->status <= self::STATUS_ACTIVITIES
                         ? $step::NOT_STARTED
-                        : $this->status == self::STATUS_ACTIVITIES_PENDING
+                        : ($this->status == self::STATUS_ACTIVITIES_PENDING
                             ? $step::IN_PROGRESS
                             : $step::SUCCESSFULLY
+                        )
                 ),
         ];
         $wf = $f->linear($this->txt("tab_activity_management"), $steps);
