@@ -45,7 +45,7 @@ composer install --no-dev
    3. Activate the checkbox
    4. Save
 
-5. Open `client.ini.php` file indide the `data` directory and put this below `[server]`:
+5. (Only for ILIAS 8) Open `client.ini.php` file indide the `data` directory and put this below `[server]`:
 
 ```
 [server]
