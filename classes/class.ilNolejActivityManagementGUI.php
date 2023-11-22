@@ -431,9 +431,10 @@ class ilNolejActivityManagementGUI
                 ->withStatus(
                     $this->status == self::STATUS_CREATION
                         ? $step::NOT_STARTED
-                        : $this->status == self::STATUS_CREATION_PENDING
+                        : ($this->status == self::STATUS_CREATION_PENDING
                             ? $step::IN_PROGRESS
                             : $step::SUCCESSFULLY
+                        )
                 ),
             $f->step(
                 $this->txt(self::TAB_ANALYSIS),
