@@ -124,41 +124,41 @@ class ilObjNolejAccess extends ilObjectPluginAccess
     /**
      * @inheritDoc
      */
-    public function canBeDelivered(ilWACPath $ilWACPath): bool
-    {
-        return true;
-        // $module = $ilWACPath->getModuleIdentifier();
+    // public function canBeDelivered(ilWACPath $ilWACPath): bool
+    // {
+    //     return true;
+    //     // $module = $ilWACPath->getModuleIdentifier();
 
-        // var_dump(
-        //     [
-        //         "module" => $module,
-        //         "path" => $ilWACPath->getPath(),
-        //         "modulePath" => $ilWACPath->getModulePath()
-        //     ]
-        // );
-        // die();
+    //     // var_dump(
+    //     //     [
+    //     //         "module" => $module,
+    //     //         "path" => $ilWACPath->getPath(),
+    //     //         "modulePath" => $ilWACPath->getModulePath()
+    //     //     ]
+    //     // );
+    //     // die();
 
-        // if ("cachedassets" === $module || "libraries" === $module || "editor" === $module) {
-        //     return true;
-        // }
+    //     // if ("cachedassets" === $module || "libraries" === $module || "editor" === $module) {
+    //     //     return true;
+    //     // }
 
-        // if ("content" !== $module) {
-        //     return false;
-        // }
+    //     // if ("content" !== $module) {
+    //     //     return false;
+    //     // }
 
-        // $content_id = (int) substr($ilWACPath->getPath(), strlen($ilWACPath->getModulePath() . "content/"));
-        // $content = $this->content_repository->getContent($content_id);
+    //     // $content_id = (int) substr($ilWACPath->getPath(), strlen($ilWACPath->getModulePath() . "content/"));
+    //     // $content = $this->content_repository->getContent($content_id);
 
-        // if (null === $content) {
-        //     return false;
-        // }
+    //     // if (null === $content) {
+    //     //     return false;
+    //     // }
 
-        // return $this->h5p_access_handler->checkAccess(
-        //     $content->getObjId(),
-        //     false,
-        //     $content->getParentType(),
-        //     $content->isInWorkspace(),
-        //     "read"
-        // );
-    }
+    //     // return $this->h5p_access_handler->checkAccess(
+    //     //     $content->getObjId(),
+    //     //     false,
+    //     //     $content->getParentType(),
+    //     //     $content->isInWorkspace(),
+    //     //     "read"
+    //     // );
+    // }
 }

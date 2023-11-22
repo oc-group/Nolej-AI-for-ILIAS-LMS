@@ -1216,7 +1216,6 @@ class ilNolejActivityManagementGUI
 
                 chmod($upload_filepath, 0775);
                 $apiUrl = preg_replace("/^\.\//", ILIAS_HTTP_PATH . "/", $upload_filepath);
-                die($apiUrl);
                 if (in_array($extension, self::TYPE_DOC)) {
                     $apiFormat = self::PROP_M_DOC;
                 } else if (in_array($extension, self::TYPE_VIDEO)) {
