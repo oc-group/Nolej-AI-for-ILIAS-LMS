@@ -22,9 +22,10 @@ git clone https://github.com/oc-group/Nolej.git Nolej
 ### After installation
 
 1. From the ILIAS directory, run:
-   ```sh
-   composer install --no-dev
-   ```
+
+```sh
+composer install --no-dev
+```
 
 2. Configure the API Key
    1. Go into `Administration` -> `Extending ILIAS` -> `Plugins`
@@ -38,8 +39,15 @@ git clone https://github.com/oc-group/Nolej.git Nolej
    2. Enable `Anonymous Access`
    3. Save
 
-4. Enable TinyMCE Editor
+4. Enable TinyMCE Editor (optional, but recommended)
    1. Go into `Administration` -> `Layout and Navigation` -> `Editing`
    2. Select tab `TinyMCE Editor` -> `General Settings`
    3. Activate the checkbox
    4. Save
+
+5. Open `client.ini.php` file indide the `data` directory and put this below `[server]`:
+
+```
+[server]
+prevent_super_global_replacement = 1
+```
