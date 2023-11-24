@@ -2036,7 +2036,11 @@ class ilNolejActivityManagementGUI
             $form->addItem($questionTypeLabel);
 
             $enable = new ilCheckBoxInputGUI(
-                $this->txt("questions_enable"),
+                $this->txt(
+                    $questions[$i]->question_type == "open"
+                        ? "questions_enable"
+                        : "questions_use_for_grading"
+                ),
                 sprintf("question_%d_enable", $i)
             );
             $form->addItem($enable);
@@ -2075,27 +2079,31 @@ class ilNolejActivityManagementGUI
                 }
             }
 
-            $useForGrading = new ilCheckBoxInputGUI(
-                $this->txt("questions_use_for_grading"),
-                sprintf("question_%d_ufg", $i)
-            );
-            $enable->addSubItem($useForGrading);
+            // $useForGrading = new ilCheckBoxInputGUI(
+            //     $this->txt("questions_use_for_grading"),
+            //     sprintf("question_%d_ufg", $i)
+            // );
+            // $enable->addSubItem($useForGrading);
 
             if ($a_use_post) {
                 $enable->setValueByArray($this->request->getParsedBody());
                 if (isset($answer)) {
                     $answer->setValueByArray($this->request->getParsedBody());
                 }
-                $useForGrading->setValueByArray($this->request->getParsedBody());
+                // $useForGrading->setValueByArray($this->request->getParsedBody());
                 if (isset($question)) {
                     $question->setValueByArray($this->request->getParsedBody());
                 }
             } else {
-                $enable->setChecked($questions[$i]->enable);
+                $enable->setChecked(
+                    $questions[$i]->question_type == "open"
+                        ? $questions[$i]->enable
+                        : $questions[$i]->use_for_grading
+                );
                 if (isset($answer)) {
                     $answer->setValue($questions[$i]->answer);
                 }
-                $useForGrading->setChecked($questions[$i]->use_for_grading);
+                // $useForGrading->setChecked($questions[$i]->use_for_grading);
                 if (isset($question)) {
                     $question->setValue($questions[$i]->question);
                 }
@@ -2227,8 +2235,15 @@ class ilNolejActivityManagementGUI
                 continue;
             }
 
-            $enable = (bool) $form->getInput(sprintf("question_%d_enable", $i));
             $questionType = $form->getInput(sprintf("question_%d_type", $i));
+
+            if ($questionType == "open") {
+                $enable = (bool) $form->getInput(sprintf("question_%d_enable", $i));
+                $useForGrading = false;
+            } else {
+                $useForGrading = (bool) $form->getInput(sprintf("question_%d_enable", $i));
+                $enable = false;
+            }
 
             $answer = $questionType == "hoq"
                 ? ""
@@ -2238,7 +2253,6 @@ class ilNolejActivityManagementGUI
                 ? ""
                 : $form->getInput(sprintf("question_%d_question", $i));
 
-            $useForGrading = (bool) $form->getInput(sprintf("question_%d_ufg", $i));
             $distractorsLength = $form->getInput(sprintf("question_%d_distractors", $i));
             $distractors = [];
             for ($j = 0; $j < $distractorsLength; $j++) {
