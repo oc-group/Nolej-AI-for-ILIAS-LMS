@@ -244,6 +244,52 @@ class ilNolejWebhook
 
         $document = $db->fetchAssoc($result);
 
+        $now = strtotime("now");
+        $this->setUserLang($document["user_id"]);
+
+        if (
+            $this->data["status"] != "\"ok\"" &&
+            $this->data["status"] != "ok"
+        ) {
+            $this->log("Result: ko");
+
+            $result = $db->manipulateF(
+                "UPDATE " . ilNolejPlugin::TABLE_DOC
+                . " SET status = %s, consumed_credit = %s"
+                . " WHERE document_id = %s;",
+                [
+                    "integer",
+                    "integer",
+                    "text"
+                ],
+                [
+                    ilNolejActivityManagementGUI::STATUS_CREATION,
+                    $this->data["consumedCredit"],
+                    $documentId
+                ]
+            );
+            if (!$result) {
+                $this->die_message(404, "Document not found.");
+            }
+
+            $this->sendNotification(
+                $documentId,
+                (int) $document["user_id"],
+                "transcription_ko",
+                $this->data["status"],
+                $this->data["code"],
+                $this->data["error_message"],
+                $this->data["consumedCredit"],
+                "action_transcription_ko_desc",
+                [
+                    $document["title"],
+                    ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
+                    $this->data["error_message"]
+                ]
+            );
+            return;
+        }
+
         $result = $db->manipulateF(
             "UPDATE " . ilNolejPlugin::TABLE_DOC
             . " SET status = %s, consumed_credit = %s WHERE document_id = %s;",
@@ -262,18 +308,15 @@ class ilNolejWebhook
             $this->die_message(404, "Document not found.");
         }
 
-        $now = strtotime("now");
-        $this->setUserLang($document["user_id"]);
-
         $this->sendNotification(
             $documentId,
             (int) $document["user_id"],
-            "transcription_" . $this->data["status"],
+            "transcription_ok",
             $this->data["status"],
             $this->data["code"],
             $this->data["error_message"],
             $this->data["consumedCredit"],
-            "action_transcription_" . $this->data["status"] . "_desc",
+            "action_transcription_ok_desc",
             [
                 $document["title"],
                 ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
@@ -347,6 +390,52 @@ class ilNolejWebhook
 
         $document = $db->fetchAssoc($result);
 
+        $now = strtotime("now");
+        $this->setUserLang($document["user_id"]);
+
+        if (
+            $this->data["status"] != "\"ok\"" &&
+            $this->data["status"] != "ok"
+        ) {
+            $this->log("Result: ko");
+
+            $result = $db->manipulateF(
+                "UPDATE " . ilNolejPlugin::TABLE_DOC
+                . " SET status = %s, consumed_credit = %s"
+                . " WHERE document_id = %s;",
+                [
+                    "integer",
+                    "integer",
+                    "text"
+                ],
+                [
+                    ilNolejActivityManagementGUI::STATUS_ANALISYS,
+                    $this->data["consumedCredit"],
+                    $documentId
+                ]
+            );
+            if (!$result) {
+                $this->die_message(404, "Document not found.");
+            }
+
+            $this->sendNotification(
+                $documentId,
+                (int) $document["user_id"],
+                "analysis_ko",
+                $this->data["status"],
+                $this->data["code"],
+                $this->data["error_message"],
+                $this->data["consumedCredit"],
+                "action_analysis_ko_desc",
+                [
+                    $document["title"],
+                    ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
+                    $this->data["error_message"]
+                ]
+            );
+            return;
+        }
+
         $result = $db->manipulateF(
             "UPDATE " . ilNolejPlugin::TABLE_DOC
             . " SET status = %s, consumed_credit = %s"
@@ -366,18 +455,15 @@ class ilNolejWebhook
             $this->die_message(404, "Document not found.");
         }
 
-        $now = strtotime("now");
-        $this->setUserLang($document["user_id"]);
-
         $this->sendNotification(
             $documentId,
             (int) $document["user_id"],
-            "analysis_" . $this->data["status"],
+            "analysis_ok",
             $this->data["status"],
             $this->data["code"],
             $this->data["error_message"],
             $this->data["consumedCredit"],
-            "action_analysis_" . $this->data["status"] . "_desc",
+            "action_analysis_ok_desc",
             [
                 $document["title"],
                 ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
