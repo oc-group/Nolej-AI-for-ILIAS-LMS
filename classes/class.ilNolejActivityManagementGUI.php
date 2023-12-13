@@ -2268,7 +2268,7 @@ class ilNolejActivityManagementGUI
             $selectedDistractor = "";
             $questions[$i] = [
                 "id" => $id,
-                "explanation" => false,
+                "explanation" => "false",
                 "enable" => $enable,
                 "answer" => $answer,
                 "use_for_grading" => $useForGrading,
