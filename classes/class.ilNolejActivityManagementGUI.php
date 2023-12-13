@@ -3034,7 +3034,8 @@ class ilNolejActivityManagementGUI
      * @param int $documentId
      * @return int
      */
-    public function getObjIdFromDocumentId($documentId) {
+    public function getObjIdFromDocumentId($documentId)
+    {
         $result = $this->db->queryF(
             "SELECT id FROM " . ilNolejPlugin::TABLE_DATA
             . " WHERE document_id = %s",
