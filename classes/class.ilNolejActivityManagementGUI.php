@@ -914,11 +914,11 @@ class ilNolejActivityManagementGUI
              *
              * @todo enable option when all the other steps are done.
              */
-            $automaticMode = new ilCheckboxInputGUI($this->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
-            $automaticMode->setInfo($this->txt("prop_" . self::PROP_AUTOMATIC . "_info"));
-            $automaticMode->setChecked(false);
-            $automaticMode->setDisabled(true);
-            $form->addItem($automaticMode);
+            // $automaticMode = new ilCheckboxInputGUI($this->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
+            // $automaticMode->setInfo($this->txt("prop_" . self::PROP_AUTOMATIC . "_info"));
+            // $automaticMode->setChecked(false);
+            // $automaticMode->setDisabled(true);
+            // $form->addItem($automaticMode);
 
             $form->addCommandButton(self::CMD_CREATE, $this->txt("cmd_" . self::CMD_CREATE));
             // $form->setFormAction($this->ctrl->getFormAction($this));
@@ -941,10 +941,10 @@ class ilNolejActivityManagementGUI
             $language->setValue($this->lng->txt("meta_l_" . $this->gui_obj->getObject()->getDocumentLang()));
             $form->addItem($language);
 
-            $automaticMode = new ilCheckboxInputGUI($this->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
-            $automaticMode->setChecked($this->gui_obj->getObject()->getDocumentAutomaticMode());
-            $automaticMode->setDisabled(true);
-            $form->addItem($automaticMode);
+            // $automaticMode = new ilCheckboxInputGUI($this->txt("prop_" . self::PROP_AUTOMATIC), self::PROP_AUTOMATIC);
+            // $automaticMode->setChecked($this->gui_obj->getObject()->getDocumentAutomaticMode());
+            // $automaticMode->setDisabled(true);
+            // $form->addItem($automaticMode);
         }
 
         return $form;
@@ -1267,7 +1267,7 @@ class ilNolejActivityManagementGUI
         }
 
         $apiLanguage = $form->getInput(self::PROP_LANG);
-        $apiAutomaticMode = (bool) $form->getInput(self::PROP_AUTOMATIC);
+        $apiAutomaticMode = false; // (bool) $form->getInput(self::PROP_AUTOMATIC);
 
         // Update object title if it differs from the current one.
         if ($apiTitle != "" && $apiTitle != $this->gui_obj->getObject()->getTitle()) {
