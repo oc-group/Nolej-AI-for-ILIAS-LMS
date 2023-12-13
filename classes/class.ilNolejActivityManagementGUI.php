@@ -94,7 +94,7 @@ class ilNolejActivityManagementGUI
     const PROP_LANG = "language";
     const PROP_AUTOMATIC = "automatic";
 
-    const TYPE_AUDIO = ["mp3", "was", "opus", "ogg", "oga", "m4a"];
+    const TYPE_AUDIO = ["mp3", "wav", "opus", "ogg", "oga", "m4a"];
     const TYPE_VIDEO = ["m4v", "mp4", "ogv", "avi", "webm"];
     const TYPE_DOC = ["pdf", "doc", "docx", "odt"];
     const TYPE_TEXT = ["txt", "htm", "html"];
