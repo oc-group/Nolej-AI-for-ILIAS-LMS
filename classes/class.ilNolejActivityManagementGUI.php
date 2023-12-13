@@ -2398,17 +2398,14 @@ class ilNolejActivityManagementGUI
             );
             $enable->addSubItem($useForPractice);
 
-            // TODO: remove this
-            $useForAssessment = new ilCheckBoxInputGUI(
-                $this->txt("concepts_use_for_assessment"),
-                sprintf("concept_%d_assessment", $i)
-            );
-            $enable->addSubItem($useForAssessment);
+            // deprecated
+            // $useForAssessment = new ilCheckBoxInputGUI(
+            //     $this->txt("concepts_use_for_assessment"),
+            //     sprintf("concept_%d_assessment", $i)
+            // );
+            // $enable->addSubItem($useForAssessment);
 
-            $language = new ilNonEditableValueGUI(
-                $this->txt("concepts_language"),
-                sprintf("concept_%d_language", $i)
-            );
+            $language = new ilHiddenInputGUI(sprintf("concept_%d_language", $i));
             $language->setValue($concepts[$i]->concept->language);
             $enable->addSubItem($language);
 
@@ -2425,7 +2422,7 @@ class ilNolejActivityManagementGUI
                 $useForFTW->setValueByArray($this->request->getParsedBody());
                 $useForGaming->setValueByArray($this->request->getParsedBody());
                 $useForPractice->setValueByArray($this->request->getParsedBody());
-                $useForAssessment->setValueByArray($this->request->getParsedBody());
+                // $useForAssessment->setValueByArray($this->request->getParsedBody());
                 $definition->setValueByArray($this->request->getParsedBody());
             } else {
                 $enable->setChecked($concepts[$i]->enable);
@@ -2434,7 +2431,7 @@ class ilNolejActivityManagementGUI
                 $useForFTW->setChecked($concepts[$i]->use_for_ftw);
                 $useForGaming->setChecked($concepts[$i]->use_for_gaming);
                 $useForPractice->setChecked($concepts[$i]->use_for_practice);
-                $useForAssessment->setChecked($concepts[$i]->use_for_assessment);
+                // $useForAssessment->setChecked($concepts[$i]->use_for_assessment);
                 $definition->setValue($concepts[$i]->concept->definition);
             }
         }
@@ -2516,7 +2513,7 @@ class ilNolejActivityManagementGUI
             $useForFTW = (bool) $form->getInput(sprintf("concept_%d_ftw", $i)) ?? false;
             $useForGaming = (bool) $form->getInput(sprintf("concept_%d_gaming", $i)) ?? false;
             $useForPractice = (bool) $form->getInput(sprintf("concept_%d_practice", $i)) ?? false;
-            $useForAssessment = (bool) $form->getInput(sprintf("concept_%d_assessment", $i)) ?? false;
+            $useForAssessment = false; // (bool) $form->getInput(sprintf("concept_%d_assessment", $i)) ?? false;
             $label = $form->getInput(sprintf("concept_%d_label", $i));
             $language = $form->getInput(sprintf("concept_%d_language", $i));
             $definition = $form->getInput(sprintf("concept_%d_definition", $i));
