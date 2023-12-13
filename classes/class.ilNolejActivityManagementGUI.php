@@ -894,11 +894,15 @@ class ilNolejActivityManagementGUI
              */
             $language = new ilSelectInputGUI($this->txt("prop_" . self::PROP_LANG), self::PROP_LANG);
             $language->setInfo($this->txt("prop_" . self::PROP_LANG . "_info"));
+            // TODO in future version: get languages dinamically
             $language->setOptions([
                 "en" => $this->lng->txt("meta_l_en"),
                 "fr" => $this->lng->txt("meta_l_fr"),
                 "it" => $this->lng->txt("meta_l_it"),
-                "de" => $this->lng->txt("meta_l_de")
+                "de" => $this->lng->txt("meta_l_de"),
+                "pt" => $this->lng->txt("meta_l_pt"),
+                "es" => $this->lng->txt("meta_l_es"),
+                "nl" => $this->lng->txt("meta_l_nl")
             ]);
             $language->setRequired(true);
             $form->addItem($language);
