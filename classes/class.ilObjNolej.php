@@ -329,27 +329,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      */
     public function resetLPOfUser(int $user_id): void
     {
-        // TODO
-
-        // global $ilDB, $ilUser;
-
-        // $ilDB->manipulateF(
-        // 	"DELETE FROM " . ilNolejPlugin::TABLE_LP . " WHERE activity_id = %s AND document_id = %s AND user_id = %s;",
-        // 	array("integer", "text", "integer"),
-        // 	array($this->activity_id, $this->getDocumentId(), $user_id)
-        // );
-
-        // $now = strtotime("now");
-        // for ($i = 0, $n = count($details->structure); $i < $n; $i++) {
-        // 	for ($j = 0, $m = count($details->structure[$i]->pages); $j < $m; $j++) {
-        // 		$id_page = $details->structure[$i]->pages[$j]->id_page;
-        // 		$ilDB->manipulateF(
-        // 			"INSERT INTO " . ilNolejPlugin::TABLE_LP . " (id_partner, id_course, id_page, user_id, status, last_change) VALUES (%s, %s, %s, %s, 0, %s);",
-        // 			array("text", "integer", "integer", "integer", "integer"),
-        // 			array($this->id_partner, $this->id_course, $id_page, $user_id, $now)
-        // 		);
-        // 	}
-        // }
+        // TODO in future version
     }
 
     public function resetLP(): void
@@ -364,29 +344,6 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     */
     public function getLPCompleted(): array
     {
-        global $ilDB;
-
-        // if (!$this->isBound()) {
-        // 	return [];
-        // }
-
-        // $result = $ilDB->queryF(
-        // 	"SELECT user_id"
-        // 	. " FROM " . ilNolejPlugin::TABLE_LP
-        // 	. " WHERE id_partner = %s"
-        // 	. " AND id_course = %s"
-        // 	. " GROUP BY user_id"
-        // 	. " HAVING (0.5 * SUM(status) / COUNT(status)) = 1",
-        // 	array("text", "integer"),
-        // 	array($this->getIdPartner(), $this->getIdCourse())
-        // );
-
-        // if (!$result) {
-        // 	return [];
-        // }
-
-        // $lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
-        // return array_column($lp, "user_id");
         return [];
     }
 
@@ -396,29 +353,6 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      */
     public function getLPNotAttempted(): array
     {
-        // global $ilDB;
-
-        // if (!$this->isBound()) {
-        // 	return [];
-        // }
-
-        // $result = $ilDB->queryF(
-        // 	"SELECT user_id"
-        // 	. " FROM " . ilNolejPlugin::TABLE_LP
-        // 	. " WHERE id_partner = %s"
-        // 	. " AND id_course = %s"
-        // 	. " GROUP BY user_id"
-        // 	. " HAVING (0.5 * SUM(status) / COUNT(status)) = 0",
-        // 	array("text", "integer"),
-        // 	array($this->getIdPartner(), $this->getIdCourse())
-        // );
-
-        // if (!$result) {
-        // 	return [];
-        // }
-
-        // $lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
-        // return array_column($lp, "user_id");
         return [];
     }
 
@@ -438,30 +372,6 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      */
     public function getLPInProgress(): array
     {
-        // global $ilDB;
-
-        // if (!$this->isBound()) {
-        // 	return [];
-        // }
-
-        // $result = $ilDB->queryF(
-        // 	"SELECT user_id"
-        // 	. " FROM " . ilNolejPlugin::TABLE_LP
-        // 	. " WHERE id_partner = %s"
-        // 	. " AND id_course = %s"
-        // 	. " GROUP BY user_id"
-        // 	. " HAVING (0.5 * SUM(status) / COUNT(status)) > 0"
-        // 	. " AND (0.5 * SUM(status) / COUNT(status)) < 1",
-        // 	array("text", "integer"),
-        // 	array($this->getIdPartner(), $this->getIdCourse())
-        // );
-
-        // if (!$result) {
-        // 	return [];
-        // }
-
-        // $lp = $ilDB->fetchAll($result, ilDBConstants::FETCHMODE_ASSOC);
-        // return array_column($lp, "user_id");
         return [];
     }
 
@@ -472,36 +382,6 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      */
     public function getLPStatusForUser(int $a_user_id): int
     {
-        // global $ilDB;
-
-        // if (!$this->isBound()) {
-        // 	return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-        // }
-
-        // $result = $ilDB->queryF(
-        // 	"SELECT (0.5 * SUM(status) / COUNT(status)) AS percentage"
-        // 	. " FROM " . ilNolejPlugin::TABLE_LP
-        // 	. " WHERE id_partner = %s"
-        // 	. " AND id_course = %s"
-        // 	. " AND user_id = %s"
-        // 	. " GROUP BY user_id",
-        // 	array("text", "integer", "integer"),
-        // 	array($this->getIdPartner(), $this->getIdCourse(), $a_user_id)
-        // );
-
-        // if (!$result || $ilDB->numRows($result) != 1) {
-        // 	return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-        // }
-
-        // $row = $ilDB->fetchAssoc($result);
-        // switch ($row["percentage"]) {
-        // 	case 0:
-        // 		return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-        // 	case 1:
-        // 		return ilLPStatus::LP_STATUS_COMPLETED_NUM;
-        // 	default:
-        // 		return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
-        // }
         return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 
@@ -512,29 +392,6 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      */
     public function getPercentageForUser(int $a_user_id): int
     {
-        // global $ilDB;
-
-        // if (!$this->isBound()) {
-        // 	return 0;
-        // }
-
-        // $result = $ilDB->queryF(
-        // 	"SELECT (0.5 * SUM(status) / COUNT(status)) AS percentage"
-        // 	. " FROM " . ilNolejPlugin::TABLE_LP
-        // 	. " WHERE id_partner = %s"
-        // 	. " AND id_course = %s"
-        // 	. " AND user_id = %s"
-        // 	. " GROUP BY user_id",
-        // 	array("text", "integer", "integer"),
-        // 	array($this->getIdPartner(), $this->getIdCourse(), $a_user_id)
-        // );
-
-        // if (!$result || $ilDB->numRows($result) != 1) {
-        // 	return 0;
-        // }
-
-        // $row = $ilDB->fetchAssoc($result);
-        // return (int) $row["percentage"] * 100;
         return 0;
     }
 
