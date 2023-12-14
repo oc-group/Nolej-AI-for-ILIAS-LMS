@@ -317,7 +317,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     /**
      * @param array $user_ids
      */
-    public function resetLPOfUsers(array $user_ids)
+    public function resetLPOfUsers($user_ids)
     {
         for ($i = 0, $n = count($user_ids); $i < $n; $i++) {
             self::resetLPOfUser($user_ids[$i]);
@@ -327,7 +327,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     /**
      * @param int $user_id
      */
-    public function resetLPOfUser(int $user_id)
+    public function resetLPOfUser($user_id)
     {
         // TODO in future versions
     }
@@ -380,7 +380,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * @param int $a_user_id
      * @return int
      */
-    public function getLPStatusForUser(int $a_user_id)
+    public function getLPStatusForUser($a_user_id)
     {
         return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
@@ -390,7 +390,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
      * @param int $a_user_id
      * @return int
      */
-    public function getPercentageForUser(int $a_user_id)
+    public function getPercentageForUser($a_user_id)
     {
         return 0;
     }
