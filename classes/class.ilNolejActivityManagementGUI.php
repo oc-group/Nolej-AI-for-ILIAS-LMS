@@ -780,52 +780,14 @@ class ilNolejActivityManagementGUI
             $mediaSource->addOption($mediaMob);
             /* Mob ID */
             $mob = new ilNonEditableValueGUI("", "", true);
-            $link_str = "";
             $int_link = $this->getInternalLink();
-            $preview = "";
             if ($int_link["target"] != "") {
-                $link_str = $this->getIntLinkString(
-                    $int_link["target"],
-                    $int_link["type"],
-                    $int_link["target_frame"]
-                );
-                $t_arr = explode("_", $int_link["target"]);
-                $mobId = $t_arr[count($t_arr) - 1];
-                $path = ilObjMediaObject::_lookupItemPath($mobId);
-                $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-                switch ($extension) {
-                    case "mp3":
-                    case "was":
-                    case "opus":
-                    case "ogg":
-                    case "oga":
-                    case "m4a":
-                        $audio = $f->player()->audio($path);
-                        $preview = $renderer->render($audio);
-                        break;
-
-                    case "m4v":
-                    case "mp4":
-                    case "ogv":
-                    case "avi":
-                    case "webm":
-                        $video = $f->player()->video($path);
-                        $preview = $renderer->render($video);
-                        break;
-
-                    default:
-                        $this->clearInternalLink();
-                        $link_str = "";
-                }
-
                 $mediaSource->setValue(self::PROP_M_MOB);
             }
             $this->lng->loadLanguageModule("content");
             $mob->setValue(
                 sprintf(
-                    "%s<br>%s <a id='iosEditInternalLinkTrigger' href='#'>[%s]</a>",
-                    $preview,
-                    $link_str,
+                    "<a id='iosEditInternalLinkTrigger' href='#'>[%s]</a>",
                     $this->txt("prop_" . self::PROP_M_MOB . "_info")
                 )
             );
