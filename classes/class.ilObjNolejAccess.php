@@ -34,11 +34,11 @@ class ilObjNolejAccess extends ilObjectPluginAccess
      * @return bool true, if everything is ok
      */
     public function _checkAccess(
-        string $a_cmd,
-        string $a_permission,
-        int $a_ref_id,
-        int $a_obj_id,
-        ?int $a_user_id = NULL
+        $a_cmd,
+        $a_permission,
+        $a_ref_id,
+        $a_obj_id,
+        $a_user_id = NULL
     ) {
         if ($a_user_id == null) {
             $a_user_id = $this->user->getId();
@@ -75,7 +75,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess
      * @param int $a_obj_id
      * @return bool
      */
-    public static function _isOffline(int $a_obj_id)
+    public static function _isOffline($a_obj_id)
     {
         global $ilDB;
 
@@ -106,7 +106,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess
      * @param string $a_target
      * @return bool
      */
-    public static function _checkGoto(string $a_target)
+    public static function _checkGoto($a_target)
     {
         include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
         $target = substr($a_target, strlen(ilNolejPlugin::PLUGIN_ID) + 1); // Remove plugin ID
