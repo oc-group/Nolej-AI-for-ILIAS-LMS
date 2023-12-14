@@ -76,7 +76,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
      * Must correspond to the plugin subdirectory
      * @return string
      */
-    public function getPluginName(): string
+    public function getPluginName()
     {
         return self::PLUGIN_NAME;
     }
@@ -85,17 +85,17 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
      * Returns a list of all repository object types which can be a parent of this type.
      * @return array
      */
-    public function getParentTypes(): array
+    public function getParentTypes()
     {
         $par_types = array("root", "cat", "crs", "grp", "fold", "lso", "prg");
         return $par_types;
     }
 
-    protected function afterActivation(): void
+    protected function afterActivation()
     {
     }
 
-    protected function uninstallCustom(): void
+    protected function uninstallCustom()
     {
         $tables = [
             self::TABLE_CONFIG,
@@ -118,7 +118,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
      * @inheritdoc
      * @return bool
      */
-    public function allowCopy(): bool
+    public function allowCopy()
     {
         return false;
     }

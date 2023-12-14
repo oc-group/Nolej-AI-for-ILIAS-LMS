@@ -39,7 +39,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess
         int $a_ref_id,
         int $a_obj_id,
         ?int $a_user_id = NULL
-    ): bool {
+    ) {
         if ($a_user_id == null) {
             $a_user_id = $this->user->getId();
         }
@@ -75,7 +75,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess
      * @param int $a_obj_id
      * @return bool
      */
-    public static function _isOffline(int $a_obj_id): bool
+    public static function _isOffline(int $a_obj_id)
     {
         global $ilDB;
 
@@ -92,7 +92,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess
      * Returns an array with valid operators for the specific object type
      * @return array
      */
-    public static function getConditionOperators(): array
+    public static function getConditionOperators()
     {
         include_once './Services/Conditions/classes/class.ilConditionHandler.php'; //bugfix mantis 24891
         return array(
@@ -106,7 +106,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess
      * @param string $a_target
      * @return bool
      */
-    public static function _checkGoto(string $a_target): bool
+    public static function _checkGoto(string $a_target)
     {
         include_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejGUI.php");
         $target = substr($a_target, strlen(ilNolejPlugin::PLUGIN_ID) + 1); // Remove plugin ID
@@ -124,7 +124,7 @@ class ilObjNolejAccess extends ilObjectPluginAccess
     /**
      * @inheritDoc
      */
-    public function canBeDelivered(ilWACPath $ilWACPath): bool
+    public function canBeDelivered(ilWACPath $ilWACPath)
     {
         return true;
         // $module = $ilWACPath->getModuleIdentifier();

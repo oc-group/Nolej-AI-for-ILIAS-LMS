@@ -64,7 +64,7 @@ class ilNolejGUI
      * Handles all commmands,
      * $cmd = functionName()
      */
-    public function executeCommand(): void
+    public function executeCommand():
     {
         global $tpl;
         $cmd = ($this->ctrl->getCmd()) ? $this->ctrl->getCmd() : self::CMD_SHOW_MODULES;

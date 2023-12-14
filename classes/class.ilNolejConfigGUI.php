@@ -30,19 +30,19 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
     const TAB_CONFIGURE = "configuration";
 
     /** @var ilCtrl */
-    protected ilCtrl $ctrl;
+    protected $ctrl;
 
     /** @var string */
     protected $cmd;
 
     /** @var ilTabsGUI */
-    protected ilTabsGUI $tabs;
+    protected $tabs;
 
     /** @var ilDBInterface */
-    protected ilDBInterface $db;
+    protected $db;
 
     /** @var ilLanguage */
-    protected ilLanguage $lng;
+    protected $lng;
 
     /** @var ilNolejConfig */
     protected $config;
@@ -89,7 +89,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
         switch ($cmd) {
             case self::CMD_SAVE:
-            case self::CMD_TIC:
+            // case self::CMD_TIC:
             case self::CMD_INSERT:
             case self::CMD_POST:
                 $this->$cmd();
@@ -184,18 +184,18 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
 
         $form = $this->initConfigureForm();
 
-        $toolbar = new ilToolbarGUI();
+        // $toolbar = new ilToolbarGUI();
 
-        if ($a_mob_id != null) {
-            $signedUrl = ilNolejMediaSelectorGUI::getSignedUrl($a_mob_id);
-            $this->ctrl->setParameter($this, "mediaUrl", urlencode($signedUrl));
-            $toolbar->addText($signedUrl);
-        }
+        // if ($a_mob_id != null) {
+        //     $signedUrl = ilNolejMediaSelectorGUI::getSignedUrl($a_mob_id);
+        //     $this->ctrl->setParameter($this, "mediaUrl", urlencode($signedUrl));
+        //     $toolbar->addText($signedUrl);
+        // }
 
-        $toolbar->addButton(
-            $this->txt("cmd_tic"),
-            $this->ctrl->getLinkTarget($this, self::CMD_TIC)
-        );
+        // $toolbar->addButton(
+        //     $this->txt("cmd_tic"),
+        //     $this->ctrl->getLinkTarget($this, self::CMD_TIC)
+        // );
 
         // $mediaselectorgui = new ilNolejMediaSelectorGUI($this);
         // $toolbar->addButton(

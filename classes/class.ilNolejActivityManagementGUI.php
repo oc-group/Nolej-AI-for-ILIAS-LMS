@@ -110,16 +110,16 @@ class ilNolejActivityManagementGUI
     const STATUS_COMPLETED = 8;
 
     /** @var ilCtrl */
-    protected ilCtrl $ctrl;
+    protected $ctrl;
 
     /** @var ilTabsGUI */
-    protected ilTabsGUI $tabs;
+    protected $tabs;
 
     /** @var ilDBInterface */
-    protected ilDBInterface $db;
+    protected $db;
 
     /** @var ilLanguage */
-    protected ilLanguage $lng;
+    protected $lng;
 
     /** @var ilObjNolejGUI */
     protected $gui_obj;
@@ -195,7 +195,7 @@ class ilNolejActivityManagementGUI
      * Handles all commmands,
      * $cmd = functionName()
      */
-    public function executeCommand(): void
+    public function executeCommand()
     {
         global $tpl;
 
