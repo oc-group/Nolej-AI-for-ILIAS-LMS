@@ -206,7 +206,7 @@ class ilNolejConfigGUI extends ilPluginConfigGUI
         // $input = $mediaselectorgui->getInput();
         // $form->addItem($input);
 
-        $tpl->setContent($toolbar->getHTML() . $form->getHTML());
+        $tpl->setContent($form->getHTML());
     }
 
     /**
