@@ -1,12 +1,12 @@
 # ![Icon](templates/images/icon_xnlj.svg) Nolej
-ILIAS integration plugin for Nolej.
+ILIAS integration plugin for [Nolej AI](https://nolej.io/). A demo is available [on YouTube](https://www.youtube.com/watch?v=knCsFV4bjeY).
 
 Note: this branch is for ILIAS 8. If you have ILIAS 6 or 7, see branch release_7.
 
 
 ## Installation
 
-### Download the plugin in the right directory
+### Download the plugin
 
 From the ILIAS directory, run:
 
