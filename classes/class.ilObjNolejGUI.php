@@ -559,7 +559,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
      * Goto redirection
      * @param array $a_target
      */
-    public static function _goto(array $a_target)
+    public static function _goto($a_target)
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
