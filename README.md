@@ -1,6 +1,9 @@
 # ![Icon](templates/images/icon_xnlj.svg) Nolej
 ILIAS integration plugin for Nolej.
 
+Note: this branch is for ILIAS 8. If you have ILIAS 6 or 7, see branch release_7.
+
+
 ## Installation
 
 ### Download the plugin in the right directory
