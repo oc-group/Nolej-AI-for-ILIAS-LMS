@@ -29,7 +29,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
     /**
      * @inheritDoc
      */
-    public function getNotifications()
+    public function getNotifications(): array
     {
         // // global $DIC;
         $lng = $this->dic->language();
