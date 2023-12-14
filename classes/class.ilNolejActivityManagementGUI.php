@@ -558,8 +558,8 @@ class ilNolejActivityManagementGUI
      */
     protected function get(string $key)
     {
-        if (\ilSession::has(ilNolejPlugin::PLUGIN_ID . "_" . $key)) {
-            return \ilSession::get(ilNolejPlugin::PLUGIN_ID . "_" . $key);
+        if (isset($_SESSION[ilNolejPlugin::PLUGIN_ID . "_" . $key])) {
+            return $_SESSION[ilNolejPlugin::PLUGIN_ID . "_" . $key];
         }
         return null;
     }
@@ -569,7 +569,7 @@ class ilNolejActivityManagementGUI
      */
     protected function set(string $key, $val): void
     {
-        \ilSession::set(ilNolejPlugin::PLUGIN_ID . "_" . $key, $val);
+        $_SESSION[ilNolejPlugin::PLUGIN_ID . "_" . $key] = $val;
     }
 
     /**
@@ -577,7 +577,9 @@ class ilNolejActivityManagementGUI
      */
     protected function clear(string $key): void
     {
-        \ilSession::clear(ilNolejPlugin::PLUGIN_ID . "_" . $key);
+        if (isset($_SESSION[ilNolejPlugin::PLUGIN_ID . "_" . $key])) {
+            unset($_SESSION[ilNolejPlugin::PLUGIN_ID . "_" . $key]);
+        }
     }
 
     public function setInternalLink(): void
