@@ -795,7 +795,7 @@ class ilNolejActivityManagementGUI
                 $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
                 switch ($extension) {
                     case "mp3":
-                    case "was":
+                    case "wav":
                     case "opus":
                     case "ogg":
                     case "oga":
@@ -1150,7 +1150,7 @@ class ilNolejActivityManagementGUI
                 $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
                 switch ($extension) {
                     case "mp3":
-                    case "was":
+                    case "wav":
                     case "opus":
                     case "ogg":
                     case "oga":
