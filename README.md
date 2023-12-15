@@ -19,7 +19,7 @@ From the ILIAS directory, run:
 ```sh
 mkdir -p Customizing/global/plugins/Services/Repository/RepositoryObject
 cd Customizing/global/plugins/Services/Repository/RepositoryObject
-git clone https://github.com/oc-group/Nolej-AI-for-ILIAS-LMS.git Nolej
+git clone -b release_7 https://github.com/oc-group/Nolej-AI-for-ILIAS-LMS.git Nolej
 ```
 
 ### Install the plugin
