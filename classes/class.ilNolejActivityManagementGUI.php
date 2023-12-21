@@ -792,29 +792,17 @@ class ilNolejActivityManagementGUI
                 $mobId = $t_arr[count($t_arr) - 1];
                 $path = ilObjMediaObject::_lookupItemPath($mobId);
                 $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-                switch ($extension) {
-                    case "mp3":
-                    case "wav":
-                    case "opus":
-                    case "ogg":
-                    case "oga":
-                    case "m4a":
-                        $audio = $f->player()->audio($path);
-                        $preview = $renderer->render($audio);
-                        break;
-
-                    case "m4v":
-                    case "mp4":
-                    case "ogv":
-                    case "avi":
-                    case "webm":
-                        $video = $f->player()->video($path);
-                        $preview = $renderer->render($video);
-                        break;
-
-                    default:
-                        $this->clearInternalLink();
-                        $link_str = "";
+                if (in_array($extension, self::TYPE_AUDIO)) {
+                    $audio = $f->player()->audio($path);
+                    $preview = $renderer->render($audio);
+                } else if (in_array($extension, self::TYPE_VIDEO)) {
+                    $video = $f->player()->video($path);
+                    $preview = $renderer->render($video);
+                } else if (in_array($extension, self::TYPE_DOC)) {
+                    $preview = "";
+                } else {
+                    $this->clearInternalLink();
+                    $link_str = "";
                 }
 
                 $mediaSource->setValue(self::PROP_M_MOB);
@@ -1142,34 +1130,20 @@ class ilNolejActivityManagementGUI
                  * Detect media format
                  * Decrement credit
                  */
+                $decrementedCredit = 1;
                 $mobInput = $this->getInternalLink();
                 $t_arr = explode("_", $mobInput["target"]);
                 $objId = $t_arr[count($t_arr) - 1];
                 $path = ilObjMediaObject::_lookupItemPath($objId);
                 $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-                switch ($extension) {
-                    case "mp3":
-                    case "wav":
-                    case "opus":
-                    case "ogg":
-                    case "oga":
-                    case "m4a":
-                        $apiFormat = self::PROP_M_AUDIO;
-                        $decrementedCredit = 1;
-                        break;
-
-                    case "m4v":
-                    case "mp4":
-                    case "ogv":
-                    case "avi":
-                    case "webm":
-                        $apiFormat = self::PROP_M_VIDEO;
-                        $decrementedCredit = 1;
-                        break;
-
-                    default:
-                        $apiFormat = "";
-                        $decrementedCredit = 0;
+                if (in_array($extension, self::TYPE_AUDIO)) {
+                    $apiFormat = self::PROP_M_AUDIO;
+                } else if (in_array($extension, self::TYPE_VIDEO)) {
+                    $apiFormat = self::PROP_M_VIDEO;
+                } else if (in_array($extension, self::TYPE_DOC)) {
+                    $apiFormat = self::PROP_M_DOC;
+                } else {
+                    $decrementedCredit = 0;
                 }
                 $apiUrl = ilNolejMediaSelectorGUI::getSignedUrl($objId, true);
                 break;
