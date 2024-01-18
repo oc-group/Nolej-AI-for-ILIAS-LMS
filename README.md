@@ -10,7 +10,7 @@ learning paths, saving educators significant time and enhancing engagement throu
 interactive content creation tools, gamification, and social learning.
 
 ## :globe_with_meridians: Supported languages
-Help us expand language support! If your favorite language isn't here, contribute and make our project truly global.
+Help us expand language support! If your favorite language isn't here, contribute and make this project truly global.
 Your input is not just welcome – it's essential! :rocket:
 
 This plugin currently supports the following languages:
