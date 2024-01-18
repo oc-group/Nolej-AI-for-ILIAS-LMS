@@ -9,7 +9,7 @@ active learning content. It facilitates skill development and personalized
 learning paths, saving educators significant time and enhancing engagement through
 interactive content creation tools, gamification, and social learning.
 
-To use the plugin, start by registering on [Nolej AI](https://live.nolej.io/) website.
+To use the plugin, start by [registering on Nolej AI](https://live.nolej.io/signup) website.
 Upon registration, you'll receive an API key. Simply insert this key into the plugin to
 enable its features. It's a quick step to enhance your experience. Let's get started! :rocket:
 
