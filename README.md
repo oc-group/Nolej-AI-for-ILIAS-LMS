@@ -24,6 +24,9 @@ To use the plugin, start by [registering on Nolej AI](https://live.nolej.io/sign
 Upon registration, you'll receive an API key. Simply insert this key into the plugin to
 enable its features. It's a quick step to enhance your experience. Let's get started! :rocket:
 
+Please note that while the plugin itself is free, registration on Nolej website for
+an API key is a separate process. Your support is appreciated!
+
 ## :globe_with_meridians: Supported languages
 Help us expand language support! If your favorite language isn't here, contribute and make this project truly global.
 Your input is not just welcome - it's essential! :rocket:
