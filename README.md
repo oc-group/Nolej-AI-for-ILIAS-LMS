@@ -2,6 +2,12 @@
 ILIAS integration plugin for [Nolej AI](https://nolej.io/).
 A demo is available [on YouTube](https://www.youtube.com/watch?v=knCsFV4bjeY).
 
+Supported languages:
+
+* :uk: English
+* :it: Italian
+
+
 ## Introduction
 Nolej AI, developed by Neuronys, offers several advantages, including AI-driven
 courseware that can quickly convert documents, videos, and audio into dynamic
