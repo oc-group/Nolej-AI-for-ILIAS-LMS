@@ -2,6 +2,17 @@
 ILIAS integration plugin for [Nolej AI](https://nolej.io/).
 A demo is available [on YouTube](https://www.youtube.com/watch?v=knCsFV4bjeY).
 
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Supported Languages](#supported-languages)
+3. [Requirements](#requirements)
+4. [Installation](#installation)
+   - [Download the Plugin](#download-the-plugin)
+   - [Install the Plugin](#install-the-plugin)
+   - [After Installation](#after-installation)
+5. [Page Component Companion Plugin](#page-component-companion-plugin)
+
+
 ## Introduction
 Nolej AI, developed by Neuronys, offers several advantages, including AI-driven
 courseware that can quickly convert documents, videos, and audio into dynamic
@@ -56,11 +67,11 @@ composer du
 ```
 
 2. Configure the API Key
-   1. Go into `Administration` -> `Extending ILIAS` -> `Plugins`
-   2. Look for the plugin "Nolej"
-   3. Click on `Actions` -> `Configure`
-   4. Write your Nolej API Key
-   5. Save
+   1. Log in to ILIAS and navigate to `Administration` -> `Extending ILIAS` -> `Plugins`.
+   2. Find the "Nolej" plugin in the list and click on `Actions` -> `Configure`.
+   3. In the configuration section, locate the "API Key" field.
+   4. Enter your Nolej API key obtained during registration.
+   5. Click "Save" to apply the changes.
 
 3. Enable the Anonymous Access
    1. Go into `Administration` -> `System Settings and Maintenance` -> `General Settings`
