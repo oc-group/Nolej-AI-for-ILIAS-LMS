@@ -2,7 +2,11 @@
 ILIAS integration plugin for [Nolej AI](https://nolej.io/).
 A demo is available [on YouTube](https://www.youtube.com/watch?v=knCsFV4bjeY).
 
-Supported languages:
+## :globe_with_meridians: Supported languages
+Help us expand language support! If your favorite language isn't here, contribute and make our project truly global.
+Your input is not just welcome – it's essential! :rocket:
+
+This plugin currently supports the following languages:
 
 * :uk: English
 * :it: Italian
