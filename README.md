@@ -79,3 +79,11 @@ composer du
 [server]
 prevent_super_global_replacement = 1
 ```
+
+### Page component companion plugin
+Explore a personalized touch to your pages with the
+[companion page component plugin](https://github.com/oc-group/Nolej-AI-for-ILIAS-LMS-Page-Component/)!
+Seamlessly insert activities directly within the ILIAS page editor to tailor your
+experience. This addition takes customization to the next level, providing a
+more dynamic and engaging user interface. Get ready to elevate your content
+creation with this powerful extension! :bulb: :sparkles:
