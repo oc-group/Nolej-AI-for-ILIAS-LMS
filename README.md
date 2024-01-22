@@ -4,7 +4,7 @@ A demo is available [on YouTube](https://www.youtube.com/watch?v=knCsFV4bjeY).
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Supported Languages](#supported-languages)
+2. [Supported Languages](#globe_with_meridians-supported-languages)
 3. [Requirements](#requirements)
 4. [Installation](#installation)
    - [Download the Plugin](#download-the-plugin)
