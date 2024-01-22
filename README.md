@@ -4,7 +4,7 @@ A demo is available [on YouTube](https://www.youtube.com/watch?v=knCsFV4bjeY).
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Supported Languages](#supported-languages)
+2. [Supported Languages](#globe_with_meridians-supported-languages)
 3. [Requirements](#requirements)
 4. [Installation](#installation)
    - [Download the Plugin](#download-the-plugin)
@@ -20,6 +20,7 @@ active learning content. It facilitates skill development and personalized
 learning paths, saving educators significant time and enhancing engagement through
 interactive content creation tools, gamification, and social learning.
 
+This plugin is free and open source! Feel free to explore, contribute, and enhance its capabilities.
 To use the plugin, start by [registering on Nolej AI](https://live.nolej.io/signup) website.
 Upon registration, you'll receive an API key. Simply insert this key into the plugin to
 enable its features. It's a quick step to enhance your experience. Let's get started! :rocket:
