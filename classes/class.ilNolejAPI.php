@@ -17,7 +17,8 @@ require_once "./Customizing/global/plugins/Services/Repository/RepositoryObject/
  */
 class ilNolejAPI
 {
-    public const API_URL = "https://api-staging.nolej.io";
+    public const API_URL = "https://api-live.nolej.io";
+    // public const API_URL = "https://api-staging.nolej.io";
     // public const API_URL = "https://api-dev.nolej.io";
 
     /** @var string */
