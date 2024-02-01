@@ -109,7 +109,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
         ];
 
         for ($i = 0, $len = count($tables); $i < $len; $i++) {
-            if($this->db->tableExists($tables[$i])) {
+            if ($this->db->tableExists($tables[$i])) {
                 $this->db->dropTable($tables[$i]);
             }
         }

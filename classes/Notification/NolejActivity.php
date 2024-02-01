@@ -412,7 +412,8 @@ class NolejActivity
         global $tpl;
         $ilDB = $this->db;
 
-        if (!$this->getDocumentId() ||
+        if (
+            !$this->getDocumentId() ||
             !$this->getUserId() ||
             !$this->getAction()
         ) {
@@ -446,7 +447,8 @@ class NolejActivity
     {
         $ilDB = $this->db;
 
-        if (!$this->getDocumentId() ||
+        if (
+            !$this->getDocumentId() ||
             !$this->getUserId() ||
             !$this->getAction()
         ) {
@@ -508,7 +510,7 @@ class NolejActivity
             . "   GROUP BY user_id, document_id"
             . " )"
             . " ORDER BY tstamp DESC;",
-            array("integer","integer","integer", "integer","integer","integer"),
+            array("integer", "integer", "integer", "integer", "integer", "integer"),
             array($a_user_id, $a_ts_from, $a_ts_to, $a_user_id, $a_ts_from, $a_ts_to)
         );
         $res = [];

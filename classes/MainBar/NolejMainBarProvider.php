@@ -27,7 +27,7 @@ class NolejMainBarProvider extends AbstractStaticPluginMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
@@ -35,7 +35,7 @@ class NolejMainBarProvider extends AbstractStaticPluginMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         global $DIC;
         $title = "Test Menu"; // $DIC->language()->txt("mm_badges");
