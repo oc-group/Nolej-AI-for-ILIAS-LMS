@@ -78,8 +78,8 @@ class ilNolejConfig
      */
     public function getParameterInteger(string $id, ?int $default = null): ?int
     {
-        $par = $this->getParameter($id, false);
-        if ($par !== false && (is_int($par) || ctype_digit($par))) {
+        $par = $this->getParameter($id);
+        if ($par != null && (is_int($par) || ctype_digit($par))) {
             return (int) $par;
         }
         return $default;
@@ -92,8 +92,8 @@ class ilNolejConfig
      */
     public function getParameterPositive(string $id, ?int $default = null): ?int
     {
-        $par = $this->getParameterInteger($id, false);
-        if ($par !== false && $par > 0) {
+        $par = $this->getParameterInteger($id);
+        if ($par != null && $par > 0) {
             return $par;
         }
         return $default;
