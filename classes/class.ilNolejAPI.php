@@ -42,7 +42,7 @@ class ilNolejAPI
         $data_json = json_encode($data);
         $url = self::API_URL . $path;
 
-        $client = new GuzzleHttp\Client;
+        $client = new GuzzleHttp\Client(['http_errors' => false]);
         $response = $client->request("POST", $url, [
             "headers" => [
                 "Authorization" => "X-API-KEY " . $this->apikey,
@@ -72,7 +72,7 @@ class ilNolejAPI
         $data_json = $encode ? json_encode($data) : $data;
         $url = self::API_URL . $path;
 
-        $client = new GuzzleHttp\Client;
+        $client = new GuzzleHttp\Client(['http_errors' => false]);
         $response = $client->request("PUT", $url, [
             "headers" => [
                 "Authorization" => "X-API-KEY " . $this->apikey,
@@ -108,7 +108,7 @@ class ilNolejAPI
         $url = self::API_URL . $path;
         $encodedData = $encodeInput ? json_encode($data) : $data;
 
-        $client = new GuzzleHttp\Client;
+        $client = new GuzzleHttp\Client(['http_errors' => false]);
         $response = $client->request("GET", $url, [
             "headers" => [
                 "Authorization" => "X-API-KEY " . $this->apikey,
