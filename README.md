@@ -3,14 +3,16 @@ ILIAS integration plugin for [Nolej AI](https://nolej.io/).
 A demo is available [on YouTube](https://www.youtube.com/watch?v=knCsFV4bjeY).
 
 ## Table of Contents
-1. [Introduction](#introduction)
-2. [Supported Languages](#globe_with_meridians-supported-languages)
-3. [Requirements](#requirements)
-4. [Installation](#installation)
-   - [Download the Plugin](#download-the-plugin)
-   - [Install the Plugin](#install-the-plugin)
-   - [After Installation](#after-installation)
-5. [Page Component Companion Plugin](#page-component-companion-plugin)
+- [ Nolej AI for ILIAS LMS](#-nolej-ai-for-ilias-lms)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [:globe\_with\_meridians: Supported languages](#globe_with_meridians-supported-languages)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [Download the plugin](#download-the-plugin)
+    - [Install the plugin](#install-the-plugin)
+    - [After installation](#after-installation)
+    - [Page component companion plugin](#page-component-companion-plugin)
 
 
 ## Introduction
@@ -55,6 +57,12 @@ cd Customizing/global/plugins/Services/Repository/RepositoryObject
 git clone https://github.com/oc-group/Nolej-AI-for-ILIAS-LMS.git Nolej
 ```
 
+Return to the ILIAS directory and run:
+
+```sh
+composer du
+```
+
 ### Install the plugin
 
 1. Go into `Administration` -> `Extending ILIAS` -> `Plugins`
@@ -63,31 +71,25 @@ git clone https://github.com/oc-group/Nolej-AI-for-ILIAS-LMS.git Nolej
 
 ### After installation
 
-1. From the ILIAS directory, run:
-
-```sh
-composer du
-```
-
-2. Configure the API Key
+1. Configure the API Key
    1. Log in to ILIAS and navigate to `Administration` -> `Extending ILIAS` -> `Plugins`.
    2. Find the "Nolej" plugin in the list and click on `Actions` -> `Configure`.
    3. In the configuration section, locate the "API Key" field.
    4. Enter your Nolej API key obtained during registration.
    5. Click "Save" to apply the changes.
 
-3. Enable the Anonymous Access
+2. Enable the Anonymous Access
    1. Go into `Administration` -> `System Settings and Maintenance` -> `General Settings`
    2. Enable `Anonymous Access`
    3. Save
 
-4. Enable TinyMCE Editor (optional, but recommended)
+3. Enable TinyMCE Editor (optional, but recommended)
    1. Go into `Administration` -> `Layout and Navigation` -> `Editing`
    2. Select tab `TinyMCE Editor` -> `General Settings`
    3. Activate the checkbox
    4. Save
 
-5. (Only for ILIAS 8) Open `client.ini.php` file inside the `data` directory and put this below `[server]`:
+4. (Only for ILIAS 8) Open `client.ini.php` file inside the `data` directory and put this below `[server]`:
 
 ```
 [server]
