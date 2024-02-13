@@ -264,12 +264,14 @@ class ilObjNolejGUI extends ilObjectPluginGUI
      */
     protected function addValuesToForm(&$form)
     {
-        $form->setValuesByArray(array(
-            self::PROP_TITLE => $this->object->getTitle(),
-            self::PROP_DESCRIPTION => $this->object->getDescription(),
-            self::PROP_ONLINE => $this->object->isOnline(),
-            // self::PROP_COURSE => $this->object->bound()
-        ));
+        $form->setValuesByArray(
+            array(
+                self::PROP_TITLE => $this->object->getTitle(),
+                self::PROP_DESCRIPTION => $this->object->getDescription(),
+                self::PROP_ONLINE => $this->object->isOnline(),
+                // self::PROP_COURSE => $this->object->bound()
+            )
+        );
     }
 
     /**
@@ -279,7 +281,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     {
         $form = $this->initPropertiesForm();
         $form->setValuesByPost();
-        if($form->checkInput()) {
+        if ($form->checkInput()) {
             $this->fillObject($this->object, $form);
             $this->object->update();
             $this->tpl->setOnScreenMessage("success", $this->plugin->txt("update_successful"), true);
@@ -351,20 +353,21 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
         $h5pDir = $this->object->getDataDir() . "/h5p";
         if (!is_dir($h5pDir)) {
-            $this->tpl->setOnScreenMessage("info", $this->plugin->txt("activities_not_downloaded"));
+            $this->tpl->setOnScreenMessage("failure", $this->plugin->txt("activities_not_downloaded"));
             return;
         }
 
         $this->printContentMenu();
         if (empty($this->selectedType)) {
-            $this->tpl->setOnScreenMessage("info", $this->plugin->txt("activities_not_downloaded"));
+            $this->tpl->setOnScreenMessage("failure", $this->plugin->txt("activities_not_downloaded"));
             return;
         }
 
         $contentId = $this->object->getContentIdOfType($this->selectedType);
 
         // Display activities
-        $this->tpl->setContent(($contentId != -1)
+        $this->tpl->setContent(
+            ($contentId != -1)
             ? $this->getH5PHtml($contentId)
             : $renderer->render(
                 $factory
@@ -429,8 +432,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
                 );
 
         return sprintf(
-        	"<div style=\"margin-top: 25px;\">%s</div>",
-        	$renderer->render($component)
+            "<div style=\"margin-top: 25px;\">%s</div>",
+            $renderer->render($component)
         );
     }
 
@@ -507,12 +510,14 @@ class ilObjNolejGUI extends ilObjectPluginGUI
         include_once './Services/User/classes/class.ilUserAutoComplete.php';
         $auto = new ilUserAutoComplete();
         // $auto->addUserAccessFilterCallable([$this, 'filterUserIdsByRbacOrPositionOfCurrentUser']);
-        $auto->setSearchFields(array(
-            'login',
-            'firstname',
-            'lastname',
-            'email'
-        )); // , 'second_email'
+        $auto->setSearchFields(
+            array(
+                'login',
+                'firstname',
+                'lastname',
+                'email'
+            )
+        ); // , 'second_email'
         $auto->enableFieldSearchableCheck(true); // false
         $auto->setMoreLinkAvailable(true);
 
@@ -547,7 +552,7 @@ class ilObjNolejGUI extends ilObjectPluginGUI
     {
         $next_class = $this->ctrl->getCmdClass();
 
-        switch($next_class) {
+        switch ($next_class) {
             // case 'ilexportgui':
             // 	$this->tabs->activateTab("export");
             // 	break;
@@ -579,21 +584,21 @@ class ilObjNolejGUI extends ilObjectPluginGUI
             $ilCtrl->initBaseClass("ilUIPluginRouterGUI");
             $ilCtrl->redirectByClass(array("ilUIPluginRouterGUI", "ilNolejGUI"), ilNolejGUI::CMD_SHOW_MODULES);
 
-        // } else if (preg_match('/course_([a-zA-Z0-9\-]{1,100})_([1-9][0-9]*)/', $target, $matches)) {
-        // 	$ilCtrl->setTargetScript("ilias.php");
-        // 	$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
-        // 	$ilCtrl->redirectByClass(
-        // 		array("ilUIPluginRouterGUI", "ilNolejGUI"),
-        // 		ilNolejGUI::CMD_SHOW_MODULES . "&id_partner=" . $matches[1] . "&id_course=" . $matches[2]
-        // 	);
+            // } else if (preg_match('/course_([a-zA-Z0-9\-]{1,100})_([1-9][0-9]*)/', $target, $matches)) {
+            // 	$ilCtrl->setTargetScript("ilias.php");
+            // 	$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
+            // 	$ilCtrl->redirectByClass(
+            // 		array("ilUIPluginRouterGUI", "ilNolejGUI"),
+            // 		ilNolejGUI::CMD_SHOW_MODULES . "&id_partner=" . $matches[1] . "&id_course=" . $matches[2]
+            // 	);
 
-        // } else if (preg_match('/order_([1-9][0-9]*)/', $target, $matches)) {
-        // 	$ilCtrl->setTargetScript("ilias.php");
-        // 	$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
-        // 	$ilCtrl->redirectByClass(
-        // 		array("ilUIPluginRouterGUI", "ilNolejGUI"),
-        // 		ilNolejGUI::CMD_PURCHASE_CHECK . "&id_order=" . $matches[1]
-        // 	);
+            // } else if (preg_match('/order_([1-9][0-9]*)/', $target, $matches)) {
+            // 	$ilCtrl->setTargetScript("ilias.php");
+            // 	$ilCtrl->initBaseClass("ilUIPluginRouterGUI");
+            // 	$ilCtrl->redirectByClass(
+            // 		array("ilUIPluginRouterGUI", "ilNolejGUI"),
+            // 		ilNolejGUI::CMD_PURCHASE_CHECK . "&id_order=" . $matches[1]
+            // 	);
 
         } else {
             parent::_goto($a_target);
