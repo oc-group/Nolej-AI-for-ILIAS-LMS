@@ -854,6 +854,7 @@ class ilNolejActivityManagementGUI
             /* Text area */
             $txt = new ilTextAreaInputGUI("", self::PROP_M_TEXTAREA);
             $txt->setRows(50);
+            $txt->setMinNumOfChars(500);
             $txt->setMaxNumOfChars(50000);
             $txt->usePurifier(false);
             if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
@@ -1564,6 +1565,7 @@ class ilNolejActivityManagementGUI
             $txt = new ilTextAreaInputGUI($this->txt("prop_transcription"), self::PROP_M_TEXT);
             $txt->setRequired(true);
             $txt->setRows(50);
+            $txt->setMinNumOfChars(500);
             $txt->setMaxNumOfChars(50000);
             $txt->usePurifier(false);
             if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
