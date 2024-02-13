@@ -57,7 +57,7 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
 
         $ilDB->manipulateF(
             "INSERT INTO " . ilNolejPlugin::TABLE_DATA . " (id, is_online, document_id) VALUES (%s, %s, NULL)",
-            array ("integer", "integer"),
+            array("integer", "integer"),
             array($this->getId(), 0)
         );
     }
@@ -340,9 +340,9 @@ class ilObjNolej extends ilObjectPlugin implements ilLPStatusPluginInterface
     }
 
     /**
-    * Get all user ids with LP status completed
-    * @return array
-    */
+     * Get all user ids with LP status completed
+     * @return array
+     */
     public function getLPCompleted()
     {
         return [];

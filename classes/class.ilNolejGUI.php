@@ -140,8 +140,8 @@ class ilNolejGUI
     public function buildIcon($id, $alt = "")
     {
         return '<img border="0" align="middle"'
-        . ' src="' . ilUtil::getImagePath($id . ".svg") . '"'
-        . ' alt="' . ($alt == "" ? "" : $this->lng->txt($alt)) . '" /> ';
+            . ' src="' . ilUtil::getImagePath($id . ".svg") . '"'
+            . ' alt="' . ($alt == "" ? "" : $this->lng->txt($alt)) . '" /> ';
     }
 
     public function showModules()

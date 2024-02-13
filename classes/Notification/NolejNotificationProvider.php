@@ -17,6 +17,7 @@ require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
+
 // use ILIAS\Nolej\Notification\NolejNotificationPrefRepository;
 // use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 // use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
@@ -44,7 +45,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
         // $lng->loadLanguageModule("badge");
 
         $factory = $this->notification_factory;
-        $id = function (string $id) : IdentificationInterface {
+        $id = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 

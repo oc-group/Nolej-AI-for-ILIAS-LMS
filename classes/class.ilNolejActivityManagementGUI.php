@@ -174,8 +174,8 @@ class ilNolejActivityManagementGUI
 
         $tpl->setTitle(
             $this->gui_obj == null
-                ? $this->txt("plugin_title")
-                : $this->gui_obj->object->getTitle(),
+            ? $this->txt("plugin_title")
+            : $this->gui_obj->object->getTitle(),
             false
         );
         $tpl->setDescription($this->txt("plugin_description"));
@@ -342,10 +342,12 @@ class ilNolejActivityManagementGUI
         $f = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
 
-        $buttons = [$f->button()->standard(
-            $this->txt("cmd_webhook_call"),
-            $this->ctrl->getLinkTarget($this, self::CMD_WEBHOOK_CALL)
-        )];
+        $buttons = [
+            $f->button()->standard(
+                $this->txt("cmd_webhook_call"),
+                $this->ctrl->getLinkTarget($this, self::CMD_WEBHOOK_CALL)
+            )
+        ];
 
         return $renderer->render(
             $f->messageBox()
@@ -424,24 +426,24 @@ class ilNolejActivityManagementGUI
             $f->step(
                 $this->txt(self::TAB_CREATION),
                 $this->status == self::STATUS_CREATION_PENDING
-                    ? self::glyphicon("refresh gly-spin") . $this->txt("action_transcription")
-                    : "",
+                ? self::glyphicon("refresh gly-spin") . $this->txt("action_transcription")
+                : "",
                 $this->ctrl->getLinkTarget($this, self::CMD_CREATION)
             )
                 ->withAvailability($step::AVAILABLE) // Always available
                 ->withStatus(
                     $this->status == self::STATUS_CREATION
-                        ? $step::NOT_STARTED
-                        : ($this->status == self::STATUS_CREATION_PENDING
-                            ? $step::IN_PROGRESS
-                            : $step::SUCCESSFULLY
-                        )
+                    ? $step::NOT_STARTED
+                    : ($this->status == self::STATUS_CREATION_PENDING
+                        ? $step::IN_PROGRESS
+                        : $step::SUCCESSFULLY
+                    )
                 ),
             $f->step(
                 $this->txt(self::TAB_ANALYSIS),
                 $this->status == self::STATUS_ANALISYS_PENDING
-                    ? self::glyphicon("refresh gly-spin") . $this->txt("action_analysis")
-                    : "",
+                ? self::glyphicon("refresh gly-spin") . $this->txt("action_analysis")
+                : "",
                 $this->ctrl->getLinkTarget($this, self::CMD_ANALYSIS)
             )
                 ->withAvailability(
@@ -451,11 +453,11 @@ class ilNolejActivityManagementGUI
                 )
                 ->withStatus(
                     $this->status <= self::STATUS_ANALISYS
-                        ? $step::NOT_STARTED
-                        : ($this->status == self::STATUS_ANALISYS_PENDING
-                            ? $step::IN_PROGRESS
-                            : $step::SUCCESSFULLY
-                        )
+                    ? $step::NOT_STARTED
+                    : ($this->status == self::STATUS_ANALISYS_PENDING
+                        ? $step::IN_PROGRESS
+                        : $step::SUCCESSFULLY
+                    )
                 ),
             $f->step(
                 $this->txt(self::TAB_REVIEW),
@@ -469,17 +471,17 @@ class ilNolejActivityManagementGUI
                 )
                 ->withStatus(
                     $this->status <= self::STATUS_REVISION
-                        ? $step::NOT_STARTED
-                        : ($this->status == self::STATUS_REVISION_PENDING
-                            ? $step::IN_PROGRESS
-                            : $step::SUCCESSFULLY
-                        )
+                    ? $step::NOT_STARTED
+                    : ($this->status == self::STATUS_REVISION_PENDING
+                        ? $step::IN_PROGRESS
+                        : $step::SUCCESSFULLY
+                    )
                 ),
             $f->step(
                 $this->txt(self::TAB_ACTIVITIES),
                 $this->status == self::STATUS_ACTIVITIES_PENDING
-                    ? self::glyphicon("refresh gly-spin") . $this->txt("action_activities")
-                    : "",
+                ? self::glyphicon("refresh gly-spin") . $this->txt("action_activities")
+                : "",
                 $this->ctrl->getLinkTarget($this, self::CMD_ACTIVITIES)
             )
                 ->withAvailability(
@@ -489,11 +491,11 @@ class ilNolejActivityManagementGUI
                 )
                 ->withStatus(
                     $this->status <= self::STATUS_ACTIVITIES
-                        ? $step::NOT_STARTED
-                        : ($this->status == self::STATUS_ACTIVITIES_PENDING
-                            ? $step::IN_PROGRESS
-                            : $step::SUCCESSFULLY
-                        )
+                    ? $step::NOT_STARTED
+                    : ($this->status == self::STATUS_ACTIVITIES_PENDING
+                        ? $step::IN_PROGRESS
+                        : $step::SUCCESSFULLY
+                    )
                 ),
         ];
         $wf = $f->linear($this->txt("tab_activity_management"), $steps);
@@ -536,8 +538,8 @@ class ilNolejActivityManagementGUI
                 sprintf(
                     "checkNolejUpdates('%s')",
                     $this->ctrl->getLinkTarget($this, self::CMD_CHECK_UPDATES)
-                        . "&document_id=" . $this->documentId
-                        . "&status=" . $pendingStatuses[$this->status]
+                    . "&document_id=" . $this->documentId
+                    . "&status=" . $pendingStatuses[$this->status]
                 )
             );
             $tpl->setLeftContent($renderedWf . $this->getWebhookCallBox());
@@ -857,9 +859,17 @@ class ilNolejActivityManagementGUI
             if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
                 $txt->setUseRte(true);
                 $txt->setRteTags([
-                    "h1", "h2", "h3", "p",
-                    "ul", "ol", "li",
-                    "br", "strong", "u", "i",
+                    "h1",
+                    "h2",
+                    "h3",
+                    "p",
+                    "ul",
+                    "ol",
+                    "li",
+                    "br",
+                    "strong",
+                    "u",
+                    "i",
                 ]);
                 $txt->setRTERootBlockElement("");
                 $txt->disableButtons([
@@ -1559,9 +1569,17 @@ class ilNolejActivityManagementGUI
             if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
                 $txt->setUseRte(true);
                 $txt->setRteTags([
-                    "h1", "h2", "h3", "p",
-                    "ul", "ol", "li",
-                    "br", "strong", "u", "i",
+                    "h1",
+                    "h2",
+                    "h3",
+                    "p",
+                    "ul",
+                    "ol",
+                    "li",
+                    "br",
+                    "strong",
+                    "u",
+                    "i",
                 ]);
                 $txt->setRTERootBlockElement("");
                 $txt->disableButtons([
@@ -1717,10 +1735,12 @@ class ilNolejActivityManagementGUI
         $f = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
 
-        $buttons = [$f->button()->standard(
-            $this->txt("cmd_review"),
-            $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
-        )];
+        $buttons = [
+            $f->button()->standard(
+                $this->txt("cmd_review"),
+                $this->ctrl->getLinkTarget($this, self::CMD_REVIEW)
+            )
+        ];
 
         return $renderer->render(
             $f->messageBox()
@@ -1760,7 +1780,7 @@ class ilNolejActivityManagementGUI
         $length_input = new ilHiddenInputGUI("summary_count");
         $length_input->setValue($length);
         $form->addItem($length_input);
-        for($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $title = new ilTextInputGUI(
                 $this->txt("prop_" . self::PROP_TITLE),
                 sprintf("summary_%d_title", $i)
@@ -1813,7 +1833,7 @@ class ilNolejActivityManagementGUI
         $length_input = new ilHiddenInputGUI("keypoints_count");
         $length_input->setValue($length);
         $form->addItem($length_input);
-        for($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $txt = new ilTextAreaInputGUI(
                 "",
                 sprintf("keypoints_%d", $i)
@@ -1970,7 +1990,7 @@ class ilNolejActivityManagementGUI
         $length_input = new ilHiddenInputGUI("questions_count");
         $length_input->setValue($length);
         $form->addItem($length_input);
-        for($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; $i++) {
 
             // Counter
             if (!isset($questionTypes[$questions[$i]->question_type])) {
@@ -2019,8 +2039,8 @@ class ilNolejActivityManagementGUI
             $enable = new ilCheckBoxInputGUI(
                 $this->txt(
                     $questions[$i]->question_type == "open"
-                        ? "questions_enable"
-                        : "questions_use_for_grading"
+                    ? "questions_enable"
+                    : "questions_use_for_grading"
                 ),
                 sprintf("question_%d_enable", $i)
             );
@@ -2078,8 +2098,8 @@ class ilNolejActivityManagementGUI
             } else {
                 $enable->setChecked(
                     $questions[$i]->question_type == "open"
-                        ? $questions[$i]->enable
-                        : $questions[$i]->use_for_grading
+                    ? $questions[$i]->enable
+                    : $questions[$i]->use_for_grading
                 );
                 if (isset($answer)) {
                     $answer->setValue($questions[$i]->answer);
@@ -2123,8 +2143,8 @@ class ilNolejActivityManagementGUI
                 $this->ctrl->getLinkTarget($this, self::CMD_QUESTIONS)
                 . "&question_type=" . $type
             )
-            ->withAvailability($step::AVAILABLE)
-            ->withStatus($step::IN_PROGRESS);
+                ->withAvailability($step::AVAILABLE)
+                ->withStatus($step::IN_PROGRESS);
             if ($type == $questionTypeFilter) {
                 $selectedIndex = $i;
             }
@@ -2302,7 +2322,7 @@ class ilNolejActivityManagementGUI
         $length_input = new ilHiddenInputGUI("concepts_count");
         $length_input->setValue($length);
         $form->addItem($length_input);
-        for($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $section = new ilFormSectionHeaderGUI();
             $section->setTitle(sprintf($this->txt("concepts_n"), $i + 1));
             $form->addItem($section);
@@ -2580,7 +2600,7 @@ class ilNolejActivityManagementGUI
                 $activity->setChecked(true);
             }
 
-            switch($availableActivities[$i]) {
+            switch ($availableActivities[$i]) {
                 case "ibook":
                     // ibook must always be generated
                     $activity->setChecked(true);
@@ -2848,7 +2868,7 @@ class ilNolejActivityManagementGUI
 
             $settingsToSave["desired_packages"][] = $availableActivities[$i];
 
-            switch($availableActivities[$i]) {
+            switch ($availableActivities[$i]) {
                 case "glossary":
                     $ibook = (bool) $form->getInput("Glossary_include_IB");
                     $settingsToSave["settings"]["Glossary_include_IB"] = $ibook;
@@ -2964,7 +2984,7 @@ class ilNolejActivityManagementGUI
 
         // Delete previouses h5p files
         $dirIterator = new DirectoryIterator($h5pDir);
-        foreach($dirIterator as $item) {
+        foreach ($dirIterator as $item) {
             if (!$item->isDot() && $item->isFile()) {
                 unlink($item->getPathname());
             }
