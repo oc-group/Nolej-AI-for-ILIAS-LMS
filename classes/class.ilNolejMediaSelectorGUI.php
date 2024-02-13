@@ -166,7 +166,7 @@ class ilNolejMediaSelectorGUI
                     case self::CMD_CH_OBJ_REF:
                     case self::CMD_POOL_SELECTION:
                     case self::CMD_SELECT_POOL:
-                    // case self::CMD_INSERT_NEW:
+                        // case self::CMD_INSERT_NEW:
                         $this->$cmd();
                         break;
                     // case self::CMD_INSERT:
@@ -307,8 +307,7 @@ class ilNolejMediaSelectorGUI
      */
     public function insertFromPool(
         bool $a_change_obj_ref = false
-    ) : void
-    {
+    ): void {
         global $tpl;
 
         $mediaPoolId = (int) $_GET["pool_ref_id"] ?? 0;
@@ -448,7 +447,7 @@ class ilNolejMediaSelectorGUI
         }
     }
 
-    public static function getObjId($a_mob_id) : int
+    public static function getObjId($a_mob_id): int
     {
         global $DIC;
         $db = $DIC->database();
@@ -461,7 +460,7 @@ class ilNolejMediaSelectorGUI
         return 0;
     }
 
-    public static function getSignedUrl($a_mob_id, bool $a_is_obj_id = false, int $ttl = 10) : string
+    public static function getSignedUrl($a_mob_id, bool $a_is_obj_id = false, int $ttl = 10): string
     {
         $objId = $a_is_obj_id ? $a_mob_id : self::getObjId($a_mob_id);
         $path = ilObjMediaObject::_lookupItemPath($objId);
