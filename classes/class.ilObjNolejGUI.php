@@ -353,13 +353,13 @@ class ilObjNolejGUI extends ilObjectPluginGUI
 
         $h5pDir = $this->object->getDataDir() . "/h5p";
         if (!is_dir($h5pDir)) {
-            $this->tpl->setOnScreenMessage("info", $this->plugin->txt("activities_not_downloaded"));
+            $this->tpl->setOnScreenMessage("failure", $this->plugin->txt("activities_not_downloaded"));
             return;
         }
 
         $this->printContentMenu();
         if (empty($this->selectedType)) {
-            $this->tpl->setOnScreenMessage("info", $this->plugin->txt("activities_not_downloaded"));
+            $this->tpl->setOnScreenMessage("failure", $this->plugin->txt("activities_not_downloaded"));
             return;
         }
 
