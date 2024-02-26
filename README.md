@@ -37,6 +37,7 @@ Your input is not just welcome - it's essential! :rocket:
 This plugin currently supports the following languages:
 
 * :uk: English
+* :fr: French
 * :it: Italian
 
 ## Requirements
