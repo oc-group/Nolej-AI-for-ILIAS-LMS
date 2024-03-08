@@ -39,37 +39,47 @@ class ilObjNolejAccess extends ilObjectPluginAccess
         $a_permission,
         $a_ref_id,
         $a_obj_id,
-        $a_user_id = NULL
+        $a_user_id = null
     ) {
+        global $DIC;
+
+        if ($a_ref_id === null) {
+            $a_ref_id = (int) filter_input(INPUT_GET, "ref_id");
+        }
+
+        if ($a_obj_id === null) {
+            $ilObjDataCache = $DIC["ilObjDataCache"];
+            $a_obj_id = (int) $ilObjDataCache->lookupObjId($a_ref_id);
+        }
+
         if ($a_user_id == null) {
             $a_user_id = $this->user->getId();
         }
 
-        if ($a_permission == "") {
+        if (empty($a_permission)) {
             return false;
         }
 
-        if ("visible" === $a_permission || "read" === $a_permission) {
-            // if the current user can edit the given object it should also be visible.
-            if ($this->access->checkAccessOfUser($a_user_id, "write", "", $a_ref_id)) {
-                return true;
-            }
+        switch ($a_permission) {
+            case "visible":
+            case "read":
+                // if the current user can edit the given object it should also be visible.
+                if ($this->access->checkAccessOfUser($a_user_id, "write", "", $a_ref_id)) {
+                    return true;
+                }
 
-            if (!self::_isOffline($a_obj_id)) {
+                if (self::_isOffline($a_obj_id)) {
+                    return false;
+                }
+
                 return $this->access->checkAccessOfUser($a_user_id, $a_permission, "", $a_ref_id);
-            }
 
-            return false;
+            case "delete":
+            case "write":
+            case "edit_permission":
+            default:
+                return $this->access->checkAccessOfUser($a_user_id, $a_permission, "", $a_ref_id);
         }
-
-        if ("delete" === $a_permission) {
-            return (
-                $this->access->checkAccessOfUser($a_user_id, "delete", "", $a_ref_id) ||
-                $this->access->checkAccessOfUser($a_user_id, "write", "", $a_ref_id)
-            );
-        }
-
-        return (bool) $this->access->checkAccessOfUser($a_user_id, $a_permission, "", $a_ref_id);
     }
 
     /**
