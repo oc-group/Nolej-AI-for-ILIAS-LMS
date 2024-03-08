@@ -41,12 +41,15 @@ class ilObjNolejAccess extends ilObjectPluginAccess
         int $a_obj_id,
         ?int $a_user_id = null
     ): bool {
+        global $DIC;
+
         if ($a_ref_id === null) {
-            $a_ref_id = filter_input(INPUT_GET, "ref_id");
+            $a_ref_id = (int) filter_input(INPUT_GET, "ref_id");
         }
 
         if ($a_obj_id === null) {
-            $a_obj_id = self::dic()->objDataCache()->lookupObjId($a_ref_id);
+            $ilObjDataCache = $DIC["ilObjDataCache"];
+            $a_obj_id = (int) $ilObjDataCache->lookupObjId($a_ref_id);
         }
 
         if ($a_user_id == null) {
