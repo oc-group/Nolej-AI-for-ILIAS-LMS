@@ -45,6 +45,8 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
     {
         $this->commands_enabled = true;
         $this->copy_enabled = false;
+        $this->cut_enabled = true;
+        $this->delete_enabled = true;
         $this->description_enabled = true;
         $this->notice_properties_enabled = true;
         $this->properties_enabled = true;
@@ -52,6 +54,7 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
         $this->comments_settings_enabled = false;
         $this->expand_enabled = false;
         $this->info_screen_enabled = false;
+        $this->link_enabled = false;
         $this->notes_enabled = false;
         $this->preconditions_enabled = false;
         $this->rating_enabled = false;
@@ -62,13 +65,13 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
         $this->tags_enabled = false;
         $this->timings_enabled = false;
 
-        return array(
-            array(
+        return [
+            [
                 "permission" => "read",
                 "cmd" => ilObjNolejGUI::CMD_CONTENT_SHOW,
                 "default" => true
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -81,14 +84,14 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
      */
     function getProperties()
     {
-        $props = array();
+        $props = [];
 
         if (ilObjNolejAccess::_isOffline($this->obj_id)) {
-            $props[] = array(
-                "alert" => true,
+            $props[] = [
                 "property" => $this->txt("prop_status"),
-                "value" => $this->txt("prop_offline")
-            );
+                "value" => $this->txt("prop_offline"),
+                "alert" => true
+            ];
         }
 
         return $props;
