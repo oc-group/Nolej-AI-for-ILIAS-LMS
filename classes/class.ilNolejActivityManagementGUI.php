@@ -223,28 +223,31 @@ class ilNolejActivityManagementGUI
                 switch ($cmd) {
                     // Need to have permission to access modules
                     case self::CMD_CREATION:
-                    case self::CMD_SET_INT_LINK:
-                    case self::CMD_CREATE:
                     case self::CMD_ANALYSIS:
-                    case self::CMD_ANALYZE:
                     case self::CMD_REVISION:
                     case self::CMD_SUMMARY:
-                    case self::CMD_SUMMARY_SAVE:
                     case self::CMD_QUESTIONS:
-                    case self::CMD_QUESTIONS_SAVE:
                     case self::CMD_CONCEPTS:
-                    case self::CMD_CONCEPTS_SAVE:
-                    case self::CMD_REVIEW:
                     case self::CMD_ACTIVITIES:
-                    case self::CMD_GENERATE:
-                    case self::CMD_CHECK_UPDATES:
-                    case self::CMD_WEBHOOK_CALL:
                         $this->cmd = $cmd;
                         if ($this->gui_obj != null) {
                             $this->printWorkflow($cmd);
                             $this->$cmd();
                         }
                         break;
+
+                    case self::CMD_SET_INT_LINK:
+                    case self::CMD_CREATE:
+                    case self::CMD_ANALYZE:
+                    case self::CMD_SUMMARY_SAVE:
+                    case self::CMD_QUESTIONS_SAVE:
+                    case self::CMD_CONCEPTS_SAVE:
+                    case self::CMD_REVIEW:
+                    case self::CMD_GENERATE:
+                    case self::CMD_CHECK_UPDATES:
+                    case self::CMD_WEBHOOK_CALL:
+                        $this->cmd = $cmd;
+                        $this->$cmd();
 
                     default:
                         $cmd = $this->defaultCmd;
