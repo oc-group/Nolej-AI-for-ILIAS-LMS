@@ -34,7 +34,30 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
      */
     function getGuiClass()
     {
-        return "ilObjNolejGUI";
+        return ilObjNolejGUI::class;
+    }
+
+    /**
+     * Get item properties
+     *
+     * @return array array of property arrays:
+     * "alert" (boolean) => display as an alert property (usually in red)
+     * "property" (string) => property name
+     * "value" (string) => property value
+     */
+    function getProperties()
+    {
+        $props = [];
+
+        if (ilObjNolejAccess::_isOffline($this->obj_id)) {
+            $props[] = [
+                "property" => $this->txt("prop_status"),
+                "value" => $this->txt("prop_offline"),
+                "alert" => true
+            ];
+        }
+
+        return $props;
     }
 
     /**
@@ -50,7 +73,7 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
         $this->description_enabled = true;
         $this->notice_properties_enabled = true;
         $this->properties_enabled = true;
-        $this->subscribe_enabled = true;
+        $this->subscribe_enabled = false;
 
         $this->comments_enabled = false;
         $this->comments_settings_enabled = false;
@@ -77,65 +100,5 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
         ];
 
         return $commands;
-    }
-
-    /**
-     * Get commands
-     *
-     * This method returns an array of all possible commands/permission combinations
-     *
-     * example:
-     * $commands = [
-     *     [
-     *         "permission" => "read",
-     *         "cmd" => "view",
-     *         "lang_var" => "show"
-     *     ],
-     *     [
-     *         "permission" => "write",
-     *         "cmd" => "edit",
-     *         "lang_var" => "edit"
-     *     ]
-     * ];
-     */
-    public static function _getCommands()
-    {
-        $commands = [
-            [
-                "permission" => "read",
-                "cmd" => "view",
-                "lang_var" => "show"
-            ],
-            [
-                "permission" => "write",
-                "cmd" => "edit",
-                "lang_var" => "edit"
-            ]
-        ];
-
-        return $commands;
-    }
-
-    /**
-     * Get item properties
-     *
-     * @return array array of property arrays:
-     * "alert" (boolean) => display as an alert property (usually in red)
-     * "property" (string) => property name
-     * "value" (string) => property value
-     */
-    function getProperties()
-    {
-        $props = [];
-
-        if (ilObjNolejAccess::_isOffline($this->obj_id)) {
-            $props[] = [
-                "property" => $this->txt("prop_status"),
-                "value" => $this->txt("prop_offline"),
-                "alert" => true
-            ];
-        }
-
-        return $props;
     }
 }
