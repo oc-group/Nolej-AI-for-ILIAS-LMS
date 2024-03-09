@@ -58,6 +58,12 @@ cd Customizing/global/plugins/Services/Repository/RepositoryObject
 git clone -b release_7 https://github.com/oc-group/Nolej-AI-for-ILIAS-LMS.git Nolej
 ```
 
+Return to the ILIAS directory and run:
+
+```sh
+composer du
+```
+
 ### Install the plugin
 
 1. Go into `Administration` -> `Extending ILIAS` -> `Plugins`
