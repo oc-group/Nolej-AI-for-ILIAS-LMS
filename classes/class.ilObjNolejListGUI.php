@@ -50,6 +50,8 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
         $this->description_enabled = true;
         $this->notice_properties_enabled = true;
         $this->properties_enabled = true;
+        $this->subscribe_enabled = true;
+
         $this->comments_enabled = false;
         $this->comments_settings_enabled = false;
         $this->expand_enabled = false;
@@ -57,6 +59,7 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
         $this->link_enabled = false;
         $this->notes_enabled = false;
         $this->preconditions_enabled = false;
+        $this->payment_enabled = false;
         $this->rating_enabled = false;
         $this->rating_categories_enabled = false;
         $this->repository_transfer_enabled = false;
@@ -65,13 +68,52 @@ class ilObjNolejListGUI extends ilObjectPluginListGUI
         $this->tags_enabled = false;
         $this->timings_enabled = false;
 
-        return [
+        $commands = [
             [
                 "permission" => "read",
                 "cmd" => ilObjNolejGUI::CMD_CONTENT_SHOW,
                 "default" => true
             ]
         ];
+
+        return $commands;
+    }
+
+    /**
+     * Get commands
+     *
+     * This method returns an array of all possible commands/permission combinations
+     *
+     * example:
+     * $commands = [
+     *     [
+     *         "permission" => "read",
+     *         "cmd" => "view",
+     *         "lang_var" => "show"
+     *     ],
+     *     [
+     *         "permission" => "write",
+     *         "cmd" => "edit",
+     *         "lang_var" => "edit"
+     *     ]
+     * ];
+     */
+    public static function _getCommands()
+    {
+        $commands = [
+            [
+                "permission" => "read",
+                "cmd" => "view",
+                "lang_var" => "show"
+            ],
+            [
+                "permission" => "write",
+                "cmd" => "edit",
+                "lang_var" => "edit"
+            ]
+        ];
+
+        return $commands;
     }
 
     /**
