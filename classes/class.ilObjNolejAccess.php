@@ -103,14 +103,14 @@ class ilObjNolejAccess extends ilObjectPluginAccess
      * Returns an array with valid operators for the specific object type
      * @return array
      */
-    public static function getConditionOperators()
-    {
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php'; //bugfix mantis 24891
-        return array(
-            ilConditionHandler::OPERATOR_FAILED,
-            ilConditionHandler::OPERATOR_PASSED
-        );
-    }
+    // public static function getConditionOperators()
+    // {
+    //     include_once './Services/Conditions/classes/class.ilConditionHandler.php'; //bugfix mantis 24891
+    //     return array(
+    //         ilConditionHandler::OPERATOR_FAILED,
+    //         ilConditionHandler::OPERATOR_PASSED
+    //     );
+    // }
 
     /**
      * Goto redirection
