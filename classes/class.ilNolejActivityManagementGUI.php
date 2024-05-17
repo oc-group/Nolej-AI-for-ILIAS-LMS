@@ -6,16 +6,16 @@
  * software by Neuronys.
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
- * @copyright 2023 OC Open Consulting SB Srl
+ * @copyright 2024 OC Open Consulting SB Srl
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejWebhook.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejAPI.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejWebhook.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejMediaSelectorGUI.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
-include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+include_once ("./Services/Form/classes/class.ilCheckboxInputGUI.php");
 
 // use srag\Plugins\H5P\Content\Form\ImportContentFormProcessor;
 // use srag\Plugins\H5P\Content\Form\ImportContentFormBuilder;
@@ -206,7 +206,7 @@ class ilNolejActivityManagementGUI
         switch ($next_class) {
             case "ilinternallinkgui":
                 $this->lng->loadLanguageModule("content");
-                require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+                require_once ("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $link_gui = new ilInternalLinkGUI("Media_Media", 0);
                 $link_gui->filterLinkType("Media_Media");
                 $link_gui->setFilterWhiteList(true);

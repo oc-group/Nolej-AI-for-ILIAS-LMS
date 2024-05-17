@@ -6,7 +6,7 @@
  * software by Neuronys.
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
- * @copyright 2023 OC Open Consulting SB Srl
+ * @copyright 2024 OC Open Consulting SB Srl
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -47,6 +47,8 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
         global $DIC;
 
         $this->provider_collection = $this->getPluginProviderCollection(); // Fix overflow
+
+        $DIC->language()->loadLanguageModule(self::PREFIX);
     }
 
     /**
@@ -60,8 +62,8 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
             return $this->provider_collection;
         }
 
-        require_once(self::PLUGIN_DIR . "/classes/MainBar/NolejMainBarProvider.php");
-        require_once(self::PLUGIN_DIR . "/classes/Notification/NolejNotificationProvider.php");
+        require_once (self::PLUGIN_DIR . "/classes/MainBar/NolejMainBarProvider.php");
+        require_once (self::PLUGIN_DIR . "/classes/Notification/NolejNotificationProvider.php");
         if (self::$pluginProviderCollection === null) {
             self::$pluginProviderCollection = new PluginProviderCollection();
 
@@ -139,7 +141,7 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
     public function getConfigurationLink()
     {
         global $DIC;
-        include_once(self::PLUGIN_DIR . "/classes/class.ilNolejConfigGUI.php");
+        include_once (self::PLUGIN_DIR . "/classes/class.ilNolejConfigGUI.php");
 
         return sprintf(
             "%s&ref_id=31&admin_mode=settings&ctype=Services&cname=%s&slot_id=%s&pname=%s",

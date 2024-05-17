@@ -7,7 +7,7 @@ declare(strict_types=1);
  * software by Neuronys.
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
- * @copyright 2023 OC Open Consulting SB Srl
+ * @copyright 2024 OC Open Consulting SB Srl
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

@@ -7,16 +7,17 @@ declare(strict_types=1);
  * software by Neuronys.
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
- * @copyright 2023 OC Open Consulting SB Srl
+ * @copyright 2024 OC Open Consulting SB Srl
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificationPrefRepository.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejActivity.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificationPrefRepository.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
+
 // use ILIAS\Nolej\Notification\NolejNotificationPrefRepository;
 // use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 // use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
@@ -30,7 +31,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
     /**
      * @inheritDoc
      */
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
         // // global $DIC;
         $lng = $this->dic->language();
@@ -44,7 +45,7 @@ class NolejNotificationProvider extends AbstractNotificationPluginProvider
         // $lng->loadLanguageModule("badge");
 
         $factory = $this->notification_factory;
-        $id = function (string $id) : IdentificationInterface {
+        $id = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 
