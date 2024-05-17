@@ -6,12 +6,12 @@
  * software by Neuronys.
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
- * @copyright 2023 OC Open Consulting SB Srl
+ * @copyright 2024 OC Open Consulting SB Srl
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificationPrefRepository.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/Notification/NolejNotificationPrefRepository.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
 /**
  * Set and retrieve user notification about Nolej
@@ -412,7 +412,8 @@ class NolejActivity
         global $tpl;
         $ilDB = $this->db;
 
-        if (!$this->getDocumentId() ||
+        if (
+            !$this->getDocumentId() ||
             !$this->getUserId() ||
             !$this->getAction()
         ) {
@@ -446,7 +447,8 @@ class NolejActivity
     {
         $ilDB = $this->db;
 
-        if (!$this->getDocumentId() ||
+        if (
+            !$this->getDocumentId() ||
             !$this->getUserId() ||
             !$this->getAction()
         ) {
@@ -508,7 +510,7 @@ class NolejActivity
             . "   GROUP BY user_id, document_id"
             . " )"
             . " ORDER BY tstamp DESC;",
-            array("integer","integer","integer", "integer","integer","integer"),
+            array("integer", "integer", "integer", "integer", "integer", "integer"),
             array($a_user_id, $a_ts_from, $a_ts_to, $a_user_id, $a_ts_from, $a_ts_to)
         );
         $res = [];
