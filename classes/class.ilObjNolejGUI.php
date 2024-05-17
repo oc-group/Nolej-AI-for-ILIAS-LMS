@@ -6,17 +6,17 @@
  * software by Neuronys.
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
- * @copyright 2023 OC Open Consulting SB Srl
+ * @copyright 2024 OC Open Consulting SB Srl
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once("./Services/Tracking/classes/class.ilLearningProgress.php");
-require_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-require_once("./Services/Tracking/classes/status/class.ilLPStatusPlugin.php");
+require_once ("./Services/Tracking/classes/class.ilLearningProgress.php");
+require_once ("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+require_once ("./Services/Tracking/classes/status/class.ilLPStatusPlugin.php");
 
-require_once("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
-require_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
+require_once ("./Customizing/global/plugins/Services/Repository/RepositoryObject/Nolej/classes/class.ilNolejPlugin.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejActivityManagementGUI.php");
+require_once (ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejConfig.php");
 
 // use srag\DIC\H5P\DICTrait;
 // use srag\Plugins\H5P\Content\Content;
@@ -571,8 +571,8 @@ class ilObjNolejGUI extends ilObjectPluginGUI
         $ilCtrl = $DIC->ctrl();
         $target = $a_target[0];
 
-        include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejGUI.php");
-        include_once(ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejWebhook.php");
+        include_once (ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejGUI.php");
+        include_once (ilNolejPlugin::PLUGIN_DIR . "/classes/class.ilNolejWebhook.php");
 
         if ($target == "webhook") {
             $webhook = new ilNolejWebhook();

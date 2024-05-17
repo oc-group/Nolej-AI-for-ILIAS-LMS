@@ -7,7 +7,7 @@ declare(strict_types=1);
  * software by Neuronys.
  *
  * @author Vincenzo Padula <vincenzo@oc-group.eu>
- * @copyright 2023 OC Open Consulting SB Srl
+ * @copyright 2024 OC Open Consulting SB Srl
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -191,8 +191,8 @@ class ilNolejConfig
         }
 
         if (!self::isH5PPluginLoaded()) {
-            require_once(self::H5P_MAIN_AUTOLOAD);
-            require_once(self::H5P_MAIN_PLUGIN);
+            require_once (self::H5P_MAIN_AUTOLOAD);
+            require_once (self::H5P_MAIN_PLUGIN);
         }
     }
 
