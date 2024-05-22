@@ -39,6 +39,7 @@ This plugin currently supports the following languages:
 * :uk: English
 * :fr: French
 * :it: Italian
+* :de: German
 
 ## Requirements
 Note: this branch is for development purposes and it is not guaranteed to be stable.
