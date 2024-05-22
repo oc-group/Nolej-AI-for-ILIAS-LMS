@@ -38,6 +38,7 @@ This plugin currently supports the following languages:
 * :uk: English
 * :fr: French
 * :it: Italian
+* :de: German
 
 ## Requirements
 Note: this branch is for ILIAS 6 and 7. If you have ILIAS 8,
