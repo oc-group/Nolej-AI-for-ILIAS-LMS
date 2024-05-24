@@ -47,8 +47,6 @@ class ilNolejPlugin extends ilRepositoryObjectPlugin
         global $DIC;
 
         $this->provider_collection = $this->getPluginProviderCollection(); // Fix overflow
-
-        $DIC->language()->loadLanguageModule(self::PREFIX);
     }
 
     /**
