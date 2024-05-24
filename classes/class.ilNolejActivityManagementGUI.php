@@ -1144,7 +1144,7 @@ class ilNolejActivityManagementGUI
                 $decrementedCredit = 1;
                 $mobInput = $this->getInternalLink();
                 $t_arr = explode("_", $mobInput["target"]);
-                $objId = $t_arr[count($t_arr) - 1];
+                $objId = (int) $t_arr[count($t_arr) - 1];
                 $path = ilObjMediaObject::_lookupItemPath($objId);
                 $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
                 if (in_array($extension, self::TYPE_AUDIO)) {
@@ -3040,7 +3040,7 @@ class ilNolejActivityManagementGUI
             [$documentId]
         );
         if ($row = $this->db->fetchAssoc($result)) {
-            return $row["id"];
+            return (int) $row["id"];
         }
         return -1;
     }
