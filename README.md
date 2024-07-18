@@ -1,3 +1,5 @@
+**Moved to [Neuronys/ilias-robj_nolej](https://github.com/Neuronys/ilias-robj_nolej)**
+
 # ![Icon](templates/images/icon_xnlj.svg) Nolej AI for ILIAS LMS
 ILIAS integration plugin for [Nolej AI](https://nolej.io/).
 A demo is available [on YouTube](https://www.youtube.com/watch?v=knCsFV4bjeY).
